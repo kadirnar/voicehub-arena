@@ -86,6 +86,9 @@ including full-distribution nucleus probabilities, and keep VibeVoice's
 deterministic diffusion schedule on CPU during meta-device graph construction.
 CosyVoice's sampler matches the vendored reference in 96 seed/history cases;
 VibeVoice's scheduler regression checks a real solver step after meta construction.
+Bark's public generation boundary also preserves raw text and generation controls;
+its keyword-only processor runs inside synthesis. The native Bark suite passes
+13 tests, including public generation through a tiny real Bark/Encodec graph.
 
 The initial four-minute coverage timeout includes downloads. Its timeouts are
 followed by a full-registry run with sixty minutes per provider, eight texts
@@ -136,7 +139,9 @@ The corrected provider is evaluated in `repairs-en-01`.
 
 CosyVoice's `repairs-en-02` baseline scored 17.62% WER and includes two 40.96-second
 outputs with incomplete transcripts. This is a completed measurement, not accepted
-quality validation. The RAS correction is queued in `repairs-en-04`. Future CosyVoice
+quality validation. The RAS correction in `repairs-en-04` reduced WER to 10.71%,
+with zero generation-limit hits across 24 samples. Numbers and narration remain
+weaker categories; the benchmark records these errors without hiding them. CosyVoice
 rows record the actual speech-token count and flag generation-limit hits while
 retaining those outputs in the ASR evaluation.
 
@@ -153,8 +158,9 @@ runtime's all-zero default. Compare timing scopes as well as sample coverage.
 VibeVoice uses the explicitly identified `arena-native-staged-v1` adapter over
 VoiceHub's native realtime graph. Its five-text-token / six-speech-token loop
 follows Microsoft's pinned reference implementation, using the official Emma
-voice cache converted to tensor-only safetensors. This new adapter needs real
-GPU/audio validation and is not claimed to have upstream waveform parity.
+voice cache converted to tensor-only safetensors. It produced and scored 24
+real GPU utterances in `repairs-en-04`: WER 4.66%, CER 3.97%, and median TTFA
+104 ms on this RTX 3090. Upstream waveform parity is not claimed.
 It records actual time to the first decoded audio chunk (TTFA); other providers
 do not receive inferred streaming measurements.
 
@@ -229,8 +235,9 @@ results are preserved. `repairs-en-01` completed Kokoro, Inflect, StyleTTS2 and
 SpeechT5 on all 24 samples per model. Further repair sets receive separate run
 directories so the original failures and changed configuration remain inspectable.
 `repairs-en-03` exposed VibeVoice's scheduler issue after successful weight loading.
-The next repair service waits for OuteTTS, then runs VibeVoice and CosyVoice in
-`repairs-en-04`, and resumes the remaining full registry afterwards.
+`repairs-en-04` completed VibeVoice and CosyVoice after OuteTTS finished all 24
+samples (WER 3.97%). The next repair service waits for Chatterbox, runs Bark in
+`repairs-en-05`, then resumes the remaining full registry.
 
 The existing instance has no mounted persistent volume. Recycle/destroy removes
 its files, so keep the delivered local source and results mirror. Stop/start

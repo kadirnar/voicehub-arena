@@ -1,3 +1,31 @@
+diff --git a/tests/test_native_bark.py b/tests/test_native_bark.py
+index 00aa049..62dfd27 100644
+--- a/tests/test_native_bark.py
++++ b/tests/test_native_bark.py
+@@ -263,6 +263,23 @@ class NativeBarkTests(unittest.TestCase):
+         self.assertEqual(lengths[0], audio.shape[1])
+         self.assertTrue(torch.isfinite(audio).all())
+ 
++        # Exercise the public wrapper after loading its keyword-only native
++        # processor; the base implementation used to call it positionally.
++        from functools import partial
++        from voicehub.architectures.bark.processing import BarkProcessor, BarkWordPieceTokenizer
++        from voicehub.models.bark.inference import BarkConfig, BarkForTextToSpeech
++        wrapper = BarkForTextToSpeech(BarkConfig(sample_rate=8000), device="cpu", lazy_load=True)
++        wrapper.model = model
++        wrapper._torch = torch
++        wrapper.processor = partial(BarkProcessor(
++            BarkWordPieceTokenizer(["[PAD]", "[UNK]", "Hello"]),
++            speaker_embeddings={}), max_length=4)
++        wrapper.transformers_processor = wrapper.processor
++        result = wrapper.generate("Hello", semantic_do_sample=False,
++            coarse_do_sample=False, fine_temperature=None)
++        self.assertEqual(result.sample_rate, 8000)
++        self.assertTrue(torch.isfinite(torch.as_tensor(result.audio)).all())
++
+     def test_safe_loader_rejects_incomplete_namespace(self):
+         import torch
+ 
 diff --git a/tests/test_native_cosyvoice.py b/tests/test_native_cosyvoice.py
 index f3edea1..abd4f67 100644
 --- a/tests/test_native_cosyvoice.py
@@ -295,6 +323,22 @@ index f00aa16..80947e4 100644
          self._model_outputs: list[Tensor | None] = [None, None]
          self._step_index: int | None = None
          self._lower_order_steps = 0
+diff --git a/voicehub/models/bark/inference.py b/voicehub/models/bark/inference.py
+index 2ed601d..67323f8 100644
+--- a/voicehub/models/bark/inference.py
++++ b/voicehub/models/bark/inference.py
+@@ -438,6 +438,11 @@ class BarkForTextToSpeech(PreTrainedTTSModel):
+                 f"stage tokens; missing: {', '.join(missing)}.")
+         return prepared
+ 
++    def prepare_inputs_for_generation(self, text: str, **kwargs: Any) -> dict[str, Any]:
++        # Native Bark preprocessing belongs inside _generate and accepts text
++        # by keyword. Generation controls must not be sent to the processor.
++        return {"text": text, **kwargs}
++
+     def _processor_inputs(self, text: str, **kwargs: Any) -> dict[str, Any]:
+         processor = self.transformers_processor or self.processor
+         encoded = processor(
 diff --git a/voicehub/models/openvoice/inference.py b/voicehub/models/openvoice/inference.py
 index e5b5fd1..1650074 100644
 --- a/voicehub/models/openvoice/inference.py
