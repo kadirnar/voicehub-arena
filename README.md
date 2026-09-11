@@ -100,8 +100,13 @@ A feature-detected WebMCP read tool exposes the selected run; no supported WebMC
 validation context was available in Arc, so this optional interface is unverified.
 `scripts/install_service.sh` installs its Supervisor service on this Vast image.
 `scripts/run_extended.py` waits for the all-model coverage probe, then evaluates
-providers that produced audio plus the repaired Kokoro and Bark configurations
-on all eight English prompts with three seeds. It does not retry every blocker.
+providers that produced audio, timed out in the short probe, or have repaired
+Kokoro, Bark and CosyVoice configurations on all eight English prompts with
+three seeds and a 20-minute per-model deadline. It does not retry every blocker.
+`scripts/prepare_cosyvoice.py` explicitly computes a real 192-dimensional CAMPPlus
+embedding on CPU from the official Emily audio, using the upstream feature recipe.
+Install `.[prepare]` for this optional reference preparation step. Encoder revision
+and both encoder/reference hashes are saved with the embedding.
 
 ```bash
 supervisorctl status voicehub-arena voicehub-arena-benchmark

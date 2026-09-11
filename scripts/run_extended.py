@@ -19,10 +19,10 @@ while True:
 models=[]
 for path in probe.glob('*/result.json'):
     result=json.loads(path.read_text())
-    if any(row.get('audio') for row in result.get('rows',[])):
+    if any(row.get('audio') for row in result.get('rows',[])) or result.get('status')=='timeout':
         models.append(result['model_type'])
-# These two have concrete configuration repairs after their initial probe.
-models=sorted(set(models)|{'kokoro','bark'})
+# These providers have concrete configuration/input repairs after their probe.
+models=sorted(set(models)|{'kokoro','bark','cosyvoice'})
 print('Extended English evaluation:', ', '.join(models), flush=True)
 command=[sys.executable,'-m','voicehub_arena.cli','run','--models',','.join(models),
          '--output','runs/english-extended','--repeats','3','--timeout','1200','--resume']

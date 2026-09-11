@@ -1,0 +1,9 @@
+{
+  "encoder": "FunAudioLLM/Fun-CosyVoice3-0.5B-2512",
+  "revision": "29e01c4e8d000f4bcd70751be16fa94bf3d85a18",
+  "filename": "campplus.onnx",
+  "encoder_sha256": "a6ac6a63997761ae2997373e2ee1c47040854b4b759ea41ec48e4e42df0f4d73",
+  "reference_sha256": "adf33bfc12725d5660f80a54d5df409b241a788ecec8a470d0c7a0b0b8923e38",
+  "feature_recipe": "16 kHz mono; Kaldi fbank 80 bins, dither 0; subtract temporal mean",
+  "upstream": "https://github.com/FunAudioLLM/CosyVoice/blob/main/cosyvoice/cli/frontend.py"
+}

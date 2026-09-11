@@ -16,8 +16,12 @@ from .storage import read_json, write_json, read_rows
 
 
 def isolated(command, log, timeout):
+    def interrupt(signum, frame):
+        raise KeyboardInterrupt("Runner stopped")
+
     with open(log, "w") as f:
         process = subprocess.Popen(command,stdout=f,stderr=subprocess.STDOUT,start_new_session=True)
+        previous = signal.signal(signal.SIGTERM, interrupt)
         try:
             return process.wait(timeout=timeout)
         except subprocess.TimeoutExpired:
@@ -29,9 +33,16 @@ def isolated(command, log, timeout):
                 process.wait()
             return 124
         except BaseException:
-            os.killpg(process.pid,signal.SIGTERM)
-            process.wait(timeout=10)
+            if process.poll() is None:
+                os.killpg(process.pid,signal.SIGTERM)
+                try:
+                    process.wait(timeout=10)
+                except subprocess.TimeoutExpired:
+                    os.killpg(process.pid,signal.SIGKILL)
+                    process.wait()
             raise
+        finally:
+            signal.signal(signal.SIGTERM, previous)
 
 
 def report(run):
