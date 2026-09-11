@@ -3,6 +3,7 @@ import importlib.metadata
 import hashlib
 import json
 import os
+import subprocess
 from pathlib import Path
 import sys
 import time
@@ -12,11 +13,16 @@ from .storage import write_json, read_json, read_rows
 
 
 def generate(config_path, model_type):
+    from .auth import configure_hub_auth
+    configure_hub_auth()
+    from .transport import enable_verified_cache_reuse, resolved_artifacts
+    enable_verified_cache_reuse()
     import torch
     import numpy as np
     import soundfile as sf
     from voicehub import AutoModelForTextToSpeech, TTSGenerationConfig
     from .metrics import signal_metrics
+    from .inputs import prepare_request
     cfg = read_json(config_path)
     run = Path(config_path).parent
     output = run / model_type
@@ -26,6 +32,21 @@ def generate(config_path, model_type):
     checkpoint = override.get("checkpoint", spec["checkpoint"])
     status = dict(model_type=model_type, checkpoint=checkpoint, status="loading", rows=[],
                   expected_samples=len(cfg["dataset"])*cfg["repeats"])
+    if "artifact_provenance" in override:
+        status["artifact_provenance"] = override["artifact_provenance"]
+    if "runtime_adapter" in override:
+        status["runtime_adapter"] = override["runtime_adapter"]
+    status["timing_scope"] = override.get("timing_scope", "text preparation and synthesis; excludes model load and warm-up")
+    status["runtime_packages"] = {name: importlib.metadata.version(name) for name in ("voicehub", "torch", "huggingface-hub", "tokenizers")}
+    status["download_policy"] = "sha256-verified immutable cache reuse; mutable refs revalidated"
+    status["runtime_source_sha256"] = {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
+                                        for p in Path(__file__).parent.glob('*.py')}
+    import voicehub
+    try:
+        native_diff = subprocess.check_output(['git','-C',str(Path(voicehub.__file__).parent),'diff','--binary','HEAD'])
+        status['voicehub_diff_sha256'] = hashlib.sha256(native_diff).hexdigest() if native_diff else None
+    except (OSError, subprocess.CalledProcessError):
+        status['voicehub_diff_sha256'] = None
     write_json(output/"result.json", status)
     try:
         from .catalog import declared_languages
@@ -37,6 +58,16 @@ def generate(config_path, model_type):
             return
         if not checkpoint:
             raise ValueError("No default checkpoint configured; add a reviewed checkpoint override")
+        prepared_directory = override.get("prepared_inputs")
+        for key, filename in override.get('generation',{}).items():
+            if key.endswith('_path') and isinstance(filename,str) and filename in cfg.get('reference_sha256',{}):
+                if hashlib.sha256(Path(filename).read_bytes()).hexdigest() != cfg['reference_sha256'][filename]:
+                    raise ValueError('Reference artifact changed after run configuration: '+filename)
+        if prepared_directory:
+            for filename, expected in cfg.get("prepared_inputs_sha256", {}).items():
+                if Path(filename).parent == Path(prepared_directory):
+                    if hashlib.sha256(Path(filename).read_bytes()).hexdigest() != expected:
+                        raise ValueError("Prepared input changed after the run was configured: "+filename)
         torch.set_num_threads(cfg["cpu_threads"])
         torch.manual_seed(cfg["seed"])
         config = dict(override.get("config", {}))
@@ -50,27 +81,37 @@ def generate(config_path, model_type):
         write_json(output/"result.json", status)
         sync = lambda: torch.cuda.synchronize() if cfg["device"].startswith("cuda") else None
         started = time.perf_counter()
-        model = AutoModelForTextToSpeech.from_pretrained(checkpoint, model_type=model_type,
-                                                       device=cfg["device"], **config)
+        if model_type == "vibevoice" and override.get("runtime_adapter") == "arena-native-staged-v1":
+            from .vibevoice_adapter import ArenaVibeVoice
+            model = ArenaVibeVoice.from_pretrained(checkpoint, device=cfg["device"], **config)
+        else:
+            model = AutoModelForTextToSpeech.from_pretrained(checkpoint, model_type=model_type,
+                                                           device=cfg["device"], **config)
         generation = override.get("generation", {})
+        first_text, first_options = prepare_request(model_type, override.get("text_prefix", "")+cfg["dataset"][0]["text"], generation,
+                                                   prepared_inputs=override.get("prepared_inputs"))
         defaults = model.generation_config.to_dict()
-        defaults.update(seed=cfg["seed"], **generation)
-        prepared = model.prepare_inputs_for_generation(override.get("text_prefix", "")+cfg["dataset"][0]["text"], **defaults)
+        defaults.update(seed=cfg["seed"], **first_options)
+        prepared = model.prepare_inputs_for_generation(first_text, **defaults)
         model._validate_model_kwargs(prepared)
         model._validate_common_generation_inputs(prepared)
         model._validate_generation_inputs(prepared)
         model.load()
+        status['resolved_artifacts'] = resolved_artifacts()
         # VoiceHub providers may initialize lazily. Warm-up is recorded separately.
         sync()
         status["load_s"] = time.perf_counter()-started
         status.update(status="warming_up", effective_config=config, generation=generation)
         write_json(output/"result.json",status)
         first = cfg["dataset"][0]["text"]
+        def synthesize(text, seed):
+            prepared_text, options = prepare_request(model_type, override.get("text_prefix", "")+text, generation,
+                                                    prepared_inputs=override.get("prepared_inputs"), model=model)
+            return model.generate(prepared_text, generation_config=TTSGenerationConfig(seed=seed), **options)
         started = time.perf_counter()
         with torch.inference_mode():
             for _ in range(cfg["warmups"]):
-                model.generate(override.get("text_prefix", "")+first,
-                               generation_config=TTSGenerationConfig(seed=cfg["seed"]), **generation)
+                synthesize(first, cfg["seed"])
         sync()
         status["warmup_s"] = time.perf_counter()-started
         status["status"] = "generating"
@@ -86,8 +127,7 @@ def generate(config_path, model_type):
                     sync()
                     started = time.perf_counter()
                     with torch.inference_mode():
-                        result = model.generate(override.get("text_prefix", "")+item["text"],
-                              generation_config=TTSGenerationConfig(seed=row["seed"]), **generation)
+                        result = synthesize(item["text"], row["seed"])
                     sync()
                     row["latency_s"] = time.perf_counter()-started
                     row["peak_vram_mib"] = torch.cuda.max_memory_allocated()/2**20 if cfg["device"].startswith("cuda") else 0
@@ -103,6 +143,10 @@ def generate(config_path, model_type):
                     # Float WAV preserves unclipped signal diagnostics and model output.
                     sf.write(run/row["audio"], audio, result.sample_rate, subtype="FLOAT")
                     row["audio_sha256"] = hashlib.sha256((run/row["audio"]).read_bytes()).hexdigest()
+                    # Whitelist numeric diagnostics from the reviewed staged adapter.
+                    if override.get("runtime_adapter") == "arena-native-staged-v1":
+                        for key in ("ttfa_s", "speech_tokens", "text_tokens_consumed", "text_tokens_total"):
+                            row[key] = result.metadata.get(key)
                     row["status"] = "generated"
                 except Exception as error:
                     row["error"] = f"{type(error).__name__}: {error}"
@@ -112,20 +156,30 @@ def generate(config_path, model_type):
     except Exception as error:
         status.update(status="blocked", error=f"{type(error).__name__}: {error}")
         traceback.print_exc()
+    status['resolved_artifacts'] = resolved_artifacts()
     write_json(output/"result.json", status)
 
 
-def score(config_path):
+def score(config_path, model_type=None):
     from faster_whisper import WhisperModel
     from huggingface_hub import snapshot_download
     from .metrics import errors, summarize
     cfg = read_json(config_path)
     run = Path(config_path).parent
+    specifications = [s for s in cfg['catalog'] if model_type is None or s['model_type']==model_type]
+    pending = False
+    for spec in specifications:
+        path = run/spec['model_type']/'result.json'
+        if path.exists() and any(row['status'] in ('generated','scoring_failed') for row in read_json(path).get('rows',[])):
+            pending = True
+            break
+    if not pending:
+        return
     # CPU scoring releases all GPU memory for TTS and works without a system cuDNN.
     asr = cfg["asr"]
     model_path = snapshot_download(asr["checkpoint"], revision=asr.get("revision"))
     model = WhisperModel(model_path, device="cpu", compute_type="int8", cpu_threads=cfg["cpu_threads"])
-    for spec in cfg["catalog"]:
+    for spec in specifications:
         path = run/spec["model_type"]/"result.json"
         if not path.exists():
             continue
@@ -154,4 +208,4 @@ if __name__ == "__main__":
     if sys.argv[1] == "generate":
         generate(sys.argv[2],sys.argv[3])
     elif sys.argv[1] == "score":
-        score(sys.argv[2])
+        score(sys.argv[2],sys.argv[3] if len(sys.argv)>3 else None)

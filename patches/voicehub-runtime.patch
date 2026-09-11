@@ -1,0 +1,137 @@
+diff --git a/tests/test_native_outetts.py b/tests/test_native_outetts.py
+index 04129f1..15aadf1 100644
+--- a/tests/test_native_outetts.py
++++ b/tests/test_native_outetts.py
+@@ -160,6 +160,12 @@ class NativeOuteTTSModelTests(unittest.TestCase):
+         self.assertEqual(restored_config, original.config)
+         for name, expected in original.state_dict().items():
+             self.assertTrue(torch.equal(restored.state_dict()[name], expected))
++        original.eval()
++        restored.eval()
++        input_ids = torch.tensor([[1, 5, 6, 7]], dtype=torch.long)
++        with torch.no_grad():
++            torch.testing.assert_close(restored(input_ids).logits, original(input_ids).logits)
++        self.assertFalse(any(value.is_meta for _,value in restored.named_buffers()))
+ 
+ 
+ class NativeOuteTTSPromptAndTrainingTests(unittest.TestCase):
+diff --git a/tests/test_native_speecht5.py b/tests/test_native_speecht5.py
+index af99fd7..7323bcc 100644
+--- a/tests/test_native_speecht5.py
++++ b/tests/test_native_speecht5.py
+@@ -75,7 +75,7 @@ def _piece(text: str, score: float, piece_type: int) -> bytes:
+         _varint_field(3, piece_type))
+ 
+ 
+-def _write_test_sentencepiece(path: Path) -> None:
++def _write_test_sentencepiece(path: Path, model_type: int = 1) -> None:
+     pieces = (
+         ("<s>", 0.0, 3),
+         ("<pad>", 0.0, 3),
+@@ -86,7 +86,7 @@ def _write_test_sentencepiece(path: Path) -> None:
+         ("b", -0.1, 1),
+         ("c", -0.1, 1),
+     )
+-    trainer = (_varint_field(40, 3) + _varint_field(41, 0) + _varint_field(42, 2) + _varint_field(43, 1))
++    trainer = (_varint_field(3, model_type) + _varint_field(40, 3) + _varint_field(41, 0) + _varint_field(42, 2) + _varint_field(43, 1))
+     normalizer = (
+         _length_field(1, b"identity") + _varint_field(3, 1) + _varint_field(4, 1) + _varint_field(5, 1))
+     payload = b"".join(
+@@ -281,6 +281,13 @@ class NativeSpeechT5InventoryTests(unittest.TestCase):
+ 
+ class NativeSpeechT5ProcessorTests(unittest.TestCase):
+ 
++    def test_published_char_model_type_loads_and_preserves_framing(self):
++        with tempfile.TemporaryDirectory() as temporary:
++            path = Path(temporary)/'spm_char.model'
++            _write_test_sentencepiece(path, model_type=4)
++            tokenizer = SpeechT5Tokenizer(path)
++            self.assertEqual(tokenizer.encode('abc'), [4,5,6,7,2])
++
+     def test_tokenizer_adds_eos_and_batches_with_the_published_ids(self):
+         with tempfile.TemporaryDirectory() as directory:
+             processor = _processor(Path(directory))
+diff --git a/voicehub/architectures/outetts/checkpoint.py b/voicehub/architectures/outetts/checkpoint.py
+index 9ef5db7..bebcea5 100644
+--- a/voicehub/architectures/outetts/checkpoint.py
++++ b/voicehub/architectures/outetts/checkpoint.py
+@@ -21,6 +21,7 @@ from voicehub.architectures.dac.modeling import DacModel
+ from voicehub.checkpointing import SafeTensorReader, save_safetensors
+ from voicehub.checkpointing.errors import CheckpointCompatibilityError
+ from voicehub.hub import read_json_file, write_json_file
++from voicehub.neural.rotary import RotaryEmbedding
+ 
+ from .artifacts import OuteTTSArtifacts, OuteTTSDacArtifacts
+ from .metadata import NATIVE_OUTETTS_FORMAT, OUTETTS_CHECKPOINTS, OUTETTS_DAC
+@@ -161,6 +162,14 @@ def load_outetts_language_model(
+             )
+     if config.tie_word_embeddings:
+         model.tie_weights()
++    # Non-persistent RoPE buffers are absent from state_dict, so assigning all
++    # checkpoint tensors does not materialize them after construction on meta.
++    for module in model.modules():
++        if isinstance(module, RotaryEmbedding) and module.inverse_frequency.is_meta:
++            module.inverse_frequency = RotaryEmbedding(
++                module.dimension, base=module.base, scaling=config.rope_scaling,
++                device=device,
++            ).inverse_frequency
+     remaining = [name for name, value in model.state_dict().items() if value.device.type == "meta"]
+     if remaining:
+         raise CheckpointCompatibilityError(
+diff --git a/voicehub/models/speecht5/processing.py b/voicehub/models/speecht5/processing.py
+index 1bc9e6f..926c040 100644
+--- a/voicehub/models/speecht5/processing.py
++++ b/voicehub/models/speecht5/processing.py
+@@ -183,7 +183,7 @@ class SpeechT5Tokenizer:
+         model_path = Path(model_file).expanduser().resolve()
+         if not model_path.is_file():
+             raise FileNotFoundError(f"SpeechT5 SentencePiece model was not found: {model_path}.")
+-        self.sentencepiece = SentencePieceUnigramTokenizer.from_model_file(model_path)
++        self.sentencepiece = SentencePieceUnigramTokenizer.from_model_file(model_path, allow_character=True)
+         self.model_file = model_path
+         self.model_max_length = _positive_integer(
+             model_max_length,
+diff --git a/voicehub/tokenization/sentencepiece_unigram.py b/voicehub/tokenization/sentencepiece_unigram.py
+index e13b10c..b6c9d48 100644
+--- a/voicehub/tokenization/sentencepiece_unigram.py
++++ b/voicehub/tokenization/sentencepiece_unigram.py
+@@ -206,9 +206,9 @@ def _parse_model_type(payload: bytes, ) -> int:
+     """Return the SentencePiece ``TrainerSpec.model_type`` enum value."""
+     fields = _wire_fields(payload)
+     model_type = _single_field(fields, 3, 0, default=1)
+-    if model_type not in {1, 2}:
++    if model_type not in {1, 2, 4}:
+         raise TokenizerAssetError(
+-            "VoiceHub supports SentencePiece UNIGRAM and BPE model types, "
++            "VoiceHub supports SentencePiece UNIGRAM, BPE and CHAR model types, "
+             f"not enum value {model_type}.")
+     return model_type
+ 
+@@ -219,6 +219,7 @@ def load_sentencepiece_unigram(
+     max_bytes: int = DEFAULT_MAX_ASSET_BYTES,
+     max_tokens: int = DEFAULT_MAX_TOKENS,
+     max_token_bytes: int = DEFAULT_MAX_TOKEN_BYTES,
++    allow_character: bool = False,
+ ) -> SentencePieceUnigramAssets:
+     """Read a SentencePiece unigram ``ModelProto`` with strict bounds."""
+     for name, value in (
+@@ -245,10 +246,18 @@ def load_sentencepiece_unigram(
+     raw_trainers = [value for number, wire_type, value in fields if number == 2 and wire_type == 2]
+     if len(raw_trainers) > 1:
+         raise TokenizerAssetError("SentencePiece model contains multiple trainer specifications.")
+-    if raw_trainers and _parse_model_type(raw_trainers[0]) != 1:
++    model_type = _parse_model_type(raw_trainers[0]) if raw_trainers else 1
++    if model_type == 4 and allow_character:
++        # With a single codepoint per normal piece, the segmentation is unique.
++        # Reuse the bounded reader and normalization/unknown-token handling.
++        if any(piece.piece_type == 1 and len(piece.text) != 1 for piece in pieces):
++            raise TokenizerAssetError("CHAR models must contain one codepoint per normal piece.")
++    elif model_type == 2:
+         raise TokenizerAssetError(
+             "SentencePiece model declares BPE; use "
+             "`load_sentencepiece_model_bpe` instead of the unigram loader.")
++    elif model_type != 1:
++        raise TokenizerAssetError("SentencePiece CHAR models require allow_character=True.")
+     trainer = ((0, 1, 2, -1, f" {_REPLACEMENT_CHARACTER} ",
+                 False) if not raw_trainers else _parse_trainer(raw_trainers[0]))
+     if trainer[0] != unknown_ids[0]:

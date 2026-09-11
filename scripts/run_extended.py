@@ -1,5 +1,6 @@
-"""After coverage finishes, evaluate successful/repaired providers on all prompts."""
+"""After coverage finishes, evaluate every registered provider on all prompts."""
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -16,14 +17,11 @@ while True:
         if status=='failed':
             raise SystemExit('Coverage run failed; inspect its logs before continuing')
     time.sleep(5)
-models=[]
-for path in probe.glob('*/result.json'):
-    result=json.loads(path.read_text())
-    if any(row.get('audio') for row in result.get('rows',[])) or result.get('status')=='timeout':
-        models.append(result['model_type'])
-# These providers have concrete configuration/input repairs after their probe.
-models=sorted(set(models)|{'kokoro','bark','cosyvoice'})
-print('Extended English evaluation:', ', '.join(models), flush=True)
-command=[sys.executable,'-m','voicehub_arena.cli','run','--models',','.join(models),
-         '--output','runs/english-extended','--repeats','3','--timeout','1200','--resume']
-raise SystemExit(subprocess.call(command,cwd=root))
+# Revisit the full registry with the current reviewed overrides and protected
+# Hub credentials. Japanese-only providers remain explicitly out of scope.
+print('Extended English evaluation: full VoiceHub registry', flush=True)
+command=[sys.executable,'-m','voicehub_arena.cli','run','--models','all',
+         '--output','runs/english-extended','--repeats','3','--timeout','3600','--cache-budget-gib','45','--score-each-model','--resume']
+environment = os.environ.copy()
+environment.setdefault('NLTK_DATA',str(root.parent/'.nltk_data'))
+raise SystemExit(subprocess.call(command,cwd=root,env=environment))

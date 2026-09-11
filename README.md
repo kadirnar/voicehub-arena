@@ -23,8 +23,9 @@ ssh -N -L 127.0.0.1:7860:127.0.0.1:7860 vast-3090-voicehub
 ```bash
 git clone https://github.com/kadirnar/voicehub.git ../voicehub
 git -C ../voicehub checkout d67853dcfdf4385ce504dde66d6f513a446ca294
+git -C ../voicehub apply ../voicehub-arena/patches/voicehub-runtime.patch
 uv venv --python 3.12
-uv pip install --python .venv/bin/python -e ../voicehub -e '.[test]'
+uv pip install --python .venv/bin/python -e ../voicehub -e '.[test,prepare,linguistic]'
 .venv/bin/voicehub-arena catalog
 .venv/bin/voicehub-arena run --models all --output runs/english-v1
 .venv/bin/voicehub-arena serve --runs runs
@@ -41,6 +42,51 @@ including failures. After fixing a provider, use a new output directory to
 retry it. `score RUN_DIRECTORY` retries unscored audio without regenerating it.
 The run-level GPU lock prevents overlapping Arena runs in the same runs parent.
 External GPU processes are not controlled by this application.
+`--score-each-model`, enabled in the extended job, runs CPU ASR after each model's
+TTS worker exits. Scored results appear as models finish without overlapping
+ASR with TTS timing. The final scoring phase retries any remaining unscored audio.
+
+For the prepared English providers, install the system `espeak-ng` library and
+put NLTK's `cmudict`, `averaged_perceptron_tagger` and
+`averaged_perceptron_tagger_eng` resources in a private directory. On this server,
+that directory is `/workspace/.nltk_data`. Run these from the repository root
+after setting `HF_HOME=/workspace/.hf_home`:
+
+```bash
+.venv/bin/python scripts/prepare_cosyvoice.py
+.venv/bin/python scripts/prepare_styletts2.py
+.venv/bin/python scripts/prepare_speecht5.py
+.venv/bin/python scripts/prepare_linguistic.py melotts
+.venv/bin/python scripts/prepare_linguistic.py gptsovits
+.venv/bin/python scripts/prepare_vibevoice.py
+.venv/bin/python scripts/preflight.py
+```
+
+Hugging Face credentials stay outside the repository in the protected Hub token
+store. The worker bridges this store to VoiceHub's native HTTP environment;
+credentials are never included in run manifests. Audited primary release
+revisions are explicit in `configs/models.json`. A gated model can still require
+account access independently of a valid token.
+
+The bundled `patches/voicehub-runtime.patch` fixes two issues in the pinned
+VoiceHub release: SpeechT5's actual CHAR SentencePiece model was rejected by
+the unigram-only reader, and OuteTTS's non-persistent rotary buffers stayed on
+the meta device after checkpoint assignment. The patch has a checkpoint reload
+forward-parity regression and a CHAR framing regression. The published
+SpeechT5 tokenizer also matches SentencePiece 0.2.1 on all eight diagnostic
+texts plus five edge cases. Run manifests identify the applied native diff.
+
+The initial four-minute coverage timeout includes downloads. Its timeouts are
+followed by a full-registry run with sixty minutes per provider, eight texts
+and three seeds. The longer deadline covers observed synthesis time across
+24 samples, not only model download. Abandoned native download temporary files are reclaimed only
+when no process holds them open and they have not changed for five minutes.
+Completed checkpoints and resumable official Hub downloads are preserved.
+The extended job explicitly limits the dedicated native checkpoint cache to
+45 GiB between workers, evicting older unused repositories as needed. This
+does not remove source, credentials, audio, results or the official Hub cache.
+Immutable native cache files are SHA-256 verified before reuse without HTTP;
+mutable branch references still go through upstream revalidation.
 
 ## Metrics and fairness
 
@@ -67,6 +113,24 @@ required speaker marker, excluded from the reference transcript. F5-TTS and
 NeuTTS use the public official Emily reference, with provenance in
 `datasets/reference/provenance.json`. This is not a speaker-similarity comparison.
 
+Prepared-input providers state their timing scope in the explorer. MeloTTS and
+GPT-SoVITS use the vendored English G2P recipes and pinned auxiliary checkpoints;
+their offline linguistic preparation is timed separately in each input manifest.
+OpenVoice measures native MeloTTS base synthesis plus voice conversion. For the
+English path, the upstream protocols deliberately zero the unused Chinese BERT
+branch; these are the documented language-specific inputs. Inflect, StyleTTS2
+and Zonos phonemization runs inside the measured request. SpeechT5 uses a real
+published CMU Arctic SLT x-vector, with separate provenance, rather than its
+runtime's all-zero default. Compare timing scopes as well as sample coverage.
+
+VibeVoice uses the explicitly identified `arena-native-staged-v1` adapter over
+VoiceHub's native realtime graph. Its five-text-token / six-speech-token loop
+follows Microsoft's pinned reference implementation, using the official Emma
+voice cache converted to tensor-only safetensors. This new adapter needs real
+GPU/audio validation and is not claimed to have upstream waveform parity.
+It records actual time to the first decoded audio chunk (TTFA); other providers
+do not receive inferred streaming measurements.
+
 Normalization: Unicode NFKC, lowercase, punctuation removal, apostrophe joining,
 and whitespace collapse. CER includes spaces. Numeric spellings and abbreviations
 are **not** automatically equated. The numbers item provides an explicit spoken
@@ -78,17 +142,21 @@ ASR runs after TTS processes exit so it does not occupy their GPU memory. WER/CE
 combine ASR mistakes with synthesis mistakes; they are not human listening scores.
 Use `--asr Systran/faster-whisper-large-v3` in a separate run for a stronger judge.
 
-Primary checkpoint revisions, VoiceHub commit, package versions, dataset hash,
+Requested primary revisions, actual native download commits/content digests,
+VoiceHub commit and patch digest, package versions, dataset hash,
 hardware and effective generation options are recorded. Secondary codecs and
 tokenizers can still follow provider defaults; this first version does not claim
-full transitive artifact pinning. Timeout includes metadata, download, load and
+full transitive artifact pinning. Echo’s wrapper currently uses its default branch
+for internal downloads; resolved artifact commits disclose what was actually used.
+ZONOS2 follows VoiceHub’s pinned independent BF16 conversion, separately identified
+in its provenance. Timeout includes metadata, download, load and
 generation. Weight downloads are cached. A free-disk guard stops starting new
 models below 8 GiB; a single in-flight download can still consume additional disk.
 Load times include downloads on a cache miss; cache states are not identical
 across providers, so these load times are not a controlled cold-start ranking.
 
-**Not measured:** human MOS, DNSMOS/UTMOS, speaker-embedding similarity, aligned
-PESQ/STOI or streaming TTFA. They need separate validated judges, ratings,
+**Not measured:** human MOS, DNSMOS/UTMOS, speaker-embedding similarity or aligned
+PESQ/STOI. They need separate validated judges, ratings,
 paired reference audio or streaming adapters. The UI never invents these scores.
 The eight authored diagnostic prompts are not a standardized evaluation corpus.
 An `all` run covers one primary checkpoint per registered TTS provider, not every
@@ -103,10 +171,10 @@ The web explorer is read-only, binds to `127.0.0.1`, and is reached through SSH.
 A feature-detected WebMCP read tool exposes the selected run; no supported WebMCP
 validation context was available in Arc, so this optional interface is unverified.
 `scripts/install_service.sh` installs its Supervisor service on this Vast image.
-`scripts/run_extended.py` waits for the all-model coverage probe, then evaluates
-providers that produced audio, timed out in the short probe, or have repaired
-Kokoro, Bark and CosyVoice configurations on all eight English prompts with
-three seeds and a 20-minute per-model deadline. It does not retry every blocker.
+`scripts/run_extended.py` waits for the all-model coverage probe, then retries
+the full registry with the current repaired configurations on all eight English
+prompts with three seeds and a 60-minute per-model deadline. Japanese-only
+providers remain explicitly outside the English evaluation scope.
 `scripts/prepare_cosyvoice.py` explicitly computes a real 192-dimensional CAMPPlus
 embedding on CPU from the official Emily audio, using the upstream feature recipe.
 Install `.[prepare]` for this optional reference preparation step. Encoder revision

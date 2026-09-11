@@ -1,0 +1,7 @@
+{
+  "repo": "Matthijs/cmu-arctic-xvectors",
+  "revision": "5c1297a9eb6c91714ea77c0d4ac5aca9b6a952e5",
+  "entry": "spkrec-xvect/cmu_us_slt_arctic-wav-arctic_a0001.npy",
+  "sha256": "21719c0414a470561e6d037466fd239ab59c1f9ed4e1b97db557dad6d0223e73",
+  "purpose": "Published CMU Arctic SLT speaker preset; not the Emily reference voice."
+}

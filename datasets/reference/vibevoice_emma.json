@@ -1,0 +1,6 @@
+{
+  "url": "https://raw.githubusercontent.com/microsoft/VibeVoice/94da20d98b2fa7688e9cbfaf7692ddb4954f7600/demo/voices/streaming_model/en-Emma_woman.pt",
+  "source_sha256": "75b15c481e0d848991f1789620aa9929c583ec2c5f701f8152362cf74498bbf8",
+  "sha256": "007e1e41a13571feff6195b2852278002870931a7bcbe58ef5f36bc3d77eba5d",
+  "tensors": 100
+}

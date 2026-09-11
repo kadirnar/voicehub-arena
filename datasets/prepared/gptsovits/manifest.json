@@ -1,0 +1,61 @@
+{
+  "model": "gptsovits",
+  "language": "en",
+  "entries": {
+    "92df1ce2adcc4b353de92fb6d1927a8df6d2446ba7d328c3bdda8087ee16b9d1": {
+      "id": "en_01",
+      "file": "92df1ce2adcc4b353de92fb6d1927a8df6d2446ba7d328c3bdda8087ee16b9d1.npz",
+      "sha256": "539bcc1c133465745c411dc95369ca943ce61562dacef661a588f2c537a3edd2",
+      "preparation_s": 0.006956023164093494
+    },
+    "a67e058320d4ec00a48ae33c9108212fc8047ffc0e248a02c9eb97fd322ff92f": {
+      "id": "en_02",
+      "file": "a67e058320d4ec00a48ae33c9108212fc8047ffc0e248a02c9eb97fd322ff92f.npz",
+      "sha256": "6879f40f4c2a527d1104f4b52d2606b35282982dfbbe7086268b08f1fe8c20a6",
+      "preparation_s": 0.006027115974575281
+    },
+    "66f99251542603d3720e23e081cb9d4273242717ed35398c36a30c388b8b13dc": {
+      "id": "en_03",
+      "file": "66f99251542603d3720e23e081cb9d4273242717ed35398c36a30c388b8b13dc.npz",
+      "sha256": "2c36e349fa42556a29c4d2ada49c136790f43ab956fd2de92a4c726588d383d1",
+      "preparation_s": 0.0057112970389425755
+    },
+    "0d54599217002a4b17d02512114940020b916bfb2feffb7e1557228537d516c3": {
+      "id": "en_04",
+      "file": "0d54599217002a4b17d02512114940020b916bfb2feffb7e1557228537d516c3.npz",
+      "sha256": "1d566953266a135b20cd747763418338b1c4fe73929a6d389f79eb8bcb0d4dcb",
+      "preparation_s": 0.006569313118234277
+    },
+    "e710c0bc038cc0e7e79c933de1e2bd2c26e5854edf060cb8a3df404b435f80ab": {
+      "id": "en_05",
+      "file": "e710c0bc038cc0e7e79c933de1e2bd2c26e5854edf060cb8a3df404b435f80ab.npz",
+      "sha256": "c94d3cf166076cf3381376135d52bfe22ef74b56626b6a6a6f4d736707fdefd0",
+      "preparation_s": 0.005954044871032238
+    },
+    "ee4de07628e652cf71ff5d4a18b97a274e2c8bb50303f806569bae9ba98e5c06": {
+      "id": "en_06",
+      "file": "ee4de07628e652cf71ff5d4a18b97a274e2c8bb50303f806569bae9ba98e5c06.npz",
+      "sha256": "fed19f14b37da14345630b525d74e183dafa13e94893c5b9816fe371a0ea2653",
+      "preparation_s": 0.006606794195249677
+    },
+    "871e29bcb4f01f29d1eee44f42bb4f29c4c95c065a3ef351e380f764f9ba78f1": {
+      "id": "en_07",
+      "file": "871e29bcb4f01f29d1eee44f42bb4f29c4c95c065a3ef351e380f764f9ba78f1.npz",
+      "sha256": "d6b49a3f45c8e5fd37193716c4f8c3e2e12e5ebe24186d5cfb117d90907ee501",
+      "preparation_s": 0.006289745913818479
+    },
+    "e8b77282513c558d0381b56927bb69e75c8ce4a5496d8b62a36d5dc8eb71938f": {
+      "id": "en_08",
+      "file": "e8b77282513c558d0381b56927bb69e75c8ce4a5496d8b62a36d5dc8eb71938f.npz",
+      "sha256": "622e0c944ee5a0e8f0050f8249ffadaad201b667d18a42d8aa50b76f3cb764cc",
+      "preparation_s": 0.010546075878664851
+    }
+  },
+  "device": "cpu",
+  "timing_scope": "synthesis with offline linguistic inputs; preparation measured separately",
+  "hubert_repo": "TencentGameMate/chinese-hubert-base",
+  "hubert_revision": "fce0375452b1dd6c080ac3248d423d4d037bc831",
+  "source": "VoiceHub vendored GPT-SoVITS v2 English G2P and reference feature recipe",
+  "reference_sha256": "adf33bfc12725d5660f80a54d5df409b241a788ecec8a470d0c7a0b0b8923e38",
+  "zero_channels": "1024-dimensional BERT is zero for English in upstream get_bert_inf; it is only computed for Chinese."
+}

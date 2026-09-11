@@ -59,6 +59,10 @@ def summarize(rows):
                       audio_seconds=sum(r["duration_s"] for r in generated))
         for metric in ("clipping_ratio", "silence_ratio", "rms_dbfs"):
             result[metric] = float(np.mean([r[metric] for r in generated]))
+        ttfa = [r["ttfa_s"] for r in generated if isinstance(r.get("ttfa_s"),(int,float))]
+        if ttfa:
+            result.update(ttfa_p50_s=float(np.percentile(ttfa,50)),
+                          ttfa_p95_s=float(np.percentile(ttfa,95)),ttfa_samples=len(ttfa))
     if scored:
         result.update(errors([r["reference"] for r in scored], [r["transcript"] for r in scored]))
         result["raw"] = errors([r["reference"] for r in scored], [r["transcript"] for r in scored], False)

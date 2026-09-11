@@ -56,7 +56,11 @@ def report(run):
         results.append(r)
     payload = {"run":run.name,"config":cfg,"results":results,"updated_at":time.time()}
     write_json(run/"report.json", payload)
-    columns = ["model_type","status","checkpoint","wer","cer","mer","wil","wip","scored","generated","attempted","latency_p50_s","latency_p95_s","rtf","peak_vram_mib","clipping_ratio","silence_ratio","error"]
+    columns = ["model_type","status","checkpoint","wer","cer","mer","wil","wip","exact_match_rate",
+               "word_hits","word_substitutions","word_deletions","word_insertions","reference_words",
+               "scored","generated","attempted","generation_failure_rate","latency_p50_s","latency_p95_s",
+               "rtf","peak_vram_mib","ttfa_p50_s","ttfa_p95_s","ttfa_samples","clipping_ratio","silence_ratio",
+               "timing_scope","runtime_adapter","error"]
     with (run/"leaderboard.csv").open("w", newline="") as f:
         writer = csv.DictWriter(f,fieldnames=columns,extrasaction="ignore")
         writer.writeheader()
@@ -90,7 +94,7 @@ def execute(args):
                 raise SystemExit(f"Unknown models: {unknown}")
             catalog=[s for s in catalog if s["model_type"] in requested]
         # Start with small providers, but keep every discovered provider in the run.
-        priority=["vits","supertonic","kokoro","vui"]
+        priority=["neutts","vits","supertonic","kokoro","vui","inflecttts","styletts2","melotts","speecht5","gptsovits","openvoice","cosyvoice","vibevoice","outetts"]
         catalog.sort(key=lambda s:priority.index(s["model_type"]) if s["model_type"] in priority else 100)
         dataset=read_rows(args.dataset)
         if args.limit:
@@ -106,13 +110,17 @@ def execute(args):
         try:
             import voicehub
             revision=subprocess.check_output(["git","-C",str(Path(voicehub.__file__).parent),"rev-parse","HEAD"],text=True).strip()
+            native_diff=subprocess.check_output(["git","-C",str(Path(voicehub.__file__).parent),"diff","--binary","HEAD"])
+            native_diff_sha256=hashlib.sha256(native_diff).hexdigest() if native_diff else None
         except Exception:
             revision=None
+            native_diff_sha256=None
         cfg=dict(catalog=catalog,dataset=dataset,dataset_sha256=hashlib.sha256(json.dumps(dataset,sort_keys=True).encode()).hexdigest(),
                  overrides=read_json(args.overrides) if args.overrides else {},
                  device=args.device,seed=args.seed,repeats=args.repeats,warmups=args.warmups,
-                 timeout_s=args.timeout,cpu_threads=args.cpu_threads,packages=packages,
-                 voicehub_commit=revision,python=platform.python_version(),started_at=time.time(),
+                 timeout_s=args.timeout,cpu_threads=args.cpu_threads,packages=packages,cache_budget_gib=args.cache_budget_gib,
+                 incremental_scoring=args.score_each_model,
+                 voicehub_commit=revision,voicehub_diff_sha256=native_diff_sha256,python=platform.python_version(),started_at=time.time(),
                  asr={"checkpoint":args.asr,"revision":HfApi().model_info(args.asr).sha},
                  protocol="English diagnostic v1; primary checkpoint per registered provider; no human MOS",
                  normalization="NFKC; lowercase; punctuation removed; apostrophes joined; whitespace collapsed; CER includes spaces")
@@ -124,6 +132,11 @@ def execute(args):
                 if key.endswith("_path") and isinstance(value,str) and Path(value).is_file():
                     references[value] = hashlib.sha256(Path(value).read_bytes()).hexdigest()
         cfg["reference_sha256"] = references
+        cfg["prepared_inputs_sha256"] = {
+            str(path): hashlib.sha256(path.read_bytes()).hexdigest()
+            for override in cfg["overrides"].values() if override.get("prepared_inputs")
+            for path in Path(override["prepared_inputs"]).glob("*") if path.is_file()
+        }
         try:
             cfg["gpu"]=subprocess.check_output(["nvidia-smi","--query-gpu=name,driver_version,memory.total","--format=csv,noheader"],text=True).strip()
         except Exception:
@@ -138,6 +151,16 @@ def execute(args):
         result_path=directory/"result.json"
         if args.resume and result_path.exists() and read_json(result_path)["status"] in ("completed","partial","generated","blocked","failed","timeout","disk_limit","unsupported_language"):
             continue
+        from .cache import cleanup_abandoned_downloads
+        reclaimed = cleanup_abandoned_downloads()
+        if reclaimed["files"]:
+            print("Reclaimed abandoned download bytes:", reclaimed["bytes"], flush=True)
+        if cfg.get("cache_budget_gib"):
+            from .cache import prune_native_cache
+            checkpoint = cfg["overrides"].get(name,{}).get("checkpoint",spec["checkpoint"])
+            pruned = prune_native_cache(cfg["cache_budget_gib"]*2**30,[checkpoint] if checkpoint else [])
+            if pruned['repositories']:
+                print("Reclaimed native checkpoint cache:",json.dumps(pruned),flush=True)
         if shutil.disk_usage(root).free < 8*2**30:
             write_json(result_path,{"model_type":name,"checkpoint":spec["checkpoint"],"status":"disk_limit","error":"Less than 8 GiB free; checkpoint download was not started","rows":[]})
             report(root)
@@ -150,6 +173,14 @@ def execute(args):
             r.update(status="timeout" if code==124 else "failed",error=f"Worker exit {code}; see worker.log")
             write_json(result_path,r)
         report(root)
+        if cfg.get('incremental_scoring') and result_path.exists():
+            produced = read_json(result_path)
+            if any(row.get('status')=='generated' for row in produced.get('rows',[])):
+                print(f'SCORE {name}',flush=True)
+                write_json(root/'state.json',{'status':'running','phase':'scoring','model':name})
+                isolated([sys.executable,'-m','voicehub_arena.worker','score',str(config_path),name],
+                         directory/'scorer.log',7200)
+                report(root)
     print("SCORING",flush=True)
     write_json(root/"state.json",{"status":"running","phase":"scoring"})
     code=isolated([sys.executable,"-m","voicehub_arena.worker","score",str(config_path)],root/"scorer.log",7200)
@@ -172,6 +203,8 @@ def main():
     run.add_argument("--seed",type=int,default=42)
     run.add_argument("--timeout",type=int,default=900)
     run.add_argument("--cpu-threads",type=int,default=4)
+    run.add_argument("--cache-budget-gib",type=float,help="Prune oldest unused native checkpoint repositories between models; requires dedicated HF_HOME")
+    run.add_argument('--score-each-model',action='store_true',help='Run CPU ASR after each TTS worker exits so scored results appear incrementally')
     run.add_argument("--device",default="cuda")
     run.add_argument("--asr",default="Systran/faster-whisper-small.en")
     run.add_argument("--limit",type=int)

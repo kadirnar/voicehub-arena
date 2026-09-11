@@ -1,6 +1,10 @@
 {
   "dia": {
-    "text_prefix": "[S1] "
+    "text_prefix": "[S1] ",
+    "config": {
+      "revision": "ef2795fcc29c5abe6ffc91fd33808588b49bbc66"
+    },
+    "revision_source": "voicehub/architectures/dia/metadata.py::NARI_DIA_CHECKPOINT_REVISION"
   },
   "kokoro": {
     "generation": {
@@ -8,14 +12,20 @@
     },
     "config": {
       "allow_legacy_checkpoint_conversion": true,
-      "torch_dtype": "float32"
-    }
+      "torch_dtype": "float32",
+      "revision": "cbc78411372edb46f7e42030b241834a55fe0cb6"
+    },
+    "revision_source": "voicehub/architectures/kokoro/metadata.py::KOKORO_CHECKPOINT_REVISION"
   },
   "supertonic": {
     "generation": {
       "voice": "M1",
       "language": "en"
-    }
+    },
+    "config": {
+      "revision": "3cadd1ee6394adea1bd021217a0e650ede09a323"
+    },
+    "revision_source": "voicehub/architectures/supertonic/metadata.py::SUPERTONIC_CHECKPOINT_REVISION"
   },
   "f5tts": {
     "generation": {
@@ -27,17 +37,27 @@
     "generation": {
       "speaker_audio_path": "datasets/reference/emily.wav",
       "reference_text": "What we need, helping us to develop the scope of work for a future procurement. Most important to this process is that you look at process changes."
-    }
+    },
+    "config": {
+      "revision": "412aaab11c6b727c6c0fe2552db305c234e568da"
+    },
+    "revision_source": "voicehub/architectures/neutts/metadata.py::NEUTTS_CHECKPOINTS[neuphonic/neutts-2e]"
   },
   "qwen3tts": {
     "generation": {
-      "language": "English"
+      "language": "English",
+      "speaker": "Vivian"
+    },
+    "config": {
+      "revision": "0c0e3051f131929182e2c023b9537f8b1c68adfe"
     }
   },
   "bark": {
     "config": {
-      "trust_official_pickle": true
-    }
+      "trust_official_pickle": true,
+      "revision": "1dbd7a128513b8ae4a4e2130fed57b7ac9da5bcd"
+    },
+    "revision_source": "voicehub/architectures/bark/metadata.py::BARK_CHECKPOINT_REVISION"
   },
   "cosyvoice": {
     "generation": {
@@ -237,6 +257,189 @@
       ],
       "instruction": "Speak clearly.",
       "flow_steps": 10
+    },
+    "config": {
+      "revision": "29e01c4e8d000f4bcd70751be16fa94bf3d85a18"
+    },
+    "revision_source": "voicehub/architectures/cosyvoice_native/metadata.py::COSYVOICE3_MODEL_REVISION"
+  },
+  "inflecttts": {
+    "config": {
+      "revision": "132edf8700da8e0d3fa81cdc0fd8844926fc6582"
+    },
+    "revision_source": "voicehub/architectures/inflecttts/metadata.py::INFLECT_MICRO_V2_REVISION"
+  },
+  "parlertts": {
+    "generation": {
+      "description": "A woman speaks clearly at a moderate pace in a quiet recording studio."
+    },
+    "config": {
+      "revision": "0392b9451a601e528fd863bbb0598431fee810d9"
+    },
+    "revision_source": "voicehub/architectures/parlertts/metadata.py::PARLER_TTS_CHECKPOINT_REVISION"
+  },
+  "xtts": {
+    "generation": {
+      "speaker_audio_path": "datasets/reference/emily.wav",
+      "language": "en"
+    },
+    "config": {
+      "revision": "6c2b0d75eae4b7047358e3b6bd9325f857d43f77"
+    },
+    "revision_source": "voicehub/architectures/xtts2/metadata.py::XTTS2_CHECKPOINT_REVISION"
+  },
+  "gptsovits": {
+    "generation": {
+      "text_language": "en",
+      "prompt_language": "en",
+      "speaker_audio_path": "datasets/reference/emily.wav",
+      "prompt_text": "What we need, helping us to develop the scope of work for a future procurement. Most important to this process is that you look at process changes."
+    },
+    "prepared_inputs": "datasets/prepared/gptsovits",
+    "timing_scope": "synthesis with offline linguistic inputs; preparation measured separately",
+    "config": {
+      "trust_pickle_checkpoint": true,
+      "revision": "336b2ec4e8d4ac74740798dd40af44e74659ecaf"
+    },
+    "revision_source": "voicehub/architectures/gptsovits/metadata.py::GPT_SOVITS_REVISION"
+  },
+  "styletts2": {
+    "checkpoint": "/workspace/voicehub-arena/artifacts/styletts2/epochs_2nd_00020.pth",
+    "artifact_provenance": {
+      "repo": "yl4579/StyleTTS2-LibriTTS",
+      "revision": "3aa7ba7f8f275ec13dce21682a61494c35089e2a",
+      "sha256": "1164ffe19a17449d2c722234cecaf2836b35a698fb8ffd42562d2663657dca0a"
+    },
+    "config": {
+      "config_path": "/workspace/voicehub-arena/artifacts/styletts2/config.yml",
+      "trust_pickle_checkpoint": true,
+      "dtype": "float32"
+    },
+    "generation": {
+      "speaker_audio_path": "datasets/reference/emily.wav"
+    }
+  },
+  "speecht5": {
+    "generation": {
+      "speaker_embedding_path": "datasets/reference/speecht5_slt.npy"
+    },
+    "config": {
+      "revision": "30fcde30f19b87502b8435427b5f5068e401d5f6",
+      "vocoder_revision": "bb6f429406e86a9992357a972c0698b22043307d"
+    }
+  },
+  "melotts": {
+    "prepared_inputs": "datasets/prepared/melotts",
+    "timing_scope": "synthesis with offline linguistic inputs; preparation measured separately",
+    "config": {
+      "trust_pickle_checkpoint": true,
+      "revision": "bb4fb7346d566d277ba8c8c7dbfdf6786139b8ef"
+    }
+  },
+  "openvoice": {
+    "config": {
+      "base_model_name_or_path": "EN",
+      "trust_pickle_checkpoint": true,
+      "revision": "f36e7edfe1684461a8343844af60babc2efbb727"
+    },
+    "generation": {
+      "speaker_audio_path": "datasets/reference/emily.wav",
+      "language": "EN"
+    },
+    "prepared_inputs": "datasets/prepared/melotts",
+    "timing_scope": "native MeloTTS base synthesis plus OpenVoice conversion; offline linguistic preparation excluded",
+    "revision_source": "voicehub/architectures/openvoice/metadata.py::OPENVOICE_CHECKPOINT_REVISION"
+  },
+  "orpheustts": {
+    "generation": {
+      "voice": "tara"
+    }
+  },
+  "chatterbox": {
+    "config": {
+      "revision": "5bb1f6ee58e50c3b8d408bc82a6d3740c2db6e18"
+    },
+    "revision_source": "voicehub/architectures/chatterbox/metadata.py::CHATTERBOX_CHECKPOINT_REVISION"
+  },
+  "conversationtts": {
+    "config": {
+      "revision": "b0f6f30e123da06dd15672ddbfc7781b323ea599"
+    },
+    "revision_source": "voicehub/architectures/conversationtts/metadata.py::CONVERSATIONTTS_CHECKPOINT_REVISION"
+  },
+  "csm": {
+    "config": {
+      "revision": "c92a71e1c419772e25be7dc14d952c2521a740ab"
+    },
+    "revision_source": "voicehub/architectures/csm/metadata.py::CSM_CHECKPOINT_REVISION"
+  },
+  "higgstts": {
+    "config": {
+      "revision": "d80c511612b3040ff2877ce3d408747df1739f11"
+    },
+    "revision_source": "voicehub/architectures/higgs_audio_v2/metadata.py::HIGGS_AUDIO_V2_REVISION"
+  },
+  "mosstts": {
+    "config": {
+      "revision": "cdd3b911b1585e3f2dbc7775ef10f9926f58850a"
+    },
+    "revision_source": "voicehub/architectures/mosstts/metadata.py::MOSS_TTS_DELAY_V15_REVISION"
+  },
+  "omnivoice": {
+    "config": {
+      "revision": "c5fdb5ccb189668d56333f77ba2629f4cd7535f4"
+    },
+    "revision_source": "voicehub/architectures/omnivoice/metadata.py::OMNIVOICE_MODEL_REVISION"
+  },
+  "vibevoice": {
+    "config": {
+      "revision": "6bce5f06044837fe6d2c5d7a71a84f0416bd57e4"
+    },
+    "revision_source": "voicehub/architectures/vibevoice/metadata.py::VIBEVOICE_REALTIME_REVISION",
+    "runtime_adapter": "arena-native-staged-v1",
+    "generation": {
+      "voice_prompt_path": "datasets/reference/vibevoice_emma.safetensors",
+      "max_new_tokens": 1024
+    },
+    "timing_scope": "Arena staged native adapter; includes tensor voice cache load, text preparation and synthesis; streaming parity validation pending"
+  },
+  "voxcpm": {
+    "config": {
+      "revision": "bffb3df5a29440629464e5e839f4d214c8714c3d"
+    },
+    "revision_source": "voicehub/architectures/voxcpm2/metadata.py::VOXCPM2_CHECKPOINT_REVISION"
+  },
+  "zonos": {
+    "config": {
+      "revision": "9d8331fc49cb5ba8aad2bb56cafd809c66598f4e"
+    },
+    "revision_source": "voicehub/architectures/zonos/metadata.py::ZONOS_TRANSFORMER_REVISION",
+    "generation": {
+      "language": "en-us",
+      "speaker_audio_path": "datasets/reference/emily.wav"
+    }
+  },
+  "fishtts": {
+    "config": {
+      "revision": "1de9996b6be38b745688de084d87a5633f714e4e"
+    },
+    "revision_source": "voicehub/architectures/fishtts/metadata.py::FISH_S2_CHECKPOINT_REVISION"
+  },
+  "zonos2": {
+    "generation": {
+      "language": "en",
+      "speaker_audio_path": "datasets/reference/emily.wav",
+      "accurate_mode": true
+    },
+    "config": {
+      "revision": "65f1e80f94b599d474bb6af9094a803dc52f60bd"
+    },
+    "artifact_provenance": {
+      "official_config_revision": "65f1e80f94b599d474bb6af9094a803dc52f60bd",
+      "weights_repo": "drbaph/ZONOS2-BF16",
+      "weights_revision": "c8470cd6b2c43639780635fac10921fd74a381e0",
+      "weights_sha256": "cd2fd4c9e867750e27ccd0544d2ff4cc86b5c403d6bff4ceb7540068d31b26b4",
+      "kind": "independently converted checkpoint selected by native VoiceHub"
     }
   }
 }

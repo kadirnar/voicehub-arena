@@ -1,0 +1,62 @@
+{
+  "model": "melotts",
+  "language": "en",
+  "entries": {
+    "92df1ce2adcc4b353de92fb6d1927a8df6d2446ba7d328c3bdda8087ee16b9d1": {
+      "id": "en_01",
+      "file": "92df1ce2adcc4b353de92fb6d1927a8df6d2446ba7d328c3bdda8087ee16b9d1.npz",
+      "sha256": "ec2c81ecde953a19cf8af278c7572c465069695c9b2e9fbbc25645b708ed29ad",
+      "preparation_s": 0.3229913110844791
+    },
+    "a67e058320d4ec00a48ae33c9108212fc8047ffc0e248a02c9eb97fd322ff92f": {
+      "id": "en_02",
+      "file": "a67e058320d4ec00a48ae33c9108212fc8047ffc0e248a02c9eb97fd322ff92f.npz",
+      "sha256": "021d3092fd0acf49147c111d17b193588500db0ef0578f3434f0b5ca09574342",
+      "preparation_s": 0.11537175998091698
+    },
+    "66f99251542603d3720e23e081cb9d4273242717ed35398c36a30c388b8b13dc": {
+      "id": "en_03",
+      "file": "66f99251542603d3720e23e081cb9d4273242717ed35398c36a30c388b8b13dc.npz",
+      "sha256": "21228885ad87633c1a79989786f4b226c7705b48f43f01dee68392374a896a8d",
+      "preparation_s": 0.10357735212892294
+    },
+    "0d54599217002a4b17d02512114940020b916bfb2feffb7e1557228537d516c3": {
+      "id": "en_04",
+      "file": "0d54599217002a4b17d02512114940020b916bfb2feffb7e1557228537d516c3.npz",
+      "sha256": "8a6a40b810a2b684d82f6ece5a2cbdfa24401f9f750c3e1185cc39e41a4f7369",
+      "preparation_s": 0.08705907501280308
+    },
+    "e710c0bc038cc0e7e79c933de1e2bd2c26e5854edf060cb8a3df404b435f80ab": {
+      "id": "en_05",
+      "file": "e710c0bc038cc0e7e79c933de1e2bd2c26e5854edf060cb8a3df404b435f80ab.npz",
+      "sha256": "8b7a3f18caca477b54db65f68eb57aee980fe336a8086b468a6d7543ebc67e9f",
+      "preparation_s": 0.07963300682604313
+    },
+    "ee4de07628e652cf71ff5d4a18b97a274e2c8bb50303f806569bae9ba98e5c06": {
+      "id": "en_06",
+      "file": "ee4de07628e652cf71ff5d4a18b97a274e2c8bb50303f806569bae9ba98e5c06.npz",
+      "sha256": "cd2f9a2f0c969c0ec6c23de47fb38310c931811efc812dcf5ebc4f6a79581a0a",
+      "preparation_s": 0.10121817397885025
+    },
+    "871e29bcb4f01f29d1eee44f42bb4f29c4c95c065a3ef351e380f764f9ba78f1": {
+      "id": "en_07",
+      "file": "871e29bcb4f01f29d1eee44f42bb4f29c4c95c065a3ef351e380f764f9ba78f1.npz",
+      "sha256": "638eb1c69b0d7be1f9f1ea66c3f2275f72fa8bfdb4d4db64659419222a605f47",
+      "preparation_s": 0.1100918180309236
+    },
+    "e8b77282513c558d0381b56927bb69e75c8ce4a5496d8b62a36d5dc8eb71938f": {
+      "id": "en_08",
+      "file": "e8b77282513c558d0381b56927bb69e75c8ce4a5496d8b62a36d5dc8eb71938f.npz",
+      "sha256": "fea2341c7ef2f46d1f6870925011b7736d862b4070ba09d09020441245d21340",
+      "preparation_s": 0.16627632710151374
+    }
+  },
+  "device": "cpu",
+  "timing_scope": "synthesis with offline linguistic inputs; preparation measured separately",
+  "checkpoint": "myshell-ai/MeloTTS-English",
+  "revision": "bb4fb7346d566d277ba8c8c7dbfdf6786139b8ef",
+  "bert_repo": "google-bert/bert-base-uncased",
+  "bert_revision": "86b5e0934494bd15c9632b12f734a8a67f723594",
+  "source": "VoiceHub vendored MeloTTS English G2P and released BERT hidden-state recipe",
+  "zero_channels": "The unused 1024-channel Chinese BERT branch is zero by the upstream English protocol."
+}
