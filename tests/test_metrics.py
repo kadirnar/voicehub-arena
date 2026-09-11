@@ -48,3 +48,9 @@ def test_confidence_clusters_repeat_samples():
     assert result["unique_prompts_scored"]==3
     assert result["wer_ci95"]==[0,0]
     assert result["rtf"]==.5
+    assert 'generation_limit_rate' not in result
+    rows[0].update(generation_token_limit=100, quality_flags=['generation_limit_reached'])
+    rows[1]['generation_token_limit'] = 100
+    result = summarize(rows)
+    assert result['generation_limit_rate'] == .5
+    assert result['scored'] == 6  # Truncated speech still receives its real ASR error score.

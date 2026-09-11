@@ -50,6 +50,11 @@ def summarize(rows):
     scored = [r for r in rows if r.get("status") == "ok"]
     result = {"attempted": len(rows), "generated":len(generated), "scored":len(scored),
               "generation_failure_rate": 1-len(generated)/len(rows) if rows else None}
+    measured_limits = [r for r in generated if 'generation_token_limit' in r]
+    if measured_limits:
+        limited = sum('generation_limit_reached' in r.get('quality_flags', []) for r in measured_limits)
+        result.update(generation_limit_rate=limited/len(measured_limits),
+                      generation_limit_samples=limited, generation_limit_checks=len(measured_limits))
     if generated:
         latencies = [r["latency_s"] for r in generated]
         result.update(latency_p50_s=float(np.percentile(latencies,50)),

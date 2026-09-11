@@ -161,6 +161,13 @@ def generate(config_path, model_type):
                     # Float WAV preserves unclipped signal diagnostics and model output.
                     sf.write(run/row["audio"], audio, result.sample_rate, subtype="FLOAT")
                     row["audio_sha256"] = hashlib.sha256((run/row["audio"]).read_bytes()).hexdigest()
+                    if model_type == 'cosyvoice':
+                        count = result.metadata.get('speech_token_count')
+                        row['speech_token_count'] = count
+                        limit = generation.get('max_new_tokens') or model.config.generation_config['max_new_tokens']
+                        row['generation_token_limit'] = limit
+                        if isinstance(count, int) and count >= limit:
+                            row['quality_flags'] = ['generation_limit_reached']
                     if model_type == 'kokoro':
                         row['frontend'] = {key:result.metadata.get(key) for key in
                             ('phonemes','frontend_ids','source_equivalent_g2p')}

@@ -7,6 +7,22 @@ _resolved = {}
 
 
 def download_with_hub_client(options):
+    # Providers probe optional shard indexes and catch the native exception
+    # contract to fall back to a single weights file.
+    from huggingface_hub.errors import HfHubHTTPError
+    try:
+        return _download_with_hub_client(options)
+    except HfHubHTTPError as error:
+        status = error.response.status_code if error.response is not None else None
+        identity = f"{options['repo_id']}@{options['revision']}/{options['relative_file']}"
+        if status in (401, 403):
+            raise PermissionError(f'Hugging Face denied access to {identity} (HTTP {status})') from None
+        if status == 404:
+            raise FileNotFoundError(f'Could not find the requested Hub file: {identity}') from None
+        raise
+
+
+def _download_with_hub_client(options):
     """Use resumable Hub/Xet transport, then validate the native cache copy."""
     from pathlib import Path
     import voicehub.hub_transport as transport

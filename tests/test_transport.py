@@ -60,3 +60,18 @@ def test_hub_copy_rejects_wrong_commit_before_download(tmp_path, monkeypatch):
     with pytest.raises(ValueError, match='immutable requested commit'):
         download_with_hub_client(dict(repo_id='test/model', revision='a'*40,
             token=None, relative_file=PurePosixPath('weights')))
+
+
+@pytest.mark.parametrize('status, expected', [(404, FileNotFoundError), (401, PermissionError), (403, PermissionError)])
+def test_hub_errors_preserve_provider_fallback_contract(monkeypatch, status, expected):
+    import requests
+    from huggingface_hub.errors import HfHubHTTPError
+    import voicehub_arena.transport as transport
+    response = requests.Response()
+    response.status_code = status
+    def fail(options):
+        raise HfHubHTTPError('upstream request error', response=response)
+    monkeypatch.setattr(transport, '_download_with_hub_client', fail)
+    with pytest.raises(expected):
+        transport.download_with_hub_client(dict(repo_id='test/model', revision='a'*40,
+            relative_file=PurePosixPath('model.safetensors.index.json')))

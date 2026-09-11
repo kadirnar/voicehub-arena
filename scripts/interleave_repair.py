@@ -25,7 +25,12 @@ while time.monotonic()<deadline:
 else:
     raise SystemExit('The current model did not finish in the repair wait window')
 
-subprocess.run(['supervisorctl','stop','voicehub-arena-extended'],check=True)
+service = subprocess.run(['supervisorctl','status','voicehub-arena-extended'],
+                         capture_output=True,text=True)
+if any(state in service.stdout.split() for state in ('RUNNING', 'STARTING', 'BACKOFF')):
+    subprocess.run(['supervisorctl','stop','voicehub-arena-extended'],check=True)
+elif not any(state in service.stdout.split() for state in ('STOPPED', 'EXITED', 'FATAL')):
+    raise RuntimeError('Could not determine the full benchmark service state')
 try:
     # The CLI's signal handler joins its isolated worker before releasing this
     # lock. Supervisor can report the wrapper stopped slightly before that.

@@ -1,3 +1,33 @@
+diff --git a/tests/test_native_cosyvoice.py b/tests/test_native_cosyvoice.py
+index f3edea1..abd4f67 100644
+--- a/tests/test_native_cosyvoice.py
++++ b/tests/test_native_cosyvoice.py
+@@ -93,6 +93,25 @@ def _inventory(module) -> dict[str, tuple[str, tuple[int, ...]]]:
+ 
+ class NativeCosyVoicePolicyTests(unittest.TestCase):
+ 
++    def test_sampling_matches_released_ras_with_and_without_repetition(self):
++        from voicehub.architectures.cosyvoice_native.language_model import _sample_repetition_aware
++        source = PROJECT_ROOT/'voicehub/models/cosyvoice/source/cosyvoice/utils/common.py'
++        tree = ast.parse(source.read_text())
++        helpers = [node for node in tree.body if isinstance(node, ast.FunctionDef)
++                   and node.name in {'ras_sampling', 'nucleus_sampling', 'random_sampling'}]
++        namespace = {'torch': torch}
++        exec(compile(ast.Module(body=helpers, type_ignores=[]), str(source), 'exec'), namespace)
++        logits = torch.linspace(3, -2, 64)
++        for history in ([], list(range(10)), [1, 3, 5, 1, 3]):
++            for seed in range(32):
++                with self.subTest(history=history, seed=seed):
++                    torch.manual_seed(seed)
++                    expected = namespace['ras_sampling'](logits.clone(), history, 25)
++                    generator = torch.Generator().manual_seed(seed)
++                    actual = _sample_repetition_aware(logits, history, top_k=25, top_p=.8,
++                                                       generator=generator)
++                    self.assertEqual(actual, expected)
++
+     def test_native_slice_has_no_external_model_runtime_imports(self):
+         forbidden = {
+             "diffusers",
 diff --git a/tests/test_native_openvoice.py b/tests/test_native_openvoice.py
 index 06e4525..e8d2d2e 100644
 --- a/tests/test_native_openvoice.py
@@ -109,6 +139,105 @@ index af99fd7..138fef3 100644
                  "ab",
                  speaker_embeddings=torch.zeros(4),
                  threshold=0.0,
+diff --git a/tests/test_native_vibevoice.py b/tests/test_native_vibevoice.py
+index c3861f1..912fa63 100644
+--- a/tests/test_native_vibevoice.py
++++ b/tests/test_native_vibevoice.py
+@@ -636,6 +636,18 @@ class NativeVibeVoiceTests(unittest.TestCase):
+         ):
+             head.enable_diffusion_sampling(DiffusionSamplingConfig(solver="stork2"))
+ 
++    def test_scheduler_remains_materialized_during_meta_graph_construction(self):
++        reference = VibeVoiceDPMSolver(_diffusion_config())
++        with torch.device("meta"):
++            restored = VibeVoiceDPMSolver(_diffusion_config())
++        reference.set_timesteps(2)
++        restored.set_timesteps(2)
++        torch.testing.assert_close(restored.sigmas, reference.sigmas)
++        sample = torch.ones(1, 8)
++        expected = reference.step(torch.zeros_like(sample), reference.timesteps[0], sample).prev_sample
++        actual = restored.step(torch.zeros_like(sample), restored.timesteps[0], sample).prev_sample
++        torch.testing.assert_close(actual, expected)
++
+     def test_realtime_graph_exposes_stages_but_rejects_training_forward(self):
+         model = VibeVoiceRealtimeForConditionalGeneration(_realtime_config())
+         with self.assertRaisesRegex(RuntimeError, "staged inference"):
+diff --git a/voicehub/architectures/cosyvoice_native/language_model.py b/voicehub/architectures/cosyvoice_native/language_model.py
+index 52e7a8a..ce2ad07 100644
+--- a/voicehub/architectures/cosyvoice_native/language_model.py
++++ b/voicehub/architectures/cosyvoice_native/language_model.py
+@@ -16,6 +16,25 @@ from voicehub.neural.cache import DynamicKVCache
+ IGNORE_INDEX = -100
+ 
+ 
++def _sample_repetition_aware(logits: Tensor, history: list[int], *,
++                             top_k: int, top_p: float,
++                             generator: torch.Generator | None = None) -> int:
++    """Released CosyVoice RAS: full-distribution nucleus, then repeat rejection."""
++    probabilities, indices = logits.softmax(dim=0).sort(descending=True, stable=True)
++    probabilities, indices = probabilities[:top_k], indices[:top_k]
++    keep = probabilities.cumsum(dim=0) - probabilities < top_p
++    probabilities, indices = probabilities[keep], indices[keep]
++    candidate = int(indices[torch.multinomial(probabilities, 1, replacement=True,
++                                             generator=generator)].item())
++    # Official win_size=10, tau_r=0.1: reject a token already in that window.
++    if candidate in history[-10:]:
++        scores = logits.clone()
++        scores[candidate] = -torch.inf
++        candidate = int(torch.multinomial(scores.softmax(dim=0), 1,
++                                          replacement=True, generator=generator).item())
++    return candidate
++
++
+ @dataclass(frozen=True)
+ class CosyVoiceLanguageOutput:
+     """Speech logits and source-aligned training diagnostics."""
+@@ -298,6 +317,7 @@ class CosyVoiceLanguageModel(nn.Module):
+         step_input = torch.cat(pieces, dim=1)
+         cache: DynamicKVCache | None = None
+         generated: list[Tensor] = []
++        history: list[int] = []
+         for step in range(max_new_tokens):
+             hidden_output = self.llm.model.model(
+                 inputs_embeds=step_input,
+@@ -310,33 +330,12 @@ class CosyVoiceLanguageModel(nn.Module):
+             logits = logits / temperature
+             if step < min_new_tokens:
+                 logits[:, self.config.speech_vocab_size:] = -torch.inf
+-            top_count = min(top_k, logits.shape[-1])
+-            top_values, top_indices = torch.topk(logits, top_count, dim=-1)
+-            probabilities = functional.softmax(top_values, dim=-1)
+-            ordered_probabilities, order = torch.sort(
+-                probabilities,
+-                dim=-1,
+-                descending=True,
+-            )
+-            cumulative = ordered_probabilities.cumsum(dim=-1)
+-            remove = cumulative - ordered_probabilities >= top_p
+-            ordered_probabilities = ordered_probabilities.masked_fill(remove, 0)
+-            ordered_probabilities = ordered_probabilities / ordered_probabilities.sum(
+-                dim=-1,
+-                keepdim=True,
+-            )
+-            sampled_order = torch.multinomial(
+-                ordered_probabilities,
+-                1,
+-                generator=generator,
+-            )
+-            sampled = top_indices.gather(
+-                1,
+-                order.gather(1, sampled_order),
+-            )
+-            token_id = int(sampled.item())
++            token_id = _sample_repetition_aware(logits[0], history,
++                top_k=min(top_k, logits.shape[-1]), top_p=top_p, generator=generator)
+             if token_id >= self.config.speech_vocab_size:
+                 break
++            history.append(token_id)
++            sampled = text_tokens.new_tensor([[token_id]])
+             generated.append(sampled.squeeze(0))
+             step_input = self.speech_embedding(sampled)
+         if not generated:
 diff --git a/voicehub/architectures/outetts/checkpoint.py b/voicehub/architectures/outetts/checkpoint.py
 index 9ef5db7..bebcea5 100644
 --- a/voicehub/architectures/outetts/checkpoint.py
@@ -136,6 +265,36 @@ index 9ef5db7..bebcea5 100644
      remaining = [name for name, value in model.state_dict().items() if value.device.type == "meta"]
      if remaining:
          raise CheckpointCompatibilityError(
+diff --git a/voicehub/architectures/vibevoice/diffusion.py b/voicehub/architectures/vibevoice/diffusion.py
+index f00aa16..80947e4 100644
+--- a/voicehub/architectures/vibevoice/diffusion.py
++++ b/voicehub/architectures/vibevoice/diffusion.py
+@@ -362,14 +362,17 @@ class VibeVoiceDPMSolver:
+         if config.prediction_type != "v_prediction":
+             raise ValueError("Published VibeVoice sampling requires velocity prediction.")
+         self.config = config
+-        self.betas = cosine_betas(config.ddpm_num_steps)
+-        self.alphas = 1.0 - self.betas
+-        self.alphas_cumprod = torch.cumprod(self.alphas, dim=0)
+-        self.alpha_t = self.alphas_cumprod.sqrt()
+-        self.sigma_t = (1.0 - self.alphas_cumprod).sqrt()
+-        self.training_sigmas = ((1.0 - self.alphas_cumprod) / self.alphas_cumprod).sqrt()
+-        self.timesteps = torch.empty(0, dtype=torch.long)
+-        self.sigmas = torch.empty(0, dtype=torch.float32)
++        # These deterministic schedules are not module buffers or checkpoint
++        # weights. They must survive enclosing meta-device graph construction.
++        with torch.device("cpu"):
++            self.betas = cosine_betas(config.ddpm_num_steps)
++            self.alphas = 1.0 - self.betas
++            self.alphas_cumprod = torch.cumprod(self.alphas, dim=0)
++            self.alpha_t = self.alphas_cumprod.sqrt()
++            self.sigma_t = (1.0 - self.alphas_cumprod).sqrt()
++            self.training_sigmas = ((1.0 - self.alphas_cumprod) / self.alphas_cumprod).sqrt()
++            self.timesteps = torch.empty(0, dtype=torch.long)
++            self.sigmas = torch.empty(0, dtype=torch.float32)
+         self._model_outputs: list[Tensor | None] = [None, None]
+         self._step_index: int | None = None
+         self._lower_order_steps = 0
 diff --git a/voicehub/models/openvoice/inference.py b/voicehub/models/openvoice/inference.py
 index e5b5fd1..1650074 100644
 --- a/voicehub/models/openvoice/inference.py

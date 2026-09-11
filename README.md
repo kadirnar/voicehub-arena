@@ -81,6 +81,11 @@ inference mode. The patch has a checkpoint reload
 forward-parity regression and a CHAR framing regression. The published
 SpeechT5 tokenizer also matches SentencePiece 0.2.1 on all eight diagnostic
 texts plus five edge cases. Run manifests identify the applied native diff.
+Further patches restore CosyVoice's released repetition-aware sampling (RAS),
+including full-distribution nucleus probabilities, and keep VibeVoice's
+deterministic diffusion schedule on CPU during meta-device graph construction.
+CosyVoice's sampler matches the vendored reference in 96 seed/history cases;
+VibeVoice's scheduler regression checks a real solver step after meta construction.
 
 The initial four-minute coverage timeout includes downloads. Its timeouts are
 followed by a full-registry run with sixty minutes per provider, eight texts
@@ -128,6 +133,12 @@ G2P output, with a pinned spaCy English model and eSpeak fallback, inside the
 measured request. The first extended attempt used the native grapheme fallback
 and produced poor pronunciation; it remains visible as a failed quality baseline.
 The corrected provider is evaluated in `repairs-en-01`.
+
+CosyVoice's `repairs-en-02` baseline scored 17.62% WER and includes two 40.96-second
+outputs with incomplete transcripts. This is a completed measurement, not accepted
+quality validation. The RAS correction is queued in `repairs-en-04`. Future CosyVoice
+rows record the actual speech-token count and flag generation-limit hits while
+retaining those outputs in the ASR evaluation.
 
 Prepared-input providers state their timing scope in the explorer. MeloTTS and
 GPT-SoVITS use the vendored English G2P recipes and pinned auxiliary checkpoints;
@@ -217,6 +228,9 @@ full run. The GPU lock and subprocess cleanup keep these phases serial; complete
 results are preserved. `repairs-en-01` completed Kokoro, Inflect, StyleTTS2 and
 SpeechT5 on all 24 samples per model. Further repair sets receive separate run
 directories so the original failures and changed configuration remain inspectable.
+`repairs-en-03` exposed VibeVoice's scheduler issue after successful weight loading.
+The next repair service waits for OuteTTS, then runs VibeVoice and CosyVoice in
+`repairs-en-04`, and resumes the remaining full registry afterwards.
 
 The existing instance has no mounted persistent volume. Recycle/destroy removes
 its files, so keep the delivered local source and results mirror. Stop/start
