@@ -1,0 +1,42 @@
+{
+  "dia": {
+    "text_prefix": "[S1] "
+  },
+  "kokoro": {
+    "generation": {
+      "voice": "af_heart"
+    },
+    "config": {
+      "allow_legacy_checkpoint_conversion": true,
+      "torch_dtype": "float32"
+    }
+  },
+  "supertonic": {
+    "generation": {
+      "voice": "M1",
+      "language": "en"
+    }
+  },
+  "f5tts": {
+    "generation": {
+      "speaker_audio_path": "datasets/reference/emily.wav",
+      "reference_text": "What we need, helping us to develop the scope of work for a future procurement. Most important to this process is that you look at process changes."
+    }
+  },
+  "neutts": {
+    "generation": {
+      "speaker_audio_path": "datasets/reference/emily.wav",
+      "reference_text": "What we need, helping us to develop the scope of work for a future procurement. Most important to this process is that you look at process changes."
+    }
+  },
+  "qwen3tts": {
+    "generation": {
+      "language": "English"
+    }
+  },
+  "bark": {
+    "config": {
+      "trust_official_pickle": true
+    }
+  }
+}

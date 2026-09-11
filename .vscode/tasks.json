@@ -1,0 +1,23 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "VoiceHub: English benchmark (all models)",
+      "type": "process",
+      "command": "${workspaceFolder}/.venv/bin/voicehub-arena",
+      "args": ["run", "--models", "all", "--output", "runs/english-manual", "--resume"],
+      "options": {"cwd": "${workspaceFolder}"},
+      "problemMatcher": [],
+      "presentation": {"reveal": "always", "panel": "dedicated"}
+    },
+    {
+      "label": "VoiceHub: verify application",
+      "type": "process",
+      "command": "${workspaceFolder}/.venv/bin/python",
+      "args": ["-m", "pytest", "-q"],
+      "options": {"cwd": "${workspaceFolder}"},
+      "problemMatcher": [],
+      "group": "test"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{"id":"en_01","category":"narration","text":"The morning train arrived at the station while a light rain fell across the city. Emma closed her book and looked through the window."}
+{"id":"en_02","category":"conversation","text":"Could you leave the package by the front door? I will be home before dinner, and I can bring it inside then."}
+{"id":"en_03","category":"questions","text":"Where did you put the blue notebook? Was it on the kitchen table, or did you take it to the office yesterday?"}
+{"id":"en_04","category":"numbers","text":"The appointment is at 9:30 on September 12. The total cost is 45 dollars.","reference":"The appointment is at nine thirty on September twelve. The total cost is forty five dollars."}
+{"id":"en_05","category":"names","text":"Charlotte and Benjamin traveled from Cambridge to Manchester before visiting their friend Olivia in Edinburgh."}
+{"id":"en_06","category":"technical","text":"The new software processes audio locally and saves the results in a separate folder. Each experiment uses the same settings and random seed."}
+{"id":"en_07","category":"punctuation","text":"Wait, are you sure? That sounds wonderful! Let's check the schedule, pack our bags, and leave before the traffic gets worse."}
+{"id":"en_08","category":"long_form","text":"A small team of researchers spent the summer studying how people listen to speech in noisy rooms. They recorded several speakers, compared the results, and repeated every measurement. At the end of the project, they published the data so that other teams could check their conclusions and try different methods."}

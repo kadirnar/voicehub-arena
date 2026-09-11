@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "voicehub-arena"
+version = "0.1.0"
+description = "Reproducible English TTS benchmarks for every VoiceHub model"
+requires-python = ">=3.10"
+dependencies = ["voicehub", "numpy", "soundfile", "jiwer>=4", "faster-whisper>=1.2", "huggingface-hub", "fastapi", "uvicorn"]
+
+[project.optional-dependencies]
+test = ["pytest", "httpx"]
+
+[project.scripts]
+voicehub-arena = "voicehub_arena.cli:main"
+
+[tool.setuptools.package-data]
+voicehub_arena = ["static/*"]
+
+[tool.setuptools.packages.find]
+include = ["voicehub_arena*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

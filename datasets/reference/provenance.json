@@ -1,0 +1,7 @@
+{
+  "source": "https://github.com/neuphonic/neutts",
+  "commit": "ac69851f28fc63a487917e7c2e27f0d75c759cba",
+  "file": "samples/emily.wav",
+  "sha256": "adf33bfc12725d5660f80a54d5df409b241a788ecec8a470d0c7a0b0b8923e38",
+  "use": "Public official example reference for English TTS benchmarking"
+}
