@@ -1,3 +1,44 @@
+diff --git a/tests/test_native_openvoice.py b/tests/test_native_openvoice.py
+index 06e4525..e8d2d2e 100644
+--- a/tests/test_native_openvoice.py
++++ b/tests/test_native_openvoice.py
+@@ -5,6 +5,7 @@ import subprocess
+ import sys
+ import tempfile
+ import unittest
++from unittest.mock import patch
+ from pathlib import Path
+ 
+ import torch
+@@ -316,6 +317,28 @@ class OpenVoiceArchitectureTests(unittest.TestCase):
+                 "vad": True,
+             })
+ 
++    def test_lazy_base_parameters_retain_versions_under_inference_mode(self):
++        class TinyBase:
++            def __init__(self, *args, **kwargs):
++                self.weight = torch.nn.Parameter(torch.ones(1))
++
++            def load(self):
++                self.buffer = torch.ones(1)
++
++            def generate(self, *args, **kwargs):
++                # Accessing either version raised before the lazy-load fix.
++                return self.weight._version, self.buffer._version
++
++        model = OpenVoiceForTextToSpeech(
++            OpenVoiceConfig(base_model_name_or_path="EN"), lazy_load=True)
++        with patch("voicehub.models.melotts.MeloTTSForTextToSpeech", TinyBase):
++            with torch.inference_mode():
++                versions = model._native_base_audio(
++                    "Hello", language="EN", speaker=None, speed=1.0,
++                    input_ids=None, tone_ids=None, language_ids=None,
++                    bert_features=None, ja_bert_features=None, seed=1)
++        self.assertEqual(versions, (0, 0))
++
+     def test_architecture_registration_is_lazy_and_truthful(self):
+         spec = get_architecture_spec("openvoice")
+         self.assertEqual(spec.architecture_id, "openvoice-v2-converter")
 diff --git a/tests/test_native_outetts.py b/tests/test_native_outetts.py
 index 04129f1..15aadf1 100644
 --- a/tests/test_native_outetts.py
@@ -95,6 +136,41 @@ index 9ef5db7..bebcea5 100644
      remaining = [name for name, value in model.state_dict().items() if value.device.type == "meta"]
      if remaining:
          raise CheckpointCompatibilityError(
+diff --git a/voicehub/models/openvoice/inference.py b/voicehub/models/openvoice/inference.py
+index e5b5fd1..1650074 100644
+--- a/voicehub/models/openvoice/inference.py
++++ b/voicehub/models/openvoice/inference.py
+@@ -207,6 +207,8 @@ class OpenVoiceForTextToSpeech(PreTrainedTTSModel):
+         ja_bert_features: Any,
+         seed: int | None,
+     ):
++        import torch
++
+         from voicehub.models.melotts import MeloTTSConfig, MeloTTSForTextToSpeech
+ 
+         if self._base_model is None:
+@@ -215,11 +217,16 @@ class OpenVoiceForTextToSpeech(PreTrainedTTSModel):
+                 language=language,
+                 trust_pickle_checkpoint=self.config.trust_pickle_checkpoint,
+             )
+-            self._base_model = MeloTTSForTextToSpeech(
+-                config,
+-                device=self.device,
+-                lazy_load=True,
+-            )
++            # A caller may synthesize under inference_mode. Parameters must
++            # retain version counters for Melo's weight-normalization cache.
++            with torch.inference_mode(False), torch.no_grad():
++                base_model = MeloTTSForTextToSpeech(
++                    config,
++                    device=self.device,
++                    lazy_load=True,
++                )
++                base_model.load()
++            self._base_model = base_model
+         return self._base_model.generate(
+             text,
+             input_ids=input_ids,
 diff --git a/voicehub/models/speecht5/inference.py b/voicehub/models/speecht5/inference.py
 index e910517..00649ea 100644
 --- a/voicehub/models/speecht5/inference.py

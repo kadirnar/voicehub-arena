@@ -39,6 +39,6 @@ provenance={'encoder':repo,'revision':revision,'filename':'campplus.onnx',
 output.with_name('cosyvoice_embedding_provenance.json').write_text(json.dumps(provenance,indent=2))
 config=root/'configs/models.json'
 models=json.loads(config.read_text())
-models['cosyvoice']={'generation':{'speaker_embedding':embedding.tolist(),'instruction':'Speak clearly.','flow_steps':10}}
+models.setdefault('cosyvoice', {})['generation']={'speaker_embedding':embedding.tolist(),'instruction':'Speak clearly.','flow_steps':10}
 config.write_text(json.dumps(models,indent=2))
 print('Prepared a 192-dimensional CAMPPlus embedding from the official Emily reference.',flush=True)

@@ -151,7 +151,10 @@ def execute(args):
         result_path=directory/"result.json"
         if args.resume and result_path.exists() and read_json(result_path)["status"] in ("completed","partial","generated","blocked","failed","timeout","disk_limit","unsupported_language"):
             continue
-        from .cache import cleanup_abandoned_downloads
+        from .cache import cleanup_abandoned_downloads, cleanup_dead_download_locks
+        dead_locks = cleanup_dead_download_locks()
+        if dead_locks:
+            print('Reclaimed dead download locks:', dead_locks, flush=True)
         reclaimed = cleanup_abandoned_downloads()
         if reclaimed["files"]:
             print("Reclaimed abandoned download bytes:", reclaimed["bytes"], flush=True)

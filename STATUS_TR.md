@@ -1,18 +1,19 @@
 # VoiceHub Arena — durum
 
-Anlık kopya: 2026-09-11T20:41:33+00:00. Canlı arayüz: http://127.0.0.1:7860/
+Anlık kopya: 2026-09-11T20:54:15+00:00. Canlı arayüz: http://127.0.0.1:7860/
 
 RTX 3090 (24 GB), `vast-3090-voicehub` SSH bağlantısı ve ayrı VS Code uzak penceresi hazır.
 `/workspace/voicehub-arena` sunucudaki proje; bu klasör yerel kaynak ve sonuç kopyasıdır.
 
 **Tüm modellerin çalıştığı henüz doğrulanmadı.** İngilizce dışı Irodori-TTS kapsam dışıdır.
-Gösterilen koşu: `english-extended`; durum `paused`, aşama `repair`.
+Gösterilen koşu: `english-extended`; durum `running`, aşama `generation`.
 Kapsam: 34 model ailesi, 8 İngilizce metin × 3 seed.
 
 NeuTTS-2e ana ağırlıklarına erişim doğrulandı; NeuCodec bağımlılığı ayrıca yetki istiyor.
 Kimlik bilgileri proje dışında saklanıyor.
 33 İngilizce modelin giriş sözleşmesi kontrolü geçti. Bu, GPU üretim başarısı anlamına gelmez.
-Uygulama: 17 test geçti. VoiceHub düzeltmeleri: 48 test ve 6 alt test geçti.
+Uygulama: 23 test geçti. VoiceHub düzeltmeleri: 48 test ve 6 alt test geçti.
+Ek OpenVoice yükleme düzeltmesi: 12 test geçti.
 SpeechT5 gerçek tokenizer’ı, 13 örnekte SentencePiece referansıyla eşleşti.
 
 İlk kısa tarama `all-models-en` eski ayarlarla iki metin kullandı. Düzeltilmiş ayarlarla
@@ -35,9 +36,9 @@ VibeVoice için yeni Arena adaptörü ayrıca etiketlenir; tam referans dalga bi
 | melotts | completed | 24 / 24 |  |
 | speecht5 | blocked | 0 / 24 | TypeError: SpeechT5Processor.__call__() takes 1 positional argument but 2 were given |
 | gptsovits | completed | 24 / 24 |  |
-| openvoice | pending | 0 / 24 |  |
-| cosyvoice | pending | 0 / 24 |  |
-| vibevoice | pending | 0 / 24 |  |
+| openvoice | blocked | 0 / 24 | RuntimeError: Inference tensors do not track version counter. |
+| cosyvoice | blocked | 0 / 24 | FileNotFoundError: The official CosyVoice3 snapshot publishes audited legacy llm.pt/flow.pt/hift.pt files, not native Safetensors. Run `convert_audited_cosyvoice_legacy_checkpoint` explicitly once, then load the resulting local artifact. |
+| vibevoice | loading | 0 / 24 |  |
 | outetts | pending | 0 / 24 |  |
 | bark | pending | 0 / 24 |  |
 | chatterbox | pending | 0 / 24 |  |
@@ -66,8 +67,24 @@ VibeVoice için yeni Arena adaptörü ayrıca etiketlenir; tam referans dalga bi
 |---|---|---:|---:|---:|
 | kokoro | completed | 24 | 3.63% | 3.27% |
 | inflecttts | completed | 24 | 4.15% | 3.36% |
-| styletts2 | generated | 0 | — | — |
-| speecht5 | pending | 0 | — | — |
+| styletts2 | completed | 24 | 3.80% | 3.30% |
+| speecht5 | completed | 24 | 3.11% | 2.91% |
+
+## Tamamlanan 24 örneklik son doğrulamalar
+
+Farklı koşuların en yeni tamamlanan ayarları gösterilir; ayarlar ve süre kapsamı README içindedir.
+
+| Model | Koşu | WER | CER | RTF |
+|---|---|---:|---:|---:|
+| gptsovits | english-extended | 5.87% | 3.63% | 0.416 |
+| inflecttts | repairs-en-01 | 4.15% | 3.36% | 0.015 |
+| kokoro | repairs-en-01 | 3.63% | 3.27% | 0.018 |
+| melotts | english-extended | 4.66% | 3.60% | 0.019 |
+| speecht5 | repairs-en-01 | 3.11% | 2.91% | 0.268 |
+| styletts2 | repairs-en-01 | 3.80% | 3.30% | 0.040 |
+| supertonic | english-extended | 3.80% | 3.33% | 0.061 |
+| vits | english-extended | 7.77% | 4.75% | 0.030 |
+| vui | english-extended | 14.51% | 12.93% | 0.640 |
 
 İşler Supervisor altında seri GPU kullanımıyla devam eder. Bu görevde 30 dakikalık
 kontrol ve düzeltme takibi etkindir; değişmeyen durumlarda bildirim göndermez.

@@ -2,8 +2,39 @@
 import os
 import hashlib
 import shutil
+import re
 from pathlib import Path
 import time
+
+
+def cleanup_dead_download_locks():
+    """Reclaim Linux locks whose recorded process no longer exists.
+
+    The controller calls this while holding Arena's GPU lock, before starting a
+    worker. Live owners, recent/invalid lock files and shared caches are retained.
+    """
+    if not Path('/proc/self/fd').is_dir() or not os.environ.get('HF_HOME'):
+        return 0
+    root = Path(os.environ['HF_HOME'])/'hub/voicehub/locks'
+    removed = 0
+    for path in root.glob('*.lock'):
+        try:
+            stat = path.stat()
+            owner = path.read_text()
+            match = re.fullmatch(r'([1-9][0-9]*):[a-f0-9]{32}', owner)
+            if not match or time.time()-stat.st_mtime < 5:
+                continue
+            try:
+                os.kill(int(match[1]), 0)
+            except ProcessLookupError:
+                if path.stat().st_ino == stat.st_ino and path.read_text() == owner:
+                    path.unlink()
+                    removed += 1
+            except PermissionError:
+                pass
+        except (FileNotFoundError, PermissionError, UnicodeError):
+            continue
+    return removed
 
 
 def open_paths():

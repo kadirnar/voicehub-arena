@@ -21,7 +21,8 @@ lines = [
     'NeuTTS-2e ana ağırlıklarına erişim doğrulandı; NeuCodec bağımlılığı ayrıca yetki istiyor.',
     'Kimlik bilgileri proje dışında saklanıyor.',
     '33 İngilizce modelin giriş sözleşmesi kontrolü geçti. Bu, GPU üretim başarısı anlamına gelmez.',
-    'Uygulama: 17 test geçti. VoiceHub düzeltmeleri: 48 test ve 6 alt test geçti.',
+    'Uygulama: 23 test geçti. VoiceHub düzeltmeleri: 48 test ve 6 alt test geçti.',
+    'Ek OpenVoice yükleme düzeltmesi: 12 test geçti.',
     'SpeechT5 gerçek tokenizer’ı, 13 örnekte SentencePiece referansıyla eşleşti.', '',
     'İlk kısa tarama `all-models-en` eski ayarlarla iki metin kullandı. Düzeltilmiş ayarlarla',
     '`english-extended` tüm kaydı, sekiz metin ve üç seed ile tekrar değerlendirir.',
@@ -50,6 +51,27 @@ for attempt in sorted((root/'runs').glob('repairs-*')):
         scores = result.get('summary',{})
         pct = lambda x: f'{x*100:.2f}%' if isinstance(x,(int,float)) else '—'
         lines.append(f'| {spec["model_type"]} | {result["status"]} | {scores.get("scored",0)} | {pct(scores.get("wer"))} | {pct(scores.get("cer"))} |')
+latest = {}
+for candidate in sorted((root/'runs').glob('*'), key=lambda p: p.stat().st_mtime):
+    config_path = candidate/'config.json'
+    if not config_path.exists():
+        continue
+    settings = json.loads(config_path.read_text())
+    if len(settings.get('dataset', [])) != 8 or settings.get('repeats') != 3:
+        continue
+    for result_path in candidate.glob('*/result.json'):
+        result = json.loads(result_path.read_text())
+        if result.get('status') == 'completed' and result.get('summary', {}).get('scored') == 24:
+            name = result_path.parent.name
+            stamp = config_path.stat().st_mtime
+            if name not in latest or stamp > latest[name][0]:
+                latest[name] = (stamp, candidate.name, result)
+lines += ['', '## Tamamlanan 24 örneklik son doğrulamalar', '',
+          'Farklı koşuların en yeni tamamlanan ayarları gösterilir; ayarlar ve süre kapsamı README içindedir.', '',
+          '| Model | Koşu | WER | CER | RTF |', '|---|---|---:|---:|---:|']
+for name, (_, attempt, result) in sorted(latest.items()):
+    scores = result['summary']
+    lines.append(f'| {name} | {attempt} | {scores["wer"]*100:.2f}% | {scores["cer"]*100:.2f}% | {scores["rtf"]:.3f} |')
 lines += ['', 'İşler Supervisor altında seri GPU kullanımıyla devam eder. Bu görevde 30 dakikalık',
     'kontrol ve düzeltme takibi etkindir; değişmeyen durumlarda bildirim göndermez.',
     'Ölçüm protokolü, hazırlama komutları ve yeniden üretme adımları README.md içindedir.', '']

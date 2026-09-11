@@ -38,7 +38,7 @@ def generate(config_path, model_type):
         status["runtime_adapter"] = override["runtime_adapter"]
     status["timing_scope"] = override.get("timing_scope", "text preparation and synthesis; excludes model load and warm-up")
     status["runtime_packages"] = {dist.metadata["Name"]: dist.version for dist in importlib.metadata.distributions()}
-    status["download_policy"] = "sha256-verified immutable cache reuse; mutable refs revalidated"
+    status["download_policy"] = "sha256-verified native cache; immutable Hub/Xet downloads verify commit, size and content digest; mutable refs use native revalidation"
     status["runtime_source_sha256"] = {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
                                         for p in Path(__file__).parent.glob('*.py')}
     import voicehub
@@ -58,6 +58,17 @@ def generate(config_path, model_type):
             return
         if not checkpoint:
             raise ValueError("No default checkpoint configured; add a reviewed checkpoint override")
+        if Path(checkpoint).is_dir():
+            for filename, expected in override.get('artifact_provenance', {}).get('files_sha256', {}).items():
+                artifact = Path(checkpoint)/filename
+                if artifact.resolve().parent != Path(checkpoint).resolve():
+                    raise ValueError('Checkpoint manifest must contain flat filenames')
+                digest = hashlib.sha256()
+                with artifact.open('rb') as handle:
+                    for chunk in iter(lambda: handle.read(8*2**20), b''):
+                        digest.update(chunk)
+                if digest.hexdigest() != expected:
+                    raise ValueError('Checkpoint artifact differs from reviewed provenance: '+filename)
         if Path(checkpoint).is_file() and override.get('artifact_provenance',{}).get('sha256'):
             digest = hashlib.sha256()
             with Path(checkpoint).open('rb') as handle:

@@ -54,6 +54,7 @@ after setting `HF_HOME=/workspace/.hf_home`:
 
 ```bash
 .venv/bin/python scripts/prepare_cosyvoice.py
+.venv/bin/python scripts/prepare_cosyvoice_checkpoint.py
 .venv/bin/python scripts/prepare_styletts2.py
 .venv/bin/python scripts/prepare_speecht5.py
 .venv/bin/python scripts/prepare_linguistic.py melotts
@@ -74,7 +75,9 @@ The bundled `patches/voicehub-runtime.patch` fixes runtime issues in the pinned
 VoiceHub release: SpeechT5's actual CHAR SentencePiece model was rejected by
 the unigram-only reader, and OuteTTS's non-persistent rotary buffers stayed on
 the meta device after checkpoint assignment. It also fixes SpeechT5’s public
-generation boundary to keep native acoustic processing inside synthesis. The patch has a checkpoint reload
+generation boundary to keep native acoustic processing inside synthesis, and
+OpenVoice's lazy MeloTTS loading so parameters retain version counters under
+inference mode. The patch has a checkpoint reload
 forward-parity regression and a CHAR framing regression. The published
 SpeechT5 tokenizer also matches SentencePiece 0.2.1 on all eight diagnostic
 texts plus five edge cases. Run manifests identify the applied native diff.
@@ -89,7 +92,11 @@ The extended job explicitly limits the dedicated native checkpoint cache to
 45 GiB between workers, evicting older unused repositories as needed. This
 does not remove source, credentials, audio, results or the official Hub cache.
 Immutable native cache files are SHA-256 verified before reuse without HTTP;
-mutable branch references still go through upstream revalidation.
+uncached immutable revisions use the resumable Hugging Face/Xet client. The
+commit, size and SHA-256 (or Git blob SHA-1 for small Git objects) are verified
+before publishing the atomic native cache copy. Mutable branch references still
+go through upstream revalidation. Dead Linux download locks left by a terminated
+worker are reclaimed before the next worker; live process locks remain intact.
 
 ## Metrics and fairness
 
@@ -188,6 +195,14 @@ providers remain explicitly outside the English evaluation scope.
 embedding on CPU from the official Emily audio, using the upstream feature recipe.
 Install `.[prepare]` for this optional reference preparation step. Encoder revision
 and both encoder/reference hashes are saved with the embedding.
+`scripts/prepare_cosyvoice_checkpoint.py` converts the three officially audited
+CosyVoice3 `.pt` files on CPU. Size, SHA-256 and complete tensor inventories are
+checked before restricted weights-only conversion to native Safetensors. The
+tokenizer comes from the same immutable snapshot. The run records and verifies
+the resulting local artifact manifest before model loading. No upstream Python
+or YAML code executes during conversion. The source's literal special-token list
+is applied to the BlankEN tokenizer, then native token IDs are compared with
+Qwen2TokenizerFast on eight prompts, an instruction and all added tokens.
 
 ```bash
 supervisorctl status voicehub-arena voicehub-arena-benchmark
@@ -199,7 +214,9 @@ tail -f benchmark.log
 `scripts/interleave_repair.py` waits until a named model finishes, pauses the
 full runner, evaluates a selected repair set in a separate run, then resumes the
 full run. The GPU lock and subprocess cleanup keep these phases serial; completed
-results are preserved. The current repair set is Kokoro, Inflect, StyleTTS2 and SpeechT5.
+results are preserved. `repairs-en-01` completed Kokoro, Inflect, StyleTTS2 and
+SpeechT5 on all 24 samples per model. Further repair sets receive separate run
+directories so the original failures and changed configuration remain inspectable.
 
 The existing instance has no mounted persistent volume. Recycle/destroy removes
 its files, so keep the delivered local source and results mirror. Stop/start

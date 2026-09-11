@@ -1,6 +1,9 @@
 import hashlib
 from types import SimpleNamespace
 from voicehub_arena.transport import verified_immutable_cache
+import json
+from pathlib import PurePosixPath
+import pytest
 
 
 def test_only_intact_immutable_cache_can_skip_network(tmp_path):
@@ -12,3 +15,48 @@ def test_only_intact_immutable_cache_can_skip_network(tmp_path):
     path.write_bytes(b'modified')
     assert not verified_immutable_cache('a'*40,cached)
     assert not verified_immutable_cache('a'*40,None)
+
+
+@pytest.mark.parametrize('kind', ['git', 'lfs'])
+@pytest.mark.parametrize('corrupt', [False, True])
+def test_hub_copy_checks_content_before_publishing_metadata(tmp_path, monkeypatch, kind, corrupt):
+    pytest.importorskip('voicehub')
+    import huggingface_hub
+    from voicehub_arena.transport import download_with_hub_client
+    content = b'audited checkpoint'
+    etag = (hashlib.sha256(content).hexdigest() if kind == 'lfs' else
+            hashlib.sha1(b'blob '+str(len(content)).encode()+b'\0'+content).hexdigest())
+    source = tmp_path/'source'
+    source.write_bytes(b'altered checkpoint' if corrupt else content)
+    def metadata(*args, **kwargs):
+        assert kwargs['token'] is False
+        return SimpleNamespace(commit_hash='a'*40, etag=etag, size=len(content))
+    monkeypatch.setattr(huggingface_hub, 'get_hf_file_metadata', metadata)
+    monkeypatch.setattr(huggingface_hub, 'hf_hub_download', lambda *a, **k: str(source))
+    record = tmp_path/'metadata.json'
+    options = dict(repo_id='test/model', revision='a'*40, token=None,
+                   relative_file=PurePosixPath('model.safetensors'),
+                   repository_cache=tmp_path/'native', metadata_path=record)
+    if corrupt:
+        with pytest.raises((ValueError, OSError)):
+            download_with_hub_client(options)
+        assert not record.exists()
+    else:
+        path = download_with_hub_client(options)
+        assert path.read_bytes() == content
+        saved = json.loads(record.read_text())
+        assert saved['commit'] == 'a'*40
+        assert saved['sha256'] == hashlib.sha256(content).hexdigest()
+        assert 'token' not in saved
+
+
+def test_hub_copy_rejects_wrong_commit_before_download(tmp_path, monkeypatch):
+    pytest.importorskip('voicehub')
+    import huggingface_hub
+    from voicehub_arena.transport import download_with_hub_client
+    monkeypatch.setattr(huggingface_hub, 'get_hf_file_metadata', lambda *a, **k:
+                        SimpleNamespace(commit_hash='b'*40))
+    monkeypatch.setattr(huggingface_hub, 'hf_hub_download', lambda *a, **k: pytest.fail('must not download'))
+    with pytest.raises(ValueError, match='immutable requested commit'):
+        download_with_hub_client(dict(repo_id='test/model', revision='a'*40,
+            token=None, relative_file=PurePosixPath('weights')))
