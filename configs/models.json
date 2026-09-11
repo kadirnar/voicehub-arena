@@ -702,7 +702,18 @@
     "config": {
       "revision": "b0f6f30e123da06dd15672ddbfc7781b323ea599"
     },
-    "revision_source": "voicehub/architectures/conversationtts/metadata.py::CONVERSATIONTTS_CHECKPOINT_REVISION"
+    "revision_source": "voicehub/architectures/conversationtts/metadata.py::CONVERSATIONTTS_CHECKPOINT_REVISION",
+    "checkpoint": "/workspace/voicehub-arena/artifacts/conversationtts/model.safetensors",
+    "artifact_provenance": {
+      "repo_id": "AudioFoundation/SpeechFoundation",
+      "revision": "b0f6f30e123da06dd15672ddbfc7781b323ea599",
+      "source_filename": "ckpt1.checkpoint",
+      "source_sha256": "dd07c77d105c8a3e69cd06e2df8dc343bea15aef4b38e3a2308b8aad0818075c",
+      "sha256": "bfdf3afd38dde8e3dbfc515b27aced2608660c94b8e459ee0b6ba21072ae38a4",
+      "tensor_count": 187,
+      "parameter_count": 1552791552,
+      "conversion": "Pinned digest; restricted weights-only NumPy scalar/timedelta metadata; exact native inventory"
+    }
   },
   "csm": {
     "config": {

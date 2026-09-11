@@ -1,6 +1,8 @@
 """Reuse digest-verified immutable VoiceHub downloads without another HTTP GET."""
 import hashlib
 import json
+import errno
+import os
 import re
 
 _resolved = {}
@@ -22,8 +24,27 @@ def download_with_hub_client(options):
         raise
 
 
+def _publish_verified_blob(source, destination, *, size, sha256):
+    """Share immutable bytes with the Hub cache without allocating a second copy."""
+    import voicehub.hub_transport as transport
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        # link() publishes a complete file atomically and never replaces an
+        # existing snapshot. Hub snapshot symlinks must resolve to their blob.
+        os.link(source.resolve(), destination)
+    except FileExistsError:
+        if destination.stat().st_size != size or transport._sha256_file(destination) != sha256:
+            raise ValueError('An immutable Hub snapshot conflicts with the existing cached file') from None
+    except OSError as error:
+        if error.errno not in (errno.EXDEV, errno.EPERM, errno.EOPNOTSUPP):
+            raise
+        with source.open('rb') as handle:
+            transport._download_atomic(handle, destination, expected_size=size,
+                                       expected_sha256=sha256, immutable=True)
+
+
 def _download_with_hub_client(options):
-    """Use resumable Hub/Xet transport, then validate the native cache copy."""
+    """Use resumable Hub/Xet transport, then validate and publish immutable bytes."""
     from pathlib import Path
     import voicehub.hub_transport as transport
     from huggingface_hub import get_hf_file_metadata, hf_hub_download, hf_hub_url
@@ -38,20 +59,23 @@ def _download_with_hub_client(options):
     if not re.fullmatch(r'[a-f0-9]{40}|[a-f0-9]{64}', etag):
         raise ValueError('Hub file is missing a verifiable content digest')
     source = Path(hf_hub_download(repo, filename, revision=revision, token=token))
-    if len(etag) == 40:
-        digest = hashlib.sha1(b'blob '+str(source.stat().st_size).encode()+b'\0')
-        with source.open('rb') as handle:
-            for chunk in iter(lambda: handle.read(8*2**20), b''):
-                digest.update(chunk)
-        if digest.hexdigest() != etag:
-            raise ValueError('Hub Git object digest does not match the downloaded file')
+    size = source.stat().st_size
+    if metadata.size is not None and size != metadata.size:
+        raise ValueError('Hub file size does not match the downloaded file')
+    sha = hashlib.sha256()
+    git = hashlib.sha1(b'blob '+str(size).encode()+b'\0') if len(etag) == 40 else None
+    with source.open('rb') as handle:
+        for chunk in iter(lambda: handle.read(8*2**20), b''):
+            sha.update(chunk)
+            if git is not None:
+                git.update(chunk)
+    sha256 = sha.hexdigest()
+    if (git.hexdigest() if git is not None else sha256) != etag:
+        raise ValueError('Hub content digest does not match the downloaded file')
     snapshot_key = transport._snapshot_key(revision, metadata.commit_hash)
     destination = transport._safe_join(options['repository_cache'], 'snapshots',
                                        snapshot_key, *options['relative_file'].parts)
-    with source.open('rb') as handle:
-        size, sha256 = transport._download_atomic(handle, destination,
-            expected_size=metadata.size, expected_sha256=etag if len(etag)==64 else None,
-            immutable=True)
+    _publish_verified_blob(source, destination, size=size, sha256=sha256)
     transport._atomic_write_json(options['metadata_path'], {
         'version': 1, 'repo_id': repo, 'revision': revision, 'commit': metadata.commit_hash,
         'relative_file': filename, 'snapshot_key': snapshot_key, 'etag': etag,

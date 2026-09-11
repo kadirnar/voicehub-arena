@@ -1,6 +1,6 @@
 # VoiceHub Arena — durum
 
-Anlık kopya: 2026-09-11T21:48:28+00:00. Canlı arayüz: http://127.0.0.1:7860/
+Anlık kopya: 2026-09-11T22:36:42+00:00. Canlı arayüz: http://127.0.0.1:7860/
 
 RTX 3090 (24 GB), `vast-3090-voicehub` SSH bağlantısı ve ayrı VS Code uzak penceresi hazır.
 `/workspace/voicehub-arena` sunucudaki proje; bu klasör yerel kaynak ve sonuç kopyasıdır.
@@ -12,10 +12,13 @@ Kapsam: 34 model ailesi, 8 İngilizce metin × 3 seed.
 NeuTTS-2e ana ağırlıklarına erişim doğrulandı; NeuCodec bağımlılığı ayrıca yetki istiyor.
 Kimlik bilgileri proje dışında saklanıyor.
 33 İngilizce modelin giriş sözleşmesi kontrolü geçti. Bu, GPU üretim başarısı anlamına gelmez.
-Uygulama: 26 test geçti. İlk VoiceHub düzeltmeleri: 48 test ve 6 alt test geçti.
+Uygulama: 28 test geçti. İlk VoiceHub düzeltmeleri: 48 test ve 6 alt test geçti.
 Ek OpenVoice yükleme düzeltmesi: 12 test geçti.
 CosyVoice: 11 test ve 101 alt test; VibeVoice: 16 test geçti.
-Bark public generate düzeltmesi: 13 test geçti; repairs-en-05 GPU doğrulaması sırada.
+Bark public generate düzeltmesi: 13 test geçti; repairs-en-05 içinde 24 ses puanlandı.
+ConversationTTS: sabit arşivden 187 tensörün adı ve şekli doğrulanarak Safetensors hazırlandı.
+repairs-en-06, ConversationTTS GPU doğrulamasını yürütür.
+İndirme önbelleği, doğrulanmış sabit dosyaları aynı diskte hardlink ile paylaşır.
 SpeechT5 gerçek tokenizer’ı, 13 örnekte SentencePiece referansıyla eşleşti.
 
 İlk kısa tarama `all-models-en` eski ayarlarla iki metin kullandı. Düzeltilmiş ayarlarla
@@ -27,6 +30,9 @@ CosyVoice repairs-en-02: WER %17,62, iki 40,96 saniyelik eksik transkriptli çı
 repairs-en-04: CosyVoice WER %10,71, üretim sınırına ulaşan örnek 0/24.
 VibeVoice WER %4,66, CER %3,97, medyan ilk ses süresi 104 ms; 24 örnek puanlandı.
 OuteTTS 24 örnekte WER %3,97 ile tamamlandı.
+Bark 24 örnekte WER %6,56, CER %4,48 ile tamamlandı.
+
+CSM 24 örnekte WER %5,35, CER %3,94 ile tamamlandı.
 
 WER, CER, MER, WIL/WIP, tam eşleşme, sözcük hataları, RTF, p50/p95 süre, GPU bellek
 tepesi, RMS/peak dBFS, clipping, sessizlik ve DC offset gerçek çıktılardan hesaplanır.
@@ -50,8 +56,8 @@ VibeVoice için yeni Arena adaptörü ayrıca etiketlenir; tam referans dalga bi
 | outetts | completed | 24 / 24 |  |
 | bark | blocked | 0 / 24 | TypeError: BarkProcessor.__call__() takes 1 positional argument but 2 were given |
 | chatterbox | completed | 24 / 24 |  |
-| conversationtts | pending | 0 / 24 |  |
-| csm | pending | 0 / 24 |  |
+| conversationtts | blocked | 0 / 24 | UnpicklingError: Weights only load failed. This file can still be loaded, to do so you have two options, [1mdo those steps only if you trust the source of the checkpoint[0m.  	(1) In PyTorch 2.6, we changed the default value of the `weights_only` a |
+| csm | completed | 24 / 24 |  |
 | dia | pending | 0 / 24 |  |
 | echo | pending | 0 / 24 |  |
 | f5tts | pending | 0 / 24 |  |
@@ -102,7 +108,13 @@ VibeVoice için yeni Arena adaptörü ayrıca etiketlenir; tam referans dalga bi
 
 | Model | Durum | Puanlanan | WER | CER |
 |---|---|---:|---:|---:|
-| bark | generating | 0 | — | — |
+| bark | completed | 24 | 6.56% | 4.48% |
+
+## Ayrı doğrulama: repairs-en-06
+
+| Model | Durum | Puanlanan | WER | CER |
+|---|---|---:|---:|---:|
+| conversationtts | warming_up | 0 | — | — |
 
 ## Tamamlanan 24 örneklik son doğrulamalar
 
@@ -110,8 +122,10 @@ Farklı koşuların en yeni tamamlanan ayarları gösterilir; ayarlar ve süre k
 
 | Model | Koşu | WER | CER | RTF |
 |---|---|---:|---:|---:|
+| bark | repairs-en-05 | 6.56% | 4.48% | 2.095 |
 | chatterbox | english-extended | 3.45% | 3.21% | 1.216 |
 | cosyvoice | repairs-en-04 | 10.71% | 7.33% | 1.096 |
+| csm | english-extended | 5.35% | 3.94% | 3.539 |
 | gptsovits | english-extended | 5.87% | 3.63% | 0.416 |
 | inflecttts | repairs-en-01 | 4.15% | 3.36% | 0.015 |
 | kokoro | repairs-en-01 | 3.63% | 3.27% | 0.018 |

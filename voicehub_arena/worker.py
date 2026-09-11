@@ -38,7 +38,7 @@ def generate(config_path, model_type):
         status["runtime_adapter"] = override["runtime_adapter"]
     status["timing_scope"] = override.get("timing_scope", "text preparation and synthesis; excludes model load and warm-up")
     status["runtime_packages"] = {dist.metadata["Name"]: dist.version for dist in importlib.metadata.distributions()}
-    status["download_policy"] = "sha256-verified native cache; immutable Hub/Xet downloads verify commit, size and content digest; mutable refs use native revalidation"
+    status["download_policy"] = "sha256-verified native cache; immutable Hub/Xet downloads verify commit, size and content digest; verified blobs share disk by hardlink with atomic-copy fallback; mutable refs use native revalidation"
     status["runtime_source_sha256"] = {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
                                         for p in Path(__file__).parent.glob('*.py')}
     import voicehub

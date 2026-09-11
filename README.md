@@ -60,6 +60,7 @@ after setting `HF_HOME=/workspace/.hf_home`:
 .venv/bin/python scripts/prepare_linguistic.py melotts
 .venv/bin/python scripts/prepare_linguistic.py gptsovits
 .venv/bin/python scripts/prepare_vibevoice.py
+.venv/bin/python scripts/prepare_conversationtts.py
 .venv/bin/python scripts/preflight.py
 ```
 
@@ -89,6 +90,11 @@ VibeVoice's scheduler regression checks a real solver step after meta constructi
 Bark's public generation boundary also preserves raw text and generation controls;
 its keyword-only processor runs inside synthesis. The native Bark suite passes
 13 tests, including public generation through a tiny real Bark/Encodec graph.
+ConversationTTS's pinned official archive contains NumPy scalar and duration
+metadata. Its preparation script verifies the audited archive size and SHA-256,
+uses a restricted weights-only allowlist, and validates all 187 tensor names and
+shapes against the native graph before writing Safetensors. The run verifies the
+converted checkpoint digest; the native loader's global policy is unchanged.
 
 The initial four-minute coverage timeout includes downloads. Its timeouts are
 followed by a full-registry run with sixty minutes per provider, eight texts
@@ -102,7 +108,10 @@ does not remove source, credentials, audio, results or the official Hub cache.
 Immutable native cache files are SHA-256 verified before reuse without HTTP;
 uncached immutable revisions use the resumable Hugging Face/Xet client. The
 commit, size and SHA-256 (or Git blob SHA-1 for small Git objects) are verified
-before publishing the atomic native cache copy. Mutable branch references still
+before atomically publishing the native cache entry. On the same filesystem,
+the native entry hardlinks the immutable Hub blob, avoiding a second allocation;
+cross-filesystem caches use a verified atomic copy. Existing immutable snapshots
+cannot be overwritten with different bytes. Mutable branch references still
 go through upstream revalidation. Dead Linux download locks left by a terminated
 worker are reclaimed before the next worker; live process locks remain intact.
 
@@ -236,8 +245,10 @@ SpeechT5 on all 24 samples per model. Further repair sets receive separate run
 directories so the original failures and changed configuration remain inspectable.
 `repairs-en-03` exposed VibeVoice's scheduler issue after successful weight loading.
 `repairs-en-04` completed VibeVoice and CosyVoice after OuteTTS finished all 24
-samples (WER 3.97%). The next repair service waits for Chatterbox, runs Bark in
-`repairs-en-05`, then resumes the remaining full registry.
+samples (WER 3.97%). Chatterbox completed at 3.45% WER; `repairs-en-05` completed
+Bark at 6.56% WER and 4.48% CER. CSM completed at 5.35% WER and 3.94% CER.
+`repairs-en-06` now validates the prepared ConversationTTS checkpoint, then
+resumes the remaining full registry.
 
 The existing instance has no mounted persistent volume. Recycle/destroy removes
 its files, so keep the delivered local source and results mirror. Stop/start
