@@ -136,7 +136,7 @@ def execute(args):
         directory=root/name
         directory.mkdir(exist_ok=True)
         result_path=directory/"result.json"
-        if args.resume and result_path.exists() and read_json(result_path)["status"] in ("completed","partial","generated","blocked","failed","timeout","disk_limit"):
+        if args.resume and result_path.exists() and read_json(result_path)["status"] in ("completed","partial","generated","blocked","failed","timeout","disk_limit","unsupported_language"):
             continue
         if shutil.disk_usage(root).free < 8*2**30:
             write_json(result_path,{"model_type":name,"checkpoint":spec["checkpoint"],"status":"disk_limit","error":"Less than 8 GiB free; checkpoint download was not started","rows":[]})

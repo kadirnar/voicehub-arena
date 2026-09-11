@@ -28,6 +28,13 @@ def generate(config_path, model_type):
                   expected_samples=len(cfg["dataset"])*cfg["repeats"])
     write_json(output/"result.json", status)
     try:
+        from .catalog import declared_languages
+        languages=declared_languages(model_type)
+        status["declared_languages"]=languages
+        if languages and not any(lang.lower().startswith("en") for lang in languages):
+            status.update(status="unsupported_language",error="The pinned VoiceHub model card does not advertise English: "+", ".join(languages))
+            write_json(output/"result.json",status)
+            return
         if not checkpoint:
             raise ValueError("No default checkpoint configured; add a reviewed checkpoint override")
         torch.set_num_threads(cfg["cpu_threads"])

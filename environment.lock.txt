@@ -55,6 +55,7 @@ starlette==1.6.0
 sympy==1.14.0
 tokenizers==0.23.2
 torch==2.8.0
+torchaudio==2.8.0
 tqdm==4.70.1
 triton==3.4.0
 typing-extensions==4.16.0

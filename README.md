@@ -22,6 +22,7 @@ ssh -N -L 127.0.0.1:7860:127.0.0.1:7860 vast-3090-voicehub
 
 ```bash
 git clone https://github.com/kadirnar/voicehub.git ../voicehub
+git -C ../voicehub checkout d67853dcfdf4385ce504dde66d6f513a446ca294
 uv venv --python 3.12
 uv pip install --python .venv/bin/python -e ../voicehub -e '.[test]'
 .venv/bin/voicehub-arena catalog
@@ -92,6 +93,9 @@ paired reference audio or streaming adapters. The UI never invents these scores.
 The eight authored diagnostic prompts are not a standardized evaluation corpus.
 An `all` run covers one primary checkpoint per registered TTS provider, not every
 checkpoint/voice/size variant in each model family.
+When the pinned checkout includes an audited language list, providers without
+English support receive `unsupported_language` (for example Irodori-TTS, Japanese).
+Missing language metadata is treated as unknown and does not skip a provider.
 
 ## Operations
 
