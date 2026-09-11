@@ -110,6 +110,10 @@ Fish S2-Pro explicitly enables its pinned one-time codec conversion: the native
 converter verifies the official 1,871,099,728-byte archive and SHA-256, loads it
 with `weights_only=True`, and validates every tensor name and shape before
 writing Safetensors in `artifacts/fish-s2-codec`.
+The pinned archive includes six deterministic attention masks/rotary tables.
+Only those exact names are discarded after the official hash passes; unknown
+tensors and unaudited archives remain strict errors. The real conversion passed
+with 535 tensors, alongside 15 native tests and six subtests.
 
 The initial four-minute coverage timeout includes downloads. Its timeouts are
 followed by a full-registry run with sixty minutes per provider, eight texts
@@ -270,9 +274,11 @@ review to distinguish synthesis errors from ASR errors. F5-TTS
 completed at 3.97% WER and 3.42% CER. HiggsTTS completed at 4.84% WER and 3.60% CER.
 `repairs-en-07` passed Dia's GPU comparison, but the first acoustic attempt
 rejected `use_cache` at the public API boundary. That allowlist is now fixed and
-covered by a real tiny-model public generation test. Echo and Fish S2-Pro
-continue in this repair set; Dia needs a fresh acoustic run after it finishes.
-The controller resumes the remaining full registry when the repair set ends.
+covered by a real tiny-model public generation test. Echo then exposed a codec
+architecture mismatch; its download now completes, but synthesis remains blocked.
+Fish S2-Pro exposed the six extra runtime tables, which are now handled by the
+audited converter. `repairs-en-08` waits for Llasa and reruns Dia and Fish S2-Pro.
+The controller resumes the remaining full registry when each repair set ends.
 
 The existing instance has no mounted persistent volume. Recycle/destroy removes
 its files, so keep the delivered local source and results mirror. Stop/start

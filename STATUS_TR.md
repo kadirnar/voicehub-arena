@@ -1,12 +1,12 @@
 # VoiceHub Arena — durum
 
-Anlık kopya: 2026-09-11T23:31:03+00:00. Canlı arayüz: http://127.0.0.1:7860/
+Anlık kopya: 2026-09-11T23:37:10+00:00. Canlı arayüz: http://127.0.0.1:7860/
 
 RTX 3090 (24 GB), `vast-3090-voicehub` SSH bağlantısı ve ayrı VS Code uzak penceresi hazır.
 `/workspace/voicehub-arena` sunucudaki proje; bu klasör yerel kaynak ve sonuç kopyasıdır.
 
 **Tüm modellerin çalıştığı henüz doğrulanmadı.** İngilizce dışı Irodori-TTS kapsam dışıdır.
-Gösterilen koşu: `english-extended`; durum `paused`, aşama `repair`.
+Gösterilen koşu: `english-extended`; durum `running`, aşama `generation`.
 Kapsam: 34 model ailesi, 8 İngilizce metin × 3 seed.
 
 NeuTTS-2e ana ağırlıklarına erişim doğrulandı; NeuCodec bağımlılığı ayrıca yetki istiyor.
@@ -23,7 +23,9 @@ HiggsTTS 24 örnekte WER %4,84, CER %3,60 ile tamamlandı.
 Dia: dolgu düzeltmesi, KV cache ve public generate sınırı için 12 test geçti.
 Dia RTX 3090 karşılaştırması geçti: en büyük logit farkı 0,000012875; greedy tokenlar aynı.
 repairs-en-07 içindeki ilk Dia ses denemesinde use_cache API kontrolü hata verdi; bu kontrol düzeltildi.
-Echo/Fish S2-Pro bu koşuda sürer; Dia için ardından yeni bir ses doğrulaması gerekir.
+Fish codec: resmî dosyadaki altı sabit hesaplama tablosu ayrıldı; 535 ağırlık tensörü doğrulandı.
+Fish için 15 test ve 6 alt test geçti. repairs-en-08, Llasa sonrası Dia ve Fish seslerini sınar.
+Echo indirmesi tamamlandı ancak codec mimarisi ağırlıklarla uyuşmuyor; sorun açık.
 Echo indirmeleri artık değişebilir dalı commit ile sabitleyerek yeniden sürdürülebilir istemciyi kullanır.
 İndirme önbelleği, doğrulanmış sabit dosyaları aynı diskte hardlink ile paylaşır.
 SpeechT5 gerçek tokenizer’ı, 13 örnekte SentencePiece referansıyla eşleşti.
@@ -70,8 +72,8 @@ VibeVoice için yeni Arena adaptörü ayrıca etiketlenir; tam referans dalga bi
 | f5tts | completed | 24 / 24 |  |
 | fishtts | blocked | 0 / 24 | PermissionError: Fish Audio publishes S2-Pro's ModifiedDAC only as `codec.pth`. VoiceHub never loads that pickle during steady-state inference. Either pass `codec_name_or_path` pointing to an audited Safetensors conversion, call `convert_legacy_fish_ |
 | higgstts | completed | 24 / 24 |  |
-| irodoritts | pending | 0 / 24 |  |
-| llasa | pending | 0 / 24 |  |
+| irodoritts | unsupported_language | 0 / 24 | The pinned VoiceHub model card does not advertise English: ja |
+| llasa | generating | 21 / 24 |  |
 | mosstts | pending | 0 / 24 |  |
 | omnivoice | pending | 0 / 24 |  |
 | orpheustts | pending | 0 / 24 |  |
@@ -129,7 +131,7 @@ VibeVoice için yeni Arena adaptörü ayrıca etiketlenir; tam referans dalga bi
 |---|---|---:|---:|---:|
 | dia | blocked | 0 | — | — |
 | echo | blocked | 0 | — | — |
-| fishtts | loading | 0 | — | — |
+| fishtts | blocked | 0 | — | — |
 
 ## Tamamlanan 24 örneklik son doğrulamalar
 

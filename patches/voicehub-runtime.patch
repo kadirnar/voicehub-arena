@@ -181,6 +181,43 @@ index f3edea1..abd4f67 100644
      def test_native_slice_has_no_external_model_runtime_imports(self):
          forbidden = {
              "diffusers",
+diff --git a/tests/test_native_fishtts.py b/tests/test_native_fishtts.py
+index 864c587..861b42e 100644
+--- a/tests/test_native_fishtts.py
++++ b/tests/test_native_fishtts.py
+@@ -623,6 +623,8 @@ class NativeFishCheckpointAndLifecycleTests(unittest.TestCase):
+             self.assertEqual(report.header_fingerprint, expected)
+ 
+     def test_legacy_codec_conversion_is_explicit_and_fail_closed(self):
++        from voicehub.checkpointing.errors import CheckpointCompatibilityError
++
+         with tempfile.TemporaryDirectory() as directory:
+             root = Path(directory)
+             legacy = root / "codec.pth"
+@@ -646,6 +648,23 @@ class NativeFishCheckpointAndLifecycleTests(unittest.TestCase):
+             with warnings.catch_warnings():
+                 warnings.simplefilter("ignore", FutureWarning)
+                 codec = FishModifiedDAC(_tiny_codec_config())
++            buffered_state = dict(codec.state_dict())
++            buffered_state['quantizer.pre_module.causal_mask'] = torch.ones(4, 4, dtype=torch.bool)
++            torch.save(buffered_state, legacy)
++            with self.assertRaises(CheckpointCompatibilityError):
++                convert_legacy_fish_codec(legacy, root / 'unaudited_buffers', trust_legacy_pickle=True,
++                    verify_official_integrity=False, config=codec.config)
++            # The independent integrity tests above prove mismatched files are
++            # rejected before unpickling; this isolates the post-audit inventory.
++            with patch('voicehub.architectures.fishtts.checkpoint.verify_file_integrity') as audit:
++                convert_legacy_fish_codec(legacy, root / 'audited_buffers', trust_legacy_pickle=True,
++                    config=codec.config)
++                audit.assert_called_once()
++                buffered_state['unexpected.learned.weight'] = torch.ones(2)
++                torch.save(buffered_state, legacy)
++                with self.assertRaises(CheckpointCompatibilityError):
++                    convert_legacy_fish_codec(legacy, root / 'unknown_tensor', trust_legacy_pickle=True,
++                        config=codec.config)
+             torch.save(
+                 {
+                     "state_dict": {
 diff --git a/tests/test_native_openvoice.py b/tests/test_native_openvoice.py
 index 06e4525..e8d2d2e 100644
 --- a/tests/test_native_openvoice.py
@@ -621,6 +658,36 @@ index 521df1e..4c31ba1 100644
              sequences = torch.cat(
                  (sequences, next_tokens[:, None]),
                  dim=1,
+diff --git a/voicehub/architectures/fishtts/checkpoint.py b/voicehub/architectures/fishtts/checkpoint.py
+index d6de177..dd380e0 100644
+--- a/voicehub/architectures/fishtts/checkpoint.py
++++ b/voicehub/architectures/fishtts/checkpoint.py
+@@ -431,6 +431,17 @@ def convert_legacy_fish_codec(
+             "Fish legacy conversion requires "
+             "`torch.load(..., weights_only=True)`.") from error
+     state = _legacy_codec_state(payload)
++    # The digest-pinned release also serialized these deterministic attention
++    # tables. Native ModifiedDAC rebuilds its masks/rotary angles during forward;
++    # they are not learned weights. Never tolerate them in unaudited archives.
++    runtime_buffers = {
++        f"{prefix}.{suffix}"
++        for prefix in ("encoder.block.4.block.5", "quantizer.pre_module", "quantizer.post_module")
++        for suffix in ("causal_mask", "freqs_cis")
++    }
++    discarded = sorted(set(state) & runtime_buffers) if verify_official_integrity else []
++    for name in discarded:
++        del state[name]
+     resolved_config = FishCodecConfig() if config is None else config
+     with torch.device("meta"):
+         codec = FishModifiedDAC(resolved_config, initialize=False)
+@@ -453,6 +464,7 @@ def convert_legacy_fish_codec(
+         metadata={
+             "format": NATIVE_FISH_CODEC_FORMAT,
+             "converted_from": "integrity-verified-pytorch-pickle",
++            "discarded_runtime_buffers": ",".join(discarded),
+         },
+     )
+     write_json_file(
 diff --git a/voicehub/architectures/outetts/checkpoint.py b/voicehub/architectures/outetts/checkpoint.py
 index 9ef5db7..bebcea5 100644
 --- a/voicehub/architectures/outetts/checkpoint.py

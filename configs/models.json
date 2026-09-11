@@ -779,7 +779,17 @@
       "trust_official_codec_pickle": true,
       "codec_conversion_directory": "/workspace/voicehub-arena/artifacts/fish-s2-codec"
     },
-    "revision_source": "voicehub/architectures/fishtts/metadata.py::FISH_S2_CHECKPOINT_REVISION"
+    "revision_source": "voicehub/architectures/fishtts/metadata.py::FISH_S2_CHECKPOINT_REVISION",
+    "artifact_provenance": {
+      "codec_conversion": {
+        "repo_id": "fishaudio/s2-pro",
+        "revision": "1de9996b6be38b745688de084d87a5633f714e4e",
+        "source_sha256": "74fc41c5a7151c6f350af8bd7e5d6e3accfcc7f3dfbfac23afd35af07052bb2f",
+        "converted_sha256": "3e233351901dccf78646843e9842fd3a9c3102ce227913c3b5b527ec19ab975a",
+        "tensor_count": 535,
+        "conversion": "Pinned archive digest verified; weights_only=True; exact six runtime tables discarded; native tensor names and shapes checked"
+      }
+    }
   },
   "zonos2": {
     "generation": {
