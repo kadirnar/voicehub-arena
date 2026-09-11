@@ -5,6 +5,12 @@ import json
 from pathlib import Path
 
 
+@lru_cache(maxsize=1)
+def kokoro_frontend():
+    from misaki import en, espeak
+    return en.G2P(trf=False, british=False, fallback=espeak.EspeakFallback(british=False))
+
+
 @lru_cache(maxsize=128)
 def prepared_features(directory, text):
     import numpy as np
@@ -37,7 +43,9 @@ def prepare_request(model_type, text, generation, *, prepared_inputs=None, model
                     codes = s2.extract_latent(torch.as_tensor(ssl, device=parameter.device, dtype=parameter.dtype))
                 model._arena_prompt_semantic = codes[0, 0].unsqueeze(0)
             options["prompt_semantic_ids"] = model._arena_prompt_semantic
-    if model_type == "inflecttts":
+    if model_type == 'kokoro':
+        options['phonemes'], _ = kokoro_frontend()(text)
+    elif model_type == "inflecttts":
         from voicehub.models.inflecttts.source.inflect.inflect_vits_frontend import run_vits_frontend
         options["phoneme_text"] = run_vits_frontend(text).phoneme_text
     elif model_type == "styletts2":

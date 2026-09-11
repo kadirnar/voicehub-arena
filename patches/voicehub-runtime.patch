@@ -16,7 +16,7 @@ index 04129f1..15aadf1 100644
  
  class NativeOuteTTSPromptAndTrainingTests(unittest.TestCase):
 diff --git a/tests/test_native_speecht5.py b/tests/test_native_speecht5.py
-index af99fd7..7323bcc 100644
+index af99fd7..138fef3 100644
 --- a/tests/test_native_speecht5.py
 +++ b/tests/test_native_speecht5.py
 @@ -75,7 +75,7 @@ def _piece(text: str, score: float, piece_type: int) -> bytes:
@@ -51,6 +51,23 @@ index af99fd7..7323bcc 100644
      def test_tokenizer_adds_eos_and_batches_with_the_published_ids(self):
          with tempfile.TemporaryDirectory() as directory:
              processor = _processor(Path(directory))
+@@ -536,14 +543,14 @@ class NativeSpeechT5TrainingAndRuntimeTests(unittest.TestCase):
+                 device="cpu",
+                 lazy_load=False,
+             )
+-            first = wrapper._generate(
++            first = wrapper.generate(
+                 "ab",
+                 speaker_embeddings=torch.zeros(4),
+                 threshold=0.0,
+                 maxlenratio=1.0,
+                 seed=19,
+             )
+-            second = restored._generate(
++            second = restored.generate(
+                 "ab",
+                 speaker_embeddings=torch.zeros(4),
+                 threshold=0.0,
 diff --git a/voicehub/architectures/outetts/checkpoint.py b/voicehub/architectures/outetts/checkpoint.py
 index 9ef5db7..bebcea5 100644
 --- a/voicehub/architectures/outetts/checkpoint.py
@@ -78,6 +95,22 @@ index 9ef5db7..bebcea5 100644
      remaining = [name for name, value in model.state_dict().items() if value.device.type == "meta"]
      if remaining:
          raise CheckpointCompatibilityError(
+diff --git a/voicehub/models/speecht5/inference.py b/voicehub/models/speecht5/inference.py
+index e910517..00649ea 100644
+--- a/voicehub/models/speecht5/inference.py
++++ b/voicehub/models/speecht5/inference.py
+@@ -400,6 +400,11 @@ class SpeechT5ForTextToSpeech(PreTrainedTTSModel):
+             raise TypeError("Native SpeechT5Processor must return a mapping.")
+         return dict(self._move_to_device(encoded, self.device))
+ 
++    def prepare_inputs_for_generation(self, text: str, **kwargs: Any) -> dict[str, Any]:
++        # The public TTS boundary preserves generation options. The native
++        # keyword-only acoustic processor is called inside _generate instead.
++        return {"text": text, **kwargs}
++
+     @staticmethod
+     def _positive_real(
+         value: Any,
 diff --git a/voicehub/models/speecht5/processing.py b/voicehub/models/speecht5/processing.py
 index 1bc9e6f..926c040 100644
 --- a/voicehub/models/speecht5/processing.py

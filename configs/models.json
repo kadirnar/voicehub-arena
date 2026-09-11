@@ -15,7 +15,8 @@
       "torch_dtype": "float32",
       "revision": "cbc78411372edb46f7e42030b241834a55fe0cb6"
     },
-    "revision_source": "voicehub/architectures/kokoro/metadata.py::KOKORO_CHECKPOINT_REVISION"
+    "revision_source": "voicehub/architectures/kokoro/metadata.py::KOKORO_CHECKPOINT_REVISION",
+    "timing_scope": "Misaki 0.9.4 English G2P with en_core_web_sm 3.8.0 and eSpeak fallback plus native synthesis"
   },
   "supertonic": {
     "generation": {
@@ -265,7 +266,8 @@
   },
   "inflecttts": {
     "config": {
-      "revision": "132edf8700da8e0d3fa81cdc0fd8844926fc6582"
+      "revision": "132edf8700da8e0d3fa81cdc0fd8844926fc6582",
+      "trust_pickle_checkpoint": true
     },
     "revision_source": "voicehub/architectures/inflecttts/metadata.py::INFLECT_MICRO_V2_REVISION"
   },
@@ -308,10 +310,12 @@
     "artifact_provenance": {
       "repo": "yl4579/StyleTTS2-LibriTTS",
       "revision": "3aa7ba7f8f275ec13dce21682a61494c35089e2a",
-      "sha256": "1164ffe19a17449d2c722234cecaf2836b35a698fb8ffd42562d2663657dca0a"
+      "sha256": "1164ffe19a17449d2c722234cecaf2836b35a698fb8ffd42562d2663657dca0a",
+      "yaml_sha256": "0bbe2ea77a05b1f10d11144c68c1148a56d50d49b3b3660a1e8ffbef2041310e",
+      "typed_config_sha256": "cea28d7cc80970dae433e3a15a75f03a08f8e5c78181fe0c3aab895f106dbc29"
     },
     "config": {
-      "config_path": "/workspace/voicehub-arena/artifacts/styletts2/config.yml",
+      "config_path": "/workspace/voicehub-arena/artifacts/styletts2/config.json",
       "trust_pickle_checkpoint": true,
       "dtype": "float32"
     },

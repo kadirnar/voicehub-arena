@@ -25,7 +25,7 @@ git clone https://github.com/kadirnar/voicehub.git ../voicehub
 git -C ../voicehub checkout d67853dcfdf4385ce504dde66d6f513a446ca294
 git -C ../voicehub apply ../voicehub-arena/patches/voicehub-runtime.patch
 uv venv --python 3.12
-uv pip install --python .venv/bin/python -e ../voicehub -e '.[test,prepare,linguistic]'
+uv pip install --python .venv/bin/python -e ../voicehub -e '.[test,prepare,linguistic,kokoro]'
 .venv/bin/voicehub-arena catalog
 .venv/bin/voicehub-arena run --models all --output runs/english-v1
 .venv/bin/voicehub-arena serve --runs runs
@@ -66,12 +66,15 @@ Hugging Face credentials stay outside the repository in the protected Hub token
 store. The worker bridges this store to VoiceHub's native HTTP environment;
 credentials are never included in run manifests. Audited primary release
 revisions are explicit in `configs/models.json`. A gated model can still require
-account access independently of a valid token.
+account access independently of a valid token. NeuTTS also downloads the
+separately gated `neuphonic/neucodec`; access to the TTS checkpoint alone is
+insufficient.
 
-The bundled `patches/voicehub-runtime.patch` fixes two issues in the pinned
+The bundled `patches/voicehub-runtime.patch` fixes runtime issues in the pinned
 VoiceHub release: SpeechT5's actual CHAR SentencePiece model was rejected by
 the unigram-only reader, and OuteTTS's non-persistent rotary buffers stayed on
-the meta device after checkpoint assignment. The patch has a checkpoint reload
+the meta device after checkpoint assignment. It also fixes SpeechT5’s public
+generation boundary to keep native acoustic processing inside synthesis. The patch has a checkpoint reload
 forward-parity regression and a CHAR framing regression. The published
 SpeechT5 tokenizer also matches SentencePiece 0.2.1 on all eight diagnostic
 texts plus five edge cases. Run manifests identify the applied native diff.
@@ -112,6 +115,12 @@ native default voices/settings except explicit overrides; Dia receives its
 required speaker marker, excluded from the reference transcript. F5-TTS and
 NeuTTS use the public official Emily reference, with provenance in
 `datasets/reference/provenance.json`. This is not a speaker-similarity comparison.
+
+Kokoro receives the official [Misaki](https://github.com/hexgrad/misaki) English
+G2P output, with a pinned spaCy English model and eSpeak fallback, inside the
+measured request. The first extended attempt used the native grapheme fallback
+and produced poor pronunciation; it remains visible as a failed quality baseline.
+The corrected provider is evaluated in `repairs-en-01`.
 
 Prepared-input providers state their timing scope in the explorer. MeloTTS and
 GPT-SoVITS use the vendored English G2P recipes and pinned auxiliary checkpoints;
@@ -186,6 +195,11 @@ tail -f benchmark.log
 .venv/bin/voicehub-arena report runs/all-models-en
 .venv/bin/python -m pytest -q
 ```
+
+`scripts/interleave_repair.py` waits until a named model finishes, pauses the
+full runner, evaluates a selected repair set in a separate run, then resumes the
+full run. The GPU lock and subprocess cleanup keep these phases serial; completed
+results are preserved. The current repair set is Kokoro, Inflect, StyleTTS2 and SpeechT5.
 
 The existing instance has no mounted persistent volume. Recycle/destroy removes
 its files, so keep the delivered local source and results mirror. Stop/start

@@ -5,6 +5,8 @@ import os
 from pathlib import Path
 import shutil
 from huggingface_hub import hf_hub_download
+import yaml
+from voicehub.architectures.styletts2.configuration import StyleTTS2ArchitectureConfig
 
 root = Path(__file__).resolve().parents[1]
 repo = "yl4579/StyleTTS2-LibriTTS"
@@ -24,16 +26,22 @@ for name in ("Models/LibriTTS/config.yml", "Models/LibriTTS/epochs_2nd_00020.pth
             shutil.copyfile(cached, target)
     paths[Path(name).name] = str(target)
 checkpoint = paths["epochs_2nd_00020.pth"]
+raw_config = Path(paths['config.yml']).read_bytes()
+typed = StyleTTS2ArchitectureConfig.from_dict(yaml.safe_load(raw_config))
+typed_path = artifact/'config.json'
+typed_path.write_text(json.dumps(typed.to_dict(),indent=2)+'\n')
 with open(checkpoint, "rb") as stream:
     sha = hashlib.file_digest(stream, "sha256").hexdigest()
 config_path = root / "configs/models.json"
 config = json.loads(config_path.read_text())
 config["styletts2"] = {
     "checkpoint": checkpoint,
-    "artifact_provenance": {"repo": repo, "revision": revision, "sha256": sha},
+    "artifact_provenance": {"repo": repo, "revision": revision, "sha256": sha,
+                            "yaml_sha256":hashlib.sha256(raw_config).hexdigest(),
+                            "typed_config_sha256":hashlib.sha256(typed_path.read_bytes()).hexdigest()},
     # The reviewed VoiceHub loader uses torch.load(weights_only=True) and
     # verifies every deployable parameter name and shape before assignment.
-    "config": {"config_path": paths["config.yml"], "trust_pickle_checkpoint": True, "dtype": "float32"},
+    "config": {"config_path": str(typed_path), "trust_pickle_checkpoint": True, "dtype": "float32"},
     "generation": {"speaker_audio_path": "datasets/reference/emily.wav"},
 }
 config_path.write_text(json.dumps(config, indent=2)+"\n")

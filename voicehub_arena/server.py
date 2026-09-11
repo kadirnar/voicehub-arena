@@ -25,6 +25,7 @@ def create_app(runs):
         for p in sorted(runs.glob("*/config.json"),key=lambda p:p.stat().st_mtime,reverse=True):
             state=p.parent/"state.json"
             rows.append({"id":p.parent.name,**(read_json(state) if state.exists() else {"status":"unknown"})})
+        rows.sort(key=lambda row: row['status']=='running',reverse=True)
         return rows
 
     @app.get("/api/runs/{run}")

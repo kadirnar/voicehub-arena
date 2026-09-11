@@ -1,15 +1,16 @@
 # VoiceHub Arena — durum
 
-Anlık kopya: 2026-09-11T20:15:19+00:00. Canlı arayüz: http://127.0.0.1:7860/
+Anlık kopya: 2026-09-11T20:41:33+00:00. Canlı arayüz: http://127.0.0.1:7860/
 
 RTX 3090 (24 GB), `vast-3090-voicehub` SSH bağlantısı ve ayrı VS Code uzak penceresi hazır.
 `/workspace/voicehub-arena` sunucudaki proje; bu klasör yerel kaynak ve sonuç kopyasıdır.
 
 **Tüm modellerin çalıştığı henüz doğrulanmadı.** İngilizce dışı Irodori-TTS kapsam dışıdır.
-Gösterilen koşu: `all-models-en`; durum `running`, aşama `generation`.
-Kapsam: 34 model ailesi, 2 İngilizce metin × 1 seed.
+Gösterilen koşu: `english-extended`; durum `paused`, aşama `repair`.
+Kapsam: 34 model ailesi, 8 İngilizce metin × 3 seed.
 
-NeuTTS için açılan hesap erişimi yeniden doğrulandı. Kimlik bilgileri proje dışında saklanıyor.
+NeuTTS-2e ana ağırlıklarına erişim doğrulandı; NeuCodec bağımlılığı ayrıca yetki istiyor.
+Kimlik bilgileri proje dışında saklanıyor.
 33 İngilizce modelin giriş sözleşmesi kontrolü geçti. Bu, GPU üretim başarısı anlamına gelmez.
 Uygulama: 17 test geçti. VoiceHub düzeltmeleri: 48 test ve 6 alt test geçti.
 SpeechT5 gerçek tokenizer’ı, 13 örnekte SentencePiece referansıyla eşleşti.
@@ -24,40 +25,49 @@ VibeVoice için yeni Arena adaptörü ayrıca etiketlenir; tam referans dalga bi
 
 | Model | Durum | Ses / planlanan | Açıklama |
 |---|---|---:|---|
-| vits | generated | 2 / 2 |  |
-| supertonic | generated | 2 / 2 |  |
-| kokoro | blocked | 0 / 2 | RuntimeError: Input and parameter tensors are not the same dtype, found input tensor with Float and parameter tensor with Half |
-| vui | generated | 2 / 2 |  |
-| bark | blocked | 0 / 2 | PermissionError: The pinned `suno/bark-small` release contains only a legacy pickle archive. Convert it once with `convert_official_bark_checkpoint(...)`, or explicitly pass `trust_official_pickle=True` for the digest-pinned source. |
-| chatterbox | generated | 2 / 2 |  |
-| conversationtts | timeout | 0 / 2 | Worker exit 124; see worker.log |
-| cosyvoice | blocked | 0 / 2 | ValueError: Native CosyVoice requires a precomputed `speaker_embedding`. The frozen CAMPPlus frontend is not silently executed. |
-| csm | blocked | 0 / 2 | PermissionError: Hugging Face denied access to sesame/csm-1b@c92a71e1c419772e25be7dc14d952c2521a740ab/model.safetensors (HTTP 401). Check the repository permissions and token. |
-| dia | timeout | 0 / 2 | Worker exit 124; see worker.log |
-| echo | timeout | 0 / 2 | Worker exit 124; see worker.log |
-| f5tts | generated | 2 / 2 |  |
-| fishtts | timeout | 0 / 2 | Worker exit 124; see worker.log |
-| gptsovits | blocked | 0 / 2 | ValueError: `text_language` must specify the synthesis-text language. |
-| higgstts | timeout | 0 / 2 | Worker exit 124; see worker.log |
-| inflecttts | blocked | 0 / 2 | ValueError: owensong/Inflect-Micro-v2 is audited only at immutable revision 132edf8700da8e0d3fa81cdc0fd8844926fc6582; found 96e9360236ffcd734344067f20b4005b13e6358d. |
-| irodoritts | unsupported_language | 0 / 2 | The pinned VoiceHub model card does not advertise English: ja |
-| llasa | timeout | 0 / 2 | Worker exit 124; see worker.log |
-| melotts | blocked | 0 / 2 | ValueError: Native MeloTTS requires checkpoint-compatible precomputed linguistic features. Missing: input_ids, tone_ids, language_ids, bert_features, ja_bert_features. |
-| mosstts | timeout | 0 / 2 | Worker exit 124; see worker.log |
-| neutts | blocked | 0 / 2 | PermissionError: Hugging Face denied access to neuphonic/neutts-2e@e24ca17d47b8cdd1cdab45792013b5a81547d1a5/config.json (HTTP 403). Check the repository permissions and token. |
-| omnivoice | timeout | 0 / 2 | Worker exit 124; see worker.log |
-| openvoice | blocked | 0 / 2 | ValueError: OpenVoice requires `speaker_audio_path` or `target_embedding`. |
-| orpheustts | blocked | 0 / 2 | ValueError: Orpheus generation requires a non-empty `voice`. |
-| outetts | blocked | 0 / 2 | RuntimeError: Tensor on device meta is not on the expected device cuda:0! |
-| parlertts | timeout | 0 / 2 | Worker exit 124; see worker.log |
-| qwen3tts | timeout | 0 / 2 | Worker exit 124; see worker.log |
-| speecht5 | blocked | 0 / 2 | TokenizerAssetError: VoiceHub supports SentencePiece UNIGRAM and BPE model types, not enum value 4. |
-| styletts2 | blocked | 0 / 2 | ValueError: No default checkpoint configured; add a reviewed checkpoint override |
-| vibevoice | blocked | 0 / 2 | RuntimeError: VoiceHub has native VibeVoice TTS graphs, but high-level cached-prompt synthesis is not enabled: cache serialization, chunk boundaries, and waveform parity have not yet been independently verified. Load the realtime checkpoint and use ` |
-| voxcpm | timeout | 0 / 2 | Worker exit 124; see worker.log |
-| xtts | blocked | 0 / 2 | FileNotFoundError: XTTS reference audio was not found; pass an existing path or a non-empty sequence of existing `speaker_audio_path`s. |
-| zonos | loading | 0 / 2 |  |
-| zonos2 | pending | 0 / 2 |  |
+| neutts | blocked | 0 / 24 | PermissionError: Hugging Face denied access to neuphonic/neucodec@30c1fdd19e68aee65d542cf043750d4c0165893e/config.json (HTTP 403). Check the repository permissions and token. |
+| vits | completed | 24 / 24 |  |
+| supertonic | completed | 24 / 24 |  |
+| kokoro | completed | 24 / 24 |  |
+| vui | completed | 24 / 24 |  |
+| inflecttts | blocked | 0 / 24 | ValueError: The official Inflect release uses a PyTorch pickle container. Review its origin and pass `trust_pickle_checkpoint=True` for one restricted, weights-only load, then export Safetensors for steady-state use. |
+| styletts2 | blocked | 0 / 24 | ValueError: Unpinned YAML cannot be interpreted without a YAML runtime. Convert the configuration to typed VoiceHub JSON explicitly. |
+| melotts | completed | 24 / 24 |  |
+| speecht5 | blocked | 0 / 24 | TypeError: SpeechT5Processor.__call__() takes 1 positional argument but 2 were given |
+| gptsovits | completed | 24 / 24 |  |
+| openvoice | pending | 0 / 24 |  |
+| cosyvoice | pending | 0 / 24 |  |
+| vibevoice | pending | 0 / 24 |  |
+| outetts | pending | 0 / 24 |  |
+| bark | pending | 0 / 24 |  |
+| chatterbox | pending | 0 / 24 |  |
+| conversationtts | pending | 0 / 24 |  |
+| csm | pending | 0 / 24 |  |
+| dia | pending | 0 / 24 |  |
+| echo | pending | 0 / 24 |  |
+| f5tts | pending | 0 / 24 |  |
+| fishtts | pending | 0 / 24 |  |
+| higgstts | pending | 0 / 24 |  |
+| irodoritts | pending | 0 / 24 |  |
+| llasa | pending | 0 / 24 |  |
+| mosstts | pending | 0 / 24 |  |
+| omnivoice | pending | 0 / 24 |  |
+| orpheustts | pending | 0 / 24 |  |
+| parlertts | pending | 0 / 24 |  |
+| qwen3tts | pending | 0 / 24 |  |
+| voxcpm | pending | 0 / 24 |  |
+| xtts | pending | 0 / 24 |  |
+| zonos | pending | 0 / 24 |  |
+| zonos2 | pending | 0 / 24 |  |
+
+## Ayrı doğrulama: repairs-en-01
+
+| Model | Durum | Puanlanan | WER | CER |
+|---|---|---:|---:|---:|
+| kokoro | completed | 24 | 3.63% | 3.27% |
+| inflecttts | completed | 24 | 4.15% | 3.36% |
+| styletts2 | generated | 0 | — | — |
+| speecht5 | pending | 0 | — | — |
 
 İşler Supervisor altında seri GPU kullanımıyla devam eder. Bu görevde 30 dakikalık
 kontrol ve düzeltme takibi etkindir; değişmeyen durumlarda bildirim göndermez.

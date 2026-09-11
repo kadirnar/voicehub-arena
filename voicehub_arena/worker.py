@@ -37,7 +37,7 @@ def generate(config_path, model_type):
     if "runtime_adapter" in override:
         status["runtime_adapter"] = override["runtime_adapter"]
     status["timing_scope"] = override.get("timing_scope", "text preparation and synthesis; excludes model load and warm-up")
-    status["runtime_packages"] = {name: importlib.metadata.version(name) for name in ("voicehub", "torch", "huggingface-hub", "tokenizers")}
+    status["runtime_packages"] = {dist.metadata["Name"]: dist.version for dist in importlib.metadata.distributions()}
     status["download_policy"] = "sha256-verified immutable cache reuse; mutable refs revalidated"
     status["runtime_source_sha256"] = {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
                                         for p in Path(__file__).parent.glob('*.py')}
@@ -58,6 +58,13 @@ def generate(config_path, model_type):
             return
         if not checkpoint:
             raise ValueError("No default checkpoint configured; add a reviewed checkpoint override")
+        if Path(checkpoint).is_file() and override.get('artifact_provenance',{}).get('sha256'):
+            digest = hashlib.sha256()
+            with Path(checkpoint).open('rb') as handle:
+                for chunk in iter(lambda: handle.read(8*2**20),b''):
+                    digest.update(chunk)
+            if digest.hexdigest() != override['artifact_provenance']['sha256']:
+                raise ValueError('Local checkpoint digest differs from its reviewed provenance')
         prepared_directory = override.get("prepared_inputs")
         for key, filename in override.get('generation',{}).items():
             if key.endswith('_path') and isinstance(filename,str) and filename in cfg.get('reference_sha256',{}):
@@ -143,6 +150,9 @@ def generate(config_path, model_type):
                     # Float WAV preserves unclipped signal diagnostics and model output.
                     sf.write(run/row["audio"], audio, result.sample_rate, subtype="FLOAT")
                     row["audio_sha256"] = hashlib.sha256((run/row["audio"]).read_bytes()).hexdigest()
+                    if model_type == 'kokoro':
+                        row['frontend'] = {key:result.metadata.get(key) for key in
+                            ('phonemes','frontend_ids','source_equivalent_g2p')}
                     # Whitelist numeric diagnostics from the reviewed staged adapter.
                     if override.get("runtime_adapter") == "arena-native-staged-v1":
                         for key in ("ttfa_s", "speech_tokens", "text_tokens_consumed", "text_tokens_total"):
