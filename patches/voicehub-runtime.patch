@@ -1,3 +1,128 @@
+diff --git a/tests/test_dia_training.py b/tests/test_dia_training.py
+index e2d7eec..7464870 100644
+--- a/tests/test_dia_training.py
++++ b/tests/test_dia_training.py
+@@ -294,6 +294,92 @@ print(*[
+             self.assertEqual(tokens.ndim, 3)
+             self.assertEqual(tokens.shape[-1], 2)
+ 
++    def test_finished_channels_are_padded_and_real_dac_decodes(self):
++        import torch
++        from voicehub.architectures.dac.modeling import DacModel
++        from voicehub.architectures.dia.modeling import DiaForConditionalGeneration
++        from voicehub.architectures.dia.processing import DiaProcessor
++
++        config = self.dia_config()
++        model = DiaForConditionalGeneration(config).eval()
++        with torch.no_grad():
++            model.logits_dense.weight.zero_()
++        processor = DiaProcessor(config, audio_tokenizer=DacModel(self.dac_config()),
++                                 sampling_rate=16_000, hop_length=4)
++        batch = processor(text=['[S1] Hello.'], generation=True)
++        for use_cache in (False, True):
++            tokens = model.generate(**batch, max_new_tokens=5, do_sample=False,
++                                    guidance_scale=None, top_k=None, top_p=1.0,
++                                    use_cache=use_cache)
++            eos = (tokens[0, :, 0] == config.decoder_config.eos_token_id).nonzero()[0, 0]
++            self.assertTrue((tokens[0, eos + 1:, 0] == config.decoder_config.pad_token_id).all())
++            self.assertEqual(int(tokens[0, eos + 1, 1]), config.decoder_config.eos_token_id)
++            audio = processor.batch_decode(tokens)[0]
++            self.assertTrue(audio.numel() > 0)
++            self.assertTrue(torch.isfinite(audio).all())
++
++    def test_cached_decoder_matches_full_prefix_with_padding_and_prefill(self):
++        import torch
++        from voicehub.architectures.dia.modeling import DiaForConditionalGeneration
++
++        torch.manual_seed(29)
++        model = DiaForConditionalGeneration(self.dia_config()).eval()
++        text = torch.randint(1, 255, (2, 7))
++        mask = torch.tensor([[1, 1, 1, 1, 1, 0, 0], [1, 1, 1, 1, 1, 1, 1]])
++        codes = torch.randint(0, 8, (2, 12, 2))
++        cache = [{} for _ in model.model.decoder.layers]
++        with torch.no_grad():
++            encoded = model.model.encoder(text, mask).last_hidden_state
++            start = 0
++            for end in (3, 5, 6, 9, 12):
++                expected = model.model.decoder(codes[:, :end], encoder_hidden_states=encoded,
++                                               encoder_attention_mask=mask)
++                actual = model.model.decoder(codes[:, start:end], encoder_hidden_states=encoded,
++                                             encoder_attention_mask=mask, cache=cache)
++                torch.testing.assert_close(actual, expected[:, start:end], rtol=1e-5, atol=1e-6)
++                self.assertEqual(cache[0]['self_key'].shape[2], end)
++                self.assertEqual(cache[0]['cross_key'].shape[2], text.shape[1])
++                start = end
++
++    def test_public_generate_accepts_native_cache_and_reports_limit(self):
++        import torch
++        from voicehub.models.dia.inference import DiaForTextToSpeech
++
++        with tempfile.TemporaryDirectory() as directory:
++            root = Path(directory)
++            self.write_artifact(root)
++            wrapper = DiaForTextToSpeech(model_path=root, device='cpu', compute_dtype='float32')
++            wrapper.load()
++            with torch.no_grad():
++                wrapper.model.logits_dense.weight.zero_()
++            output = wrapper.generate('[S1] Hello.', use_cache=True, max_new_tokens=5,
++                                      do_sample=False, guidance_scale=None, top_k=None, top_p=1.0)
++            self.assertTrue(output.audio.numel() > 0)
++            self.assertTrue(output.metadata['kv_cache'])
++            self.assertTrue(output.metadata['generation_limit_reached'])
++            self.assertEqual(output.metadata['speech_token_count'], 4)
++            with self.assertRaises(TypeError):
++                wrapper._validate_generation_inputs({'use_cache': 'true'})
++
++    def test_cached_generation_matches_seeded_full_prefix(self):
++        import torch
++        from voicehub.architectures.dia.modeling import DiaForConditionalGeneration
++        from voicehub.architectures.dia.processing import DiaProcessor
++
++        torch.manual_seed(31)
++        config = self.dia_config()
++        model = DiaForConditionalGeneration(config).eval()
++        batch = DiaProcessor(config)(text=['[S1] Hi.', '[S2] Hello.'])
++        for guidance in (None, 3.0):
++            for sample in (False, True):
++                for seed in (4, 17, 29):
++                    outputs = []
++                    for cache in (False, True):
++                        torch.manual_seed(seed)
++                        outputs.append(model.generate(**batch, max_new_tokens=9, do_sample=sample,
++                            guidance_scale=guidance, use_cache=cache, top_k=5))
++                    self.assertTrue(torch.equal(*outputs))
++
+     def test_training_collator_encodes_audio_and_freezes_codec(self):
+         import torch
+ 
+@@ -357,8 +443,8 @@ print(*[
+ 
+             def __call__(self, **kwargs):
+                 self.prepared = kwargs
+-                return SimpleNamespace(
+-                    to=lambda device: {
++                from voicehub.architectures.dia.processing import DiaBatch
++                return DiaBatch({
+                         "input_ids": torch.tensor([[1]]),
+                         "decoder_input_ids": torch.tensor([[[10, 10]]]),
+                     })
+@@ -374,6 +460,7 @@ print(*[
+                 return torch.tensor([[[10, 10], [8, 8]]])
+ 
+         processor = FakeProcessor()
++        processor.config = self.dia_config()
+         source_model = FakeModel()
+         runtime = SimpleNamespace(
+             artifacts=SimpleNamespace(revision="test-revision"),
+@@ -399,6 +486,8 @@ print(*[
+         self.assertEqual(output.metadata["seed"], 17)
+         self.assertEqual(source_model.options["max_new_tokens"], 4)
+         self.assertEqual(source_model.options["guidance_scale"], 2.5)
++        self.assertFalse(output.metadata['generation_limit_reached'])
++        self.assertEqual(output.metadata['generation_token_limit'], 3)
+ 
+     def test_malformed_checkpoint_is_rejected_before_assignment(self):
+         import torch
 diff --git a/tests/test_native_bark.py b/tests/test_native_bark.py
 index 00aa049..62dfd27 100644
 --- a/tests/test_native_bark.py
@@ -266,6 +391,236 @@ index 52e7a8a..ce2ad07 100644
              generated.append(sampled.squeeze(0))
              step_input = self.speech_embedding(sampled)
          if not generated:
+diff --git a/voicehub/architectures/dia/modeling.py b/voicehub/architectures/dia/modeling.py
+index 521df1e..4c31ba1 100644
+--- a/voicehub/architectures/dia/modeling.py
++++ b/voicehub/architectures/dia/modeling.py
+@@ -300,6 +300,7 @@ class DiaSelfAttention(nn.Module):
+         hidden_states: Tensor,
+         position_embeddings: tuple[Tensor, Tensor],
+         attention_mask: Tensor | None,
++        cache: dict[str, Tensor] | None = None,
+     ) -> Tensor:
+         batch, sequence, _ = hidden_states.shape
+         query = self.q_proj(hidden_states).view(
+@@ -325,6 +326,11 @@ class DiaSelfAttention(nn.Module):
+             key,
+             *position_embeddings,
+         )
++        if cache is not None:
++            if "self_key" in cache:
++                key = torch.cat((cache["self_key"], key), dim=2)
++                value = torch.cat((cache["self_value"], value), dim=2)
++            cache["self_key"], cache["self_value"] = key, value
+         key = _repeat_key_values(key, self.num_key_value_groups)
+         value = _repeat_key_values(value, self.num_key_value_groups)
+         scores = torch.matmul(query, key.transpose(-1, -2))
+@@ -377,6 +383,7 @@ class DiaCrossAttention(nn.Module):
+         hidden_states: Tensor,
+         encoder_hidden_states: Tensor,
+         attention_mask: Tensor | None,
++        cache: dict[str, Tensor] | None = None,
+     ) -> Tensor:
+         batch, query_length, _ = hidden_states.shape
+         key_length = encoder_hidden_states.shape[1]
+@@ -386,18 +393,17 @@ class DiaCrossAttention(nn.Module):
+             self.num_heads,
+             self.head_dim,
+         ).transpose(1, 2)
+-        key = self.k_proj(encoder_hidden_states).view(
+-            batch,
+-            key_length,
+-            self.num_key_value_heads,
+-            self.head_dim,
+-        ).transpose(1, 2)
+-        value = self.v_proj(encoder_hidden_states).view(
+-            batch,
+-            key_length,
+-            self.num_key_value_heads,
+-            self.head_dim,
+-        ).transpose(1, 2)
++        if cache is not None and "cross_key" in cache:
++            key, value = cache["cross_key"], cache["cross_value"]
++        else:
++            key = self.k_proj(encoder_hidden_states).view(
++                batch, key_length, self.num_key_value_heads, self.head_dim,
++            ).transpose(1, 2)
++            value = self.v_proj(encoder_hidden_states).view(
++                batch, key_length, self.num_key_value_heads, self.head_dim,
++            ).transpose(1, 2)
++            if cache is not None:
++                cache["cross_key"], cache["cross_value"] = key, value
+         key = _repeat_key_values(key, self.num_key_value_groups)
+         value = _repeat_key_values(value, self.num_key_value_groups)
+         scores = torch.matmul(query, key.transpose(-1, -2))
+@@ -506,16 +512,19 @@ class DiaDecoderLayer(nn.Module):
+         attention_mask: Tensor | None,
+         encoder_hidden_states: Tensor,
+         encoder_attention_mask: Tensor | None,
++        cache: dict[str, Tensor] | None = None,
+     ) -> Tensor:
+         hidden_states = hidden_states + self.self_attention(
+             self.pre_sa_norm(hidden_states),
+             position_embeddings,
+             attention_mask,
++            cache=cache,
+         )
+         hidden_states = hidden_states + self.cross_attention(
+             self.pre_ca_norm(hidden_states),
+             encoder_hidden_states,
+             encoder_attention_mask,
++            cache=cache,
+         )
+         return hidden_states + self.mlp(self.pre_mlp_norm(hidden_states))
+ 
+@@ -541,23 +550,29 @@ class DiaDecoder(nn.Module):
+         attention_mask: Tensor | None = None,
+         encoder_attention_mask: Tensor | None = None,
+         position_ids: Tensor | None = None,
++        cache: list[dict[str, Tensor]] | None = None,
+     ) -> Tensor:
+         if input_ids.ndim != 3:
+             raise ValueError("Dia decoder IDs must have shape [batch, sequence, channels].")
+         batch, sequence, _ = input_ids.shape
+-        if sequence > self.config.max_position_embeddings:
++        if cache is not None and len(cache) != len(self.layers):
++            raise ValueError("Dia cache must contain one entry per decoder layer.")
++        prefix_length = (cache[0]["self_key"].shape[2]
++                         if cache and "self_key" in cache[0] else 0)
++        key_length = prefix_length + sequence
++        if key_length > self.config.max_position_embeddings:
+             raise ValueError("Dia audio tokens exceed the configured decoder length.")
+         hidden_states = self.embeddings(input_ids)
+         if position_ids is None:
+             position_ids = torch.arange(
+-                sequence,
++                prefix_length, key_length,
+                 device=input_ids.device,
+             )[None].expand(batch, -1)
+         self_bias = _padding_attention_bias(
+             attention_mask,
+             batch_size=batch,
+             query_length=sequence,
+-            key_length=sequence,
++            key_length=key_length,
+             dtype=hidden_states.dtype,
+             device=hidden_states.device,
+             causal=True,
+@@ -572,13 +587,14 @@ class DiaDecoder(nn.Module):
+             causal=False,
+         )
+         position_embeddings = self.rotary_emb(hidden_states, position_ids)
+-        for layer in self.layers:
++        for index, layer in enumerate(self.layers):
+             hidden_states = layer(
+                 hidden_states,
+                 position_embeddings,
+                 self_bias,
+                 encoder_hidden_states,
+                 cross_bias,
++                cache=cache[index] if cache is not None else None,
+             )
+         return self.norm(hidden_states)
+ 
+@@ -803,14 +819,14 @@ class DiaForConditionalGeneration(nn.Module):
+         top_k: int | None = 50,
+         top_p: float = 0.9,
+         guidance_scale: float | None = 3.0,
++        use_cache: bool = False,
+         **kwargs: Any,
+     ) -> Tensor:
+         """Generate delayed DAC tokens using the released Dia sampling rules.
+ 
+-        The native implementation intentionally recomputes the decoder
+-        prefix instead of depending on a framework cache object.  This
+-        preserves exact logits and keeps cache optimisation an optional
+-        runtime strategy.
++        Optional native KV caching retains self-attention prefixes and the
++        fixed text projections within this invocation. Full-prefix evaluation
++        remains available for numerical comparison and never shares this state.
+         """
+         if kwargs:
+             names = ", ".join(sorted(kwargs))
+@@ -818,6 +834,8 @@ class DiaForConditionalGeneration(nn.Module):
+         max_new_tokens = _positive_integer("max_new_tokens", max_new_tokens)
+         if not isinstance(do_sample, bool):
+             raise TypeError("`do_sample` must be a boolean.")
++        if not isinstance(use_cache, bool):
++            raise TypeError("`use_cache` must be a boolean.")
+         temperature = max(
+             1.0,
+             _finite_number("temperature", temperature, minimum=0.0),
+@@ -906,6 +924,25 @@ class DiaForConditionalGeneration(nn.Module):
+             device=device,
+         )
+         maximum_steps = max_new_tokens + max(self.config.delay_pattern)
++        conditional_cache = [{} for _ in self.model.decoder.layers] if use_cache else None
++        unconditional_cache = [{} for _ in self.model.decoder.layers] if use_cache else None
++
++        def next_scores(sequence, sequence_mask, encoded, cache):
++            if cache is None:
++                output = self(
++                    attention_mask=attention_mask,
++                    decoder_input_ids=sequence,
++                    decoder_attention_mask=sequence_mask,
++                    encoder_outputs=encoded,
++                )
++                return output.logits[:, -1].reshape(batch_size, self.num_channels, self.vocab_size)
++            prefix_length = cache[0]["self_key"].shape[2] if "self_key" in cache[0] else 0
++            hidden = self.model.decoder(
++                sequence[:, prefix_length:], encoder_hidden_states=encoded,
++                attention_mask=sequence_mask, encoder_attention_mask=attention_mask,
++                cache=cache,
++            )
++            return self.logits_dense(hidden[:, -1]).reshape(batch_size, self.num_channels, self.vocab_size)
+ 
+         for step in range(maximum_steps):
+             forced_sequence = self.apply_delay_mask(
+@@ -919,28 +956,10 @@ class DiaForConditionalGeneration(nn.Module):
+                 dtype=torch.long,
+                 device=device,
+             )
+-            conditional_output = self(
+-                attention_mask=attention_mask,
+-                decoder_input_ids=forced_sequence,
+-                decoder_attention_mask=sequence_mask,
+-                encoder_outputs=conditioned,
+-            )
+-            conditional_scores = conditional_output.logits[:, -1]
+-            conditional_scores = conditional_scores.reshape(
+-                batch_size,
+-                self.num_channels,
+-                self.vocab_size,
+-            )
++            conditional_scores = next_scores(forced_sequence, sequence_mask, conditioned, conditional_cache)
+ 
+             if use_cfg:
+-                unconditional_output = self(
+-                    attention_mask=attention_mask,
+-                    decoder_input_ids=forced_sequence,
+-                    decoder_attention_mask=sequence_mask,
+-                    encoder_outputs=unconditioned,
+-                )
+-                unconditional_scores = unconditional_output.logits[:, -1]
+-                unconditional_scores = unconditional_scores.reshape_as(conditional_scores)
++                unconditional_scores = next_scores(forced_sequence, sequence_mask, unconditioned, unconditional_cache)
+                 guided = conditional_scores + (conditional_scores - unconditional_scores) * guidance_scale
+                 if top_k is not None:
+                     guided_flat = guided.reshape(-1, self.vocab_size)
+@@ -988,6 +1007,13 @@ class DiaForConditionalGeneration(nn.Module):
+             else:
+                 next_tokens = flat_scores.argmax(dim=-1)
+             next_tokens = next_tokens.reshape(batch_size, self.num_channels)
++            # A finished channel emits PAD while delayed channels drain their
++            # final frames. Sampling it again leaks EOS into the DAC slice.
++            next_tokens = torch.where(
++                active[:, None] & (remaining_delays < 0),
++                decoder.pad_token_id,
++                next_tokens,
++            )
+             sequences = torch.cat(
+                 (sequences, next_tokens[:, None]),
+                 dim=1,
 diff --git a/voicehub/architectures/outetts/checkpoint.py b/voicehub/architectures/outetts/checkpoint.py
 index 9ef5db7..bebcea5 100644
 --- a/voicehub/architectures/outetts/checkpoint.py
@@ -339,6 +694,75 @@ index 2ed601d..67323f8 100644
      def _processor_inputs(self, text: str, **kwargs: Any) -> dict[str, Any]:
          processor = self.transformers_processor or self.processor
          encoded = processor(
+diff --git a/voicehub/models/dia/inference.py b/voicehub/models/dia/inference.py
+index 0f66148..7886869 100644
+--- a/voicehub/models/dia/inference.py
++++ b/voicehub/models/dia/inference.py
+@@ -127,6 +127,7 @@ class DiaForTextToSpeech(PreTrainedTTSModel):
+         "top_k",
+         "top_p",
+         "use_cfg_filter",
++        "use_cache",
+         "verbose",
+     })
+ 
+@@ -294,6 +295,9 @@ class DiaForTextToSpeech(PreTrainedTTSModel):
+         do_sample = model_inputs.get("do_sample")
+         if do_sample is not None and not isinstance(do_sample, bool):
+             raise TypeError("`do_sample` must be a boolean.")
++        use_cache = model_inputs.get("use_cache")
++        if use_cache is not None and not isinstance(use_cache, bool):
++            raise TypeError("`use_cache` must be a boolean.")
+         top_p = model_inputs.get("top_p")
+         if top_p is not None and float(top_p) <= 0:
+             raise ValueError("Dia `top_p` must be greater than zero.")
+@@ -324,7 +328,7 @@ class DiaForTextToSpeech(PreTrainedTTSModel):
+         self,
+         text: str,
+         generation_options: dict[str, Any],
+-    ) -> Any:
++    ) -> tuple[Any, dict[str, Any]]:
+         runtime = self.training_backend
+         if runtime is None:
+             raise RuntimeError("Dia's native runtime is not loaded.")
+@@ -353,7 +357,20 @@ class DiaForTextToSpeech(PreTrainedTTSModel):
+         )
+         if not decoded:
+             raise RuntimeError("Native Dia decoding returned no audio.")
+-        return decoded[0]
++        decoder = runtime.processor.config.decoder_config
++        initial_length = (inputs['decoder_input_ids'].shape[1] -
++                          int((inputs['decoder_input_ids'][:, :, 0] == decoder.pad_token_id).sum(-1).max()))
++        eos_positions = (generated[0, :, 0] == decoder.eos_token_id).nonzero()
++        if not len(eos_positions):
++            raise RuntimeError('Dia generation returned no channel-zero end marker.')
++        generation_steps = int(eos_positions[0, 0]) - initial_length + 1
++        limit = options.get('max_new_tokens', 256)
++        return decoded[0], {
++            'speech_token_count': max(0, generation_steps - 1),
++            'generation_token_limit': limit - 1,
++            'generation_limit_reached': generation_steps >= limit,
++            'kv_cache': options.get('use_cache', False),
++        }
+ 
+     def _generate(
+         self,
+@@ -369,13 +386,14 @@ class DiaForTextToSpeech(PreTrainedTTSModel):
+                 device=self.device,
+                 model_type="dia",
+         ) as effective_seed:
+-            audio = self._generate_native(text, options)
++            audio, diagnostics = self._generate_native(text, options)
+         revision = (self._dia_runtime.artifacts.revision if self._dia_runtime is not None else None)
+         return finish_audio_output(
+             audio,
+             self.sample_rate,
+             output_file=output_file,
+             metadata={
++                **diagnostics,
+                 "backend": "voicehub-native",
+                 "checkpoint_revision": revision,
+                 "requested_seed": requested_seed,
 diff --git a/voicehub/models/openvoice/inference.py b/voicehub/models/openvoice/inference.py
 index e5b5fd1..1650074 100644
 --- a/voicehub/models/openvoice/inference.py

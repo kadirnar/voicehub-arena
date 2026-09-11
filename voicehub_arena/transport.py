@@ -53,12 +53,17 @@ def _download_with_hub_client(options):
     filename = options['relative_file'].as_posix()
     token = options['token'] if options['token'] is not None else False
     metadata = get_hf_file_metadata(hf_hub_url(repo, filename, revision=revision), token=token)
-    if metadata.commit_hash != revision:
+    commit = metadata.commit_hash
+    if not isinstance(commit, str) or not re.fullmatch(r'[a-f0-9]{40}', commit):
+        raise ValueError('Hub metadata is missing a valid resolved commit')
+    if re.fullmatch(r'[a-fA-F0-9]{40}', revision) and commit != revision.lower():
         raise ValueError('Hub metadata does not match the immutable requested commit')
     etag = metadata.etag.strip('"') if metadata.etag else ''
     if not re.fullmatch(r'[a-f0-9]{40}|[a-f0-9]{64}', etag):
         raise ValueError('Hub file is missing a verifiable content digest')
-    source = Path(hf_hub_download(repo, filename, revision=revision, token=token))
+    # Mutable refs are re-resolved on every access, but bytes are downloaded
+    # from the resolved commit so a moving branch cannot race the audit.
+    source = Path(hf_hub_download(repo, filename, revision=commit, token=token))
     size = source.stat().st_size
     if metadata.size is not None and size != metadata.size:
         raise ValueError('Hub file size does not match the downloaded file')
@@ -109,10 +114,8 @@ def enable_verified_cache_reuse():
         # and byte count. We additionally check every byte before local reuse.
         if verified_immutable_cache(options["revision"], options["cached"]):
             path = options["cached"].path
-        elif re.fullmatch(r'[a-f0-9]{40}', options['revision']):
-            path = download_with_hub_client(options)
         else:
-            path = original(**options)
+            path = download_with_hub_client(options)
         try:
             metadata = json.loads(options['metadata_path'].read_text())
             fields = ('repo_id','revision','commit','relative_file','sha256','size')

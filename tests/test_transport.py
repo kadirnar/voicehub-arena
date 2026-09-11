@@ -94,6 +94,36 @@ def test_hub_copy_rejects_wrong_commit_before_download(tmp_path, monkeypatch):
             token=None, relative_file=PurePosixPath('weights')))
 
 
+def test_mutable_ref_is_revalidated_and_downloaded_by_resolved_commit(tmp_path, monkeypatch):
+    pytest.importorskip('voicehub')
+    import huggingface_hub
+    from voicehub_arena.transport import download_with_hub_client
+    record = tmp_path/'metadata.json'
+    options = dict(repo_id='test/model', revision='main', token=None,
+                   relative_file=PurePosixPath('weights'),
+                   repository_cache=tmp_path/'native', metadata_path=record)
+    outputs = []
+    for commit, content in [('a'*40, b'first'), ('b'*40, b'updated')]:
+        source = tmp_path/commit
+        source.write_bytes(content)
+        def metadata(url, **kwargs):
+            assert '/resolve/main/' in url
+            return SimpleNamespace(commit_hash=commit, size=len(content),
+                                   etag=hashlib.sha256(content).hexdigest())
+        def download(*args, **kwargs):
+            assert kwargs['revision'] == commit
+            return str(source)
+        monkeypatch.setattr(huggingface_hub, 'get_hf_file_metadata', metadata)
+        monkeypatch.setattr(huggingface_hub, 'hf_hub_download', download)
+        path = download_with_hub_client(options)
+        assert path.read_bytes() == content
+        saved = json.loads(record.read_text())
+        assert saved['revision'] == 'main' and saved['commit'] == commit
+        outputs.append(path)
+    assert outputs[0] != outputs[1]
+    assert outputs[0].read_bytes() == b'first'
+
+
 @pytest.mark.parametrize('status, expected', [(404, FileNotFoundError), (401, PermissionError), (403, PermissionError)])
 def test_hub_errors_preserve_provider_fallback_contract(monkeypatch, status, expected):
     import requests

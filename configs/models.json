@@ -2,9 +2,15 @@
   "dia": {
     "text_prefix": "[S1] ",
     "config": {
-      "revision": "ef2795fcc29c5abe6ffc91fd33808588b49bbc66"
+      "revision": "ef2795fcc29c5abe6ffc91fd33808588b49bbc66",
+      "compute_dtype": "float32"
     },
-    "revision_source": "voicehub/architectures/dia/metadata.py::NARI_DIA_CHECKPOINT_REVISION"
+    "revision_source": "voicehub/architectures/dia/metadata.py::NARI_DIA_CHECKPOINT_REVISION",
+    "generation": {
+      "max_new_tokens": 3071,
+      "use_cache": true
+    },
+    "generation_source": "Pinned release generation_config.json max_length=3072 including initial BOS; native KV cache explicitly enabled"
   },
   "kokoro": {
     "generation": {
@@ -769,7 +775,9 @@
   },
   "fishtts": {
     "config": {
-      "revision": "1de9996b6be38b745688de084d87a5633f714e4e"
+      "revision": "1de9996b6be38b745688de084d87a5633f714e4e",
+      "trust_official_codec_pickle": true,
+      "codec_conversion_directory": "/workspace/voicehub-arena/artifacts/fish-s2-codec"
     },
     "revision_source": "voicehub/architectures/fishtts/metadata.py::FISH_S2_CHECKPOINT_REVISION"
   },

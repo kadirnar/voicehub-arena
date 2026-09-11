@@ -12,6 +12,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--after-model',required=True)
 parser.add_argument('--models',required=True)
 parser.add_argument('--output',required=True)
+parser.add_argument('--preflight', help='Optional GPU validation script to run before this repair set')
 args = parser.parse_args()
 root = Path(__file__).resolve().parents[1]
 full = root/'runs/english-extended'
@@ -37,6 +38,8 @@ try:
     with (root/'runs/.gpu.lock').open('a') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX)
         write_json(full/'state.json',{'status':'paused','phase':'repair','models':args.models})
+        if args.preflight:
+            subprocess.run([sys.executable, args.preflight], cwd=root, check=True, timeout=1200)
     command=[sys.executable,'-m','voicehub_arena.cli','run','--models',args.models,
              '--output',args.output,'--repeats','3','--timeout','3600',
              '--cache-budget-gib','45','--score-each-model','--resume']

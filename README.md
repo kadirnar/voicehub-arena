@@ -95,6 +95,21 @@ metadata. Its preparation script verifies the audited archive size and SHA-256,
 uses a restricted weights-only allowlist, and validates all 187 tensor names and
 shapes against the native graph before writing Safetensors. The run verifies the
 converted checkpoint digest; the native loader's global policy is unchanged.
+Dia now pads finished DAC channels while delayed channels drain their final
+frames. Its optional native KV cache preserves the full-prefix path for
+comparison. Twelve native tests cover real DAC decoding, cached/prefill logits,
+padding, seeded token agreement, the public generation boundary, and training/export behavior. The repair uses
+float32 and a 3,071-step limit, corresponding to the pinned release's 3,072-token
+length including BOS. Generation-limit hits remain flagged in the scored rows.
+`scripts/validate_dia_cache.py` compares actual release logits and greedy tokens
+on the GPU before the repair set; this is distinct from the acoustic benchmark.
+This check passed on the RTX 3090 with a maximum absolute logit difference of
+0.000012875 and identical greedy tokens. Its record is saved in
+`runs/validations/dia-cache-gpu.json`; no full waveform parity is claimed.
+Fish S2-Pro explicitly enables its pinned one-time codec conversion: the native
+converter verifies the official 1,871,099,728-byte archive and SHA-256, loads it
+with `weights_only=True`, and validates every tensor name and shape before
+writing Safetensors in `artifacts/fish-s2-codec`.
 
 The initial four-minute coverage timeout includes downloads. Its timeouts are
 followed by a full-registry run with sixty minutes per provider, eight texts
@@ -111,8 +126,10 @@ commit, size and SHA-256 (or Git blob SHA-1 for small Git objects) are verified
 before atomically publishing the native cache entry. On the same filesystem,
 the native entry hardlinks the immutable Hub blob, avoiding a second allocation;
 cross-filesystem caches use a verified atomic copy. Existing immutable snapshots
-cannot be overwritten with different bytes. Mutable branch references still
-go through upstream revalidation. Dead Linux download locks left by a terminated
+cannot be overwritten with different bytes. Mutable branch references are
+re-resolved through Hub metadata on each access and downloaded by the returned
+commit with the same resumable client. A branch changing during a download
+cannot silently change the audited bytes. Dead Linux download locks left by a terminated
 worker are reclaimed before the next worker; live process locks remain intact.
 
 ## Metrics and fairness
@@ -247,8 +264,15 @@ directories so the original failures and changed configuration remain inspectabl
 `repairs-en-04` completed VibeVoice and CosyVoice after OuteTTS finished all 24
 samples (WER 3.97%). Chatterbox completed at 3.45% WER; `repairs-en-05` completed
 Bark at 6.56% WER and 4.48% CER. CSM completed at 5.35% WER and 3.94% CER.
-`repairs-en-06` now validates the prepared ConversationTTS checkpoint, then
-resumes the remaining full registry.
+`repairs-en-06` completed ConversationTTS at 17.62% WER and 15.56% CER; the
+numbers prompt has extra words in its ASR transcripts and still needs listening
+review to distinguish synthesis errors from ASR errors. F5-TTS
+completed at 3.97% WER and 3.42% CER. HiggsTTS completed at 4.84% WER and 3.60% CER.
+`repairs-en-07` passed Dia's GPU comparison, but the first acoustic attempt
+rejected `use_cache` at the public API boundary. That allowlist is now fixed and
+covered by a real tiny-model public generation test. Echo and Fish S2-Pro
+continue in this repair set; Dia needs a fresh acoustic run after it finishes.
+The controller resumes the remaining full registry when the repair set ends.
 
 The existing instance has no mounted persistent volume. Recycle/destroy removes
 its files, so keep the delivered local source and results mirror. Stop/start

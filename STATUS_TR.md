@@ -1,6 +1,6 @@
 # VoiceHub Arena — durum
 
-Anlık kopya: 2026-09-11T22:36:42+00:00. Canlı arayüz: http://127.0.0.1:7860/
+Anlık kopya: 2026-09-11T23:31:03+00:00. Canlı arayüz: http://127.0.0.1:7860/
 
 RTX 3090 (24 GB), `vast-3090-voicehub` SSH bağlantısı ve ayrı VS Code uzak penceresi hazır.
 `/workspace/voicehub-arena` sunucudaki proje; bu klasör yerel kaynak ve sonuç kopyasıdır.
@@ -12,12 +12,19 @@ Kapsam: 34 model ailesi, 8 İngilizce metin × 3 seed.
 NeuTTS-2e ana ağırlıklarına erişim doğrulandı; NeuCodec bağımlılığı ayrıca yetki istiyor.
 Kimlik bilgileri proje dışında saklanıyor.
 33 İngilizce modelin giriş sözleşmesi kontrolü geçti. Bu, GPU üretim başarısı anlamına gelmez.
-Uygulama: 28 test geçti. İlk VoiceHub düzeltmeleri: 48 test ve 6 alt test geçti.
+Uygulama: 29 test geçti. İlk VoiceHub düzeltmeleri: 48 test ve 6 alt test geçti.
 Ek OpenVoice yükleme düzeltmesi: 12 test geçti.
 CosyVoice: 11 test ve 101 alt test; VibeVoice: 16 test geçti.
 Bark public generate düzeltmesi: 13 test geçti; repairs-en-05 içinde 24 ses puanlandı.
 ConversationTTS: sabit arşivden 187 tensörün adı ve şekli doğrulanarak Safetensors hazırlandı.
-repairs-en-06, ConversationTTS GPU doğrulamasını yürütür.
+repairs-en-06: ConversationTTS WER %17,62, CER %15,56; sayı metninin ASR çıktısı dinleme incelemesi istiyor.
+F5-TTS 24 örnekte WER %3,97, CER %3,42 ile tamamlandı.
+HiggsTTS 24 örnekte WER %4,84, CER %3,60 ile tamamlandı.
+Dia: dolgu düzeltmesi, KV cache ve public generate sınırı için 12 test geçti.
+Dia RTX 3090 karşılaştırması geçti: en büyük logit farkı 0,000012875; greedy tokenlar aynı.
+repairs-en-07 içindeki ilk Dia ses denemesinde use_cache API kontrolü hata verdi; bu kontrol düzeltildi.
+Echo/Fish S2-Pro bu koşuda sürer; Dia için ardından yeni bir ses doğrulaması gerekir.
+Echo indirmeleri artık değişebilir dalı commit ile sabitleyerek yeniden sürdürülebilir istemciyi kullanır.
 İndirme önbelleği, doğrulanmış sabit dosyaları aynı diskte hardlink ile paylaşır.
 SpeechT5 gerçek tokenizer’ı, 13 örnekte SentencePiece referansıyla eşleşti.
 
@@ -58,11 +65,11 @@ VibeVoice için yeni Arena adaptörü ayrıca etiketlenir; tam referans dalga bi
 | chatterbox | completed | 24 / 24 |  |
 | conversationtts | blocked | 0 / 24 | UnpicklingError: Weights only load failed. This file can still be loaded, to do so you have two options, [1mdo those steps only if you trust the source of the checkpoint[0m.  	(1) In PyTorch 2.6, we changed the default value of the `weights_only` a |
 | csm | completed | 24 / 24 |  |
-| dia | pending | 0 / 24 |  |
-| echo | pending | 0 / 24 |  |
-| f5tts | pending | 0 / 24 |  |
-| fishtts | pending | 0 / 24 |  |
-| higgstts | pending | 0 / 24 |  |
+| dia | blocked | 0 / 24 | ValueError: Dia output contains a special token inside decoded DAC frames. |
+| echo | blocked | 0 / 24 | TimeoutError: The read operation timed out |
+| f5tts | completed | 24 / 24 |  |
+| fishtts | blocked | 0 / 24 | PermissionError: Fish Audio publishes S2-Pro's ModifiedDAC only as `codec.pth`. VoiceHub never loads that pickle during steady-state inference. Either pass `codec_name_or_path` pointing to an audited Safetensors conversion, call `convert_legacy_fish_ |
+| higgstts | completed | 24 / 24 |  |
 | irodoritts | pending | 0 / 24 |  |
 | llasa | pending | 0 / 24 |  |
 | mosstts | pending | 0 / 24 |  |
@@ -114,7 +121,15 @@ VibeVoice için yeni Arena adaptörü ayrıca etiketlenir; tam referans dalga bi
 
 | Model | Durum | Puanlanan | WER | CER |
 |---|---|---:|---:|---:|
-| conversationtts | warming_up | 0 | — | — |
+| conversationtts | completed | 24 | 17.62% | 15.56% |
+
+## Ayrı doğrulama: repairs-en-07
+
+| Model | Durum | Puanlanan | WER | CER |
+|---|---|---:|---:|---:|
+| dia | blocked | 0 | — | — |
+| echo | blocked | 0 | — | — |
+| fishtts | loading | 0 | — | — |
 
 ## Tamamlanan 24 örneklik son doğrulamalar
 
@@ -124,9 +139,12 @@ Farklı koşuların en yeni tamamlanan ayarları gösterilir; ayarlar ve süre k
 |---|---|---:|---:|---:|
 | bark | repairs-en-05 | 6.56% | 4.48% | 2.095 |
 | chatterbox | english-extended | 3.45% | 3.21% | 1.216 |
+| conversationtts | repairs-en-06 | 17.62% | 15.56% | 4.178 |
 | cosyvoice | repairs-en-04 | 10.71% | 7.33% | 1.096 |
 | csm | english-extended | 5.35% | 3.94% | 3.539 |
+| f5tts | english-extended | 3.97% | 3.42% | 0.613 |
 | gptsovits | english-extended | 5.87% | 3.63% | 0.416 |
+| higgstts | english-extended | 4.84% | 3.60% | 1.685 |
 | inflecttts | repairs-en-01 | 4.15% | 3.36% | 0.015 |
 | kokoro | repairs-en-01 | 3.63% | 3.27% | 0.018 |
 | melotts | english-extended | 4.66% | 3.60% | 0.019 |

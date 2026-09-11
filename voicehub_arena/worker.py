@@ -38,7 +38,7 @@ def generate(config_path, model_type):
         status["runtime_adapter"] = override["runtime_adapter"]
     status["timing_scope"] = override.get("timing_scope", "text preparation and synthesis; excludes model load and warm-up")
     status["runtime_packages"] = {dist.metadata["Name"]: dist.version for dist in importlib.metadata.distributions()}
-    status["download_policy"] = "sha256-verified native cache; immutable Hub/Xet downloads verify commit, size and content digest; verified blobs share disk by hardlink with atomic-copy fallback; mutable refs use native revalidation"
+    status["download_policy"] = "sha256-verified native cache; Hub/Xet downloads verify resolved commit, size and content digest; verified blobs share disk by hardlink with atomic-copy fallback; mutable refs are re-resolved before commit-pinned download"
     status["runtime_source_sha256"] = {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
                                         for p in Path(__file__).parent.glob('*.py')}
     import voicehub
@@ -167,6 +167,12 @@ def generate(config_path, model_type):
                         limit = generation.get('max_new_tokens') or model.config.generation_config['max_new_tokens']
                         row['generation_token_limit'] = limit
                         if isinstance(count, int) and count >= limit:
+                            row['quality_flags'] = ['generation_limit_reached']
+                    if model_type == 'dia':
+                        row['speech_token_count'] = result.metadata.get('speech_token_count')
+                        row['generation_token_limit'] = result.metadata.get('generation_token_limit')
+                        row['kv_cache'] = result.metadata.get('kv_cache')
+                        if result.metadata.get('generation_limit_reached'):
                             row['quality_flags'] = ['generation_limit_reached']
                     if model_type == 'kokoro':
                         row['frontend'] = {key:result.metadata.get(key) for key in
