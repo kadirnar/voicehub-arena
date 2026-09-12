@@ -182,7 +182,7 @@ def execute(args):
         if args.resume and result_path.exists():
             old_status = read_json(result_path)['status']
             if old_status in ("completed","partial","generated","blocked","failed","timeout","disk_limit","unsupported_language"):
-                if not (args.resume_samples and old_status in {'failed','timeout','disk_limit'}):
+                if not (args.resume_samples and old_status in {'partial','failed','timeout','disk_limit'}):
                     continue
         from .cache import cleanup_abandoned_downloads, cleanup_dead_download_locks
         dead_locks = cleanup_dead_download_locks()

@@ -320,3 +320,29 @@ Sources: [VoiceHub](https://github.com/kadirnar/voicehub),
 [JiWER metrics](https://jitsi.github.io/jiwer/usage/),
 [faster-whisper](https://github.com/SYSTRAN/faster-whisper),
 [official reference samples](https://github.com/neuphonic/neutts).
+
+## A100 VITS numerical repair (2026-09-12)
+
+The English Seed panel exposed an FP16 inverse duration-spline failure for
+`seed_common_voice_en_26645969-common_voice_en_26645970`. The original pinned
+MMS checkpoint reproduces the negative discriminant on A100 with seed 42;
+the captured spline inputs produce finite results when the same computation
+is evaluated in float64. The bundled patch now recomputes only a negative or
+non-finite inverse discriminant at higher precision, then restores the original
+tensor dtype. It does not switch checkpoints, change the sampling seed, alter
+the text, or suppress an invalid float64 discriminant.
+
+GPU validation regenerated all 255 previously successful VITS pilot/panel
+waveforms bit-for-bit and recovered the one failed text (3.328 seconds of audio).
+The ordinary path also matches the original implementation bit-for-bit on
+1,024 CPU float32 inputs. Regression tests cover low-precision recovery,
+forward/inverse consistency, identity tails, and rejection of invalid inputs.
+
+`run --resume --resume-samples` now retries `partial` generation runs as well as
+failed, timed-out, and storage-limited runs. The worker retains verified old
+audio and transcripts. For this repair the old result/config/plan are archived
+under `runs/validations/vits-before-spline-repair/`; the repaired shard records
+source hashes and preserved row identities in `runtime-repair.json`.
+`runs/validations/vits-spline-diagnostic-cuda.json` and
+`vits-repair-gpu-parity.json` are evidence from the new A100 run, not the older
+RTX 3090 archive. The frozen ASR and normalization protocol remain unchanged.

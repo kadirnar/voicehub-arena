@@ -1296,6 +1296,36 @@ index f00aa16..80947e4 100644
          self._model_outputs: list[Tensor | None] = [None, None]
          self._step_index: int | None = None
          self._lower_order_steps = 0
+diff --git a/voicehub/architectures/vits/modeling.py b/voicehub/architectures/vits/modeling.py
+index 99a2dac..dba1bb0 100644
+--- a/voicehub/architectures/vits/modeling.py
++++ b/voicehub/architectures/vits/modeling.py
+@@ -305,7 +305,24 @@ def _rational_quadratic_spline(
+     b = input_height * input_derivative - offset_intermediate
+     c = -input_delta * offset
+     discriminant = b.square() - 4 * a * c
+-    if (discriminant < -1e-6).any():
++    if ((discriminant < -1e-6) | ~torch.isfinite(discriminant)).any():
++        # Half-precision bin boundaries and subtractive cancellation can make
++        # a valid monotonic inverse spline fail. Recompute the same spline at
++        # higher precision only on this exceptional path; ordinary outputs
++        # retain their original arithmetic and checkpoint dtype.
++        if inputs.dtype != torch.float64:
++            precise_outputs, precise_log_det = _rational_quadratic_spline(
++                inputs.double(),
++                unnormalized_widths.double(),
++                unnormalized_heights.double(),
++                unnormalized_derivatives.double(),
++                reverse=reverse,
++                tail_bound=tail_bound,
++                min_bin_width=min_bin_width,
++                min_bin_height=min_bin_height,
++                min_derivative=min_derivative,
++            )
++            return precise_outputs.to(inputs.dtype), precise_log_det.to(inputs.dtype)
+         raise VitsGenerationError("Duration spline produced a negative quadratic discriminant.")
+     root = (2 * c) / (-b - torch.sqrt(discriminant.clamp_min(0)))
+     outputs = root * input_width + input_cumwidth
 diff --git a/voicehub/architectures/xtts2/checkpoint.py b/voicehub/architectures/xtts2/checkpoint.py
 index dff7e0b..75cc9eb 100644
 --- a/voicehub/architectures/xtts2/checkpoint.py

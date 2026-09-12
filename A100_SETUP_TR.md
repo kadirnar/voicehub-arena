@@ -72,3 +72,18 @@ Otomatik takip 30 dakikada bir yeni A100'ın durumunu denetler. Yerel A100 sonu�
 yedeği `outputs/voicehub-arena-a100-results/runs/` altındadır; eski GPU arşivi
 ayrı kalır. Instance'ta kalıcı volume yoktur; silme veya recycle öncesinde yeni
 sonuçlar dışarı alınmalıdır.
+
+## VITS sayısal düzeltmesi — 12 Eylül 2026
+
+VITS panelindeki tek başarısız metinde FP16 süre spline hesabı negatif
+diskriminant üretti. Aynı A100, checkpoint ve seed ile hata yeniden üretildi;
+yakalanan girdilerle yüksek hassasiyetli hesap doğrulandı. Runtime yaması yalnız
+bu başarısız sayısal dalı yüksek hassasiyetle hesaplayıp özgün dtype'a döndürür.
+GPU kontrolünde önceki 255 başarılı ses bit düzeyinde aynı kaldı, eksik örnek
+3,328 saniyelik sonlu ses üretti. Checkpoint, metin, seed ve ASR ayarları değişmedi.
+
+`--resume --resume-samples` artık `partial` durumundaki üretimlerde de çalışır.
+Sağlam satırlar ve dosyalar korunur. Yeni A100 yedeğindeki
+`runs/validations/vits-repair-gpu-parity.json` gerçek GPU doğrulamasıdır;
+`runs/pub-v2-vits-seedtts_en-001/runtime-repair.json` onarımın kaynak ve sonuç
+karmalarını, korunan satırları ve yeni üretilen örneği kaydeder.
