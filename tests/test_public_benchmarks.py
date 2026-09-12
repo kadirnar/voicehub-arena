@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 
-from voicehub_arena.benchmarks import build_jobs, public_report, public_overrides, restrict_public_scope
+from voicehub_arena.benchmarks import build_jobs, public_report, public_overrides, restrict_public_scope, public_scope_matches
 from voicehub_arena.metrics import errors, summarize
 from voicehub_arena.server import create_app
 from voicehub_arena.storage import write_json
@@ -41,7 +41,7 @@ def test_first_release_scope_preserves_seed_results_and_defers_other_jobs():
     seed_job.update(status='completed', finished_at=123)
     other_job = next(j for j in suite['jobs'] if j['dataset']!='seedtts_en')
     suite['current_job'] = other_job['run']
-    scope = json.loads((root/'configs/public-scope.json').read_text())
+    scope = {'dataset_ids':['seedtts_en']}
     scoped = restrict_public_scope(suite, scope)
     assert len(scoped['datasets']) == 1
     assert scoped['datasets'][0]['total_samples'] * len(catalog) == 35904
@@ -53,6 +53,43 @@ def test_first_release_scope_preserves_seed_results_and_defers_other_jobs():
     assert restrict_public_scope(scoped, scope) == scoped
     with pytest.raises(ValueError, match='explicit new plan'):
         restrict_public_scope(scoped, {'dataset_ids':['emergenttts']})
+
+
+def test_model_scope_preserves_running_work_and_rejects_stale_or_expanded_queue():
+    root = Path(__file__).parents[1]
+    seed = json.loads((root/'datasets/public/seedtts_en/manifest.json').read_text())
+    catalog = [{'model_type':f'model{i}'} for i in range(33)]
+    suite = {'datasets':[seed], 'catalog':catalog}
+    suite['jobs'] = build_jobs(suite, catalog)
+    running = suite['jobs'][0]
+    running.update(status='running', started_at=123)
+    suite['current_job'] = running['run']
+    scope = {'dataset_ids':['seedtts_en'], 'model_types':[s['model_type'] for s in catalog[:5]]}
+    scoped = restrict_public_scope(suite, scope)
+    assert scoped['catalog'] == catalog[:5]
+    assert len(scoped['jobs']) == 30
+    assert len(scoped['deferred_jobs']) == 168
+    assert scoped['deferred_catalog'] == catalog[5:]
+    assert scoped['current_job'] == running['run']
+    assert scoped['jobs'][0] == running
+    assert scoped['datasets'][0]['total_samples'] * len(scoped['catalog']) == 5440
+    assert public_scope_matches(scoped, scope)
+    assert not public_scope_matches(suite, scope)
+    assert restrict_public_scope(scoped, scope) == scoped
+    assert len(suite['catalog']) == 33
+    expanded = {**scope, 'model_types':scope['model_types']+['model5']}
+    with pytest.raises(ValueError, match='explicit new plan'):
+        restrict_public_scope(scoped, expanded)
+    for names in ([], ['model0', 'model0'], ['unknown']):
+        with pytest.raises(ValueError, match='unique known active models'):
+            restrict_public_scope(suite, {**scope, 'model_types':names})
+    narrowed = restrict_public_scope(scoped, {**scope, 'model_types':['model1']})
+    assert 'current_job' not in narrowed
+    assert running in narrowed['deferred_jobs']
+    # Even a stale queue carrying the correct scope metadata must not launch
+    # a previously excluded model after a restart.
+    scoped['jobs'].append(scoped['deferred_jobs'][0])
+    assert not public_scope_matches(scoped, scope)
 
 
 def test_new_normalization_and_character_edit_counts():

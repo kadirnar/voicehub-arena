@@ -20,6 +20,7 @@ if plan_path.exists():
     lines += ['## Yayımlanmış veri setleri ve Whisper large-v3', '',
               f"Kampanya durumu: **{plan['status']}**. Son etkin iş: `{plan.get('current_job', '—')}`.",
               f"{len(plan['catalog'])} İngilizce model; model başına {total:,} tam bölüm metni.",
+              'Seçili modeller: ' + ', '.join(s.get('name', s['model_type']) for s in plan['catalog']) + '.',
               f"Tamamlanan model/bölüm parçaları: {counts['completed']} / {len(plan['jobs'])}; eksik veya hatalı: {counts['partial']+counts['failed']}.",
               'Parça tamamlanması tam veri setinin veya bütün kampanyanın tamamlandığı anlamına gelmez.', '',
               '| Veri seti | Tam bölüm | Üretilen ses | Puanlanan ses |', '|---|---:|---:|---:|']
@@ -38,7 +39,7 @@ if plan_path.exists():
     lines += ['', f"Etkin kapsam: **{plan.get('scope',{}).get('label','Public English')}**.",
               'Her model için önce 32 metin/bölüm pilotu, sonra 256 metin/bölüm paneli, ardından kalan bütün metinler çalışır.',
               f'Panel: {panel:,} metin/model; tam kapsam: {total:,} metin/model, toplam {total*len(plan["catalog"]):,} ses. Üretim seed42 ve tek tekrarlıdır.',
-              'İlk sürüm yalnız Seed-TTS-Eval İngilizce kapsamını çalıştırır. Diğer veri setleri ertelenmiştir; önceki dosyalar korunur ve otomatik olarak yeniden başlatılmaz.',
+              'İlk sürüm yalnız seçili modellerde Seed-TTS-Eval İngilizce kapsamını çalıştırır. Diğer modeller ve veri setleri ertelenmiştir; önceki dosyalar korunur ve otomatik olarak yeniden başlatılmaz.',
               f"ASR: `{plan['asr']['checkpoint']}` @ `{plan['asr']['revision']}`; CUDA FP16.",
               'Bu tabloda ses sayıları modellerin toplamıdır; kaynak metin sayısıyla karıştırılmamalıdır.',
               'WER/CER ve güven aralıkları her veri seti ve kapsam için ayrı gösterilir. Eksik kapsam sıralamaya uygun değildir.',

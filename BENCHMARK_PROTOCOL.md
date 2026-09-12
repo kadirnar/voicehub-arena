@@ -1,9 +1,13 @@
 # VoiceHub Arena v1 — Seed-TTS-Eval English
 
-The first release synthesizes **only Seed-TTS-Eval English** with all 33 English-capable
-VoiceHub providers and transcribes each generated waveform with **Whisper large-v3**.
-The active scope is **1,088 texts per model, 35,904 outputs across all 33 models**.
-The user reduced the earlier five-split campaign to this scope. Existing Seed
+The first release synthesizes **only Seed-TTS-Eval English** with **5 selected
+VoiceHub providers** and transcribes each generated waveform with **Whisper large-v3**.
+The active scope is **1,088 texts per model, 5,440 outputs across 5 models**.
+The selected checkpoints are MOSS-TTS (`OpenMOSS-Team/MOSS-TTS-v1.5`),
+Zonos2 (`Zyphra/ZONOS2`), Qwen3-TTS (`Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice`),
+Nari/Dia (`nari-labs/Dia-1.6B-0626`) and Orpheus-FT (`canopylabs/orpheus-3b-0.1-ft`).
+This cohort was selected by the user for the first release. The 28 other providers
+are deferred and are not automatically restarted. Existing Seed
 results retain their original source hashes, model settings and scores. Other
 datasets and their results remain archived; their queued work is deferred.
 The existing eight authored prompts remain an integration diagnostic, with their
@@ -52,9 +56,9 @@ Each text is generated once with seed 42. No best-of-N selection is performed.
 Within category, evolution-depth and text-length strata, a seed-42 SHA256 order
 is frozen and the strata are interleaved. Stages use disjoint shards:
 
-1. Pilot: first 32 Seed texts per model, **1,056 outputs** across 33 models.
-2. Panel: extend to 256 Seed texts per model, **8,448 outputs** cumulatively.
-3. Full: evaluate every remaining Seed text, 1,088 per model, **35,904 outputs** cumulatively.
+1. Pilot: first 32 Seed texts per model, **160 outputs** across 5 models.
+2. Panel: extend to 256 Seed texts per model, **1,280 outputs** cumulatively.
+3. Full: evaluate every remaining Seed text, 1,088 per model, **5,440 outputs** cumulatively.
 
 Every provider is visited in each stage before moving to the next stage. These
 are planned counts, not completed results. Dataset, phase, generated/scored/planned
@@ -134,7 +138,9 @@ shared with diagnostic/repair jobs. The controller checks hashes and resumes
 verified generated waveforms after interruption. Existing completed shards are
 not generated again.
 
-`configs/public-scope.json` limits the first release to `seedtts_en`. The importer
+`configs/public-scope.json` limits the first release to `seedtts_en` and the five
+explicit `model_types`. The controller refuses a mismatched catalog or queued model.
+The importer
 also defaults to Seed only; other corpora require explicit `--datasets` selection.
 After stopping the controller, `scripts/set_public_scope.py` applies a narrower
 scope under both controller and GPU locks. It backs up the previous plan, keeps

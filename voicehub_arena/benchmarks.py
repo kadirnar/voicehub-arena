@@ -15,20 +15,43 @@ def restrict_public_scope(suite, scope):
     available = {d['id'] for d in suite['datasets']}
     if not selected or not selected <= available:
         raise ValueError('Scope must select known active datasets; expansion requires an explicit new plan')
+    selected_models = None
+    if 'model_types' in scope:
+        selected_models = set(scope['model_types'])
+        available_models = {s['model_type'] for s in suite.get('catalog', [])}
+        if (not selected_models or len(selected_models) != len(scope['model_types'])
+                or not selected_models <= available_models):
+            raise ValueError('Scope must select unique known active models; expansion requires an explicit new plan')
     result = copy.deepcopy(suite)
     result['scope'] = copy.deepcopy(scope)
     removed = [d for d in result['datasets'] if d['id'] not in selected]
     result['datasets'] = [d for d in result['datasets'] if d['id'] in selected]
     if removed:
         result.setdefault('deferred_datasets', []).extend(removed)
+    if selected_models is not None:
+        removed_models = [s for s in result['catalog'] if s['model_type'] not in selected_models]
+        result['catalog'] = [s for s in result['catalog'] if s['model_type'] in selected_models]
+        if removed_models:
+            result.setdefault('deferred_catalog', []).extend(removed_models)
     if 'jobs' in result:
-        excluded = [j for j in result['jobs'] if j['dataset'] not in selected]
-        result['jobs'] = [j for j in result['jobs'] if j['dataset'] in selected]
+        def retained(job):
+            return job['dataset'] in selected and (selected_models is None or job['model'] in selected_models)
+        excluded = [j for j in result['jobs'] if not retained(j)]
+        result['jobs'] = [j for j in result['jobs'] if retained(j)]
         if excluded:
             result.setdefault('deferred_jobs', []).extend(excluded)
         if result.get('current_job') not in {j['run'] for j in result['jobs']}:
             result.pop('current_job', None)
     return result
+
+
+def public_scope_matches(plan, scope):
+    """Refuse to start stale queues, including jobs for excluded models."""
+    datasets = {d['id'] for d in plan['datasets']}
+    models = {s['model_type'] for s in plan['catalog']}
+    return (plan.get('scope') == scope and datasets == set(scope['dataset_ids'])
+            and ('model_types' not in scope or models == set(scope['model_types']))
+            and all(j['dataset'] in datasets and j['model'] in models for j in plan['jobs']))
 
 
 def public_overrides(root, catalog, prepared):

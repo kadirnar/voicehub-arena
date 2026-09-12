@@ -8,10 +8,11 @@ ASR evaluation, JSON/CSV exports, and a private result explorer with audio playb
 ## Public benchmark campaign
 
 The first release evaluates **Seed-TTS-Eval English only** with **Whisper large-v3**.
-There are **1,088 frozen source texts per model**, 33 eligible providers, and
-**35,904 planned outputs in total**. Each model progresses through 32 pilot texts,
+The selected providers are **MOSS-TTS, Zonos2, Qwen3-TTS, Nari/Dia and Orpheus-FT**.
+There are **1,088 frozen source texts per model**, 5 active providers, and
+**5,440 planned outputs in total**. Each model progresses through 32 pilot texts,
 256 cumulative panel texts, and all 1,088 texts. Already completed Seed results
-are reused. EmergentTTS, LibriTTS and LibriSpeech work is deferred; previous files
+are reused. Other providers, EmergentTTS, LibriTTS and LibriSpeech work are deferred; previous files
 remain available as history and will not resume automatically. The persisted
 `configs/public-scope.json` controls the release scope. Counts refer to the plan
 until scoring completes.

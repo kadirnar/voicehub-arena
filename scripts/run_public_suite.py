@@ -14,7 +14,7 @@ import sys
 import time
 
 from voicehub_arena.storage import read_json, write_json
-from voicehub_arena.benchmarks import build_jobs, restrict_public_scope
+from voicehub_arena.benchmarks import build_jobs, restrict_public_scope, public_scope_matches
 
 
 def main():
@@ -37,18 +37,19 @@ def main():
         from voicehub_arena.catalog import discover, declared_languages
         from voicehub_arena.inputs import frontend_protocol
         import voicehub
-        plan = restrict_public_scope(read_json(args.suite), scope)
         catalog = [s for s in discover() if not declared_languages(s['model_type']) or
                    any(lang.lower().startswith('en') for lang in declared_languages(s['model_type']))]
         priority = ['kokoro', 'supertonic', 'vits', 'vui', 'inflecttts', 'styletts2', 'melotts', 'speecht5']
         catalog.sort(key=lambda s: (priority.index(s['model_type']) if s['model_type'] in priority else 100, s['model_type']))
+        plan = restrict_public_scope({**read_json(args.suite), 'catalog':catalog}, scope)
+        catalog = plan['catalog']
         plan.update(catalog=catalog, jobs=build_jobs(plan, catalog), normalization_id='whisper_english',
                     frontend_protocols={s['model_type']:frontend_protocol(s['model_type']) for s in catalog},
                     started_at=time.time(), status='waiting_for_repairs',
                     voicehub_commit=subprocess.check_output(['git','-C',str(Path(voicehub.__file__).parent),'rev-parse','HEAD'],text=True).strip(),
                     gpu=subprocess.check_output(['nvidia-smi','--query-gpu=name,memory.total','--format=csv,noheader'],text=True).strip())
         write_json(plan_path, plan)
-    if set(scope['dataset_ids']) != {d['id'] for d in plan['datasets']}:
+    if not public_scope_matches(plan, scope):
         raise ValueError('Active plan differs from configured scope; stop the controller and migrate the plan first')
     while args.after_service:
         state = subprocess.run(['supervisorctl','status',args.after_service], capture_output=True, text=True)
