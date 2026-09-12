@@ -300,7 +300,7 @@ audited converter. `repairs-en-08` completed Dia and Fish S2-Pro.
 Dia completed all 24 repair samples with 11.74% WER, 9.51% CER and no generation
 limit hits. Llasa completed with 19.00% WER and 14.17% CER; this remains a quality
 concern. Fish completed all 24 repair samples with 3.80% WER and 3.27% CER.
-There are now 26 families with a completed 24-sample evaluation.
+There are now 28 families with a completed 24-sample evaluation.
 The initial extended pass has finished; eight later families hit the disk
 preflight limit. Unused official CSM and CosyVoice caches were removed after
 checking active file handles, reclaiming 9.03 GiB. Their outputs and prepared
@@ -357,8 +357,28 @@ Zonos uses its published learned unconditional speaker vector for basic TTS.
 It does not claim voice cloning or speaker similarity; its optional reference
 speaker encoder is unavailable in the native checkpoint. Fresh `repairs-en-12`
 validates MOSS, Parler, Qwen3, VoxCPM, XTTS and Zonos with current settings.
-NeuTTS-2e weights are accessible, but the separate
-NeuCodec repository still returned HTTP 403 in the latest access check.
+MOSS has now completed at 3.80% WER / 3.30% CER and Parler at 4.66% / 3.15%.
+XTTS text preparation now uses the pinned release's English cleaner for numbers,
+currencies and abbreviations (`pip install -e '.[xtts]'`). It remains inside the
+measured request, and the original test references are unchanged. The native
+tokenizer still requires explicit normalized input.
+The real converted XTTS checkpoint also passed a deliberately capped eight-token
+CPU public-API check, returning finite 24 kHz audio with the reference voice.
+This checks integration only; its full GPU benchmark remains in repair12.
+
+NeuCodec access was approved and the complete 2,519,855,456-byte checkpoint was
+downloaded with its pinned SHA256 verified (811 tensors / 629,937,706 values).
+Evidence is in `runs/validations/neucodec-download.json`. The managed
+`voicehub-arena-followup` service waits for repair12's finished state **and** its
+Supervisor process to exit before running NeuTTS and Zonos2 in fresh repair13.
+The current GPU batch continues without interruption.
+
+The default web view now combines each model's latest attempt with matching
+dataset, repeats, ASR and normalization. Each row carries its source run and
+plays audio from that run; pending retries no longer display stale errors from
+an earlier batch. Historical runs remain selectable. `/api/overview` and
+`/api/overview.csv` export this view. All 34 Arena tests pass, and the UI's full
+model coverage and audio origins were verified in the browser.
 
 The existing instance has no mounted persistent volume. Recycle/destroy removes
 its files, so keep the delivered local source and results mirror. Stop/start

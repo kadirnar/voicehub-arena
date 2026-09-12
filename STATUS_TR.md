@@ -1,18 +1,64 @@
 # VoiceHub Arena — durum
 
-Anlık kopya: 2026-09-12T06:25:35+00:00. Canlı arayüz: http://127.0.0.1:7860/
+Anlık kopya: 2026-09-12T06:58:49+00:00. Canlı arayüz: http://127.0.0.1:7860/
 
 RTX 3090 (24 GB), `vast-3090-voicehub` SSH bağlantısı ve ayrı VS Code uzak penceresi hazır.
 `/workspace/voicehub-arena` sunucudaki proje; bu klasör yerel kaynak ve sonuç kopyasıdır.
+
+
+## Modellerin güncel durumu
+
+**28 / 33 İngilizce modelin 24 örneklik ölçümü tamamlandı.**
+Aşağıda son denemeler; raporun ilerleyen tablolarında geçmiş koşular gösterilir.
+
+| Model | Son durum | Koşu | Puanlanan | Son hata |
+|---|---|---|---:|---|
+| bark | completed | repairs-en-05 | 24 / 24 |  |
+| chatterbox | completed | english-extended | 24 / 24 |  |
+| conversationtts | completed | repairs-en-06 | 24 / 24 |  |
+| cosyvoice | completed | repairs-en-04 | 24 / 24 |  |
+| csm | completed | english-extended | 24 / 24 |  |
+| dia | completed | repairs-en-08 | 24 / 24 |  |
+| echo | completed | repairs-en-10 | 24 / 24 |  |
+| f5tts | completed | english-extended | 24 / 24 |  |
+| fishtts | completed | repairs-en-08 | 24 / 24 |  |
+| gptsovits | completed | english-extended | 24 / 24 |  |
+| higgstts | completed | english-extended | 24 / 24 |  |
+| inflecttts | completed | repairs-en-01 | 24 / 24 |  |
+| irodoritts | unsupported_language | english-extended | 0 / 24 | The pinned VoiceHub model card does not advertise English: ja |
+| kokoro | completed | repairs-en-01 | 24 / 24 |  |
+| llasa | completed | english-extended | 24 / 24 |  |
+| melotts | completed | english-extended | 24 / 24 |  |
+| mosstts | completed | repairs-en-12 | 24 / 24 |  |
+| neutts | queued | repairs-en-13 (önce: english-extended) | 0 / 24 | Önceki deneme: PermissionError: Hugging Face denied access to neuphonic/neucodec@30c1fdd19e68aee65d542cf043750d4c0165893e/config.json (HTTP 403). Check the repository permissi |
+| omnivoice | completed | repairs-en-11 | 24 / 24 |  |
+| openvoice | completed | repairs-en-02 | 24 / 24 |  |
+| orpheustts | completed | repairs-en-11 | 24 / 24 |  |
+| outetts | completed | english-extended | 24 / 24 |  |
+| parlertts | completed | repairs-en-12 | 24 / 24 |  |
+| qwen3tts | generating | repairs-en-12 | 0 / 24 |  |
+| speecht5 | completed | repairs-en-01 | 24 / 24 |  |
+| styletts2 | completed | repairs-en-01 | 24 / 24 |  |
+| supertonic | completed | english-extended | 24 / 24 |  |
+| vibevoice | completed | repairs-en-04 | 24 / 24 |  |
+| vits | completed | english-extended | 24 / 24 |  |
+| voxcpm | pending | repairs-en-12 | 0 / 24 |  |
+| vui | completed | english-extended | 24 / 24 |  |
+| xtts | pending | repairs-en-12 | 0 / 24 |  |
+| zonos | pending | repairs-en-12 | 0 / 24 |  |
+| zonos2 | queued | repairs-en-13 (önce: repairs-en-11) | 24 / 24 |  |
+
+## Teknik kayıt ve geçmiş denemeler
 
 **Tüm modellerin çalıştığı henüz doğrulanmadı.** İngilizce dışı Irodori-TTS kapsam dışıdır.
 Gösterilen koşu: `english-extended`; durum `paused`, aşama `repair`.
 Kapsam: 34 model ailesi, 8 İngilizce metin × 3 seed.
 
-NeuTTS-2e ana ağırlıklarına erişim doğrulandı; NeuCodec bağımlılığı ayrıca yetki istiyor.
+NeuCodec erişimi açıldı; 811 tensörlü dosya tamamen indirildi ve SHA256 doğrulandı.
+NeuTTS ve Zonos2 repairs-en-13 için otomatik sırada; mevcut repairs-en-12 bitince başlayacak.
 Kimlik bilgileri proje dışında saklanıyor.
 33 İngilizce modelin giriş sözleşmesi kontrolü geçti. Bu, GPU üretim başarısı anlamına gelmez.
-Uygulama: 32 test geçti. İlk VoiceHub düzeltmeleri: 48 test ve 6 alt test geçti.
+Uygulama: 34 test geçti. İlk VoiceHub düzeltmeleri: 48 test ve 6 alt test geçti.
 Ek OpenVoice yükleme düzeltmesi: 12 test geçti.
 CosyVoice: 11 test ve 101 alt test; VibeVoice: 16 test geçti.
 Bark public generate düzeltmesi: 13 test geçti; repairs-en-05 içinde 24 ses puanlandı.
@@ -36,6 +82,9 @@ repairs-en-11 tamamlandı: OmniVoice WER %3,97 / CER %3,39; Orpheus %7,08 / %6,8
 Zonos2 WER %12,95 / CER %11,90; uzun metinlerde 44 sözcük silinmesiyle kalite incelemesi açık.
 Üç uzun ses 1.024 adımın karşılığı olan 11,80 saniyede bitti; sınır 3.072 oldu, yeni GPU denemesi bekliyor.
 Kalan altı çalıştırılabilir model yeni repairs-en-12 içinde doğrulanıyor.
+repairs-en-12: MOSS WER %3,80 / CER %3,30; Parler WER %4,66 / CER %3,15 ile 24/24 tamamlandı.
+XTTS resmî İngilizce metin işleyicisi eklendi; sayı, para ve kısaltma testi geçti.
+Arayüz artık aynı protokolde her modelin son denemesini ve kaynak koşusunu topluca gösterir.
 Önbellekler birlikte sınırlanıyor; hardlink dosyaları bir sayılıyor, model öncesi 32 GiB alan ayrılıyor.
 Kullanılmayan Fish/Higgs/Dia/Echo Hub kopyalarından 32,24 GiB alan açıldı.
 Kullanılmayan CSM/CosyVoice Hub önbelleklerinden 9,03 GiB alan açıldı; sonuçlar korundu.
@@ -198,16 +247,16 @@ VibeVoice için yeni Arena adaptörü ayrıca etiketlenir; tam referans dalga bi
 
 | Model | Durum | Puanlanan | WER | CER |
 |---|---|---:|---:|---:|
-| mosstts | loading | 0 | — | — |
-| parlertts | pending | 0 | — | — |
-| qwen3tts | pending | 0 | — | — |
+| mosstts | completed | 24 | 3.80% | 3.30% |
+| parlertts | completed | 24 | 4.66% | 3.15% |
+| qwen3tts | generating | 0 | — | — |
 | voxcpm | pending | 0 | — | — |
 | xtts | pending | 0 | — | — |
 | zonos | pending | 0 | — | — |
 
 ## Tamamlanan 24 örneklik son doğrulamalar
 
-26 model ailesinin 24 örneklik üretim ve puanlaması tamamlandı.
+28 model ailesinin 24 örneklik üretim ve puanlaması tamamlandı.
 
 Farklı koşuların en yeni tamamlanan ayarları gösterilir; ayarlar ve süre kapsamı README içindedir.
 
@@ -228,10 +277,12 @@ Farklı koşuların en yeni tamamlanan ayarları gösterilir; ayarlar ve süre k
 | kokoro | repairs-en-01 | 3.63% | 3.27% | 0.018 |
 | llasa | english-extended | 19.00% | 14.17% | 1.406 |
 | melotts | english-extended | 4.66% | 3.60% | 0.019 |
+| mosstts | repairs-en-12 | 3.80% | 3.30% | 1.960 |
 | omnivoice | repairs-en-11 | 3.97% | 3.39% | 0.243 |
 | openvoice | repairs-en-02 | 4.84% | 3.45% | 0.039 |
 | orpheustts | repairs-en-11 | 7.08% | 6.87% | 4.151 |
 | outetts | english-extended | 3.97% | 3.36% | 5.269 |
+| parlertts | repairs-en-12 | 4.66% | 3.15% | 3.318 |
 | speecht5 | repairs-en-01 | 3.11% | 2.91% | 0.268 |
 | styletts2 | repairs-en-01 | 3.80% | 3.30% | 0.040 |
 | supertonic | english-extended | 3.80% | 3.33% | 0.061 |
@@ -240,7 +291,7 @@ Farklı koşuların en yeni tamamlanan ayarları gösterilir; ayarlar ve süre k
 | vui | english-extended | 14.51% | 12.93% | 0.640 |
 | zonos2 | repairs-en-11 | 12.95% | 11.90% | 8.714 |
 
-Etkin koşu: `repairs-en-12`, aşama `generation`, model `mosstts`.
+Etkin koşu: `repairs-en-12`, aşama `generation`, model `qwen3tts`.
 
 İşler Supervisor altında seri GPU kullanımıyla devam eder. Bu görevde 30 dakikalık
 kontrol ve düzeltme takibi etkindir; değişmeyen durumlarda bildirim göndermez.

@@ -19,3 +19,14 @@ def test_prepared_features_require_exact_text_and_verified_artifact(tmp_path):
     file.write_bytes(b'corrupt')
     with pytest.raises(ValueError,match='digest mismatch'):
         prepared_features(str(tmp_path),text)
+
+
+def test_xtts_uses_release_number_currency_and_abbreviation_cleaner():
+    pytest.importorskip('coqpit')
+    from voicehub_arena.inputs import prepare_request
+    generation = {'language':'en', 'speaker_audio_path':'reference.wav'}
+    text, options = prepare_request('xtts', 'Dr. Smith paid $12.50 for 3 books.', generation)
+    assert text == 'doctor smith paid twelve dollars, fifty cents for three books.'
+    assert options['text_is_normalized'] is True
+    assert options['speaker_audio_path'] == 'reference.wav'
+    assert 'text_is_normalized' not in generation

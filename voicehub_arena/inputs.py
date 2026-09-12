@@ -58,4 +58,13 @@ def prepare_request(model_type, text, generation, *, prepared_inputs=None, model
     elif model_type == "zonos":
         from voicehub.models.zonos.source.zonos.conditioning import phonemize
         options["phonemes"] = phonemize([text], [options.get("language", "en-us")])[0]
+    elif model_type == "xtts":
+        # Native XTTS deliberately requires external language-specific number
+        # verbalization. Use the pinned release's actual cleaner, preserving
+        # the original benchmark reference and timing text preparation.
+        from voicehub.models.xtts.source.TTS.tts.layers.xtts.tokenizer import multilingual_cleaners
+        if options.get('language', 'en') != 'en':
+            raise ValueError('Arena XTTS text preparation is English-only')
+        text = multilingual_cleaners(text, 'en')
+        options['text_is_normalized'] = True
     return text, options

@@ -18,10 +18,11 @@ lines = [
     '**Tüm modellerin çalıştığı henüz doğrulanmadı.** İngilizce dışı Irodori-TTS kapsam dışıdır.',
     f'Gösterilen koşu: `{run.name}`; durum `{state.get("status")}`, aşama `{state.get("phase")}`.',
     f'Kapsam: {len(cfg["catalog"])} model ailesi, {len(cfg["dataset"])} İngilizce metin × {cfg["repeats"]} seed.', '',
-    'NeuTTS-2e ana ağırlıklarına erişim doğrulandı; NeuCodec bağımlılığı ayrıca yetki istiyor.',
+    'NeuCodec erişimi açıldı; 811 tensörlü dosya tamamen indirildi ve SHA256 doğrulandı.',
+    'NeuTTS ve Zonos2 repairs-en-13 için otomatik sırada; mevcut repairs-en-12 bitince başlayacak.',
     'Kimlik bilgileri proje dışında saklanıyor.',
     '33 İngilizce modelin giriş sözleşmesi kontrolü geçti. Bu, GPU üretim başarısı anlamına gelmez.',
-    'Uygulama: 32 test geçti. İlk VoiceHub düzeltmeleri: 48 test ve 6 alt test geçti.',
+    'Uygulama: 34 test geçti. İlk VoiceHub düzeltmeleri: 48 test ve 6 alt test geçti.',
     'Ek OpenVoice yükleme düzeltmesi: 12 test geçti.',
     'CosyVoice: 11 test ve 101 alt test; VibeVoice: 16 test geçti.',
     'Bark public generate düzeltmesi: 13 test geçti; repairs-en-05 içinde 24 ses puanlandı.',
@@ -45,6 +46,9 @@ lines = [
     'Zonos2 WER %12,95 / CER %11,90; uzun metinlerde 44 sözcük silinmesiyle kalite incelemesi açık.',
     'Üç uzun ses 1.024 adımın karşılığı olan 11,80 saniyede bitti; sınır 3.072 oldu, yeni GPU denemesi bekliyor.',
     'Kalan altı çalıştırılabilir model yeni repairs-en-12 içinde doğrulanıyor.',
+    'repairs-en-12: MOSS WER %3,80 / CER %3,30; Parler WER %4,66 / CER %3,15 ile 24/24 tamamlandı.',
+    'XTTS resmî İngilizce metin işleyicisi eklendi; sayı, para ve kısaltma testi geçti.',
+    'Arayüz artık aynı protokolde her modelin son denemesini ve kaynak koşusunu topluca gösterir.',
     'Önbellekler birlikte sınırlanıyor; hardlink dosyaları bir sayılıyor, model öncesi 32 GiB alan ayrılıyor.',
     'Kullanılmayan Fish/Higgs/Dia/Echo Hub kopyalarından 32,24 GiB alan açıldı.',
     'Kullanılmayan CSM/CosyVoice Hub önbelleklerinden 9,03 GiB alan açıldı; sonuçlar korundu.',
@@ -93,6 +97,7 @@ for attempt in sorted((root/'runs').glob('repairs-*')):
         pct = lambda x: f'{x*100:.2f}%' if isinstance(x,(int,float)) else '—'
         lines.append(f'| {spec["model_type"]} | {result["status"]} | {scores.get("scored",0)} | {pct(scores.get("wer"))} | {pct(scores.get("cer"))} |')
 latest = {}
+current = {}
 for candidate in sorted((root/'runs').glob('*'), key=lambda p: p.stat().st_mtime):
     config_path = candidate/'config.json'
     if not config_path.exists():
@@ -100,6 +105,15 @@ for candidate in sorted((root/'runs').glob('*'), key=lambda p: p.stat().st_mtime
     settings = json.loads(config_path.read_text())
     if len(settings.get('dataset', [])) != 8 or settings.get('repeats') != 3:
         continue
+    if (settings.get('dataset') == cfg.get('dataset') and settings.get('asr') == cfg.get('asr')
+            and settings.get('normalization') == cfg.get('normalization')):
+        for spec in settings['catalog']:
+            name = spec['model_type']
+            path = candidate/name/'result.json'
+            stamp = settings.get('started_at', 0)
+            if name not in current or stamp > current[name][0]:
+                result = json.loads(path.read_text()) if path.exists() else {'status':'pending','rows':[]}
+                current[name] = (stamp, candidate.name, result)
     for result_path in candidate.glob('*/result.json'):
         result = json.loads(result_path.read_text())
         if result.get('status') == 'completed' and result.get('summary', {}).get('scored') == 24:
@@ -114,6 +128,26 @@ lines += ['', '## Tamamlanan 24 örneklik son doğrulamalar', '',
 for name, (_, attempt, result) in sorted(latest.items()):
     scores = result['summary']
     lines.append(f'| {name} | {attempt} | {scores["wer"]*100:.2f}% | {scores["cer"]*100:.2f}% | {scores["rtf"]:.3f} |')
+current_lines = ['', '## Modellerin güncel durumu', '',
+                 f'**{len(latest)} / 33 İngilizce modelin 24 örneklik ölçümü tamamlandı.**',
+                 'Aşağıda son denemeler; raporun ilerleyen tablolarında geçmiş koşular gösterilir.', '',
+                 '| Model | Son durum | Koşu | Puanlanan | Son hata |', '|---|---|---|---:|---|']
+queued = {}
+for path in (root/'runs').glob('*/queue.json'):
+    plan = json.loads(path.read_text())
+    if not (path.parent/'config.json').exists() and plan.get('status') in {'waiting','starting'}:
+        queued.update({name:path.parent.name for name in plan.get('models',[])})
+for name, (_, attempt, result) in sorted(current.items()):
+    error = (result.get('error') or '').replace('|', '/').replace('\n', ' ')[:160]
+    scored = result.get('summary', {}).get('scored', 0)
+    status = result['status']
+    if name in queued:
+        status = 'queued'
+        attempt = queued[name] + ' (önce: ' + attempt + ')'
+        error = 'Önceki deneme: ' + error if error else ''
+    current_lines.append(f'| {name} | {status} | {attempt} | {scored} / 24 | {error} |')
+current_lines += ['', '## Teknik kayıt ve geçmiş denemeler', '']
+lines[7:7] = current_lines
 for candidate in sorted((root/'runs').glob('*/state.json')):
     active = json.loads(candidate.read_text())
     if active.get('status') == 'running':
