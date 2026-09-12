@@ -131,10 +131,14 @@ followed by a full-registry run with sixty minutes per provider, eight texts
 and three seeds. The longer deadline covers observed synthesis time across
 24 samples, not only model download. Abandoned native download temporary files are reclaimed only
 when no process holds them open and they have not changed for five minutes.
-Completed checkpoints and resumable official Hub downloads are preserved.
-The extended job explicitly limits the dedicated native checkpoint cache to
-45 GiB between workers, evicting older unused repositories as needed. This
-does not remove source, credentials, audio, results or the official Hub cache.
+Resumable official Hub downloads are preserved. The job now manages native
+and official Hub model caches together, counting hardlinked payloads once.
+Between workers, a 45 GiB total cache budget and 32 GiB free-space reserve evict
+older unused repository groups through native cleanup and the Hub revision API.
+The next checkpoint, ASR checkpoint, open files and repositories with unfinished
+downloads are protected. Source, credentials, prepared artifacts, audio, results
+and dataset repositories are outside eviction. The cache tests use real Hub
+cache layouts and hardlinks; all 32 Arena tests pass.
 Immutable native cache files are SHA-256 verified before reuse without HTTP;
 uncached immutable revisions use the resumable Hugging Face/Xet client. The
 commit, size and SHA-256 (or Git blob SHA-1 for small Git objects) are verified
@@ -225,7 +229,9 @@ for internal downloads; resolved artifact commits disclose what was actually use
 ZONOS2 follows VoiceHub’s pinned independent BF16 conversion, separately identified
 in its provenance. Timeout includes metadata, download, load and
 generation. Weight downloads are cached. A free-disk guard stops starting new
-models below 8 GiB; a single in-flight download can still consume additional disk.
+models below the configured reserve (32 GiB for new runs; historical runs used
+8 GiB). This provides room for the large backbone and codec downloads; one
+unusually large download can still exceed the reserve.
 Load times include downloads on a cache miss; cache states are not identical
 across providers, so these load times are not a controlled cold-start ranking.
 
@@ -299,8 +305,15 @@ The initial extended pass has finished; eight later families hit the disk
 preflight limit. Unused official CSM and CosyVoice caches were removed after
 checking active file handles, reclaiming 9.03 GiB. Their outputs and prepared
 artifacts remain intact. `repairs-en-09` also hit the disk preflight limit.
-`repairs-en-10` completed Echo and retries OmniVoice, Orpheus, Parler, Qwen3-TTS,
-VoxCPM, XTTS, Zonos and Zonos2 serially. MOSS-TTS v1.5 exposed an incorrect
+`repairs-en-10` completed Echo. OmniVoice then exposed a non-persistent RoPE
+buffer left on meta after loading. Its loader now reconstructs the deterministic
+frequencies from the attention config; the roundtrip test loads on meta and
+compares logits with the original CPU graph. All 18 OmniVoice tests pass.
+Orpheus subsequently ran out of disk, and later families hit preflight limits.
+Inactive completed Fish, Higgs, Dia and Echo Hub cache revisions were removed,
+reclaiming 32.24 GiB. The paired cache management above prevents those retained
+Hub references from escaping the budget. `repairs-en-11` now runs MOSS-TTS,
+OmniVoice, Orpheus, Parler, Qwen3-TTS, VoxCPM, XTTS, Zonos and Zonos2 serially. MOSS-TTS v1.5 exposed an incorrect
 audited-header fingerprint. Independent parsing of the four SHA-verified shards
 confirmed all 463 BF16 tensor names and shapes exactly match the native meta
 graph (8,489,841,664 parameters). Its pinned fingerprint was corrected to
@@ -309,8 +322,8 @@ strict inventory and revision rejection remain in place. The full header audit
 is saved in `runs/validations/moss-v15-header-inventory.json` and its compact
 immutable config/artifact fixture is included in the native patch. The MOSS
 native suite passed 10 tests and 8 subtests, including graph inventory and
-altered-header/revision rejection. MOSS synthesis
-still requires a fresh run after the current serial repair set.
+altered-header/revision rejection. MOSS synthesis is being validated in
+`repairs-en-11`.
 NeuTTS-2e weights are accessible, but the separate
 NeuCodec repository still returned HTTP 403 in the latest access check.
 

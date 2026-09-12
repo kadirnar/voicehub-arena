@@ -517,6 +517,34 @@ index 864c587..861b42e 100644
              torch.save(
                  {
                      "state_dict": {
+diff --git a/tests/test_native_omnivoice.py b/tests/test_native_omnivoice.py
+index fb45cab..5d5a540 100644
+--- a/tests/test_native_omnivoice.py
++++ b/tests/test_native_omnivoice.py
+@@ -268,10 +268,22 @@ class NativeOmniVoiceModelTests(unittest.TestCase):
+         with tempfile.TemporaryDirectory() as directory:
+             path = Path(directory) / "model.safetensors"
+             export_omnivoice_checkpoint(source, path)
+-            target = OmniVoiceModel(config, initialize=False)
++            with torch.device('meta'):
++                target = OmniVoiceModel(config, initialize=False)
+             load_omnivoice_checkpoint(target, path, device="cpu")
+             for name, expected in source.state_dict().items():
+                 torch.testing.assert_close(target.state_dict()[name], expected)
++            self.assertFalse(any(value.is_meta for value in target.buffers()))
++            source.eval()
++            target.eval()
++            with torch.inference_mode():
++                for length in (3, 7):
++                    ids = torch.randint(0, 16, (1, 2, length))
++                    audio_mask = torch.ones(1, length, dtype=torch.bool)
++                    audio_mask[:, 0] = False
++                    expected = source(ids, audio_mask).logits
++                    actual = target(ids, audio_mask).logits
++                    torch.testing.assert_close(actual, expected)
+ 
+     def test_iterative_generation_reveals_every_mask(self):
+         config = OmniVoiceArchitectureConfig.tiny(vocab_size=320)
 diff --git a/tests/test_native_openvoice.py b/tests/test_native_openvoice.py
 index 06e4525..e8d2d2e 100644
 --- a/tests/test_native_openvoice.py
@@ -1000,6 +1028,38 @@ index 45fd82e..3277bd1 100644
          sample_rate=24_000,
          codec=MOSS_CODEC_V1_REPOSITORY,
      ),
+diff --git a/voicehub/architectures/omnivoice/checkpoint.py b/voicehub/architectures/omnivoice/checkpoint.py
+index c187a73..b8a0268 100644
+--- a/voicehub/architectures/omnivoice/checkpoint.py
++++ b/voicehub/architectures/omnivoice/checkpoint.py
+@@ -24,6 +24,8 @@ from voicehub.architectures.omnivoice.metadata import (
+ from voicehub.architectures.omnivoice.modeling import OmniVoiceModel
+ from voicehub.checkpointing import SafeTensorReader, save_safetensors
+ from voicehub.checkpointing.errors import CheckpointCompatibilityError
++from voicehub.architectures.causal_lm.modeling import CausalSelfAttention
++from voicehub.neural.rotary import RotaryEmbedding
+ 
+ _FLOATING_DTYPES = frozenset({"BF16", "F16", "F32", "F64", "F8_E4M3", "F8_E5M2"})
+ _INTEGER_DTYPES = frozenset({"BOOL", "I8", "I16", "I32", "I64", "U8", "U16", "U32", "U64"})
+@@ -150,7 +152,18 @@ def load_omnivoice_checkpoint(
+                 strict=False,
+                 assign=True,
+             )
++    # RoPE is deterministic and non-persistent, so checkpoint assignment does
++    # not restore its frequencies when the graph was constructed on meta.
++    for module in model.modules():
++        if isinstance(module, CausalSelfAttention) and module.rotary.inverse_frequency.is_meta:
++            module.rotary.inverse_frequency = RotaryEmbedding(
++                module.rotary.dimension,
++                base=module.config.rope_theta,
++                scaling=module.config.rope_scaling,
++                device=target_device,
++            ).inverse_frequency
+     remaining = [name for name, value in model.state_dict().items() if value.device.type == "meta"]
++    remaining.extend(name for name, value in model.named_buffers() if value.is_meta and name not in remaining)
+     if remaining:
+         raise CheckpointCompatibilityError("Streaming load left meta tensors: " + ", ".join(remaining[:12]))
+     return report
 diff --git a/voicehub/architectures/outetts/checkpoint.py b/voicehub/architectures/outetts/checkpoint.py
 index 9ef5db7..bebcea5 100644
 --- a/voicehub/architectures/outetts/checkpoint.py

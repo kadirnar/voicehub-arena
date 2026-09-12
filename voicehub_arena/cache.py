@@ -114,3 +114,85 @@ def prune_native_cache(budget_bytes, protected_repos=()):
         result['repositories'] += 1
         result['bytes'] += size
     return result
+
+
+def prune_checkpoint_caches(budget_bytes, protected_repos=(), min_free_bytes=0):
+    """Reclaim paired native/Hub model caches between workers under the GPU lock.
+
+    Count hardlinked files once. Protect the next model, ASR and open handles in
+    either cache. Hub deletion uses its revision API, retaining resumable partial
+    downloads and unrelated datasets. Credentials and prepared artifacts are
+    outside the managed hub directory.
+    """
+    if budget_bytes <= 0 or min_free_bytes < 0 or not os.environ.get('HF_HOME'):
+        raise ValueError('Cache management requires positive budget and explicit HF_HOME')
+    from huggingface_hub import scan_cache_dir
+
+    root = Path(os.environ['HF_HOME'])/'hub'
+    opened = open_paths()
+    if opened is None or not root.is_dir():
+        return {'repositories': 0, 'freed_bytes': 0, 'skipped': 'No safe cache inventory'}
+    protected = {hashlib.sha256(repo.encode()).hexdigest() for repo in protected_repos}
+    groups = {}
+    native_root = root/'voicehub/repos'
+    if native_root.is_dir():
+        for native in native_root.iterdir():
+            if not native.is_symlink() and native.is_dir() and re.fullmatch('[a-f0-9]{64}', native.name):
+                groups[native.name] = {'native': native, 'paths': [native], 'revisions': []}
+    info = scan_cache_dir(root)
+    for repo in info.repos:
+        if repo.repo_type != 'model' or repo.repo_path.is_symlink():
+            continue
+        key = hashlib.sha256(repo.repo_id.encode()).hexdigest()
+        group = groups.setdefault(key, {'paths': [], 'revisions': []})
+        group['paths'].append(repo.repo_path)
+        group['revisions'].extend(rev.commit_hash for rev in repo.revisions)
+
+    def physical_file_bytes():
+        seen = set()
+        total = 0
+        for path in root.rglob('*'):
+            if path.is_symlink() or not path.is_file():
+                continue
+            stat = path.stat()
+            inode = (stat.st_dev, stat.st_ino)
+            if inode not in seen:
+                seen.add(inode)
+                total += stat.st_size
+        return total
+
+    candidates = []
+    for key, group in groups.items():
+        paths = [p.resolve() for p in group['paths']]
+        if key in protected or any(p == used or p in used.parents for p in paths for used in opened):
+            continue
+        # Deleting the last Hub revision can delete the whole repository, so
+        # exclude any group with resumable partials before asking Hub to evict it.
+        if any(next(folder.rglob('*.incomplete'), None) is not None for folder in paths):
+            continue
+        stamps = [p.stat().st_mtime for folder in paths for p in folder.rglob('*')
+                  if p.is_file() and not p.is_symlink()]
+        candidates.append((max(stamps, default=0), key, group))
+    before_free = shutil.disk_usage(root).free
+    result = {'repositories': 0, 'freed_bytes': 0}
+    for _, key, group in sorted(candidates):
+        if physical_file_bytes() <= budget_bytes and shutil.disk_usage(root).free >= min_free_bytes:
+            break
+        # Recheck handles immediately before deleting this repository group.
+        current = open_paths()
+        if current is None:
+            break
+        if any(p.resolve() == used or p.resolve() in used.parents
+               for p in group['paths'] for used in current):
+            continue
+        if any(next(p.rglob('*.incomplete'), None) is not None for p in group['paths']):
+            continue
+        if group.get('native') is not None:
+            shutil.rmtree(group['native'])
+        if group['revisions']:
+            info.delete_revisions(*group['revisions']).execute()
+        result['repositories'] += 1
+    result['freed_bytes'] = max(0, shutil.disk_usage(root).free-before_free)
+    result['free_bytes'] = shutil.disk_usage(root).free
+    result['cache_bytes'] = physical_file_bytes()
+    return result

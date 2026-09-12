@@ -119,6 +119,7 @@ def execute(args):
                  overrides=read_json(args.overrides) if args.overrides else {},
                  device=args.device,seed=args.seed,repeats=args.repeats,warmups=args.warmups,
                  timeout_s=args.timeout,cpu_threads=args.cpu_threads,packages=packages,cache_budget_gib=args.cache_budget_gib,
+                 min_free_gib=args.min_free_gib,
                  incremental_scoring=args.score_each_model,
                  voicehub_commit=revision,voicehub_diff_sha256=native_diff_sha256,python=platform.python_version(),started_at=time.time(),
                  asr={"checkpoint":args.asr,"revision":HfApi().model_info(args.asr).sha},
@@ -159,13 +160,18 @@ def execute(args):
         if reclaimed["files"]:
             print("Reclaimed abandoned download bytes:", reclaimed["bytes"], flush=True)
         if cfg.get("cache_budget_gib"):
-            from .cache import prune_native_cache
+            from .cache import prune_checkpoint_caches
             checkpoint = cfg["overrides"].get(name,{}).get("checkpoint",spec["checkpoint"])
-            pruned = prune_native_cache(cfg["cache_budget_gib"]*2**30,[checkpoint] if checkpoint else [])
+            protected = [cfg['asr']['checkpoint']]
+            if checkpoint:
+                protected.append(checkpoint)
+            pruned = prune_checkpoint_caches(cfg["cache_budget_gib"]*2**30, protected,
+                                             cfg.get('min_free_gib', 8)*2**30)
             if pruned['repositories']:
-                print("Reclaimed native checkpoint cache:",json.dumps(pruned),flush=True)
-        if shutil.disk_usage(root).free < 8*2**30:
-            write_json(result_path,{"model_type":name,"checkpoint":spec["checkpoint"],"status":"disk_limit","error":"Less than 8 GiB free; checkpoint download was not started","rows":[]})
+                print("Reclaimed paired checkpoint caches:",json.dumps(pruned),flush=True)
+        reserve = cfg.get('min_free_gib', 8)
+        if shutil.disk_usage(root).free < reserve*2**30:
+            write_json(result_path,{"model_type":name,"checkpoint":spec["checkpoint"],"status":"disk_limit","error":f"Less than {reserve:g} GiB free; checkpoint download was not started","rows":[]})
             report(root)
             continue
         print(f"GENERATE {name}",flush=True)
@@ -206,7 +212,8 @@ def main():
     run.add_argument("--seed",type=int,default=42)
     run.add_argument("--timeout",type=int,default=900)
     run.add_argument("--cpu-threads",type=int,default=4)
-    run.add_argument("--cache-budget-gib",type=float,help="Prune oldest unused native checkpoint repositories between models; requires dedicated HF_HOME")
+    run.add_argument("--cache-budget-gib",type=float,help="Prune paired native/Hub checkpoint caches between models; requires dedicated HF_HOME")
+    run.add_argument("--min-free-gib",type=float,default=32,help="Free disk reserve before each model download (default: 32 GiB)")
     run.add_argument('--score-each-model',action='store_true',help='Run CPU ASR after each TTS worker exits so scored results appear incrementally')
     run.add_argument("--device",default="cuda")
     run.add_argument("--asr",default="Systran/faster-whisper-small.en")

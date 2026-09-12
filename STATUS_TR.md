@@ -1,6 +1,6 @@
 # VoiceHub Arena — durum
 
-Anlık kopya: 2026-09-12T00:33:14+00:00. Canlı arayüz: http://127.0.0.1:7860/
+Anlık kopya: 2026-09-12T01:14:20+00:00. Canlı arayüz: http://127.0.0.1:7860/
 
 RTX 3090 (24 GB), `vast-3090-voicehub` SSH bağlantısı ve ayrı VS Code uzak penceresi hazır.
 `/workspace/voicehub-arena` sunucudaki proje; bu klasör yerel kaynak ve sonuç kopyasıdır.
@@ -12,7 +12,7 @@ Kapsam: 34 model ailesi, 8 İngilizce metin × 3 seed.
 NeuTTS-2e ana ağırlıklarına erişim doğrulandı; NeuCodec bağımlılığı ayrıca yetki istiyor.
 Kimlik bilgileri proje dışında saklanıyor.
 33 İngilizce modelin giriş sözleşmesi kontrolü geçti. Bu, GPU üretim başarısı anlamına gelmez.
-Uygulama: 29 test geçti. İlk VoiceHub düzeltmeleri: 48 test ve 6 alt test geçti.
+Uygulama: 32 test geçti. İlk VoiceHub düzeltmeleri: 48 test ve 6 alt test geçti.
 Ek OpenVoice yükleme düzeltmesi: 12 test geçti.
 CosyVoice: 11 test ve 101 alt test; VibeVoice: 16 test geçti.
 Bark public generate düzeltmesi: 13 test geçti; repairs-en-05 içinde 24 ses puanlandı.
@@ -30,10 +30,14 @@ Llasa: WER %19,00, CER %14,17; kalite incelemesi gerekiyor.
 Echo codec yapısı, eski weight norm adları ve boolean maskeler düzeltildi; 6 kaynak testi geçti.
 Gerçek 541 tensörlü Echo codec iki kısa CPU karşılaştırmasında referansla birebir eşleşti.
 Echo repairs-en-10: 24 örnekte WER %3,97, CER %3,30, RTF 0,592; üretim hatası yok.
-Ana genişletilmiş tarama bitti; disk sınırına takılan sekiz model repairs-en-10 içinde yeniden deneniyor.
+repairs-en-10 Echo sonrasında OmniVoice RoPE ve Orpheus disk hatalarıyla durdu.
+OmniVoice meta yüklemesinden sonra RoPE tabloları düzeltildi; 18 test geçti.
+Kalan dokuz model repairs-en-11 içinde yeniden deneniyor.
+Önbellekler birlikte sınırlanıyor; hardlink dosyaları bir sayılıyor, model öncesi 32 GiB alan ayrılıyor.
+Kullanılmayan Fish/Higgs/Dia/Echo Hub kopyalarından 32,24 GiB alan açıldı.
 Kullanılmayan CSM/CosyVoice Hub önbelleklerinden 9,03 GiB alan açıldı; sonuçlar korundu.
 MOSS-TTS v1.5 gerçek 463 tensörü native yapıyla eşleşti; kayıtlı envanter özeti düzeltildi.
-MOSS-TTS: 10 test ve 8 alt test geçti; yeni GPU koşusu gerekiyor.
+MOSS-TTS: 10 test ve 8 alt test geçti; GPU doğrulaması repairs-en-11 içinde.
 Echo indirmeleri artık değişebilir dalı commit ile sabitleyerek yeniden sürdürülebilir istemciyi kullanır.
 İndirme önbelleği, doğrulanmış sabit dosyaları aynı diskte hardlink ile paylaşır.
 SpeechT5 gerçek tokenizer’ı, 13 örnekte SentencePiece referansıyla eşleşti.
@@ -159,7 +163,21 @@ VibeVoice için yeni Arena adaptörü ayrıca etiketlenir; tam referans dalga bi
 | Model | Durum | Puanlanan | WER | CER |
 |---|---|---:|---:|---:|
 | echo | completed | 24 | 3.97% | 3.30% |
-| omnivoice | loading | 0 | — | — |
+| omnivoice | blocked | 0 | — | — |
+| orpheustts | blocked | 0 | — | — |
+| parlertts | disk_limit | 0 | — | — |
+| qwen3tts | disk_limit | 0 | — | — |
+| voxcpm | disk_limit | 0 | — | — |
+| xtts | disk_limit | 0 | — | — |
+| zonos | disk_limit | 0 | — | — |
+| zonos2 | disk_limit | 0 | — | — |
+
+## Ayrı doğrulama: repairs-en-11
+
+| Model | Durum | Puanlanan | WER | CER |
+|---|---|---:|---:|---:|
+| mosstts | loading | 0 | — | — |
+| omnivoice | pending | 0 | — | — |
 | orpheustts | pending | 0 | — | — |
 | parlertts | pending | 0 | — | — |
 | qwen3tts | pending | 0 | — | — |
@@ -200,7 +218,7 @@ Farklı koşuların en yeni tamamlanan ayarları gösterilir; ayarlar ve süre k
 | vits | english-extended | 7.77% | 4.75% | 0.030 |
 | vui | english-extended | 14.51% | 12.93% | 0.640 |
 
-Etkin koşu: `repairs-en-10`, aşama `generation`, model `omnivoice`.
+Etkin koşu: `repairs-en-11`, aşama `generation`, model `mosstts`.
 
 İşler Supervisor altında seri GPU kullanımıyla devam eder. Bu görevde 30 dakikalık
 kontrol ve düzeltme takibi etkindir; değişmeyen durumlarda bildirim göndermez.
