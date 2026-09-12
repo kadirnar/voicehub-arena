@@ -34,8 +34,11 @@ if plan_path.exists():
                 generated += sum(bool(row.get('audio')) for row in rows)
                 scored += sum(row['status'] == 'ok' for row in rows)
         lines.append(f"| {dataset['id']} | {dataset['total_samples']:,} | {generated} | {scored} |")
-    lines += ['', 'Her model için önce 32 metin/bölüm pilotu, sonra 256 metin/bölüm paneli, ardından kalan bütün metinler çalışır.',
-              'Panel: 1.280 metin/model; tam kapsam: 13.129 metin/model. Üretim seed42 ve tek tekrarlıdır.',
+    panel = sum(s['samples'] for d in plan['datasets'] for s in d['shards'] if s['phase'] in ('pilot','panel'))
+    lines += ['', f"Etkin kapsam: **{plan.get('scope',{}).get('label','Public English')}**.",
+              'Her model için önce 32 metin/bölüm pilotu, sonra 256 metin/bölüm paneli, ardından kalan bütün metinler çalışır.',
+              f'Panel: {panel:,} metin/model; tam kapsam: {total:,} metin/model, toplam {total*len(plan["catalog"]):,} ses. Üretim seed42 ve tek tekrarlıdır.',
+              'İlk sürüm yalnız Seed-TTS-Eval İngilizce kapsamını çalıştırır. Diğer veri setleri ertelenmiştir; önceki dosyalar korunur ve otomatik olarak yeniden başlatılmaz.',
               f"ASR: `{plan['asr']['checkpoint']}` @ `{plan['asr']['revision']}`; CUDA FP16.",
               'Bu tabloda ses sayıları modellerin toplamıdır; kaynak metin sayısıyla karıştırılmamalıdır.',
               'WER/CER ve güven aralıkları her veri seti ve kapsam için ayrı gösterilir. Eksik kapsam sıralamaya uygun değildir.',

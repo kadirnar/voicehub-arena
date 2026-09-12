@@ -1,20 +1,23 @@
-# Public English benchmark v2
+# VoiceHub Arena v1 — Seed-TTS-Eval English
 
-This campaign synthesizes published English test texts with all 33 English-capable
+The first release synthesizes **only Seed-TTS-Eval English** with all 33 English-capable
 VoiceHub providers and transcribes each generated waveform with **Whisper large-v3**.
+The active scope is **1,088 texts per model, 35,904 outputs across all 33 models**.
+The user reduced the earlier five-split campaign to this scope. Existing Seed
+results retain their original source hashes, model settings and scores. Other
+datasets and their results remain archived; their queued work is deferred.
 The existing eight authored prompts remain an integration diagnostic, with their
 original scores preserved as history. They are excluded from this campaign.
 
-## Frozen data
+## Frozen data catalogue
 
-| Dataset / split | Full texts | Source |
-| --- | ---: | --- |
-| Seed-TTS-Eval, `en/meta.lst` | 1,088 | [ByteDance release](https://github.com/BytedanceSpeech/seed-tts-eval) |
-| EmergentTTS-Eval, publisher evaluation split named `train` | 1,645 | [Boson AI release](https://huggingface.co/datasets/bosonai/EmergentTTS-Eval) |
-| LibriTTS, `test-clean` | 4,837 | [OpenSLR 60](https://www.openslr.org/60/) |
-| LibriSpeech, `test-clean` | 2,620 | [OpenSLR 12](https://www.openslr.org/12/) |
-| LibriSpeech, `test-other` | 2,939 | [OpenSLR 12](https://www.openslr.org/12/) |
-| **Total** | **13,129** | Four corpora, five evaluated splits |
+| Dataset / split | Full texts | Release scope | Source |
+| --- | ---: | --- | --- |
+| Seed-TTS-Eval, `en/meta.lst` | 1,088 | **Active** | [ByteDance release](https://github.com/BytedanceSpeech/seed-tts-eval) |
+| EmergentTTS-Eval, publisher evaluation split named `train` | 1,645 | Deferred | [Boson AI release](https://huggingface.co/datasets/bosonai/EmergentTTS-Eval) |
+| LibriTTS, `test-clean` | 4,837 | Deferred | [OpenSLR 60](https://www.openslr.org/60/) |
+| LibriSpeech, `test-clean` | 2,620 | Deferred | [OpenSLR 12](https://www.openslr.org/12/) |
+| LibriSpeech, `test-other` | 2,939 | Deferred | [OpenSLR 12](https://www.openslr.org/12/) |
 
 The actual Seed archive contains 1,088 English records; the publisher's README
 rounds this to 1,000. Every record from `en/meta.lst` is retained. Mandarin and
@@ -27,7 +30,8 @@ See each `datasets/public/*/manifest.json` and `datasets/public/suite.json`.
 No dataset repository code is executed. Published synthetic baseline audio is
 not used as ground-truth human speech.
 
-LibriSpeech publishes all-capital ASR transcripts. The campaign applies
+The following describes archived LibriSpeech preparation, outside the active v1 scope.
+LibriSpeech publishes all-capital ASR transcripts. Its runs apply
 `librispeech_lowercase_v1` to the synthesis input of **every provider** on both
 LibriSpeech splits. Original source text, IDs, references and JSONL hashes remain
 unchanged; every output records `synthesis_text` and `input_text_transform`.
@@ -38,7 +42,7 @@ MeloTTS/GPT-SoVITS offline features use the same prepared text as synthesis.
 The pilot exposed the issue: InflectTTS spelled whole words in all-capital
 LibriSpeech inputs; Kokoro and other providers also showed casing sensitivity.
 The original attempts remain archived. All LibriSpeech attempts, including
-providers with lower initial error rates, are repeated under `-lc1` run names.
+providers with lower initial error rates, were assigned `-lc1` run names before deferral.
 The report rejects a mixture of input-preparation versions. This correction was
 made during pilot validation before the 256-text panels or full-split evaluation.
 
@@ -48,9 +52,9 @@ Each text is generated once with seed 42. No best-of-N selection is performed.
 Within category, evolution-depth and text-length strata, a seed-42 SHA256 order
 is frozen and the strata are interleaved. Stages use disjoint shards:
 
-1. Pilot: first 32 texts per split, 160 per model, **5,280 outputs** across 33 models.
-2. Panel: extend to 256 texts per split, 1,280 per model, **42,240 outputs** cumulatively.
-3. Full: evaluate every remaining text, 13,129 per model, **433,257 outputs** cumulatively.
+1. Pilot: first 32 Seed texts per model, **1,056 outputs** across 33 models.
+2. Panel: extend to 256 Seed texts per model, **8,448 outputs** cumulatively.
+3. Full: evaluate every remaining Seed text, 1,088 per model, **35,904 outputs** cumulatively.
 
 Every provider is visited in each stage before moving to the next stage. These
 are planned counts, not completed results. Dataset, phase, generated/scored/planned
@@ -129,6 +133,14 @@ each model/shard has an independent `runs/pub-v2-*` directory. The GPU lock is
 shared with diagnostic/repair jobs. The controller checks hashes and resumes
 verified generated waveforms after interruption. Existing completed shards are
 not generated again.
+
+`configs/public-scope.json` limits the first release to `seedtts_en`. The importer
+also defaults to Seed only; other corpora require explicit `--datasets` selection.
+After stopping the controller, `scripts/set_public_scope.py` applies a narrower
+scope under both controller and GPU locks. It backs up the previous plan, keeps
+selected job records unchanged, and moves excluded jobs and manifests to deferred
+history without deleting audio. Expanding the scope requires a new explicit plan.
+The UI defaults to full Seed coverage and shows per-model and all-model totals.
 
 To pause the campaign without interrupting a model/shard, create
 `runs/public-english-v2/pause.request`. The controller exits at the next job

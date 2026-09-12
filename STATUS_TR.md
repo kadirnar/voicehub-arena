@@ -1,6 +1,6 @@
 # VoiceHub Arena — durum
 
-Yerel sonuç kopyasının rapor zamanı: 2026-09-12T08:44:04+00:00.
+Yerel sonuç kopyasının rapor zamanı: 2026-09-12T09:31:39+00:00.
 Canlı arayüz: http://127.0.0.1:7860/
 
 RTX 3090 (24 GB), `vast-3090-voicehub` SSH bağlantısı ve ayrı VS Code uzak penceresi hazır.
@@ -8,21 +8,19 @@ Bu rapor kaydedilmiş sonuçlardan üretilir; canlı iş ilerledikçe arayüz da
 
 ## Yayımlanmış veri setleri ve Whisper large-v3
 
-Kampanya durumu: **running**. Son etkin iş: `pub-v2-inflecttts-librispeech_test_other-000-lc1`.
-33 İngilizce model; model başına 13,129 tam bölüm metni.
-Tamamlanan model/bölüm parçaları: 25 / 1947; eksik veya hatalı: 0.
+Kampanya durumu: **running**. Son etkin iş: `pub-v2-chatterbox-seedtts_en-000`.
+33 İngilizce model; model başına 1,088 tam bölüm metni.
+Tamamlanan model/bölüm parçaları: 9 / 198; eksik veya hatalı: 0.
 Parça tamamlanması tam veri setinin veya bütün kampanyanın tamamlandığı anlamına gelmez.
 
 | Veri seti | Tam bölüm | Üretilen ses | Puanlanan ses |
 |---|---:|---:|---:|
-| emergenttts | 1,645 | 160 | 160 |
-| seedtts_en | 1,088 | 192 | 192 |
-| libritts_test_clean | 4,837 | 160 | 160 |
-| librispeech_test_clean | 2,620 | 160 | 160 |
-| librispeech_test_other | 2,939 | 160 | 142 |
+| seedtts_en | 1,088 | 288 | 288 |
 
+Etkin kapsam: **v1 · Seed-TTS-Eval English**.
 Her model için önce 32 metin/bölüm pilotu, sonra 256 metin/bölüm paneli, ardından kalan bütün metinler çalışır.
-Panel: 1.280 metin/model; tam kapsam: 13.129 metin/model. Üretim seed42 ve tek tekrarlıdır.
+Panel: 256 metin/model; tam kapsam: 1,088 metin/model, toplam 35,904 ses. Üretim seed42 ve tek tekrarlıdır.
+İlk sürüm yalnız Seed-TTS-Eval İngilizce kapsamını çalıştırır. Diğer veri setleri ertelenmiştir; önceki dosyalar korunur ve otomatik olarak yeniden başlatılmaz.
 ASR: `Systran/faster-whisper-large-v3` @ `edaa852ec7e145841d8ffdb056a99866b5f0a478`; CUDA FP16.
 Bu tabloda ses sayıları modellerin toplamıdır; kaynak metin sayısıyla karıştırılmamalıdır.
 WER/CER ve güven aralıkları her veri seti ve kapsam için ayrı gösterilir. Eksik kapsam sıralamaya uygun değildir.

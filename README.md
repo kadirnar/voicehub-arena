@@ -7,11 +7,14 @@ ASR evaluation, JSON/CSV exports, and a private result explorer with audio playb
 
 ## Public benchmark campaign
 
-The primary evaluation now uses **Whisper large-v3** and five published English
-test splits: Seed-TTS-Eval, EmergentTTS-Eval, LibriTTS test-clean, and LibriSpeech
-test-clean/test-other. There are **13,129 frozen source texts** and 33 eligible
-providers. The controller progresses through a pilot, an equal 256-text panel
-per split, and full coverage. Counts refer to the plan until scoring completes.
+The first release evaluates **Seed-TTS-Eval English only** with **Whisper large-v3**.
+There are **1,088 frozen source texts per model**, 33 eligible providers, and
+**35,904 planned outputs in total**. Each model progresses through 32 pilot texts,
+256 cumulative panel texts, and all 1,088 texts. Already completed Seed results
+are reused. EmergentTTS, LibriTTS and LibriSpeech work is deferred; previous files
+remain available as history and will not resume automatically. The persisted
+`configs/public-scope.json` controls the release scope. Counts refer to the plan
+until scoring completes.
 Dataset-specific comparisons, coverage, WER/CER confidence intervals and CSV
 exports are available in the private UI. See [the complete protocol](BENCHMARK_PROTOCOL.md)
 for source hashes, stage sizes, interpretation and resumption.

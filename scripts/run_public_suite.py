@@ -14,7 +14,7 @@ import sys
 import time
 
 from voicehub_arena.storage import read_json, write_json
-from voicehub_arena.benchmarks import build_jobs
+from voicehub_arena.benchmarks import build_jobs, restrict_public_scope
 
 
 def main():
@@ -30,13 +30,14 @@ def main():
     guard = (state_root/'.controller.lock').open('a')
     fcntl.flock(guard, fcntl.LOCK_EX | fcntl.LOCK_NB)
     plan_path = state_root/'suite.json'
+    scope = read_json(root/'configs/public-scope.json')
     if plan_path.exists():
         plan = read_json(plan_path)
     else:
         from voicehub_arena.catalog import discover, declared_languages
         from voicehub_arena.inputs import frontend_protocol
         import voicehub
-        plan = read_json(args.suite)
+        plan = restrict_public_scope(read_json(args.suite), scope)
         catalog = [s for s in discover() if not declared_languages(s['model_type']) or
                    any(lang.lower().startswith('en') for lang in declared_languages(s['model_type']))]
         priority = ['kokoro', 'supertonic', 'vits', 'vui', 'inflecttts', 'styletts2', 'melotts', 'speecht5']
@@ -47,6 +48,8 @@ def main():
                     voicehub_commit=subprocess.check_output(['git','-C',str(Path(voicehub.__file__).parent),'rev-parse','HEAD'],text=True).strip(),
                     gpu=subprocess.check_output(['nvidia-smi','--query-gpu=name,memory.total','--format=csv,noheader'],text=True).strip())
         write_json(plan_path, plan)
+    if set(scope['dataset_ids']) != {d['id'] for d in plan['datasets']}:
+        raise ValueError('Active plan differs from configured scope; stop the controller and migrate the plan first')
     while args.after_service:
         state = subprocess.run(['supervisorctl','status',args.after_service], capture_output=True, text=True)
         finished = root/args.after_run/'state.json'

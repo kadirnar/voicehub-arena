@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 
-from voicehub_arena.benchmarks import build_jobs, public_report, public_overrides
+from voicehub_arena.benchmarks import build_jobs, public_report, public_overrides, restrict_public_scope
 from voicehub_arena.metrics import errors, summarize
 from voicehub_arena.server import create_app
 from voicehub_arena.storage import write_json
@@ -28,6 +28,31 @@ def test_published_split_is_partitioned_without_duplication(tmp_path):
     assert len(parts) == len({r['id'] for r in parts}) == 600
     assert {r['id'] for r in parts} == {r['id'] for r in rows}
     assert [r['id'] for r in module.balanced_order(rows)] == [r['id'] for r in module.balanced_order(list(reversed(rows)))]
+
+
+def test_first_release_scope_preserves_seed_results_and_defers_other_jobs():
+    root = Path(__file__).parents[1]
+    seed = json.loads((root/'datasets/public/seedtts_en/manifest.json').read_text())
+    suite = {'datasets':[seed, {'id':'emergenttts', 'shards':[
+        {'index':0, 'phase':'pilot', 'samples':32}]}]}
+    catalog = [{'model_type':f'model{i}'} for i in range(33)]
+    suite['jobs'] = build_jobs(suite, catalog)
+    seed_job = next(j for j in suite['jobs'] if j['dataset']=='seedtts_en')
+    seed_job.update(status='completed', finished_at=123)
+    other_job = next(j for j in suite['jobs'] if j['dataset']!='seedtts_en')
+    suite['current_job'] = other_job['run']
+    scope = json.loads((root/'configs/public-scope.json').read_text())
+    scoped = restrict_public_scope(suite, scope)
+    assert len(scoped['datasets']) == 1
+    assert scoped['datasets'][0]['total_samples'] * len(catalog) == 35904
+    assert len(scoped['jobs']) == 198
+    assert next(j for j in scoped['jobs'] if j['run']==seed_job['run']) == seed_job
+    assert other_job in scoped['deferred_jobs']
+    assert 'current_job' not in scoped
+    assert len(suite['datasets']) == 2
+    assert restrict_public_scope(scoped, scope) == scoped
+    with pytest.raises(ValueError, match='explicit new plan'):
+        restrict_public_scope(scoped, {'dataset_ids':['emergenttts']})
 
 
 def test_new_normalization_and_character_edit_counts():

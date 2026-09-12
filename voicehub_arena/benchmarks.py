@@ -9,6 +9,28 @@ from .metrics import summarize
 PHASES = {'pilot': {'pilot'}, 'panel': {'pilot', 'panel'}, 'full': {'pilot', 'panel', 'expansion'}}
 
 
+def restrict_public_scope(suite, scope):
+    """Retain selected jobs verbatim and archive excluded work without deleting it."""
+    selected = set(scope['dataset_ids'])
+    available = {d['id'] for d in suite['datasets']}
+    if not selected or not selected <= available:
+        raise ValueError('Scope must select known active datasets; expansion requires an explicit new plan')
+    result = copy.deepcopy(suite)
+    result['scope'] = copy.deepcopy(scope)
+    removed = [d for d in result['datasets'] if d['id'] not in selected]
+    result['datasets'] = [d for d in result['datasets'] if d['id'] in selected]
+    if removed:
+        result.setdefault('deferred_datasets', []).extend(removed)
+    if 'jobs' in result:
+        excluded = [j for j in result['jobs'] if j['dataset'] not in selected]
+        result['jobs'] = [j for j in result['jobs'] if j['dataset'] in selected]
+        if excluded:
+            result.setdefault('deferred_jobs', []).extend(excluded)
+        if result.get('current_job') not in {j['run'] for j in result['jobs']}:
+            result.pop('current_job', None)
+    return result
+
+
 def public_overrides(root, catalog, prepared):
     """Pin primary model revisions once for the whole multi-shard campaign."""
     from .storage import write_json

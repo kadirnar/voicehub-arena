@@ -1,0 +1,6 @@
+{
+  "id": "seedtts-english-v1",
+  "label": "v1 · Seed-TTS-Eval English",
+  "dataset_ids": ["seedtts_en"],
+  "default_coverage": "full"
+}

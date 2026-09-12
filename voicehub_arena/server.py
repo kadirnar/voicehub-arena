@@ -100,10 +100,10 @@ def create_app(runs):
         if not path.exists():
             return {'datasets':[], 'status':'not_started'}
         plan = read_json(path)
-        return {k:plan.get(k) for k in ('datasets','status','current_job','catalog','asr','normalization_id','protocol_id')}
+        return {k:plan.get(k) for k in ('datasets','status','current_job','catalog','asr','normalization_id','protocol_id','scope')}
 
     @app.get('/api/public-suite/{dataset}')
-    def public_dataset(dataset:str, phase:str='panel'):
+    def public_dataset(dataset:str, phase:str='full'):
         from .benchmarks import public_report
         try:
             return public_report(runs, dataset, phase)
@@ -111,7 +111,7 @@ def create_app(runs):
             raise HTTPException(404, str(error)) from error
 
     @app.get('/api/public-suite/{dataset}/leaderboard.csv')
-    def public_csv(dataset:str, phase:str='panel'):
+    def public_csv(dataset:str, phase:str='full'):
         data = public_dataset(dataset, phase)
         output = io.StringIO()
         columns = ['dataset', 'coverage_phase', 'model_type','status','ranking_eligible','planned_samples',

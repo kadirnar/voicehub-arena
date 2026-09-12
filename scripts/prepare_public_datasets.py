@@ -138,9 +138,14 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--cache', required=True)
     parser.add_argument('--output', default='datasets/public')
+    parser.add_argument('--datasets', default='seedtts_en', help='Comma-separated datasets; first release defaults to Seed English only')
     parser.add_argument('--panel-size', type=int, default=256)
     parser.add_argument('--shard-size', type=int, default=256)
     args = parser.parse_args()
+    selected = set(args.datasets.split(','))
+    known = {'seedtts_en','emergenttts','libritts_test_clean','librispeech_test_clean','librispeech_test_other'}
+    if not selected or not selected <= known:
+        parser.error('Unknown dataset selection')
     from huggingface_hub import HfApi, hf_hub_download
     import pyarrow.parquet as pq
     cache = Path(args.cache).resolve()
@@ -149,52 +154,56 @@ def main():
     destination.mkdir(parents=True, exist_ok=True)
     manifests = []
 
-    repo = 'bosonai/EmergentTTS-Eval'
-    revision = 'a7406fa315a1df2a5ffcc1a782404648bf84fbd3'
-    info = HfApi().dataset_info(repo, revision=revision, files_metadata=True, token=False)
-    rows, sources = [], []
-    for file in sorted(info.siblings, key=lambda f: f.rfilename):
-        if not file.rfilename.endswith('.parquet'):
-            continue
-        path = hf_hub_download(repo, file.rfilename, repo_type='dataset', revision=revision,
-                               cache_dir=cache / 'hub', token=False)
-        sha = digest(path)
-        if file.lfs and sha != file.lfs.sha256:
-            raise ValueError('Publisher Parquet digest mismatch')
-        sources.append({'filename': file.rfilename, 'sha256': sha})
-        table = pq.read_table(path, columns=['category', 'text_to_synthesize', 'evolution_depth', 'language'])
-        for row in table.to_pylist():
-            source_id = len(rows)
-            if row['language'] != 'en':
-                raise ValueError('Unexpected non-English row')
-            rows.append(dict(id=f'emergent_{source_id:04d}', source_id=source_id, text=row['text_to_synthesize'],
-                             reference=row['text_to_synthesize'], category=row['category'],
-                             evolution_depth=row['evolution_depth'], language='en'))
-    if len(rows) != 1645:
-        raise ValueError('Pinned EmergentTTS split must contain 1645 rows')
-    manifests.append(write_dataset(destination, 'emergenttts', rows, dict(repo=repo, revision=revision,
-        split='train (publisher evaluation split)', source_url='https://huggingface.co/datasets/' + repo,
-        files=sources, scope='Text intelligibility only; not the official model-as-judge win rate. Baseline audio is synthetic and is not a human reference.'), args.panel_size, args.shard_size))
+    if 'emergenttts' in selected:
+        repo = 'bosonai/EmergentTTS-Eval'
+        revision = 'a7406fa315a1df2a5ffcc1a782404648bf84fbd3'
+        info = HfApi().dataset_info(repo, revision=revision, files_metadata=True, token=False)
+        rows, sources = [], []
+        for file in sorted(info.siblings, key=lambda f: f.rfilename):
+            if not file.rfilename.endswith('.parquet'):
+                continue
+            path = hf_hub_download(repo, file.rfilename, repo_type='dataset', revision=revision,
+                                   cache_dir=cache / 'hub', token=False)
+            sha = digest(path)
+            if file.lfs and sha != file.lfs.sha256:
+                raise ValueError('Publisher Parquet digest mismatch')
+            sources.append({'filename': file.rfilename, 'sha256': sha})
+            table = pq.read_table(path, columns=['category', 'text_to_synthesize', 'evolution_depth', 'language'])
+            for row in table.to_pylist():
+                source_id = len(rows)
+                if row['language'] != 'en':
+                    raise ValueError('Unexpected non-English row')
+                rows.append(dict(id=f'emergent_{source_id:04d}', source_id=source_id, text=row['text_to_synthesize'],
+                                 reference=row['text_to_synthesize'], category=row['category'],
+                                 evolution_depth=row['evolution_depth'], language='en'))
+        if len(rows) != 1645:
+            raise ValueError('Pinned EmergentTTS split must contain 1645 rows')
+        manifests.append(write_dataset(destination, 'emergenttts', rows, dict(repo=repo, revision=revision,
+            split='train (publisher evaluation split)', source_url='https://huggingface.co/datasets/' + repo,
+            files=sources, scope='Text intelligibility only; not the official model-as-judge win rate. Baseline audio is synthetic and is not a human reference.'), args.panel_size, args.shard_size))
 
-    import gdown
-    archive = cache / 'seedtts_testset.tar'
-    if not archive.exists():
-        temporary = str(archive) + '.incomplete'
-        gdown.download(id='1GlSjVfSHkW3-leKKBlfrjuuTGqQ_xaLP', output=temporary, quiet=False, resume=True)
-        Path(temporary).replace(archive)
-    rows, meta_sha = seed_rows(archive)
-    manifests.append(write_dataset(destination, 'seedtts_en', rows, dict(
-        source_url='https://github.com/BytedanceSpeech/seed-tts-eval',
-        publisher_code_revision='752f4297f090c46bb1a55a1f7439e5944ddefe8d', split='en/meta.lst',
-        download_url='https://drive.google.com/file/d/1GlSjVfSHkW3-leKKBlfrjuuTGqQ_xaLP/view',
-        archive_sha256=digest(archive), metadata_sha256=meta_sha,
-        scope='Published English target texts; fixed provider voice/reference. Not a reproduction of the zero-shot speaker identity protocol.'), args.panel_size, args.shard_size))
+    if 'seedtts_en' in selected:
+        import gdown
+        archive = cache / 'seedtts_testset.tar'
+        if not archive.exists():
+            temporary = str(archive) + '.incomplete'
+            gdown.download(id='1GlSjVfSHkW3-leKKBlfrjuuTGqQ_xaLP', output=temporary, quiet=False, resume=True)
+            Path(temporary).replace(archive)
+        rows, meta_sha = seed_rows(archive)
+        manifests.append(write_dataset(destination, 'seedtts_en', rows, dict(
+            source_url='https://github.com/BytedanceSpeech/seed-tts-eval',
+            publisher_code_revision='752f4297f090c46bb1a55a1f7439e5944ddefe8d', split='en/meta.lst',
+            download_url='https://drive.google.com/file/d/1GlSjVfSHkW3-leKKBlfrjuuTGqQ_xaLP/view',
+            archive_sha256=digest(archive), metadata_sha256=meta_sha,
+            scope='Published English target texts; fixed provider voice/reference. Not a reproduction of the zero-shot speaker identity protocol.'), args.panel_size, args.shard_size))
 
     for corpus, resource, split, expected_md5 in [
         ('libritts', 60, 'test-clean', '7bed3bdb047c4c197f1ad3bc412db59f'),
         ('librispeech', 12, 'test-clean', '32fa31d27d2e1cad72775fee3f4849a9'),
         ('librispeech', 12, 'test-other', 'fb5a50374b501bb3bac4815ee91d3135'),
     ]:
+        if corpus + '_' + split.replace('-', '_') not in selected:
+            continue
         url = f'https://www.openslr.org/resources/{resource}/{split}.tar.gz'
         archive = download(url, cache / f'{corpus}-{split}.tar.gz')
         if digest(archive, 'md5') != expected_md5:
