@@ -14,6 +14,8 @@ remain in the owner's separate local backup and are not included in Git.
 Use a **fresh clone for each GPU experiment** so hardware timing and saved configurations
 remain separate. Checkpoint and dataset revisions are pinned; no random fallback models
 or synthetic placeholder scores are used.
+This repository is private: use authenticated Git on the new host, or transfer the
+source ZIP and extract it before running the setup commands.
 
 ```bash
 git clone https://github.com/kadirnar/voicehub-arena.git
