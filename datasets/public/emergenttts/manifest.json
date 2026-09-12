@@ -1,0 +1,101 @@
+{
+  "id": "emergenttts",
+  "language": "en",
+  "total_samples": 1645,
+  "full": {
+    "path": "datasets/public/emergenttts/full.jsonl",
+    "sha256": "df3eb6b03146998592ba21e662f43ce93c9e4e74221cd2290eb709b91f000f54",
+    "samples": 1645
+  },
+  "shards": [
+    {
+      "path": "datasets/public/emergenttts/shard-000.jsonl",
+      "sha256": "3b44437e57bc47c31590ed36595f286fa3fa3331fa69c6ad17af751799b74763",
+      "samples": 32,
+      "index": 0,
+      "phase": "pilot"
+    },
+    {
+      "path": "datasets/public/emergenttts/shard-001.jsonl",
+      "sha256": "9fe917583a26fcf712b494e65749333813ece825035d8b6e5c982de6410427bc",
+      "samples": 224,
+      "index": 1,
+      "phase": "panel"
+    },
+    {
+      "path": "datasets/public/emergenttts/shard-002.jsonl",
+      "sha256": "1a9a8d8b6015197e16f8207d2361ca4e1463cba55b56b0c19940dfd0b6df406b",
+      "samples": 256,
+      "index": 2,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/emergenttts/shard-003.jsonl",
+      "sha256": "76e0ecfbdcd4c2863495164b981735ec5543bab27aedac910917905015436c25",
+      "samples": 256,
+      "index": 3,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/emergenttts/shard-004.jsonl",
+      "sha256": "4fc5fee4e9fb03446378c91612d7956efd4e833ef24da9d7c78e32efa0ec745b",
+      "samples": 256,
+      "index": 4,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/emergenttts/shard-005.jsonl",
+      "sha256": "7b638d0b5a8967c38ee123d73b7f59d2087e5985dc40e82809204fbeee33902f",
+      "samples": 256,
+      "index": 5,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/emergenttts/shard-006.jsonl",
+      "sha256": "7a5ed64279ce1c0e8079c35df639e52653194424148d5cdff81e2b817daef16f",
+      "samples": 256,
+      "index": 6,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/emergenttts/shard-007.jsonl",
+      "sha256": "47168fcf85ee605e0e73a2491e3eb5db367372aedd08ada775cf8756795e3a56",
+      "samples": 109,
+      "index": 7,
+      "phase": "expansion"
+    }
+  ],
+  "categories": {
+    "Emotions": 280,
+    "Foreign Words": 280,
+    "Paralinguistics": 280,
+    "Pronunciation": 245,
+    "Questions": 280,
+    "Syntactic Complexity": 280
+  },
+  "track": "fixed_voice_intelligibility",
+  "provenance": {
+    "repo": "bosonai/EmergentTTS-Eval",
+    "revision": "a7406fa315a1df2a5ffcc1a782404648bf84fbd3",
+    "split": "train (publisher evaluation split)",
+    "source_url": "https://huggingface.co/datasets/bosonai/EmergentTTS-Eval",
+    "files": [
+      {
+        "filename": "data/train-00000-of-00003.parquet",
+        "sha256": "662f4c7e15d4ea340e94fe7c112e6f4d6276fb7725db65728f96ee29ac5a1bcb"
+      },
+      {
+        "filename": "data/train-00001-of-00003.parquet",
+        "sha256": "794fe1ae55f5c604719ce941a5cd863f2a095e4570cc0566c667a406bf3ab7ce"
+      },
+      {
+        "filename": "data/train-00002-of-00003.parquet",
+        "sha256": "eafd4ba3a0bcbcf5aa661fee9c248ce1e4a6f93ecab608cfcdf5502a92768f4b"
+      }
+    ],
+    "scope": "Text intelligibility only; not the official model-as-judge win rate. Baseline audio is synthetic and is not a human reference."
+  },
+  "selection": "Full split, seed-42 SHA256 order within category/depth/length strata; round-robin strata",
+  "repeats": 1,
+  "synthesis_seed": 42
+}

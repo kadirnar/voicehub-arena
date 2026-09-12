@@ -13,13 +13,18 @@ from huggingface_hub import HfApi, hf_hub_download
 
 root = Path(__file__).resolve().parents[1]
 torch.set_num_threads(2)
-rows = [json.loads(line) for line in (root/"datasets/english.jsonl").read_text().splitlines() if line]
 parser = argparse.ArgumentParser()
 parser.add_argument("model", choices=["melotts", "gptsovits"])
+parser.add_argument('--dataset', default='datasets/english.jsonl')
+parser.add_argument('--output')
+parser.add_argument('--overrides', default='configs/models.json')
 args = parser.parse_args()
-destination = root/"datasets/prepared"/args.model
+dataset_path = root/args.dataset
+rows = [json.loads(line) for line in dataset_path.read_text().splitlines() if line]
+destination = root/args.output if args.output else root/"datasets/prepared"/args.model
 destination.mkdir(parents=True, exist_ok=True)
 manifest = {"model": args.model, "language": "en", "entries": {}, "device": "cpu",
+            'dataset_sha256': hashlib.sha256(dataset_path.read_bytes()).hexdigest(),
             "timing_scope": "synthesis with offline linguistic inputs; preparation measured separately"}
 
 def save(row, started, **arrays):
@@ -111,7 +116,7 @@ else:
             s1_bert_features=np.zeros((1,1024,len(ids)),np.float32))
 
 (destination/"manifest.json").write_text(json.dumps(manifest,indent=2)+"\n")
-path = root/"configs/models.json"
+path = root/args.overrides
 config = json.loads(path.read_text())
 override = config.setdefault(args.model,{})
 override["prepared_inputs"] = str(destination.relative_to(root))

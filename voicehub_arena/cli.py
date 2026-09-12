@@ -20,7 +20,13 @@ def isolated(command, log, timeout):
         raise KeyboardInterrupt("Runner stopped")
 
     with open(log, "w") as f:
-        process = subprocess.Popen(command,stdout=f,stderr=subprocess.STDOUT,start_new_session=True)
+        # CTranslate2 uses the CUDA libraries already supplied with PyTorch.
+        # Set the loader path before the child imports it; never change drivers.
+        env = dict(os.environ)
+        library_dirs = list(Path(sys.prefix).glob('lib/python*/site-packages/nvidia/*/lib'))
+        if library_dirs:
+            env['LD_LIBRARY_PATH'] = ':'.join(map(str, library_dirs)) + ':' + env.get('LD_LIBRARY_PATH', '')
+        process = subprocess.Popen(command,stdout=f,stderr=subprocess.STDOUT,start_new_session=True,env=env)
         previous = signal.signal(signal.SIGTERM, interrupt)
         try:
             return process.wait(timeout=timeout)
@@ -122,11 +128,31 @@ def execute(args):
                  min_free_gib=args.min_free_gib,
                  incremental_scoring=args.score_each_model,
                  voicehub_commit=revision,voicehub_diff_sha256=native_diff_sha256,python=platform.python_version(),started_at=time.time(),
-                 asr={"checkpoint":args.asr,"revision":HfApi().model_info(args.asr).sha},
-                 protocol="English diagnostic v1; primary checkpoint per registered provider; no human MOS",
-                 normalization="NFKC; lowercase; punctuation removed; apostrophes joined; whitespace collapsed; CER includes spaces")
+                 asr={"checkpoint":args.asr,"revision":HfApi().model_info(args.asr, revision=(args.asr_revision or
+                      ('edaa852ec7e145841d8ffdb056a99866b5f0a478' if args.asr == 'Systran/faster-whisper-large-v3' else None))).sha,
+                      'device':args.asr_device, 'compute_type':args.asr_compute_type,
+                      'language':'en','beam_size':5,'temperature':0,'condition_on_previous_text':False,'vad_filter':False},
+                 protocol=args.protocol_id,
+                 normalization_id=args.normalization,
+                 resume_samples=args.resume_samples,
+                 scoring_timeout_s=args.scoring_timeout,
+                 normalization=("whisper-normalizer 0.1.12 EnglishTextNormalizer; corpus WER/CER; CER includes spaces"
+                                if args.normalization == 'whisper_english' else
+                                "NFKC; lowercase; punctuation removed; apostrophes joined; whitespace collapsed; CER includes spaces"))
+        if args.dataset_manifest:
+            manifest = read_json(args.dataset_manifest)
+            file_sha = hashlib.sha256(Path(args.dataset).read_bytes()).hexdigest()
+            matches = [part for part in [manifest['full'], *manifest['shards']] if part['sha256'] == file_sha]
+            if not matches or len(dataset) != matches[0]['samples']:
+                raise ValueError('Dataset differs from its frozen publisher manifest')
+            cfg['dataset_manifest'] = manifest
+            cfg['dataset_part'] = matches[0]
         cfg["arena_source_sha256"] = {p.name:hashlib.sha256(p.read_bytes()).hexdigest()
                                       for p in Path(__file__).parent.glob("*.py")}
+        if args.protocol_id == 'public-english-v2':
+            from .benchmarks import public_overrides
+            cfg['overrides'], cfg['public_models_lock_sha256'] = public_overrides(
+                Path.cwd(), catalog, cfg['overrides'])
         references = {}
         for override in cfg["overrides"].values():
             for key,value in override.get("generation",{}).items():
@@ -150,8 +176,11 @@ def execute(args):
         directory=root/name
         directory.mkdir(exist_ok=True)
         result_path=directory/"result.json"
-        if args.resume and result_path.exists() and read_json(result_path)["status"] in ("completed","partial","generated","blocked","failed","timeout","disk_limit","unsupported_language"):
-            continue
+        if args.resume and result_path.exists():
+            old_status = read_json(result_path)['status']
+            if old_status in ("completed","partial","generated","blocked","failed","timeout","disk_limit","unsupported_language"):
+                if not (args.resume_samples and old_status in {'failed','timeout','disk_limit'}):
+                    continue
         from .cache import cleanup_abandoned_downloads, cleanup_dead_download_locks
         dead_locks = cleanup_dead_download_locks()
         if dead_locks:
@@ -188,11 +217,11 @@ def execute(args):
                 print(f'SCORE {name}',flush=True)
                 write_json(root/'state.json',{'status':'running','phase':'scoring','model':name})
                 isolated([sys.executable,'-m','voicehub_arena.worker','score',str(config_path),name],
-                         directory/'scorer.log',7200)
+                         directory/'scorer.log',cfg.get('scoring_timeout_s',7200))
                 report(root)
     print("SCORING",flush=True)
     write_json(root/"state.json",{"status":"running","phase":"scoring"})
-    code=isolated([sys.executable,"-m","voicehub_arena.worker","score",str(config_path)],root/"scorer.log",7200)
+    code=isolated([sys.executable,"-m","voicehub_arena.worker","score",str(config_path)],root/"scorer.log",cfg.get('scoring_timeout_s',7200))
     payload=report(root)
     write_json(root/"state.json",{"status":"finished" if code==0 else "scoring_failed","phase":"done","scorer_exit":code})
     print(json.dumps({r["model_type"]:r["status"] for r in payload["results"]},indent=2),flush=True)
@@ -214,9 +243,17 @@ def main():
     run.add_argument("--cpu-threads",type=int,default=4)
     run.add_argument("--cache-budget-gib",type=float,help="Prune paired native/Hub checkpoint caches between models; requires dedicated HF_HOME")
     run.add_argument("--min-free-gib",type=float,default=32,help="Free disk reserve before each model download (default: 32 GiB)")
-    run.add_argument('--score-each-model',action='store_true',help='Run CPU ASR after each TTS worker exits so scored results appear incrementally')
+    run.add_argument('--score-each-model',action='store_true',help='Run the configured ASR after each TTS worker exits')
     run.add_argument("--device",default="cuda")
-    run.add_argument("--asr",default="Systran/faster-whisper-small.en")
+    run.add_argument("--asr",default="Systran/faster-whisper-large-v3")
+    run.add_argument('--asr-revision')
+    run.add_argument('--asr-device', choices=['cpu','cuda'], default='cuda')
+    run.add_argument('--asr-compute-type', default='float16')
+    run.add_argument('--scoring-timeout', type=int, default=14400)
+    run.add_argument('--normalization', choices=['orthographic','whisper_english'], default='whisper_english')
+    run.add_argument('--protocol-id', default='English diagnostic v2; Whisper large-v3; no human MOS')
+    run.add_argument('--dataset-manifest')
+    run.add_argument('--resume-samples', action='store_true')
     run.add_argument("--limit",type=int)
     run.add_argument("--resume",action="store_true")
     rep=sub.add_parser("report")
@@ -239,9 +276,16 @@ def main():
     elif args.command=="report":
         report(Path(args.run))
     elif args.command=="score":
-        from .worker import score
-        score(Path(args.run)/"config.json")
-        report(Path(args.run))
+        import fcntl
+        root = Path(args.run).resolve()
+        with (root.parent/'.gpu.lock').open('a') as lock:
+            fcntl.flock(lock,fcntl.LOCK_EX)
+            cfg = read_json(root/'config.json')
+            code = isolated([sys.executable,'-m','voicehub_arena.worker','score',str(root/'config.json')],
+                            root/'rescorer.log',cfg.get('scoring_timeout_s',14400))
+            report(root)
+            if code:
+                raise SystemExit(code)
     elif args.command=="serve":
         from .server import create_app
         import uvicorn

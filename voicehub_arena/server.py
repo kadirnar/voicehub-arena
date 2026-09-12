@@ -47,6 +47,7 @@ def create_app(runs):
         # Compare one dataset/repeat/ASR protocol; never silently mix the smoke
         # test with extended evaluations or use the best score from old runs.
         configs = [(p.parent.name, read_json(p)) for p in runs.glob('*/config.json')]
+        configs = [(name,cfg) for name,cfg in configs if cfg.get('protocol') != 'public-english-v2']
         if not configs:
             return {"run": "overview", "config": {"dataset": [], "repeats": 0}, "results": [], "active_runs": []}
         _, base = max(configs, key=lambda item: (len(item[1].get('dataset', [])) * item[1].get('repeats', 0),
@@ -92,6 +93,41 @@ def create_app(runs):
             writer.writerow({**result, **result['summary']})
         return Response(output.getvalue(), media_type='text/csv',
                         headers={'Content-Disposition': 'attachment; filename=voicehub-latest.csv'})
+
+    @app.get('/api/public-suite')
+    def public_suite():
+        path = runs/'public-english-v2/suite.json'
+        if not path.exists():
+            return {'datasets':[], 'status':'not_started'}
+        plan = read_json(path)
+        return {k:plan.get(k) for k in ('datasets','status','current_job','catalog','asr','normalization_id','protocol_id')}
+
+    @app.get('/api/public-suite/{dataset}')
+    def public_dataset(dataset:str, phase:str='panel'):
+        from .benchmarks import public_report
+        try:
+            return public_report(runs, dataset, phase)
+        except (FileNotFoundError, StopIteration, ValueError) as error:
+            raise HTTPException(404, str(error)) from error
+
+    @app.get('/api/public-suite/{dataset}/leaderboard.csv')
+    def public_csv(dataset:str, phase:str='panel'):
+        data = public_dataset(dataset, phase)
+        output = io.StringIO()
+        columns = ['dataset', 'coverage_phase', 'model_type','status','ranking_eligible','planned_samples',
+                   'attempted','generated','scored','wer','cer','utterance_mean_wer','utterance_mean_cer',
+                   'mer','wil','wip','word_substitutions','word_deletions','word_insertions',
+                   'char_substitutions','char_deletions','char_insertions','wer_ci95','cer_ci95',
+                   'rtf','latency_p50_s','latency_p95_s','peak_vram_mib','generation_failure_rate',
+                   'normalization_id','asr_checkpoint','asr_revision','source_runs','error']
+        writer = csv.DictWriter(output, fieldnames=columns, extrasaction='ignore')
+        writer.writeheader()
+        for result in data['results']:
+            writer.writerow({**result, **result['summary'], 'dataset':dataset,'coverage_phase':phase,
+                             'asr_checkpoint':data['config']['asr']['checkpoint'],
+                             'asr_revision':data['config']['asr']['revision']})
+        return Response(output.getvalue(), media_type='text/csv',
+                        headers={'Content-Disposition':f'attachment; filename={dataset}-{phase}.csv'})
 
     @app.get("/files/{relative:path}")
     def file(relative:str):

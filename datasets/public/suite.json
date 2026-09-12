@@ -1,0 +1,589 @@
+{
+  "protocol_id": "public-english-v2",
+  "asr": {
+    "checkpoint": "Systran/faster-whisper-large-v3",
+    "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+    "device": "cuda",
+    "compute_type": "float16",
+    "language": "en",
+    "beam_size": 5,
+    "temperature": 0,
+    "condition_on_previous_text": false,
+    "vad_filter": false
+  },
+  "datasets": [
+    {
+      "id": "emergenttts",
+      "language": "en",
+      "total_samples": 1645,
+      "full": {
+        "path": "datasets/public/emergenttts/full.jsonl",
+        "sha256": "df3eb6b03146998592ba21e662f43ce93c9e4e74221cd2290eb709b91f000f54",
+        "samples": 1645
+      },
+      "shards": [
+        {
+          "path": "datasets/public/emergenttts/shard-000.jsonl",
+          "sha256": "3b44437e57bc47c31590ed36595f286fa3fa3331fa69c6ad17af751799b74763",
+          "samples": 32,
+          "index": 0,
+          "phase": "pilot"
+        },
+        {
+          "path": "datasets/public/emergenttts/shard-001.jsonl",
+          "sha256": "9fe917583a26fcf712b494e65749333813ece825035d8b6e5c982de6410427bc",
+          "samples": 224,
+          "index": 1,
+          "phase": "panel"
+        },
+        {
+          "path": "datasets/public/emergenttts/shard-002.jsonl",
+          "sha256": "1a9a8d8b6015197e16f8207d2361ca4e1463cba55b56b0c19940dfd0b6df406b",
+          "samples": 256,
+          "index": 2,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/emergenttts/shard-003.jsonl",
+          "sha256": "76e0ecfbdcd4c2863495164b981735ec5543bab27aedac910917905015436c25",
+          "samples": 256,
+          "index": 3,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/emergenttts/shard-004.jsonl",
+          "sha256": "4fc5fee4e9fb03446378c91612d7956efd4e833ef24da9d7c78e32efa0ec745b",
+          "samples": 256,
+          "index": 4,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/emergenttts/shard-005.jsonl",
+          "sha256": "7b638d0b5a8967c38ee123d73b7f59d2087e5985dc40e82809204fbeee33902f",
+          "samples": 256,
+          "index": 5,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/emergenttts/shard-006.jsonl",
+          "sha256": "7a5ed64279ce1c0e8079c35df639e52653194424148d5cdff81e2b817daef16f",
+          "samples": 256,
+          "index": 6,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/emergenttts/shard-007.jsonl",
+          "sha256": "47168fcf85ee605e0e73a2491e3eb5db367372aedd08ada775cf8756795e3a56",
+          "samples": 109,
+          "index": 7,
+          "phase": "expansion"
+        }
+      ],
+      "categories": {
+        "Emotions": 280,
+        "Foreign Words": 280,
+        "Paralinguistics": 280,
+        "Pronunciation": 245,
+        "Questions": 280,
+        "Syntactic Complexity": 280
+      },
+      "track": "fixed_voice_intelligibility",
+      "provenance": {
+        "repo": "bosonai/EmergentTTS-Eval",
+        "revision": "a7406fa315a1df2a5ffcc1a782404648bf84fbd3",
+        "split": "train (publisher evaluation split)",
+        "source_url": "https://huggingface.co/datasets/bosonai/EmergentTTS-Eval",
+        "files": [
+          {
+            "filename": "data/train-00000-of-00003.parquet",
+            "sha256": "662f4c7e15d4ea340e94fe7c112e6f4d6276fb7725db65728f96ee29ac5a1bcb"
+          },
+          {
+            "filename": "data/train-00001-of-00003.parquet",
+            "sha256": "794fe1ae55f5c604719ce941a5cd863f2a095e4570cc0566c667a406bf3ab7ce"
+          },
+          {
+            "filename": "data/train-00002-of-00003.parquet",
+            "sha256": "eafd4ba3a0bcbcf5aa661fee9c248ce1e4a6f93ecab608cfcdf5502a92768f4b"
+          }
+        ],
+        "scope": "Text intelligibility only; not the official model-as-judge win rate. Baseline audio is synthetic and is not a human reference."
+      },
+      "selection": "Full split, seed-42 SHA256 order within category/depth/length strata; round-robin strata",
+      "repeats": 1,
+      "synthesis_seed": 42
+    },
+    {
+      "id": "seedtts_en",
+      "language": "en",
+      "total_samples": 1088,
+      "full": {
+        "path": "datasets/public/seedtts_en/full.jsonl",
+        "sha256": "8a9386efb1768a90ffba66f8931e3887b53e9c9d1bf246eb46a8cce32bc7b1c1",
+        "samples": 1088
+      },
+      "shards": [
+        {
+          "path": "datasets/public/seedtts_en/shard-000.jsonl",
+          "sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c",
+          "samples": 32,
+          "index": 0,
+          "phase": "pilot"
+        },
+        {
+          "path": "datasets/public/seedtts_en/shard-001.jsonl",
+          "sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943",
+          "samples": 224,
+          "index": 1,
+          "phase": "panel"
+        },
+        {
+          "path": "datasets/public/seedtts_en/shard-002.jsonl",
+          "sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1",
+          "samples": 256,
+          "index": 2,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/seedtts_en/shard-003.jsonl",
+          "sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca",
+          "samples": 256,
+          "index": 3,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/seedtts_en/shard-004.jsonl",
+          "sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85",
+          "samples": 256,
+          "index": 4,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/seedtts_en/shard-005.jsonl",
+          "sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0",
+          "samples": 64,
+          "index": 5,
+          "phase": "expansion"
+        }
+      ],
+      "categories": {
+        "read_speech": 1088
+      },
+      "track": "fixed_voice_intelligibility",
+      "provenance": {
+        "source_url": "https://github.com/BytedanceSpeech/seed-tts-eval",
+        "publisher_code_revision": "752f4297f090c46bb1a55a1f7439e5944ddefe8d",
+        "split": "en/meta.lst",
+        "download_url": "https://drive.google.com/file/d/1GlSjVfSHkW3-leKKBlfrjuuTGqQ_xaLP/view",
+        "archive_sha256": "65b49df7a5f4714042f9849fa216326f0d77dfe37496878b9b2240a0d2a2f4f9",
+        "metadata_sha256": "7cd29f701743e6c7033edbca764ddc0b979de8c4f4907eff5e5454682114661f",
+        "scope": "Published English target texts; fixed provider voice/reference. Not a reproduction of the zero-shot speaker identity protocol."
+      },
+      "selection": "Full split, seed-42 SHA256 order within category/depth/length strata; round-robin strata",
+      "repeats": 1,
+      "synthesis_seed": 42
+    },
+    {
+      "id": "libritts_test_clean",
+      "language": "en",
+      "total_samples": 4837,
+      "full": {
+        "path": "datasets/public/libritts_test_clean/full.jsonl",
+        "sha256": "2a200362a7d4b691356c0da486f9de0291a114c43353fd873873788ede4f9f38",
+        "samples": 4837
+      },
+      "shards": [
+        {
+          "path": "datasets/public/libritts_test_clean/shard-000.jsonl",
+          "sha256": "bc11bf669a3fd367d5b1678122d3044871409d44bcb52dbae9fdeaeed076b1bf",
+          "samples": 32,
+          "index": 0,
+          "phase": "pilot"
+        },
+        {
+          "path": "datasets/public/libritts_test_clean/shard-001.jsonl",
+          "sha256": "7919c76afad2eea882e8d5076811e28c4c0908316a0d7f17cc2d3276bd84cffd",
+          "samples": 224,
+          "index": 1,
+          "phase": "panel"
+        },
+        {
+          "path": "datasets/public/libritts_test_clean/shard-002.jsonl",
+          "sha256": "4c264156decb76b308a6bd636ac165d9a67dd1f901daeae2a08fe1cab8700c94",
+          "samples": 256,
+          "index": 2,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/libritts_test_clean/shard-003.jsonl",
+          "sha256": "1faa544fd227197eb6fa22a36c51bb8f8f2715a41b60070bc21e00917350cc76",
+          "samples": 256,
+          "index": 3,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/libritts_test_clean/shard-004.jsonl",
+          "sha256": "a685c82d0d3789862aa97676478ab32ff4e0f37c9cea86d2b8bc7af65cede088",
+          "samples": 256,
+          "index": 4,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/libritts_test_clean/shard-005.jsonl",
+          "sha256": "8290e0c9e203d47ef41a2af2988e58efcf10bbeb11f3c75894e962c4f729777a",
+          "samples": 256,
+          "index": 5,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/libritts_test_clean/shard-006.jsonl",
+          "sha256": "9c246d8e9f3f3c23c634283750f63eefb689951b90481f74ec525b063d310a31",
+          "samples": 256,
+          "index": 6,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/libritts_test_clean/shard-007.jsonl",
+          "sha256": "c521e962b646e93a9d9fd7fdea6e02cab0120941f25f44aaefe22d1af78065c2",
+          "samples": 256,
+          "index": 7,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/libritts_test_clean/shard-008.jsonl",
+          "sha256": "24c06e61836b3ca99628a8229fe14daae3571ce1ee6de55e3d9b461c5b73d04f",
+          "samples": 256,
+          "index": 8,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/libritts_test_clean/shard-009.jsonl",
+          "sha256": "38a7fda5c90548a0c1777ca19eb60248fd7d5885fb70586e8a631fad0c756270",
+          "samples": 256,
+          "index": 9,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/libritts_test_clean/shard-010.jsonl",
+          "sha256": "60a2bd0fd4ab49cb3d7635cad521efda5f8596a5883af04678c9e8200f66653e",
+          "samples": 256,
+          "index": 10,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/libritts_test_clean/shard-011.jsonl",
+          "sha256": "08f9830a1fac0ace6a59dadae5930c8403f17c0dc7b24b2307324b62e51253c8",
+          "samples": 256,
+          "index": 11,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/libritts_test_clean/shard-012.jsonl",
+          "sha256": "55b1609ea165a445fa5629710ea9363983fa095021ae4b8a4d6da59b49552c35",
+          "samples": 256,
+          "index": 12,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/libritts_test_clean/shard-013.jsonl",
+          "sha256": "0522c50295b5d06273ba69a5ca27d21145ff7a4f7fc546d42f835e74dc53a1b3",
+          "samples": 256,
+          "index": 13,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/libritts_test_clean/shard-014.jsonl",
+          "sha256": "cc54349fc21402791f6ea92b6eaf6c26ca5ad48919e7035bfb4e420d35d93c86",
+          "samples": 256,
+          "index": 14,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/libritts_test_clean/shard-015.jsonl",
+          "sha256": "d641b60769817d15318124b217e5cf1718e93a2368b59d44a2659b68b61fbbf3",
+          "samples": 256,
+          "index": 15,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/libritts_test_clean/shard-016.jsonl",
+          "sha256": "7851edda7c731672b4846b6586c7f62b83b932b8c15cfa4885ac6e22a45c4442",
+          "samples": 256,
+          "index": 16,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/libritts_test_clean/shard-017.jsonl",
+          "sha256": "e61977b5e1cc17d37e2b8c57b9998d192290e8f617e435f0cf8a79550e727440",
+          "samples": 256,
+          "index": 17,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/libritts_test_clean/shard-018.jsonl",
+          "sha256": "9d0df5c835e5b9de10bc679b514a03e2caac3becd8f1a9a9c1253a0dc6a0308b",
+          "samples": 256,
+          "index": 18,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/libritts_test_clean/shard-019.jsonl",
+          "sha256": "2ab96600fc8e91c14110f6128516ce44c912076fc19ca5b277d8de7eb0410ce4",
+          "samples": 229,
+          "index": 19,
+          "phase": "expansion"
+        }
+      ],
+      "categories": {
+        "read_speech": 4837
+      },
+      "track": "fixed_voice_intelligibility",
+      "provenance": {
+        "source_url": "https://www.openslr.org/60/",
+        "download_url": "https://www.openslr.org/resources/60/test-clean.tar.gz",
+        "split": "test-clean",
+        "archive_sha256": "234ea5b25859102a87024a4b9b86641f5b5aaaf1197335c95090cde04fe9a4f5",
+        "publisher_md5": "7bed3bdb047c4c197f1ad3bc412db59f",
+        "license": "CC BY 4.0",
+        "scope": "TTS synthesis from official test transcripts. Original speech noise conditions do not carry over to synthesized audio. LibriTTS and LibriSpeech share source books/speakers; do not treat them as independent populations."
+      },
+      "selection": "Full split, seed-42 SHA256 order within category/depth/length strata; round-robin strata",
+      "repeats": 1,
+      "synthesis_seed": 42
+    },
+    {
+      "id": "librispeech_test_clean",
+      "language": "en",
+      "total_samples": 2620,
+      "full": {
+        "path": "datasets/public/librispeech_test_clean/full.jsonl",
+        "sha256": "1cbcdec0ca40e282d257425aa7712a5af901753009ae5c978f329ee276bea098",
+        "samples": 2620
+      },
+      "shards": [
+        {
+          "path": "datasets/public/librispeech_test_clean/shard-000.jsonl",
+          "sha256": "ab43290c47286fc9ca7e99c1ecd6f9ffe8e8d92ab54fc22c69e5ada1d4a9d447",
+          "samples": 32,
+          "index": 0,
+          "phase": "pilot"
+        },
+        {
+          "path": "datasets/public/librispeech_test_clean/shard-001.jsonl",
+          "sha256": "2e45572cd543d60ac85383efaff743148887bb1742b3c34c1d26abcabbe1278e",
+          "samples": 224,
+          "index": 1,
+          "phase": "panel"
+        },
+        {
+          "path": "datasets/public/librispeech_test_clean/shard-002.jsonl",
+          "sha256": "6978600aa1155fd84698670ed3d80770fe9b4ffd414e25fd660179dd1dc9a200",
+          "samples": 256,
+          "index": 2,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/librispeech_test_clean/shard-003.jsonl",
+          "sha256": "2f691a3a642c434bb3ee26327ede46eb6f5f97c81d301ec4b34e45e1f421611b",
+          "samples": 256,
+          "index": 3,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/librispeech_test_clean/shard-004.jsonl",
+          "sha256": "fd4cca7b29c0c33bb0db70364554d057c0ae690c7931c5b46d2177ae7ccce60d",
+          "samples": 256,
+          "index": 4,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/librispeech_test_clean/shard-005.jsonl",
+          "sha256": "45387294a833f4b57eef69322a270ddf8ed47f35c60e84d4d7d5522fb697d86a",
+          "samples": 256,
+          "index": 5,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/librispeech_test_clean/shard-006.jsonl",
+          "sha256": "a92022c3810cb073181660fd3aac7aaa6e716666cf64b945c8c35c82335a7767",
+          "samples": 256,
+          "index": 6,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/librispeech_test_clean/shard-007.jsonl",
+          "sha256": "2dd51ede6ca56e602f2fda49663646dc3ff73b728ea68b61678f6f61e650bb29",
+          "samples": 256,
+          "index": 7,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/librispeech_test_clean/shard-008.jsonl",
+          "sha256": "72dd93232590166d36195a7d705b66b3253870b0676c471cf009b588e8688c58",
+          "samples": 256,
+          "index": 8,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/librispeech_test_clean/shard-009.jsonl",
+          "sha256": "83ade672ceeef8790702524119099b42e59979ded784be2e65de733bb479d0ec",
+          "samples": 256,
+          "index": 9,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/librispeech_test_clean/shard-010.jsonl",
+          "sha256": "8541a9a685763c2e864fb6161140a2cf2e0272388a6523caefd5fba739a21d8b",
+          "samples": 256,
+          "index": 10,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/librispeech_test_clean/shard-011.jsonl",
+          "sha256": "022c26984d93bc6e87b3a4034521222a02f0e5460e32c1275903f30c00da8968",
+          "samples": 60,
+          "index": 11,
+          "phase": "expansion"
+        }
+      ],
+      "categories": {
+        "read_speech": 2620
+      },
+      "track": "fixed_voice_intelligibility",
+      "provenance": {
+        "source_url": "https://www.openslr.org/12/",
+        "download_url": "https://www.openslr.org/resources/12/test-clean.tar.gz",
+        "split": "test-clean",
+        "archive_sha256": "39fde525e59672dc6d1551919b1478f724438a95aa55f874b576be21967e6c23",
+        "publisher_md5": "32fa31d27d2e1cad72775fee3f4849a9",
+        "license": "CC BY 4.0",
+        "scope": "TTS synthesis from official test transcripts. Original speech noise conditions do not carry over to synthesized audio. LibriTTS and LibriSpeech share source books/speakers; do not treat them as independent populations."
+      },
+      "selection": "Full split, seed-42 SHA256 order within category/depth/length strata; round-robin strata",
+      "repeats": 1,
+      "synthesis_seed": 42
+    },
+    {
+      "id": "librispeech_test_other",
+      "language": "en",
+      "total_samples": 2939,
+      "full": {
+        "path": "datasets/public/librispeech_test_other/full.jsonl",
+        "sha256": "0179c7a39c6fc14b5b9967d1556886500d17ae9c44e9283ce2932c75cd78af4e",
+        "samples": 2939
+      },
+      "shards": [
+        {
+          "path": "datasets/public/librispeech_test_other/shard-000.jsonl",
+          "sha256": "88a7667a40d39e61319109c1df8516ed219a73019fa4256a724995b0b1b1d20b",
+          "samples": 32,
+          "index": 0,
+          "phase": "pilot"
+        },
+        {
+          "path": "datasets/public/librispeech_test_other/shard-001.jsonl",
+          "sha256": "b730f37e7729c10853e9e7e6e136c462daaafd5d5e3de2ef800c4f1bc7d3effe",
+          "samples": 224,
+          "index": 1,
+          "phase": "panel"
+        },
+        {
+          "path": "datasets/public/librispeech_test_other/shard-002.jsonl",
+          "sha256": "77c82638d1d84c465e32e19a5e1a89796a42dda0518f24bec2572d054dad3020",
+          "samples": 256,
+          "index": 2,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/librispeech_test_other/shard-003.jsonl",
+          "sha256": "a157cf7f26f0aeb0d33da8be24b20392170a57ba2007cefc7cd14de2326d1e33",
+          "samples": 256,
+          "index": 3,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/librispeech_test_other/shard-004.jsonl",
+          "sha256": "1074485257a7a32a4423b1addff043edf40d7ae0a8704af108d5de15b00079b5",
+          "samples": 256,
+          "index": 4,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/librispeech_test_other/shard-005.jsonl",
+          "sha256": "e1a070d788a9e0da5ee3b511b77a3b828555820d093b91801210e42ac0c57b38",
+          "samples": 256,
+          "index": 5,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/librispeech_test_other/shard-006.jsonl",
+          "sha256": "22af385ef7dc56fd96584b01dacf6ac77f585490e67ef3430e2397ce7f339505",
+          "samples": 256,
+          "index": 6,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/librispeech_test_other/shard-007.jsonl",
+          "sha256": "a8f996fb974262cbeeaa1411e81cbe3b3ca807cf096a817b9c0de707dcc1ffed",
+          "samples": 256,
+          "index": 7,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/librispeech_test_other/shard-008.jsonl",
+          "sha256": "569b4c70bd86e6b186c54478cc5f4dcdc8f062c269dfad6b672c3d729a292763",
+          "samples": 256,
+          "index": 8,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/librispeech_test_other/shard-009.jsonl",
+          "sha256": "e64e93077a73ed1cddb351e8c21562e180ffc4df25aed53d60ceeba4b17a0cb5",
+          "samples": 256,
+          "index": 9,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/librispeech_test_other/shard-010.jsonl",
+          "sha256": "f10f576581284ad0fbdcfec38ecbf900472315bbf8fa74983fc3c10a5ff85260",
+          "samples": 256,
+          "index": 10,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/librispeech_test_other/shard-011.jsonl",
+          "sha256": "16b8425a019841a3a946bde844ece76f07bf6eaa0b10200e4d1d3738fd792a7b",
+          "samples": 256,
+          "index": 11,
+          "phase": "expansion"
+        },
+        {
+          "path": "datasets/public/librispeech_test_other/shard-012.jsonl",
+          "sha256": "788ed83287f6e594273beefe1ee1892010e7cdc5cbd7c46ce39077d7ef333072",
+          "samples": 123,
+          "index": 12,
+          "phase": "expansion"
+        }
+      ],
+      "categories": {
+        "read_speech": 2939
+      },
+      "track": "fixed_voice_intelligibility",
+      "provenance": {
+        "source_url": "https://www.openslr.org/12/",
+        "download_url": "https://www.openslr.org/resources/12/test-other.tar.gz",
+        "split": "test-other",
+        "archive_sha256": "d09c181bba5cf717b3dee7d4d592af11a3ee3a09e08ae025c5506f6ebe961c29",
+        "publisher_md5": "fb5a50374b501bb3bac4815ee91d3135",
+        "license": "CC BY 4.0",
+        "scope": "TTS synthesis from official test transcripts. Original speech noise conditions do not carry over to synthesized audio. LibriTTS and LibriSpeech share source books/speakers; do not treat them as independent populations."
+      },
+      "selection": "Full split, seed-42 SHA256 order within category/depth/length strata; round-robin strata",
+      "repeats": 1,
+      "synthesis_seed": 42
+    }
+  ],
+  "panel_size": 256,
+  "seed": 42,
+  "repeats": 1
+}

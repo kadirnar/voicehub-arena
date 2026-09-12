@@ -27,11 +27,21 @@ def generate(config_path, model_type):
     run = Path(config_path).parent
     output = run / model_type
     output.mkdir(exist_ok=True)
+    previous_rows = {}
+    if cfg.get('resume_samples') and (output/'result.json').exists():
+        for row in read_json(output/'result.json').get('rows', []):
+            if row.get('status') in {'generated', 'ok', 'scoring_failed'}:
+                audio_path = run / row['audio']
+                if not audio_path.is_file() or hashlib.sha256(audio_path.read_bytes()).hexdigest() != row.get('audio_sha256'):
+                    raise ValueError('Cannot resume an unverified audio artifact: ' + str(audio_path))
+                previous_rows[(row['id'], row['repeat'])] = row
     spec = next(s for s in cfg["catalog"] if s["model_type"] == model_type)
     override = cfg["overrides"].get(model_type, {})
     checkpoint = override.get("checkpoint", spec["checkpoint"])
     status = dict(model_type=model_type, checkpoint=checkpoint, status="loading", rows=[],
                   expected_samples=len(cfg["dataset"])*cfg["repeats"])
+    # Keep already verified records durable even if the resumed model load fails.
+    status['rows'] = list(previous_rows.values())
     if "artifact_provenance" in override:
         status["artifact_provenance"] = override["artifact_provenance"]
     if "runtime_adapter" in override:
@@ -144,9 +154,20 @@ def generate(config_path, model_type):
         write_json(output/"result.json", status)
         for item in cfg["dataset"]:
             for repeat in range(cfg["repeats"]):
+                if (item['id'], repeat) in previous_rows:
+                    continue
+                if cfg.get('resume_samples'):
+                    import shutil
+                    if shutil.disk_usage(run).free < 4 * 2**30:
+                        status.update(status='disk_limit', error='Audio storage reserve reached; resume after verified archival')
+                        write_json(output/'result.json', status)
+                        return
                 row = dict(id=item["id"], category=item["category"], text=item["text"],
                            reference=item.get("reference",item["text"]), repeat=repeat,
                            seed=cfg["seed"]+repeat, status="failed")
+                for key in ('dataset_id', 'source_id', 'speaker_id', 'evolution_depth', 'track'):
+                    if key in item:
+                        row[key] = item[key]
                 try:
                     if cfg["device"].startswith("cuda"):
                         torch.cuda.reset_peak_memory_stats()
@@ -197,7 +218,10 @@ def generate(config_path, model_type):
                     row["error"] = f"{type(error).__name__}: {error}"
                 status["rows"].append(row)
                 write_json(output/"result.json",status)
-        status["status"] = "generated" if any(r["status"]=="generated" for r in status["rows"]) else "failed"
+        if len(status['rows']) == status['expected_samples'] and all(r['status'] == 'ok' for r in status['rows']):
+            status['status'] = 'completed'
+        else:
+            status["status"] = "generated" if any(r["status"] in ('generated','ok','scoring_failed') for r in status["rows"]) else "failed"
     except Exception as error:
         status.update(status="blocked", error=f"{type(error).__name__}: {error}")
         traceback.print_exc()
@@ -220,23 +244,32 @@ def score(config_path, model_type=None):
             break
     if not pending:
         return
-    # CPU scoring releases all GPU memory for TTS and works without a system cuDNN.
+    # Scoring is a separate process after TTS exits. Old frozen configurations
+    # keep CPU/int8; new public suites explicitly request large-v3 CUDA/FP16.
     asr = cfg["asr"]
     model_path = snapshot_download(asr["checkpoint"], revision=asr.get("revision"))
-    model = WhisperModel(model_path, device="cpu", compute_type="int8", cpu_threads=cfg["cpu_threads"])
+    model = WhisperModel(model_path, device=asr.get('device', 'cpu'),
+                         compute_type=asr.get('compute_type', 'int8'), cpu_threads=cfg["cpu_threads"])
     for spec in specifications:
         path = run/spec["model_type"]/"result.json"
         if not path.exists():
             continue
         result = read_json(path)
+        result['asr'] = asr
         for row in result.get("rows", []):
             if row["status"] not in ("generated", "scoring_failed"):
                 continue
             try:
+                audio_path = run/row['audio']
+                if row.get('audio_sha256') and hashlib.sha256(audio_path.read_bytes()).hexdigest() != row['audio_sha256']:
+                    raise ValueError('Generated audio digest changed before scoring')
+                started = time.perf_counter()
                 segments, info = model.transcribe(str(run/row["audio"]), language="en", task="transcribe",
                      beam_size=5, temperature=0, condition_on_previous_text=False, vad_filter=False)
                 row["transcript"] = " ".join(s.text.strip() for s in segments).strip()
-                row["metrics"] = errors([row["reference"]],[row["transcript"]])
+                row['asr_latency_s'] = time.perf_counter() - started
+                row['normalization_id'] = cfg.get('normalization_id', 'orthographic')
+                row["metrics"] = errors([row["reference"]],[row["transcript"]], normalization=row['normalization_id'])
                 row["status"] = "ok"
                 row.pop("scoring_error",None)
             except Exception as error:
@@ -245,7 +278,8 @@ def score(config_path, model_type=None):
         result["summary"] = summarize(result.get("rows",[]))
         if result.get("rows"):
             complete = len(result["rows"]) == result.get("expected_samples", len(cfg["dataset"])*cfg["repeats"])
-            result["status"] = "completed" if complete and all(r["status"]=="ok" for r in result["rows"]) else "partial"
+            if result['status'] != 'disk_limit':
+                result["status"] = "completed" if complete and all(r["status"]=="ok" for r in result["rows"]) else "partial"
         write_json(path,result)
 
 

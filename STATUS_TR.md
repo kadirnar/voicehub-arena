@@ -1,298 +1,85 @@
 # VoiceHub Arena — durum
 
-Anlık kopya: 2026-09-12T06:58:49+00:00. Canlı arayüz: http://127.0.0.1:7860/
+Yerel sonuç kopyasının rapor zamanı: 2026-09-12T07:48:49+00:00.
+Canlı arayüz: http://127.0.0.1:7860/
 
 RTX 3090 (24 GB), `vast-3090-voicehub` SSH bağlantısı ve ayrı VS Code uzak penceresi hazır.
-`/workspace/voicehub-arena` sunucudaki proje; bu klasör yerel kaynak ve sonuç kopyasıdır.
+Bu rapor kaydedilmiş sonuçlardan üretilir; canlı iş ilerledikçe arayüz daha güncel olabilir.
 
+## Yayımlanmış veri setleri ve Whisper large-v3
 
-## Modellerin güncel durumu
+Kampanya durumu: **running**. Son etkin iş: `pub-v2-supertonic-librispeech_test_clean-000`.
+33 İngilizce model; model başına 13,129 tam bölüm metni.
+Tamamlanan model/bölüm parçaları: 6 / 1947; eksik veya hatalı: 0.
+Parça tamamlanması tam veri setinin veya bütün kampanyanın tamamlandığı anlamına gelmez.
 
-**28 / 33 İngilizce modelin 24 örneklik ölçümü tamamlandı.**
-Aşağıda son denemeler; raporun ilerleyen tablolarında geçmiş koşular gösterilir.
+| Veri seti | Tam bölüm | Üretilen ses | Puanlanan ses |
+|---|---:|---:|---:|
+| emergenttts | 1,645 | 32 | 32 |
+| seedtts_en | 1,088 | 64 | 64 |
+| libritts_test_clean | 4,837 | 32 | 32 |
+| librispeech_test_clean | 2,620 | 32 | 32 |
+| librispeech_test_other | 2,939 | 32 | 32 |
 
-| Model | Son durum | Koşu | Puanlanan | Son hata |
-|---|---|---|---:|---|
-| bark | completed | repairs-en-05 | 24 / 24 |  |
-| chatterbox | completed | english-extended | 24 / 24 |  |
-| conversationtts | completed | repairs-en-06 | 24 / 24 |  |
-| cosyvoice | completed | repairs-en-04 | 24 / 24 |  |
-| csm | completed | english-extended | 24 / 24 |  |
-| dia | completed | repairs-en-08 | 24 / 24 |  |
-| echo | completed | repairs-en-10 | 24 / 24 |  |
-| f5tts | completed | english-extended | 24 / 24 |  |
-| fishtts | completed | repairs-en-08 | 24 / 24 |  |
-| gptsovits | completed | english-extended | 24 / 24 |  |
-| higgstts | completed | english-extended | 24 / 24 |  |
-| inflecttts | completed | repairs-en-01 | 24 / 24 |  |
-| irodoritts | unsupported_language | english-extended | 0 / 24 | The pinned VoiceHub model card does not advertise English: ja |
-| kokoro | completed | repairs-en-01 | 24 / 24 |  |
-| llasa | completed | english-extended | 24 / 24 |  |
-| melotts | completed | english-extended | 24 / 24 |  |
-| mosstts | completed | repairs-en-12 | 24 / 24 |  |
-| neutts | queued | repairs-en-13 (önce: english-extended) | 0 / 24 | Önceki deneme: PermissionError: Hugging Face denied access to neuphonic/neucodec@30c1fdd19e68aee65d542cf043750d4c0165893e/config.json (HTTP 403). Check the repository permissi |
-| omnivoice | completed | repairs-en-11 | 24 / 24 |  |
-| openvoice | completed | repairs-en-02 | 24 / 24 |  |
-| orpheustts | completed | repairs-en-11 | 24 / 24 |  |
-| outetts | completed | english-extended | 24 / 24 |  |
-| parlertts | completed | repairs-en-12 | 24 / 24 |  |
-| qwen3tts | generating | repairs-en-12 | 0 / 24 |  |
-| speecht5 | completed | repairs-en-01 | 24 / 24 |  |
-| styletts2 | completed | repairs-en-01 | 24 / 24 |  |
-| supertonic | completed | english-extended | 24 / 24 |  |
-| vibevoice | completed | repairs-en-04 | 24 / 24 |  |
-| vits | completed | english-extended | 24 / 24 |  |
-| voxcpm | pending | repairs-en-12 | 0 / 24 |  |
-| vui | completed | english-extended | 24 / 24 |  |
-| xtts | pending | repairs-en-12 | 0 / 24 |  |
-| zonos | pending | repairs-en-12 | 0 / 24 |  |
-| zonos2 | queued | repairs-en-13 (önce: repairs-en-11) | 24 / 24 |  |
+Her model için önce 32 metin/bölüm pilotu, sonra 256 metin/bölüm paneli, ardından kalan bütün metinler çalışır.
+Panel: 1.280 metin/model; tam kapsam: 13.129 metin/model. Üretim seed42 ve tek tekrarlıdır.
+ASR: `Systran/faster-whisper-large-v3` @ `edaa852ec7e145841d8ffdb056a99866b5f0a478`; CUDA FP16.
+Bu tabloda ses sayıları modellerin toplamıdır; kaynak metin sayısıyla karıştırılmamalıdır.
+WER/CER ve güven aralıkları her veri seti ve kapsam için ayrı gösterilir. Eksik kapsam sıralamaya uygun değildir.
+Bu bir sabit ses ile anlaşılabilirlik testidir; Seed ses klonlama SIM veya Emergent duygu/doğallık değerlendirmesinin tekrarı değildir.
+LibriTTS ve LibriSpeech ortak kaynak içerir; sonuçlar tek bağımsız veri havuzu olarak birleştirilmez.
+Yöntem ve kaynaklar: [BENCHMARK_PROTOCOL.md](BENCHMARK_PROTOCOL.md).
 
-## Teknik kayıt ve geçmiş denemeler
+## Geçmiş tanı doğrulamaları
 
-**Tüm modellerin çalıştığı henüz doğrulanmadı.** İngilizce dışı Irodori-TTS kapsam dışıdır.
-Gösterilen koşu: `english-extended`; durum `paused`, aşama `repair`.
-Kapsam: 34 model ailesi, 8 İngilizce metin × 3 seed.
+33 İngilizce modelin sekiz metin × üç seed tanı üretimi ve puanlaması en az bir kez tamamlandı.
+Her modelin son tamamlanan tanı kaydı aşağıdadır. Bunlar yeni yayımlanmış-veri benchmark sonuçları değildir.
 
-NeuCodec erişimi açıldı; 811 tensörlü dosya tamamen indirildi ve SHA256 doğrulandı.
-NeuTTS ve Zonos2 repairs-en-13 için otomatik sırada; mevcut repairs-en-12 bitince başlayacak.
-Kimlik bilgileri proje dışında saklanıyor.
-33 İngilizce modelin giriş sözleşmesi kontrolü geçti. Bu, GPU üretim başarısı anlamına gelmez.
-Uygulama: 34 test geçti. İlk VoiceHub düzeltmeleri: 48 test ve 6 alt test geçti.
-Ek OpenVoice yükleme düzeltmesi: 12 test geçti.
-CosyVoice: 11 test ve 101 alt test; VibeVoice: 16 test geçti.
-Bark public generate düzeltmesi: 13 test geçti; repairs-en-05 içinde 24 ses puanlandı.
-ConversationTTS: sabit arşivden 187 tensörün adı ve şekli doğrulanarak Safetensors hazırlandı.
-repairs-en-06: ConversationTTS WER %17,62, CER %15,56; sayı metninin ASR çıktısı dinleme incelemesi istiyor.
-F5-TTS 24 örnekte WER %3,97, CER %3,42 ile tamamlandı.
-HiggsTTS 24 örnekte WER %4,84, CER %3,60 ile tamamlandı.
-Dia: dolgu düzeltmesi, KV cache ve public generate sınırı için 12 test geçti.
-Dia RTX 3090 karşılaştırması geçti: en büyük logit farkı 0,000012875; greedy tokenlar aynı.
-repairs-en-07 içindeki ilk Dia ses denemesinde use_cache API kontrolü hata verdi; bu kontrol düzeltildi.
-Fish codec: resmî dosyadaki altı sabit hesaplama tablosu ayrıldı; 535 ağırlık tensörü doğrulandı.
-Fish için 15 test ve 6 alt test geçti; 24 örnekte WER %3,80, CER %3,27 ölçüldü.
-Dia repairs-en-08: WER %11,74, CER %9,51; üretim sınırı 0/24.
-Llasa: WER %19,00, CER %14,17; kalite incelemesi gerekiyor.
-Echo codec yapısı, eski weight norm adları ve boolean maskeler düzeltildi; 6 kaynak testi geçti.
-Gerçek 541 tensörlü Echo codec iki kısa CPU karşılaştırmasında referansla birebir eşleşti.
-Echo repairs-en-10: 24 örnekte WER %3,97, CER %3,30, RTF 0,592; üretim hatası yok.
-repairs-en-10 Echo sonrasında OmniVoice RoPE ve Orpheus disk hatalarıyla durdu.
-OmniVoice meta yüklemesinden sonra RoPE tabloları düzeltildi; 18 test geçti.
-repairs-en-11 tamamlandı: OmniVoice WER %3,97 / CER %3,39; Orpheus %7,08 / %6,87.
-Zonos2 WER %12,95 / CER %11,90; uzun metinlerde 44 sözcük silinmesiyle kalite incelemesi açık.
-Üç uzun ses 1.024 adımın karşılığı olan 11,80 saniyede bitti; sınır 3.072 oldu, yeni GPU denemesi bekliyor.
-Kalan altı çalıştırılabilir model yeni repairs-en-12 içinde doğrulanıyor.
-repairs-en-12: MOSS WER %3,80 / CER %3,30; Parler WER %4,66 / CER %3,15 ile 24/24 tamamlandı.
-XTTS resmî İngilizce metin işleyicisi eklendi; sayı, para ve kısaltma testi geçti.
-Arayüz artık aynı protokolde her modelin son denemesini ve kaynak koşusunu topluca gösterir.
-Önbellekler birlikte sınırlanıyor; hardlink dosyaları bir sayılıyor, model öncesi 32 GiB alan ayrılıyor.
-Kullanılmayan Fish/Higgs/Dia/Echo Hub kopyalarından 32,24 GiB alan açıldı.
-Kullanılmayan CSM/CosyVoice Hub önbelleklerinden 9,03 GiB alan açıldı; sonuçlar korundu.
-MOSS-TTS v1.5 gerçek 463 tensörü native yapıyla eşleşti; kayıtlı envanter özeti düzeltildi.
-MOSS metin girdisinde audio-start yoksa -1 döndürür; referans eşliği ve küçük model üretim testleri geçti.
-Parler boş dtype varsayılanı düzeltildi. Qwen3 public API/gerçek küçük codec dahil 17 test geçti.
-VoxCPM2 AudioVAE: doğrulanmış resmî arşivden 312 tensörlü Safetensors üretildi.
-XTTS: sabit SHA256 doğrulaması ve restricted yüklemeyle 963 tensörlü native model hazırlandı.
-XTTS BatchNorm sayaçları int64 olarak korunur; 13 test ve iki alt test geçti.
-Zonos, resmî öğrenilmiş koşulsuz konuşmacı vektörünü kullanır; ses klonlama iddiası yoktur.
-Echo indirmeleri artık değişebilir dalı commit ile sabitleyerek yeniden sürdürülebilir istemciyi kullanır.
-İndirme önbelleği, doğrulanmış sabit dosyaları aynı diskte hardlink ile paylaşır.
-SpeechT5 gerçek tokenizer’ı, 13 örnekte SentencePiece referansıyla eşleşti.
+| Model | Tanı koşusu | ASR | WER | CER |
+|---|---|---|---:|---:|
+| bark | repairs-en-05 | faster-whisper-small.en | 6.56% | 4.48% |
+| chatterbox | english-extended | faster-whisper-small.en | 3.45% | 3.21% |
+| conversationtts | repairs-en-06 | faster-whisper-small.en | 17.62% | 15.56% |
+| cosyvoice | repairs-en-04 | faster-whisper-small.en | 10.71% | 7.33% |
+| csm | english-extended | faster-whisper-small.en | 5.35% | 3.94% |
+| dia | repairs-en-08 | faster-whisper-small.en | 11.74% | 9.51% |
+| echo | repairs-en-10 | faster-whisper-small.en | 3.97% | 3.30% |
+| f5tts | english-extended | faster-whisper-small.en | 3.97% | 3.42% |
+| fishtts | repairs-en-08 | faster-whisper-small.en | 3.80% | 3.27% |
+| gptsovits | english-extended | faster-whisper-small.en | 5.87% | 3.63% |
+| higgstts | english-extended | faster-whisper-small.en | 4.84% | 3.60% |
+| inflecttts | repairs-en-01 | faster-whisper-small.en | 4.15% | 3.36% |
+| kokoro | repairs-en-01 | faster-whisper-small.en | 3.63% | 3.27% |
+| llasa | english-extended | faster-whisper-small.en | 19.00% | 14.17% |
+| melotts | english-extended | faster-whisper-small.en | 4.66% | 3.60% |
+| mosstts | repairs-en-12 | faster-whisper-small.en | 3.80% | 3.30% |
+| neutts | repairs-en-13 | faster-whisper-small.en | 7.60% | 5.39% |
+| omnivoice | repairs-en-11 | faster-whisper-small.en | 3.97% | 3.39% |
+| openvoice | repairs-en-02 | faster-whisper-small.en | 4.84% | 3.45% |
+| orpheustts | repairs-en-11 | faster-whisper-small.en | 7.08% | 6.87% |
+| outetts | english-extended | faster-whisper-small.en | 3.97% | 3.36% |
+| parlertts | repairs-en-12 | faster-whisper-small.en | 4.66% | 3.15% |
+| qwen3tts | repairs-en-12 | faster-whisper-small.en | 4.32% | 3.51% |
+| speecht5 | repairs-en-01 | faster-whisper-small.en | 3.11% | 2.91% |
+| styletts2 | repairs-en-01 | faster-whisper-small.en | 3.80% | 3.30% |
+| supertonic | english-extended | faster-whisper-small.en | 3.80% | 3.33% |
+| vibevoice | repairs-en-04 | faster-whisper-small.en | 4.66% | 3.97% |
+| vits | english-extended | faster-whisper-small.en | 7.77% | 4.75% |
+| voxcpm | repairs-en-12 | faster-whisper-small.en | 3.63% | 3.27% |
+| vui | english-extended | faster-whisper-small.en | 14.51% | 12.93% |
+| xtts | repairs-en-12 | faster-whisper-small.en | 3.80% | 3.33% |
+| zonos | repairs-en-12 | faster-whisper-small.en | 4.49% | 3.57% |
+| zonos2 | repairs-en-11 | faster-whisper-small.en | 12.95% | 11.90% |
 
-İlk kısa tarama `all-models-en` eski ayarlarla iki metin kullandı. Düzeltilmiş ayarlarla
-`english-extended` tüm kaydı, sekiz metin ve üç seed ile tekrar değerlendirir.
-Kısa taramadaki zaman aşımı indirme süresini de içerir; kalite puanı değildir.
+NeuCodec erişimi doğrulanmış ve NeuTTS 24/24 tanı örneğini tamamlamıştır.
+repairs-en-13 içindeki Zonos2 tanı tekrarı, henüz ölçüm üretmeden yayımlanmış veri setlerine geçiş nedeniyle superseded olarak kapatıldı.
+Önceki tamamlanmış Zonos2 sonucu korunur; yeni kampanya Zonos2 modelini de içerir.
+Irodori-TTS Japonca ilan ettiği için İngilizce kapsamı dışındadır.
 
-`completed`, üretim ve puanlamanın bitmesini belirtir; kalite garantisi değildir.
-CosyVoice repairs-en-02: WER %17,62, iki 40,96 saniyelik eksik transkriptli çıktı.
-repairs-en-04: CosyVoice WER %10,71, üretim sınırına ulaşan örnek 0/24.
-VibeVoice WER %4,66, CER %3,97, medyan ilk ses süresi 104 ms; 24 örnek puanlandı.
-OuteTTS 24 örnekte WER %3,97 ile tamamlandı.
-Bark 24 örnekte WER %6,56, CER %4,48 ile tamamlandı.
+## İşletim
 
-CSM 24 örnekte WER %5,35, CER %3,94 ile tamamlandı.
-
-WER, CER, MER, WIL/WIP, tam eşleşme, sözcük hataları, RTF, p50/p95 süre, GPU bellek
-tepesi, RMS/peak dBFS, clipping, sessizlik ve DC offset gerçek çıktılardan hesaplanır.
-VibeVoice için yeni Arena adaptörü ayrıca etiketlenir; tam referans dalga biçimi eşliği henüz doğrulanmadı.
-
-| Model | Durum | Ses / planlanan | Açıklama |
-|---|---|---:|---|
-| neutts | blocked | 0 / 24 | PermissionError: Hugging Face denied access to neuphonic/neucodec@30c1fdd19e68aee65d542cf043750d4c0165893e/config.json (HTTP 403). Check the repository permissions and token. |
-| vits | completed | 24 / 24 |  |
-| supertonic | completed | 24 / 24 |  |
-| kokoro | completed | 24 / 24 |  |
-| vui | completed | 24 / 24 |  |
-| inflecttts | blocked | 0 / 24 | ValueError: The official Inflect release uses a PyTorch pickle container. Review its origin and pass `trust_pickle_checkpoint=True` for one restricted, weights-only load, then export Safetensors for steady-state use. |
-| styletts2 | blocked | 0 / 24 | ValueError: Unpinned YAML cannot be interpreted without a YAML runtime. Convert the configuration to typed VoiceHub JSON explicitly. |
-| melotts | completed | 24 / 24 |  |
-| speecht5 | blocked | 0 / 24 | TypeError: SpeechT5Processor.__call__() takes 1 positional argument but 2 were given |
-| gptsovits | completed | 24 / 24 |  |
-| openvoice | blocked | 0 / 24 | RuntimeError: Inference tensors do not track version counter. |
-| cosyvoice | blocked | 0 / 24 | FileNotFoundError: The official CosyVoice3 snapshot publishes audited legacy llm.pt/flow.pt/hift.pt files, not native Safetensors. Run `convert_audited_cosyvoice_legacy_checkpoint` explicitly once, then load the resulting local artifact. |
-| vibevoice | blocked | 0 / 24 | EntryNotFoundError: 404 Client Error. (Request ID: Root=1-6aa46c9f-5d6576094095f03b6b6bb01d;4c9825bd-aaf7-431d-80ef-99eb04a352f4)  Entry Not Found for url: https://huggingface.co/microsoft/VibeVoice-Realtime-0.5B/resolve/6bce5f06044837fe6d2c5d7a71a84 |
-| outetts | completed | 24 / 24 |  |
-| bark | blocked | 0 / 24 | TypeError: BarkProcessor.__call__() takes 1 positional argument but 2 were given |
-| chatterbox | completed | 24 / 24 |  |
-| conversationtts | blocked | 0 / 24 | UnpicklingError: Weights only load failed. This file can still be loaded, to do so you have two options, [1mdo those steps only if you trust the source of the checkpoint[0m.  	(1) In PyTorch 2.6, we changed the default value of the `weights_only` a |
-| csm | completed | 24 / 24 |  |
-| dia | blocked | 0 / 24 | ValueError: Dia output contains a special token inside decoded DAC frames. |
-| echo | blocked | 0 / 24 | TimeoutError: The read operation timed out |
-| f5tts | completed | 24 / 24 |  |
-| fishtts | blocked | 0 / 24 | PermissionError: Fish Audio publishes S2-Pro's ModifiedDAC only as `codec.pth`. VoiceHub never loads that pickle during steady-state inference. Either pass `codec_name_or_path` pointing to an audited Safetensors conversion, call `convert_legacy_fish_ |
-| higgstts | completed | 24 / 24 |  |
-| irodoritts | unsupported_language | 0 / 24 | The pinned VoiceHub model card does not advertise English: ja |
-| llasa | completed | 24 / 24 |  |
-| mosstts | blocked | 0 / 24 | CheckpointIntegrityError: Official MOSS-TTS checkpoint header does not match the audited inventory: expected={'tensor_count': 463, 'parameter_count': 8489841664, 'tensor_bytes': 16979683328, 'header_fingerprint': '3491bdffba10bba013848d67673e000cd333 |
-| omnivoice | disk_limit | 0 / 24 | Less than 8 GiB free; checkpoint download was not started |
-| orpheustts | disk_limit | 0 / 24 | Less than 8 GiB free; checkpoint download was not started |
-| parlertts | disk_limit | 0 / 24 | Less than 8 GiB free; checkpoint download was not started |
-| qwen3tts | disk_limit | 0 / 24 | Less than 8 GiB free; checkpoint download was not started |
-| voxcpm | disk_limit | 0 / 24 | Less than 8 GiB free; checkpoint download was not started |
-| xtts | disk_limit | 0 / 24 | Less than 8 GiB free; checkpoint download was not started |
-| zonos | disk_limit | 0 / 24 | Less than 8 GiB free; checkpoint download was not started |
-| zonos2 | disk_limit | 0 / 24 | Less than 8 GiB free; checkpoint download was not started |
-
-## Ayrı doğrulama: repairs-en-01
-
-| Model | Durum | Puanlanan | WER | CER |
-|---|---|---:|---:|---:|
-| kokoro | completed | 24 | 3.63% | 3.27% |
-| inflecttts | completed | 24 | 4.15% | 3.36% |
-| styletts2 | completed | 24 | 3.80% | 3.30% |
-| speecht5 | completed | 24 | 3.11% | 2.91% |
-
-## Ayrı doğrulama: repairs-en-02
-
-| Model | Durum | Puanlanan | WER | CER |
-|---|---|---:|---:|---:|
-| openvoice | completed | 24 | 4.84% | 3.45% |
-| cosyvoice | completed | 24 | 17.62% | 13.35% |
-
-## Ayrı doğrulama: repairs-en-03
-
-| Model | Durum | Puanlanan | WER | CER |
-|---|---|---:|---:|---:|
-| vibevoice | blocked | 0 | — | — |
-
-## Ayrı doğrulama: repairs-en-04
-
-| Model | Durum | Puanlanan | WER | CER |
-|---|---|---:|---:|---:|
-| cosyvoice | completed | 24 | 10.71% | 7.33% |
-| vibevoice | completed | 24 | 4.66% | 3.97% |
-
-## Ayrı doğrulama: repairs-en-05
-
-| Model | Durum | Puanlanan | WER | CER |
-|---|---|---:|---:|---:|
-| bark | completed | 24 | 6.56% | 4.48% |
-
-## Ayrı doğrulama: repairs-en-06
-
-| Model | Durum | Puanlanan | WER | CER |
-|---|---|---:|---:|---:|
-| conversationtts | completed | 24 | 17.62% | 15.56% |
-
-## Ayrı doğrulama: repairs-en-07
-
-| Model | Durum | Puanlanan | WER | CER |
-|---|---|---:|---:|---:|
-| dia | blocked | 0 | — | — |
-| echo | blocked | 0 | — | — |
-| fishtts | blocked | 0 | — | — |
-
-## Ayrı doğrulama: repairs-en-08
-
-| Model | Durum | Puanlanan | WER | CER |
-|---|---|---:|---:|---:|
-| dia | completed | 24 | 11.74% | 9.51% |
-| fishtts | completed | 24 | 3.80% | 3.27% |
-
-## Ayrı doğrulama: repairs-en-09
-
-| Model | Durum | Puanlanan | WER | CER |
-|---|---|---:|---:|---:|
-| echo | disk_limit | 0 | — | — |
-
-## Ayrı doğrulama: repairs-en-10
-
-| Model | Durum | Puanlanan | WER | CER |
-|---|---|---:|---:|---:|
-| echo | completed | 24 | 3.97% | 3.30% |
-| omnivoice | blocked | 0 | — | — |
-| orpheustts | blocked | 0 | — | — |
-| parlertts | disk_limit | 0 | — | — |
-| qwen3tts | disk_limit | 0 | — | — |
-| voxcpm | disk_limit | 0 | — | — |
-| xtts | disk_limit | 0 | — | — |
-| zonos | disk_limit | 0 | — | — |
-| zonos2 | disk_limit | 0 | — | — |
-
-## Ayrı doğrulama: repairs-en-11
-
-| Model | Durum | Puanlanan | WER | CER |
-|---|---|---:|---:|---:|
-| mosstts | blocked | 0 | — | — |
-| omnivoice | completed | 24 | 3.97% | 3.39% |
-| orpheustts | completed | 24 | 7.08% | 6.87% |
-| parlertts | blocked | 0 | — | — |
-| qwen3tts | blocked | 0 | — | — |
-| voxcpm | blocked | 0 | — | — |
-| xtts | blocked | 0 | — | — |
-| zonos | blocked | 0 | — | — |
-| zonos2 | completed | 24 | 12.95% | 11.90% |
-
-## Ayrı doğrulama: repairs-en-12
-
-| Model | Durum | Puanlanan | WER | CER |
-|---|---|---:|---:|---:|
-| mosstts | completed | 24 | 3.80% | 3.30% |
-| parlertts | completed | 24 | 4.66% | 3.15% |
-| qwen3tts | generating | 0 | — | — |
-| voxcpm | pending | 0 | — | — |
-| xtts | pending | 0 | — | — |
-| zonos | pending | 0 | — | — |
-
-## Tamamlanan 24 örneklik son doğrulamalar
-
-28 model ailesinin 24 örneklik üretim ve puanlaması tamamlandı.
-
-Farklı koşuların en yeni tamamlanan ayarları gösterilir; ayarlar ve süre kapsamı README içindedir.
-
-| Model | Koşu | WER | CER | RTF |
-|---|---|---:|---:|---:|
-| bark | repairs-en-05 | 6.56% | 4.48% | 2.095 |
-| chatterbox | english-extended | 3.45% | 3.21% | 1.216 |
-| conversationtts | repairs-en-06 | 17.62% | 15.56% | 4.178 |
-| cosyvoice | repairs-en-04 | 10.71% | 7.33% | 1.096 |
-| csm | english-extended | 5.35% | 3.94% | 3.539 |
-| dia | repairs-en-08 | 11.74% | 9.51% | 5.049 |
-| echo | repairs-en-10 | 3.97% | 3.30% | 0.592 |
-| f5tts | english-extended | 3.97% | 3.42% | 0.613 |
-| fishtts | repairs-en-08 | 3.80% | 3.27% | 5.449 |
-| gptsovits | english-extended | 5.87% | 3.63% | 0.416 |
-| higgstts | english-extended | 4.84% | 3.60% | 1.685 |
-| inflecttts | repairs-en-01 | 4.15% | 3.36% | 0.015 |
-| kokoro | repairs-en-01 | 3.63% | 3.27% | 0.018 |
-| llasa | english-extended | 19.00% | 14.17% | 1.406 |
-| melotts | english-extended | 4.66% | 3.60% | 0.019 |
-| mosstts | repairs-en-12 | 3.80% | 3.30% | 1.960 |
-| omnivoice | repairs-en-11 | 3.97% | 3.39% | 0.243 |
-| openvoice | repairs-en-02 | 4.84% | 3.45% | 0.039 |
-| orpheustts | repairs-en-11 | 7.08% | 6.87% | 4.151 |
-| outetts | english-extended | 3.97% | 3.36% | 5.269 |
-| parlertts | repairs-en-12 | 4.66% | 3.15% | 3.318 |
-| speecht5 | repairs-en-01 | 3.11% | 2.91% | 0.268 |
-| styletts2 | repairs-en-01 | 3.80% | 3.30% | 0.040 |
-| supertonic | english-extended | 3.80% | 3.33% | 0.061 |
-| vibevoice | repairs-en-04 | 4.66% | 3.97% | 1.015 |
-| vits | english-extended | 7.77% | 4.75% | 0.030 |
-| vui | english-extended | 14.51% | 12.93% | 0.640 |
-| zonos2 | repairs-en-11 | 12.95% | 11.90% | 8.714 |
-
-Etkin koşu: `repairs-en-12`, aşama `generation`, model `qwen3tts`.
-
-İşler Supervisor altında seri GPU kullanımıyla devam eder. Bu görevde 30 dakikalık
-kontrol ve düzeltme takibi etkindir; değişmeyen durumlarda bildirim göndermez.
-Ölçüm protokolü, hazırlama komutları ve yeniden üretme adımları README.md içindedir.
+Supervisor hizmeti: `voicehub-arena-public-suite`; plan: `runs/public-english-v2/suite.json`.
+Aynı GPU kilidiyle seri sentez ve ASR; model dosyaları için 32 GiB, ses yazımı için 4 GiB alan tabanı.
+Alan biterse sonuçlar silinmeden waiting_for_storage kaydı oluşur. Tam koşu devam eden uzun süreli bir kampanyadır.
+30 dakikalık takip, hata düzeltme ve sonuç kopyalama otomasyonu etkin. Değişmeyen durumda bildirim verilmez.
+Kimlik bilgileri proje dışında korunur.

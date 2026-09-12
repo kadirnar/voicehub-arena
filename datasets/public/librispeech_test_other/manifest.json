@@ -1,0 +1,119 @@
+{
+  "id": "librispeech_test_other",
+  "language": "en",
+  "total_samples": 2939,
+  "full": {
+    "path": "datasets/public/librispeech_test_other/full.jsonl",
+    "sha256": "0179c7a39c6fc14b5b9967d1556886500d17ae9c44e9283ce2932c75cd78af4e",
+    "samples": 2939
+  },
+  "shards": [
+    {
+      "path": "datasets/public/librispeech_test_other/shard-000.jsonl",
+      "sha256": "88a7667a40d39e61319109c1df8516ed219a73019fa4256a724995b0b1b1d20b",
+      "samples": 32,
+      "index": 0,
+      "phase": "pilot"
+    },
+    {
+      "path": "datasets/public/librispeech_test_other/shard-001.jsonl",
+      "sha256": "b730f37e7729c10853e9e7e6e136c462daaafd5d5e3de2ef800c4f1bc7d3effe",
+      "samples": 224,
+      "index": 1,
+      "phase": "panel"
+    },
+    {
+      "path": "datasets/public/librispeech_test_other/shard-002.jsonl",
+      "sha256": "77c82638d1d84c465e32e19a5e1a89796a42dda0518f24bec2572d054dad3020",
+      "samples": 256,
+      "index": 2,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/librispeech_test_other/shard-003.jsonl",
+      "sha256": "a157cf7f26f0aeb0d33da8be24b20392170a57ba2007cefc7cd14de2326d1e33",
+      "samples": 256,
+      "index": 3,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/librispeech_test_other/shard-004.jsonl",
+      "sha256": "1074485257a7a32a4423b1addff043edf40d7ae0a8704af108d5de15b00079b5",
+      "samples": 256,
+      "index": 4,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/librispeech_test_other/shard-005.jsonl",
+      "sha256": "e1a070d788a9e0da5ee3b511b77a3b828555820d093b91801210e42ac0c57b38",
+      "samples": 256,
+      "index": 5,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/librispeech_test_other/shard-006.jsonl",
+      "sha256": "22af385ef7dc56fd96584b01dacf6ac77f585490e67ef3430e2397ce7f339505",
+      "samples": 256,
+      "index": 6,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/librispeech_test_other/shard-007.jsonl",
+      "sha256": "a8f996fb974262cbeeaa1411e81cbe3b3ca807cf096a817b9c0de707dcc1ffed",
+      "samples": 256,
+      "index": 7,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/librispeech_test_other/shard-008.jsonl",
+      "sha256": "569b4c70bd86e6b186c54478cc5f4dcdc8f062c269dfad6b672c3d729a292763",
+      "samples": 256,
+      "index": 8,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/librispeech_test_other/shard-009.jsonl",
+      "sha256": "e64e93077a73ed1cddb351e8c21562e180ffc4df25aed53d60ceeba4b17a0cb5",
+      "samples": 256,
+      "index": 9,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/librispeech_test_other/shard-010.jsonl",
+      "sha256": "f10f576581284ad0fbdcfec38ecbf900472315bbf8fa74983fc3c10a5ff85260",
+      "samples": 256,
+      "index": 10,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/librispeech_test_other/shard-011.jsonl",
+      "sha256": "16b8425a019841a3a946bde844ece76f07bf6eaa0b10200e4d1d3738fd792a7b",
+      "samples": 256,
+      "index": 11,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/librispeech_test_other/shard-012.jsonl",
+      "sha256": "788ed83287f6e594273beefe1ee1892010e7cdc5cbd7c46ce39077d7ef333072",
+      "samples": 123,
+      "index": 12,
+      "phase": "expansion"
+    }
+  ],
+  "categories": {
+    "read_speech": 2939
+  },
+  "track": "fixed_voice_intelligibility",
+  "provenance": {
+    "source_url": "https://www.openslr.org/12/",
+    "download_url": "https://www.openslr.org/resources/12/test-other.tar.gz",
+    "split": "test-other",
+    "archive_sha256": "d09c181bba5cf717b3dee7d4d592af11a3ee3a09e08ae025c5506f6ebe961c29",
+    "publisher_md5": "fb5a50374b501bb3bac4815ee91d3135",
+    "license": "CC BY 4.0",
+    "scope": "TTS synthesis from official test transcripts. Original speech noise conditions do not carry over to synthesized audio. LibriTTS and LibriSpeech share source books/speakers; do not treat them as independent populations."
+  },
+  "selection": "Full split, seed-42 SHA256 order within category/depth/length strata; round-robin strata",
+  "repeats": 1,
+  "synthesis_seed": 42
+}

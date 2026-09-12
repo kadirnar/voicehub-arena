@@ -1,0 +1,112 @@
+{
+  "id": "librispeech_test_clean",
+  "language": "en",
+  "total_samples": 2620,
+  "full": {
+    "path": "datasets/public/librispeech_test_clean/full.jsonl",
+    "sha256": "1cbcdec0ca40e282d257425aa7712a5af901753009ae5c978f329ee276bea098",
+    "samples": 2620
+  },
+  "shards": [
+    {
+      "path": "datasets/public/librispeech_test_clean/shard-000.jsonl",
+      "sha256": "ab43290c47286fc9ca7e99c1ecd6f9ffe8e8d92ab54fc22c69e5ada1d4a9d447",
+      "samples": 32,
+      "index": 0,
+      "phase": "pilot"
+    },
+    {
+      "path": "datasets/public/librispeech_test_clean/shard-001.jsonl",
+      "sha256": "2e45572cd543d60ac85383efaff743148887bb1742b3c34c1d26abcabbe1278e",
+      "samples": 224,
+      "index": 1,
+      "phase": "panel"
+    },
+    {
+      "path": "datasets/public/librispeech_test_clean/shard-002.jsonl",
+      "sha256": "6978600aa1155fd84698670ed3d80770fe9b4ffd414e25fd660179dd1dc9a200",
+      "samples": 256,
+      "index": 2,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/librispeech_test_clean/shard-003.jsonl",
+      "sha256": "2f691a3a642c434bb3ee26327ede46eb6f5f97c81d301ec4b34e45e1f421611b",
+      "samples": 256,
+      "index": 3,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/librispeech_test_clean/shard-004.jsonl",
+      "sha256": "fd4cca7b29c0c33bb0db70364554d057c0ae690c7931c5b46d2177ae7ccce60d",
+      "samples": 256,
+      "index": 4,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/librispeech_test_clean/shard-005.jsonl",
+      "sha256": "45387294a833f4b57eef69322a270ddf8ed47f35c60e84d4d7d5522fb697d86a",
+      "samples": 256,
+      "index": 5,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/librispeech_test_clean/shard-006.jsonl",
+      "sha256": "a92022c3810cb073181660fd3aac7aaa6e716666cf64b945c8c35c82335a7767",
+      "samples": 256,
+      "index": 6,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/librispeech_test_clean/shard-007.jsonl",
+      "sha256": "2dd51ede6ca56e602f2fda49663646dc3ff73b728ea68b61678f6f61e650bb29",
+      "samples": 256,
+      "index": 7,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/librispeech_test_clean/shard-008.jsonl",
+      "sha256": "72dd93232590166d36195a7d705b66b3253870b0676c471cf009b588e8688c58",
+      "samples": 256,
+      "index": 8,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/librispeech_test_clean/shard-009.jsonl",
+      "sha256": "83ade672ceeef8790702524119099b42e59979ded784be2e65de733bb479d0ec",
+      "samples": 256,
+      "index": 9,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/librispeech_test_clean/shard-010.jsonl",
+      "sha256": "8541a9a685763c2e864fb6161140a2cf2e0272388a6523caefd5fba739a21d8b",
+      "samples": 256,
+      "index": 10,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/librispeech_test_clean/shard-011.jsonl",
+      "sha256": "022c26984d93bc6e87b3a4034521222a02f0e5460e32c1275903f30c00da8968",
+      "samples": 60,
+      "index": 11,
+      "phase": "expansion"
+    }
+  ],
+  "categories": {
+    "read_speech": 2620
+  },
+  "track": "fixed_voice_intelligibility",
+  "provenance": {
+    "source_url": "https://www.openslr.org/12/",
+    "download_url": "https://www.openslr.org/resources/12/test-clean.tar.gz",
+    "split": "test-clean",
+    "archive_sha256": "39fde525e59672dc6d1551919b1478f724438a95aa55f874b576be21967e6c23",
+    "publisher_md5": "32fa31d27d2e1cad72775fee3f4849a9",
+    "license": "CC BY 4.0",
+    "scope": "TTS synthesis from official test transcripts. Original speech noise conditions do not carry over to synthesized audio. LibriTTS and LibriSpeech share source books/speakers; do not treat them as independent populations."
+  },
+  "selection": "Full split, seed-42 SHA256 order within category/depth/length strata; round-robin strata",
+  "repeats": 1,
+  "synthesis_seed": 42
+}

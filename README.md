@@ -5,6 +5,20 @@ An English TTS benchmark application for every model family registered by
 serial GPU runner, isolated model processes, reproducible manifests, saved WAVs,
 ASR evaluation, JSON/CSV exports, and a private result explorer with audio playback.
 
+## Public benchmark campaign
+
+The primary evaluation now uses **Whisper large-v3** and five published English
+test splits: Seed-TTS-Eval, EmergentTTS-Eval, LibriTTS test-clean, and LibriSpeech
+test-clean/test-other. There are **13,129 frozen source texts** and 33 eligible
+providers. The controller progresses through a pilot, an equal 256-text panel
+per split, and full coverage. Counts refer to the plan until scoring completes.
+Dataset-specific comparisons, coverage, WER/CER confidence intervals and CSV
+exports are available in the private UI. See [the complete protocol](BENCHMARK_PROTOCOL.md)
+for source hashes, stage sizes, interpretation and resumption.
+
+The earlier eight-text small.en scores remain historical diagnostic results.
+They are not pooled with the public large-v3 campaign.
+
 ## On this RTX 3090
 
 The project is at `/workspace/voicehub-arena` on SSH host `vast-3090-voicehub`.
@@ -27,7 +41,7 @@ git -C ../voicehub apply ../voicehub-arena/patches/voicehub-runtime.patch
 uv venv --python 3.12
 uv pip install --python .venv/bin/python -e ../voicehub -e '.[test,prepare,linguistic,kokoro]'
 .venv/bin/voicehub-arena catalog
-.venv/bin/voicehub-arena run --models all --output runs/english-v1
+.venv/bin/voicehub-arena run --models all --output runs/english-diagnostic-v2
 .venv/bin/voicehub-arena serve --runs runs
 ```
 
@@ -42,7 +56,7 @@ including failures. After fixing a provider, use a new output directory to
 retry it. `score RUN_DIRECTORY` retries unscored audio without regenerating it.
 The run-level GPU lock prevents overlapping Arena runs in the same runs parent.
 External GPU processes are not controlled by this application.
-`--score-each-model`, enabled in the extended job, runs CPU ASR after each model's
+`--score-each-model`, enabled in the extended job, runs the configured ASR after each model's
 TTS worker exits. Scored results appear as models finish without overlapping
 ASR with TTS timing. The final scoring phase retries any remaining unscored audio.
 

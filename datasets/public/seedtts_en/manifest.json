@@ -1,0 +1,70 @@
+{
+  "id": "seedtts_en",
+  "language": "en",
+  "total_samples": 1088,
+  "full": {
+    "path": "datasets/public/seedtts_en/full.jsonl",
+    "sha256": "8a9386efb1768a90ffba66f8931e3887b53e9c9d1bf246eb46a8cce32bc7b1c1",
+    "samples": 1088
+  },
+  "shards": [
+    {
+      "path": "datasets/public/seedtts_en/shard-000.jsonl",
+      "sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c",
+      "samples": 32,
+      "index": 0,
+      "phase": "pilot"
+    },
+    {
+      "path": "datasets/public/seedtts_en/shard-001.jsonl",
+      "sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943",
+      "samples": 224,
+      "index": 1,
+      "phase": "panel"
+    },
+    {
+      "path": "datasets/public/seedtts_en/shard-002.jsonl",
+      "sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1",
+      "samples": 256,
+      "index": 2,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/seedtts_en/shard-003.jsonl",
+      "sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca",
+      "samples": 256,
+      "index": 3,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/seedtts_en/shard-004.jsonl",
+      "sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85",
+      "samples": 256,
+      "index": 4,
+      "phase": "expansion"
+    },
+    {
+      "path": "datasets/public/seedtts_en/shard-005.jsonl",
+      "sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0",
+      "samples": 64,
+      "index": 5,
+      "phase": "expansion"
+    }
+  ],
+  "categories": {
+    "read_speech": 1088
+  },
+  "track": "fixed_voice_intelligibility",
+  "provenance": {
+    "source_url": "https://github.com/BytedanceSpeech/seed-tts-eval",
+    "publisher_code_revision": "752f4297f090c46bb1a55a1f7439e5944ddefe8d",
+    "split": "en/meta.lst",
+    "download_url": "https://drive.google.com/file/d/1GlSjVfSHkW3-leKKBlfrjuuTGqQ_xaLP/view",
+    "archive_sha256": "65b49df7a5f4714042f9849fa216326f0d77dfe37496878b9b2240a0d2a2f4f9",
+    "metadata_sha256": "7cd29f701743e6c7033edbca764ddc0b979de8c4f4907eff5e5454682114661f",
+    "scope": "Published English target texts; fixed provider voice/reference. Not a reproduction of the zero-shot speaker identity protocol."
+  },
+  "selection": "Full split, seed-42 SHA256 order within category/depth/length strata; round-robin strata",
+  "repeats": 1,
+  "synthesis_seed": 42
+}

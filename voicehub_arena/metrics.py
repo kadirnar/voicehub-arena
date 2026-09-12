@@ -3,6 +3,13 @@ import re
 import unicodedata
 import numpy as np
 import jiwer
+from functools import lru_cache
+
+
+@lru_cache(maxsize=1)
+def english_normalizer():
+    from whisper_normalizer.english import EnglishTextNormalizer
+    return EnglishTextNormalizer()
 
 
 def normalize(text):
@@ -11,17 +18,23 @@ def normalize(text):
     return re.sub(r"\s+", " ", text).strip()
 
 
-def errors(references, hypotheses, normalized=True):
+def errors(references, hypotheses, normalized=True, normalization='orthographic'):
     if len(references) != len(hypotheses) or not references:
         raise ValueError("Need equal, non-empty reference/hypothesis lists")
-    refs = [normalize(t) for t in references] if normalized else references
-    hyps = [normalize(t) for t in hypotheses] if normalized else hypotheses
+    if normalization not in ('orthographic', 'whisper_english'):
+        raise ValueError('Unknown normalization: ' + normalization)
+    clean = english_normalizer() if normalization == 'whisper_english' else normalize
+    refs = [clean(t) for t in references] if normalized else references
+    hyps = [clean(t) for t in hypotheses] if normalized else hypotheses
     w = jiwer.process_words(refs, hyps)
     c = jiwer.process_characters(refs, hyps)
     return dict(wer=w.wer, cer=c.cer, mer=w.mer, wil=w.wil, wip=w.wip,
                 word_hits=w.hits, word_substitutions=w.substitutions,
                 word_deletions=w.deletions, word_insertions=w.insertions,
                 reference_words=w.hits+w.substitutions+w.deletions,
+                char_hits=c.hits, char_substitutions=c.substitutions,
+                char_deletions=c.deletions, char_insertions=c.insertions,
+                reference_chars=c.hits+c.substitutions+c.deletions,
                 exact_match_rate=sum(a == b for a,b in zip(refs,hyps))/len(refs))
 
 
@@ -69,25 +82,39 @@ def summarize(rows):
             result.update(ttfa_p50_s=float(np.percentile(ttfa,50)),
                           ttfa_p95_s=float(np.percentile(ttfa,95)),ttfa_samples=len(ttfa))
     if scored:
-        result.update(errors([r["reference"] for r in scored], [r["transcript"] for r in scored]))
+        modes = {r.get('normalization_id', 'orthographic') for r in scored}
+        if len(modes) != 1:
+            raise ValueError('Cannot combine different scoring normalizations')
+        mode = modes.pop()
+        refs, hyps = [r['reference'] for r in scored], [r['transcript'] for r in scored]
+        result['normalization_id'] = mode
+        result.update(errors(refs, hyps, normalization=mode))
         result["raw"] = errors([r["reference"] for r in scored], [r["transcript"] for r in scored], False)
+        if mode == 'whisper_english':
+            result['orthographic'] = errors(refs, hyps)
         # Resample prompts as clusters, keeping repeats together. Independent-seed
         # repeats of the same text must not inflate the effective sample count.
         clusters = {}
         for row in scored:
-            m = errors([row["reference"]], [row["transcript"]])
-            totals = clusters.setdefault(row["id"], [0,0])
+            m = errors([row["reference"]], [row["transcript"]], normalization=mode)
+            totals = clusters.setdefault(row["id"], [0,0,0,0])
             totals[0] += m["word_substitutions"]+m["word_deletions"]+m["word_insertions"]
             totals[1] += m["reference_words"]
+            totals[2] += m['char_substitutions'] + m['char_deletions'] + m['char_insertions']
+            totals[3] += m['reference_chars']
         if len(clusters) >= 3:
             counts = np.asarray(list(clusters.values()))
             rng = np.random.default_rng(42)
             samples = counts[rng.integers(0,len(counts),size=(1000,len(counts)))].sum(axis=1)
             ratios = samples[:,0]/np.maximum(samples[:,1],1)
             result["wer_ci95"] = [float(v) for v in np.percentile(ratios,[2.5,97.5])]
+            char_ratios = samples[:,2]/np.maximum(samples[:,3],1)
+            result['cer_ci95'] = [float(v) for v in np.percentile(char_ratios,[2.5,97.5])]
         result["unique_prompts_scored"] = len(clusters)
         result["by_category"] = {}
         for category in sorted({r["category"] for r in scored}):
             group = [r for r in scored if r["category"] == category]
-            result["by_category"][category] = errors([r["reference"] for r in group], [r["transcript"] for r in group])
+            result["by_category"][category] = errors([r["reference"] for r in group], [r["transcript"] for r in group], normalization=mode)
+        result['utterance_mean_wer'] = float(np.mean([errors([r['reference']], [r['transcript']], normalization=mode)['wer'] for r in scored]))
+        result['utterance_mean_cer'] = float(np.mean([errors([r['reference']], [r['transcript']], normalization=mode)['cer'] for r in scored]))
     return result
