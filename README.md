@@ -84,6 +84,10 @@ sudo supervisorctl start voicehub-arena-benchmark voicehub-arena-web
 sudo supervisorctl stop voicehub-arena-benchmark voicehub-arena-web
 ```
 
+On Vast base images, the installer uses the image's logging/environment wrappers
+and sends service logs to `/var/log/portal/voicehub-arena-*.log`. Access remains
+private through SSH forwarding; it does not change the portal or public ports.
+
 For a pause at the next shard boundary, create `runs/public-english-v2/pause.request`.
 Remove that marker before an explicit resume. An immediate managed stop also terminates
 child workers; checkpointed rows remain available for `--resume-samples` verification.
