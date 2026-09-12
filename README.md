@@ -61,6 +61,7 @@ after setting `HF_HOME=/workspace/.hf_home`:
 .venv/bin/python scripts/prepare_linguistic.py gptsovits
 .venv/bin/python scripts/prepare_vibevoice.py
 .venv/bin/python scripts/prepare_conversationtts.py
+.venv/bin/python scripts/validate_echo_codec.py
 .venv/bin/python scripts/preflight.py
 ```
 
@@ -114,6 +115,16 @@ The pinned archive includes six deterministic attention masks/rotary tables.
 Only those exact names are discarded after the official hash passes; unknown
 tensors and unaudited archives remain strict errors. The real conversion passed
 with 535 tensors, alongside 15 native tests and six subtests.
+Echo's codec now matches the convolutional decoder actually returned by the
+[pinned reference](https://github.com/jordandare/echo-tts/blob/2ed95fce62d33bf7b56f835fd9ec0f0b6fb9155e/autoencoder.py).
+Legacy weight-normalization g/v pairs are translated only for declared modules,
+with shape and collision checks; the full inventory remains strict. Floating
+weights may change precision while boolean causal masks and integer buffers
+retain their types. Six native tests passed. The real 541-tensor codec matched
+the reference exactly in two short CPU encode/decode probes; the record is
+`runs/validations/echo-codec-cpu.json`. This does not establish full TTS quality.
+The reference comparison uses `einops==0.8.1` from the optional validation extra;
+Arena inference continues to use the native implementation.
 
 The initial four-minute coverage timeout includes downloads. Its timeouts are
 followed by a full-registry run with sixty minutes per provider, eight texts
@@ -274,11 +285,34 @@ review to distinguish synthesis errors from ASR errors. F5-TTS
 completed at 3.97% WER and 3.42% CER. HiggsTTS completed at 4.84% WER and 3.60% CER.
 `repairs-en-07` passed Dia's GPU comparison, but the first acoustic attempt
 rejected `use_cache` at the public API boundary. That allowlist is now fixed and
-covered by a real tiny-model public generation test. Echo then exposed a codec
-architecture mismatch; its download now completes, but synthesis remains blocked.
+covered by a real tiny-model public generation test. Echo then exposed the codec
+architecture and weight-normalization mismatch described above; those are now
+corrected. Echo completed 24 GPU samples in `repairs-en-10`: WER 3.97%, CER
+3.30%, RTF 0.592 and zero generation failures.
 Fish S2-Pro exposed the six extra runtime tables, which are now handled by the
-audited converter. `repairs-en-08` waits for Llasa and reruns Dia and Fish S2-Pro.
-The controller resumes the remaining full registry when each repair set ends.
+audited converter. `repairs-en-08` completed Dia and Fish S2-Pro.
+Dia completed all 24 repair samples with 11.74% WER, 9.51% CER and no generation
+limit hits. Llasa completed with 19.00% WER and 14.17% CER; this remains a quality
+concern. Fish completed all 24 repair samples with 3.80% WER and 3.27% CER.
+There are now 23 families with a completed 24-sample evaluation.
+The initial extended pass has finished; eight later families hit the disk
+preflight limit. Unused official CSM and CosyVoice caches were removed after
+checking active file handles, reclaiming 9.03 GiB. Their outputs and prepared
+artifacts remain intact. `repairs-en-09` also hit the disk preflight limit.
+`repairs-en-10` completed Echo and retries OmniVoice, Orpheus, Parler, Qwen3-TTS,
+VoxCPM, XTTS, Zonos and Zonos2 serially. MOSS-TTS v1.5 exposed an incorrect
+audited-header fingerprint. Independent parsing of the four SHA-verified shards
+confirmed all 463 BF16 tensor names and shapes exactly match the native meta
+graph (8,489,841,664 parameters). Its pinned fingerprint was corrected to
+`b7ae3960b1982743228dc0a8b7c5abad602a6e7c4ca782787b7d8aaa22ed90f0`;
+strict inventory and revision rejection remain in place. The full header audit
+is saved in `runs/validations/moss-v15-header-inventory.json` and its compact
+immutable config/artifact fixture is included in the native patch. The MOSS
+native suite passed 10 tests and 8 subtests, including graph inventory and
+altered-header/revision rejection. MOSS synthesis
+still requires a fresh run after the current serial repair set.
+NeuTTS-2e weights are accessible, but the separate
+NeuCodec repository still returned HTTP 403 in the latest access check.
 
 The existing instance has no mounted persistent volume. Recycle/destroy removes
 its files, so keep the delivered local source and results mirror. Stop/start

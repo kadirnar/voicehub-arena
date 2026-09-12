@@ -1,3 +1,181 @@
+diff --git a/tests/fixtures/mosstts_delay_v15_inventory.json b/tests/fixtures/mosstts_delay_v15_inventory.json
+new file mode 100644
+index 0000000..180a3be
+--- /dev/null
++++ b/tests/fixtures/mosstts_delay_v15_inventory.json
+@@ -0,0 +1,172 @@
++{
++  "repository": "OpenMOSS-Team/MOSS-TTS-v1.5",
++  "revision": "cdd3b911b1585e3f2dbc7775ef10f9926f58850a",
++  "config": {
++    "model_type": "moss_tts_delay",
++    "architectures": [
++      "MossTTSDelayModel"
++    ],
++    "auto_map": {
++      "AutoConfig": "configuration_moss_tts.MossTTSDelayConfig",
++      "AutoModel": "modeling_moss_tts.MossTTSDelayModel"
++    },
++    "dtype": "bfloat16",
++    "initializer_range": 0.02,
++    "language_config": {
++      "_name_or_path": "Qwen/Qwen3-8B",
++      "architectures": [
++        "Qwen3ForCausalLM"
++      ],
++      "attention_bias": false,
++      "attention_dropout": 0.0,
++      "bos_token_id": 151643,
++      "eos_token_id": 151645,
++      "pad_token_id": 151643,
++      "head_dim": 128,
++      "hidden_act": "silu",
++      "hidden_size": 4096,
++      "initializer_range": 0.02,
++      "intermediate_size": 12288,
++      "layer_types": [
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention",
++        "full_attention"
++      ],
++      "max_position_embeddings": 40960,
++      "max_window_layers": 36,
++      "model_type": "qwen3",
++      "num_attention_heads": 32,
++      "num_hidden_layers": 36,
++      "num_key_value_heads": 8,
++      "rms_norm_eps": 1e-06,
++      "rope_scaling": null,
++      "rope_theta": 1000000,
++      "sliding_window": null,
++      "use_cache": true,
++      "use_sliding_window": false,
++      "vocab_size": 155648
++    },
++    "n_vq": 32,
++    "audio_vocab_size": 1024,
++    "audio_user_slot_token_id": 151654,
++    "audio_assistant_gen_slot_token_id": 151656,
++    "audio_assistant_delay_slot_token_id": 151662,
++    "audio_start_token_id": 151652,
++    "audio_end_token_id": 151653,
++    "audio_pad_code": 1024,
++    "sampling_rate": 24000,
++    "transformers_version": "4.57.1"
++  },
++  "header_fingerprint": "b7ae3960b1982743228dc0a8b7c5abad602a6e7c4ca782787b7d8aaa22ed90f0",
++  "artifacts": [
++    {
++      "repo_id": "OpenMOSS-Team/MOSS-TTS-v1.5",
++      "revision": "cdd3b911b1585e3f2dbc7775ef10f9926f58850a",
++      "commit": "cdd3b911b1585e3f2dbc7775ef10f9926f58850a",
++      "relative_file": "config.json",
++      "sha256": "214fc997d98f51ab57925a5939afc6280e76044198b664221622e70d098ed06e",
++      "size": 2275
++    },
++    {
++      "repo_id": "OpenMOSS-Team/MOSS-TTS-v1.5",
++      "revision": "cdd3b911b1585e3f2dbc7775ef10f9926f58850a",
++      "commit": "cdd3b911b1585e3f2dbc7775ef10f9926f58850a",
++      "relative_file": "vocab.json",
++      "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
++      "size": 2776833
++    },
++    {
++      "repo_id": "OpenMOSS-Team/MOSS-TTS-v1.5",
++      "revision": "cdd3b911b1585e3f2dbc7775ef10f9926f58850a",
++      "commit": "cdd3b911b1585e3f2dbc7775ef10f9926f58850a",
++      "relative_file": "merges.txt",
++      "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
++      "size": 1671853
++    },
++    {
++      "repo_id": "OpenMOSS-Team/MOSS-TTS-v1.5",
++      "revision": "cdd3b911b1585e3f2dbc7775ef10f9926f58850a",
++      "commit": "cdd3b911b1585e3f2dbc7775ef10f9926f58850a",
++      "relative_file": "tokenizer_config.json",
++      "sha256": "87b1f37a4a73e4c4b61637a1446763e8bdea274347f0418cd5c68ead488c8ea4",
++      "size": 5501
++    },
++    {
++      "repo_id": "OpenMOSS-Team/MOSS-TTS-v1.5",
++      "revision": "cdd3b911b1585e3f2dbc7775ef10f9926f58850a",
++      "commit": "cdd3b911b1585e3f2dbc7775ef10f9926f58850a",
++      "relative_file": "model.safetensors.index.json",
++      "sha256": "021ef3f74a92ee33fc076dde096d4fa9b7b45c34c9bdbfe730bf79368ac86bb2",
++      "size": 40416
++    },
++    {
++      "repo_id": "OpenMOSS-Team/MOSS-TTS-v1.5",
++      "revision": "cdd3b911b1585e3f2dbc7775ef10f9926f58850a",
++      "commit": "cdd3b911b1585e3f2dbc7775ef10f9926f58850a",
++      "relative_file": "model-00001-of-00004.safetensors",
++      "sha256": "749b82d07cebea77dd15af365e2efeb1dc0dd54537f7010795fdf42f520743a9",
++      "size": 4932667368
++    },
++    {
++      "repo_id": "OpenMOSS-Team/MOSS-TTS-v1.5",
++      "revision": "cdd3b911b1585e3f2dbc7775ef10f9926f58850a",
++      "commit": "cdd3b911b1585e3f2dbc7775ef10f9926f58850a",
++      "relative_file": "model-00002-of-00004.safetensors",
++      "sha256": "4d891c8adb8bf9c135e8a44cd9f003f1dbf8b09278ced48d5af1fe7d989efb39",
++      "size": 4915961640
++    },
++    {
++      "repo_id": "OpenMOSS-Team/MOSS-TTS-v1.5",
++      "revision": "cdd3b911b1585e3f2dbc7775ef10f9926f58850a",
++      "commit": "cdd3b911b1585e3f2dbc7775ef10f9926f58850a",
++      "relative_file": "model-00003-of-00004.safetensors",
++      "sha256": "111013e05174e67748443eafdd4d64c051292d0e5fce2cac23a16988b661eea1",
++      "size": 4983069760
++    },
++    {
++      "repo_id": "OpenMOSS-Team/MOSS-TTS-v1.5",
++      "revision": "cdd3b911b1585e3f2dbc7775ef10f9926f58850a",
++      "commit": "cdd3b911b1585e3f2dbc7775ef10f9926f58850a",
++      "relative_file": "model-00004-of-00004.safetensors",
++      "sha256": "951ee88cf85996ee5c39441ace6e50f52894adad5da42ad2314b9a9db7f940b8",
++      "size": 2148040304
++    }
++  ],
++  "scope": "Independent little-endian Safetensors header parsing; all 463 names/shapes match the native meta graph. Not a synthesis validation.",
++  "tensor_count": 463,
++  "parameter_count": 8489841664,
++  "tensor_bytes": 16979683328
++}
 diff --git a/tests/test_dia_training.py b/tests/test_dia_training.py
 index e2d7eec..7464870 100644
 --- a/tests/test_dia_training.py
@@ -123,6 +301,64 @@ index e2d7eec..7464870 100644
  
      def test_malformed_checkpoint_is_rejected_before_assignment(self):
          import torch
+diff --git a/tests/test_mosstts_v15_inventory.py b/tests/test_mosstts_v15_inventory.py
+new file mode 100644
+index 0000000..2ad3e4f
+--- /dev/null
++++ b/tests/test_mosstts_v15_inventory.py
+@@ -0,0 +1,52 @@
++"""Keep the native graph consistent with the inspected immutable v1.5 release."""
++import dataclasses
++import hashlib
++import json
++from pathlib import Path
++
++import pytest
++import torch
++
++from voicehub.architectures.mosstts.checkpoint import (
++    MossCheckpointReport,
++    _official_facts,
++    _validate_official_report,
++)
++from voicehub.architectures.mosstts.configuration import MossTTSConfig
++from voicehub.architectures.mosstts.metadata import MOSS_TTS_CHECKPOINTS
++from voicehub.architectures.mosstts.modeling import build_mosstts_model
++from voicehub.checkpointing.errors import CheckpointIntegrityError
++
++FIXTURE = json.loads((Path(__file__).parent / 'fixtures/mosstts_delay_v15_inventory.json').read_text())
++
++
++def test_v15_meta_graph_matches_real_release_inventory():
++    with torch.device('meta'):
++        model = build_mosstts_model(MossTTSConfig.from_dict(FIXTURE['config']),
++                                   initialize=False, dtype=torch.bfloat16)
++    state = model.state_dict()
++    assert len(state) == FIXTURE['tensor_count']
++    assert sum(t.numel() for t in state.values()) == FIXTURE['parameter_count']
++    assert sum(t.numel() * t.element_size() for t in state.values()) == FIXTURE['tensor_bytes']
++    assert all(t.dtype == torch.bfloat16 for t in state.values())
++    inventory = '\n'.join(name + '|BF16|' + 'x'.join(map(str, value.shape))
++                          for name, value in sorted(state.items()))
++    assert hashlib.sha256(inventory.encode()).hexdigest() == FIXTURE['header_fingerprint']
++    assert MOSS_TTS_CHECKPOINTS[FIXTURE['repository']]['header_fingerprint'] == FIXTURE['header_fingerprint']
++
++
++def test_v15_inventory_and_revision_validation_remain_strict():
++    facts = _official_facts(FIXTURE['repository'], FIXTURE['revision'])
++    report = MossCheckpointReport(
++        path=Path('model.safetensors.index.json'), dtype_names=('BF16',),
++        **{key: FIXTURE[key] for key in ('tensor_count', 'parameter_count', 'tensor_bytes', 'header_fingerprint')},
++    )
++    _validate_official_report(report, facts)
++    for change in ({'tensor_count': report.tensor_count - 1},
++                   {'parameter_count': report.parameter_count + 1},
++                   {'tensor_bytes': report.tensor_bytes + 2},
++                   {'header_fingerprint': '0' * 64}):
++        with pytest.raises(CheckpointIntegrityError):
++            _validate_official_report(dataclasses.replace(report, **change), facts)
++    with pytest.raises(CheckpointIntegrityError):
++        _official_facts(FIXTURE['repository'], '0' * 40)
 diff --git a/tests/test_native_bark.py b/tests/test_native_bark.py
 index 00aa049..62dfd27 100644
 --- a/tests/test_native_bark.py
@@ -181,6 +417,69 @@ index f3edea1..abd4f67 100644
      def test_native_slice_has_no_external_model_runtime_imports(self):
          forbidden = {
              "diffusers",
+diff --git a/tests/test_native_echo_runtime.py b/tests/test_native_echo_runtime.py
+index 87c213c..7a7b6d6 100644
+--- a/tests/test_native_echo_runtime.py
++++ b/tests/test_native_echo_runtime.py
+@@ -35,6 +35,58 @@ def _tiny_echo() -> EchoDiT:
+ 
+ class NativeEchoRuntimeTests(unittest.TestCase):
+ 
++    def test_safetensors_casts_only_floating_weights(self):
++        import tempfile
++        from pathlib import Path
++        from voicehub.checkpointing import save_safetensors
++        from voicehub.models.echo.sampling import _load_safetensors
++
++        with tempfile.TemporaryDirectory() as directory:
++            path = Path(directory) / 'codec.safetensors'
++            source = {'weight': torch.randn(3, 4),
++                      'causal_mask': torch.ones(4, 4, dtype=torch.bool).tril(),
++                      'positions': torch.arange(4)}
++            save_safetensors(source, path)
++            actual = _load_safetensors(path, dtype=torch.bfloat16)
++            self.assertEqual(actual['weight'].dtype, torch.bfloat16)
++            self.assertEqual(actual['causal_mask'].dtype, torch.bool)
++            self.assertEqual(actual['positions'].dtype, torch.int64)
++            torch.testing.assert_close(actual['causal_mask'], source['causal_mask'])
++            torch.testing.assert_close(actual['positions'], source['positions'])
++
++    def test_released_codec_decoder_has_only_convolutional_weights(self):
++        from voicehub.models.echo.autoencoder import DecoderBlock
++
++        def unused_transformer(**kwargs):
++            raise AssertionError('Released Echo decoder has no transformer stage')
++        block = DecoderBlock(8, 4, stride=2, causal=True, n_t_layer=4,
++                             transformer_general_config=unused_transformer)
++        state = block.state_dict()
++        self.assertIn('block.0.alpha', state)
++        self.assertIn('block.1.conv.parametrizations.weight.original0', state)
++        self.assertFalse(any('attention' in name for name in state))
++        audio = block(torch.randn(1, 8, 4))
++        self.assertEqual(audio.shape, (1, 4, 8))
++        self.assertTrue(torch.isfinite(audio).all())
++
++    def test_codec_weight_norm_matches_pytorch_legacy_conversion(self):
++        from voicehub.models.echo.sampling import _canonicalize_codec_weight_norm
++        from torch.nn.utils import weight_norm as legacy_weight_norm
++        from torch.nn.utils.parametrizations import weight_norm
++
++        source = legacy_weight_norm(torch.nn.Conv1d(3, 4, 1)).eval()
++        target = weight_norm(torch.nn.Conv1d(3, 4, 1)).eval()
++        state = source.state_dict()
++        canonical = _canonicalize_codec_weight_norm(target, state)
++        _assign_validated_state(target, canonical)
++        signal = torch.randn(2, 3, 7)
++        torch.testing.assert_close(target(signal), source(signal))
++        with self.assertRaisesRegex(RuntimeError, 'Conflicting'):
++            _canonicalize_codec_weight_norm(target, {**state, **canonical})
++        incomplete = {name: tensor for name, tensor in state.items() if name != 'weight_v'}
++        with self.assertRaisesRegex(RuntimeError, 'Incomplete'):
++            _canonicalize_codec_weight_norm(target, incomplete)
++
+     def test_registry_resolves_the_lazy_native_echo_architecture(self):
+         model_spec = get_model_spec("echo")
+         architecture = get_architecture_spec("echo-tts")
 diff --git a/tests/test_native_fishtts.py b/tests/test_native_fishtts.py
 index 864c587..861b42e 100644
 --- a/tests/test_native_fishtts.py
@@ -688,6 +987,19 @@ index d6de177..dd380e0 100644
          },
      )
      write_json_file(
+diff --git a/voicehub/architectures/mosstts/metadata.py b/voicehub/architectures/mosstts/metadata.py
+index 45fd82e..3277bd1 100644
+--- a/voicehub/architectures/mosstts/metadata.py
++++ b/voicehub/architectures/mosstts/metadata.py
+@@ -70,7 +70,7 @@ MOSS_TTS_CHECKPOINTS = MappingProxyType({
+         tensors=463,
+         parameters=8_489_841_664,
+         tensor_bytes=16_979_683_328,
+-        fingerprint="3491bdffba10bba013848d67673e000cd333c6e46a891a96b056d980c43697c7",
++        fingerprint="b7ae3960b1982743228dc0a8b7c5abad602a6e7c4ca782787b7d8aaa22ed90f0",
+         sample_rate=24_000,
+         codec=MOSS_CODEC_V1_REPOSITORY,
+     ),
 diff --git a/voicehub/architectures/outetts/checkpoint.py b/voicehub/architectures/outetts/checkpoint.py
 index 9ef5db7..bebcea5 100644
 --- a/voicehub/architectures/outetts/checkpoint.py
@@ -830,6 +1142,94 @@ index 0f66148..7886869 100644
                  "backend": "voicehub-native",
                  "checkpoint_revision": revision,
                  "requested_seed": requested_seed,
+diff --git a/voicehub/models/echo/autoencoder.py b/voicehub/models/echo/autoencoder.py
+index 2626523..d95e44a 100644
+--- a/voicehub/models/echo/autoencoder.py
++++ b/voicehub/models/echo/autoencoder.py
+@@ -989,20 +989,10 @@ class DecoderBlock(nn.Module):
+     ):
+         super().__init__()
+         conv_trans_class = CausalWNConvTranspose1d if causal else WNConvTranspose1d
+-        transformer_module = (
+-            nn.Identity() if n_t_layer == 0 else WindowLimitedTransformer(
+-                causal=causal,
+-                input_dim=input_dim,
+-                window_size=None,
+-                config=transformer_general_config(
+-                    n_layer=n_t_layer,
+-                    n_head=input_dim // 64,
+-                    dim=input_dim,
+-                    intermediate_size=input_dim * 3,
+-                ),
+-            ))
++        # The pinned Echo source does not attach its locally constructed
++        # transformer to this block. The released S1 decoder is convolutional;
++        # adding that module shifts every checkpoint key and invents weights.
+         self.block = nn.Sequential(
+-            transformer_module,
+             Snake1d(input_dim),
+             conv_trans_class(
+                 input_dim, output_dim, kernel_size=2 * stride, stride=stride, padding=math.ceil(stride / 2)),
+diff --git a/voicehub/models/echo/sampling.py b/voicehub/models/echo/sampling.py
+index 8402b2d..feb1ead 100644
+--- a/voicehub/models/echo/sampling.py
++++ b/voicehub/models/echo/sampling.py
+@@ -40,14 +40,39 @@ def _load_safetensors(
+         names = tuple(
+             name for name in reader.keys() if not name.startswith(excluded_prefixes) and not any(
+                 fragment in name for fragment in excluded_fragments))
+-        return {
+-            name: reader.get_tensor(
+-                name,
+-                device=device,
+-                dtype=dtype,
+-            )
+-            for name in names
+-        }
++        state = {}
++        for name in names:
++            tensor = reader.get_tensor(name)
++            # Boolean causal masks must remain masks, not additive float
++            # attention biases. Integer protocol buffers also retain their dtype.
++            target_dtype = dtype if dtype is not None and tensor.is_floating_point() else tensor.dtype
++            state[name] = tensor.to(device=device, dtype=target_dtype)
++        return state
++
++
++def _canonicalize_codec_weight_norm(model, state):
++    """Translate PyTorch's legacy g/v names only for declared weight norms."""
++    expected = model.state_dict()
++    result = dict(state)
++    suffix = 'parametrizations.weight.original0'
++    for target_g in expected:
++        if not target_g.endswith(suffix):
++            continue
++        prefix = target_g[:-len(suffix)]
++        source_g, source_v = prefix+'weight_g', prefix+'weight_v'
++        target_v = prefix+'parametrizations.weight.original1'
++        if source_g not in result and source_v not in result:
++            continue
++        if source_g not in result or source_v not in result:
++            raise RuntimeError('Incomplete legacy Echo codec weight norm pair')
++        if target_g in result or target_v in result:
++            raise RuntimeError('Conflicting legacy and native Echo codec weight norm tensors')
++        if (result[source_g].shape != expected[target_g].shape or
++                result[source_v].shape != expected[target_v].shape):
++            raise RuntimeError('Legacy Echo codec weight norm shape mismatch')
++        result[target_g] = result.pop(source_g)
++        result[target_v] = result.pop(source_v)
++    return result
+ 
+ 
+ def _assign_validated_state(
+@@ -191,6 +216,7 @@ def load_fish_ae_from_hf(
+         device=device,
+         dtype=dtype,
+     )
++    state = _canonicalize_codec_weight_norm(fish_ae, state)
+     _assign_validated_state(fish_ae, state)
+ 
+     fish_ae = fish_ae.eval().to(device)
 diff --git a/voicehub/models/openvoice/inference.py b/voicehub/models/openvoice/inference.py
 index e5b5fd1..1650074 100644
 --- a/voicehub/models/openvoice/inference.py

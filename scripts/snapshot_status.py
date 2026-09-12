@@ -33,8 +33,16 @@ lines = [
     'Dia RTX 3090 karşılaştırması geçti: en büyük logit farkı 0,000012875; greedy tokenlar aynı.',
     'repairs-en-07 içindeki ilk Dia ses denemesinde use_cache API kontrolü hata verdi; bu kontrol düzeltildi.',
     'Fish codec: resmî dosyadaki altı sabit hesaplama tablosu ayrıldı; 535 ağırlık tensörü doğrulandı.',
-    'Fish için 15 test ve 6 alt test geçti. repairs-en-08, Llasa sonrası Dia ve Fish seslerini sınar.',
-    'Echo indirmesi tamamlandı ancak codec mimarisi ağırlıklarla uyuşmuyor; sorun açık.',
+    'Fish için 15 test ve 6 alt test geçti; 24 örnekte WER %3,80, CER %3,27 ölçüldü.',
+    'Dia repairs-en-08: WER %11,74, CER %9,51; üretim sınırı 0/24.',
+    'Llasa: WER %19,00, CER %14,17; kalite incelemesi gerekiyor.',
+    'Echo codec yapısı, eski weight norm adları ve boolean maskeler düzeltildi; 6 kaynak testi geçti.',
+    'Gerçek 541 tensörlü Echo codec iki kısa CPU karşılaştırmasında referansla birebir eşleşti.',
+    'Echo repairs-en-10: 24 örnekte WER %3,97, CER %3,30, RTF 0,592; üretim hatası yok.',
+    'Ana genişletilmiş tarama bitti; disk sınırına takılan sekiz model repairs-en-10 içinde yeniden deneniyor.',
+    'Kullanılmayan CSM/CosyVoice Hub önbelleklerinden 9,03 GiB alan açıldı; sonuçlar korundu.',
+    'MOSS-TTS v1.5 gerçek 463 tensörü native yapıyla eşleşti; kayıtlı envanter özeti düzeltildi.',
+    'MOSS-TTS: 10 test ve 8 alt test geçti; yeni GPU koşusu gerekiyor.',
     'Echo indirmeleri artık değişebilir dalı commit ile sabitleyerek yeniden sürdürülebilir istemciyi kullanır.',
     'İndirme önbelleği, doğrulanmış sabit dosyaları aynı diskte hardlink ile paylaşır.',
     'SpeechT5 gerçek tokenizer’ı, 13 örnekte SentencePiece referansıyla eşleşti.', '',
@@ -88,11 +96,16 @@ for candidate in sorted((root/'runs').glob('*'), key=lambda p: p.stat().st_mtime
             if name not in latest or stamp > latest[name][0]:
                 latest[name] = (stamp, candidate.name, result)
 lines += ['', '## Tamamlanan 24 örneklik son doğrulamalar', '',
+          f'{len(latest)} model ailesinin 24 örneklik üretim ve puanlaması tamamlandı.', '',
           'Farklı koşuların en yeni tamamlanan ayarları gösterilir; ayarlar ve süre kapsamı README içindedir.', '',
           '| Model | Koşu | WER | CER | RTF |', '|---|---|---:|---:|---:|']
 for name, (_, attempt, result) in sorted(latest.items()):
     scores = result['summary']
     lines.append(f'| {name} | {attempt} | {scores["wer"]*100:.2f}% | {scores["cer"]*100:.2f}% | {scores["rtf"]:.3f} |')
+for candidate in sorted((root/'runs').glob('*/state.json')):
+    active = json.loads(candidate.read_text())
+    if active.get('status') == 'running':
+        lines += ['', f'Etkin koşu: `{candidate.parent.name}`, aşama `{active.get("phase")}`, model `{active.get("model", "—")}`.']
 lines += ['', 'İşler Supervisor altında seri GPU kullanımıyla devam eder. Bu görevde 30 dakikalık',
     'kontrol ve düzeltme takibi etkindir; değişmeyen durumlarda bildirim göndermez.',
     'Ölçüm protokolü, hazırlama komutları ve yeniden üretme adımları README.md içindedir.', '']
