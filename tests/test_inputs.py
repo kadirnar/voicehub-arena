@@ -22,7 +22,7 @@ def test_prepared_features_require_exact_text_and_verified_artifact(tmp_path):
 
 
 def test_xtts_uses_release_number_currency_and_abbreviation_cleaner():
-    pytest.importorskip('coqpit')
+    pytest.importorskip('voicehub')
     from voicehub_arena.inputs import prepare_request
     generation = {'language':'en', 'speaker_audio_path':'reference.wav'}
     text, options = prepare_request('xtts', 'Dr. Smith paid $12.50 for 3 books.', generation)

@@ -87,6 +87,9 @@ sudo supervisorctl stop voicehub-arena-benchmark voicehub-arena-web
 On Vast base images, the installer uses the image's logging/environment wrappers
 and sends service logs to `/var/log/portal/voicehub-arena-*.log`. Access remains
 private through SSH forwarding; it does not change the portal or public ports.
+The managed benchmark accepts `ARENA_CACHE_BUDGET_GIB` and `ARENA_MIN_FREE_GIB`
+environment overrides. See [the A100 setup record](A100_SETUP_TR.md) for the
+owner's current host and initial validation; it is separate from the old GPU archive.
 
 For a pause at the next shard boundary, create `runs/public-english-v2/pause.request`.
 Remove that marker before an explicit resume. An immediate managed stop also terminates
