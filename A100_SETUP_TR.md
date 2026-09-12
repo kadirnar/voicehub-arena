@@ -87,3 +87,21 @@ Sağlam satırlar ve dosyalar korunur. Yeni A100 yedeğindeki
 `runs/validations/vits-repair-gpu-parity.json` gerçek GPU doğrulamasıdır;
 `runs/pub-v2-vits-seedtts_en-001/runtime-repair.json` onarımın kaynak ve sonuç
 karmalarını, korunan satırları ve yeni üretilen örneği kaydeder.
+
+## FishTTS sıfır uniform çekilişi düzeltmesi — 13 Eylül 2026
+
+BF16 rastgele uniform çekilişi sıfır olduğunda Fish'in exponential-race
+örneklemesinde bütün yarışlar sıfır olabilir. Eski `argmax`, olasılığı sıfır
+olan token 0'ı seçebiliyordu. Yama yalnız sıfır olasılıklı tokenları yarıştan
+çıkarır; aynı tek RNG çekilişini ve olağan token seçimlerini korur. A100'de
+iki başarısız Seed metni aynı checkpoint ve seed ile yeniden üretildi; yama
+ikisini de çalıştırdı. Aday runtime ile 61 CPU testi geçti.
+
+Bu doğrulama bütün eski WAV'ların bit düzeyinde yeniden üretildiği anlamına
+gelmez. Değişmemiş eski kodda da tekrar üretim farkları gözlendi. GPU denetimi
+bu nedenle dalga biçimleri farklı olduğunda eski/yeni codec ID'lerini ayrıca
+karşılaştırır. Açıklanamayan farklar inceleme gerektirir. İlgili kanıtlar A100
+sonuç arşivindeki `runs/validations/fish-sampling-replay-v2/` ve
+`runs/validations/fish-waveform-parity-diagnostic/` dizinlerinde tutulur.
+Önceki skorlar korunur; düzeltmeden etkilenen veya eksik örneklerin benchmark
+ve Whisper puanlaması ayrıca tamamlanmadan shard başarılı sayılmaz.

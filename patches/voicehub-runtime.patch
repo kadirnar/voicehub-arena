@@ -1170,6 +1170,31 @@ index d6de177..dd380e0 100644
          },
      )
      write_json_file(
+diff --git a/voicehub/architectures/fishtts/sampling.py b/voicehub/architectures/fishtts/sampling.py
+index 2c94980..3ffee86 100644
+--- a/voicehub/architectures/fishtts/sampling.py
++++ b/voicehub/architectures/fishtts/sampling.py
+@@ -66,13 +66,18 @@ def logits_to_probabilities(
+ 
+ 
+ def sample_exponential_race(probabilities: Tensor) -> Tensor:
+-    """Fish's synchronization-free categorical sample."""
++    """Fish's categorical draw restricted to nonzero probability support."""
+     if probabilities.ndim != 1:
+         raise ValueError("Fish probabilities must be rank one.")
+     if not torch.isfinite(probabilities).all() or probabilities.sum() <= 0:
+         raise ValueError("Fish probabilities must be finite and non-empty.")
+     exponential = -torch.log(torch.rand_like(probabilities))
+-    return torch.argmax(probabilities / exponential).to(dtype=torch.long)
++    # A valid uniform draw of zero gives an infinite exponential. If all
++    # supported tokens draw zero, every race is zero; unmasked argmax would
++    # select token 0 even when its probability is zero. Preserve the same
++    # random draw and ordinary winners, but exclude impossible tokens.
++    races = (probabilities / exponential).masked_fill(probabilities == 0, float("-inf"))
++    return torch.argmax(races).to(dtype=torch.long)
+ 
+ 
+ def sample_logits(
 diff --git a/voicehub/architectures/mosstts/metadata.py b/voicehub/architectures/mosstts/metadata.py
 index 45fd82e..3277bd1 100644
 --- a/voicehub/architectures/mosstts/metadata.py
