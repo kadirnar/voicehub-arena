@@ -10,6 +10,7 @@ from voicehub_arena.benchmarks import build_jobs, public_report, public_override
 from voicehub_arena.metrics import errors, summarize
 from voicehub_arena.server import create_app
 from voicehub_arena.storage import write_json
+from voicehub_arena.inputs import prepare_benchmark_text
 
 
 def test_published_split_is_partitioned_without_duplication(tmp_path):
@@ -39,6 +40,49 @@ def test_new_normalization_and_character_edit_counts():
                  silence_ratio=0, rms_dbfs=-10)
     with pytest.raises(ValueError, match='different scoring'):
         summarize([{**audio,'id':'a','status':'ok','normalization_id':mode} for mode in ['orthographic','whisper_english']])
+
+
+def test_corpus_case_preparation_preserves_published_text_and_other_datasets():
+    source = "OCEAN REIGNED SUPREME"
+    assert prepare_benchmark_text(source,'librispeech_lowercase_v1') == 'ocean reigned supreme'
+    assert source == 'OCEAN REIGNED SUPREME'
+    assert prepare_benchmark_text('NASA launched at 9:30.') == 'NASA launched at 9:30.'
+    with pytest.raises(ValueError,match='Unknown benchmark'):
+        prepare_benchmark_text(source,'unknown')
+
+
+def test_real_inflect_frontend_does_not_spell_corpus_words_after_case_preparation():
+    pytest.importorskip('voicehub')
+    from voicehub.models.inflecttts.source.inflect.inflect_nano_v2_frontend import normalize_text
+    text = 'OCEAN REIGNED SUPREME'
+    normalized = normalize_text(prepare_benchmark_text(text,'librispeech_lowercase_v1'))
+    assert normalized == 'ocean reigned supreme'
+    assert normalize_text(text) != normalized
+
+
+def test_styletts_quoted_text_matches_released_cleaner_token_ids():
+    pytest.importorskip('voicehub')
+    from phonemizer import phonemize
+    from nltk import word_tokenize
+    from voicehub.architectures.styletts2.frontend import NativeStyleTTS2Frontend
+    from voicehub.models.styletts2.source.styletts2.text_utils import TextCleaner
+    from voicehub_arena.inputs import prepare_request
+    texts = ['His son is "underground" publisher Adam Parfrey.',
+             'He was known as "Roaring Bill".', 'Ordinary speech still works.']
+    cleaner = TextCleaner()
+    frontend = NativeStyleTTS2Frontend()
+    for text in texts:
+        original = phonemize(text, language='en-us', backend='espeak', strip=True,
+                             preserve_punctuation=True, with_stress=True)
+        original = ' '.join(word_tokenize(original, preserve_line=True))
+        prepared, options = prepare_request('styletts2', text, {})
+        if '"' in text:
+            assert '``' in original
+        else:
+            assert prepared == original
+        assert frontend.encode_phonemes(prepared, explicit=options['text_is_phonemes']).tolist()[0] == [0, *cleaner(original)]
+    with pytest.raises(ValueError, match='outside the released'):
+        frontend.encode_phonemes('həloʊ ☃', explicit=True)
 
 
 def public_fixture(tmp_path):
@@ -79,6 +123,14 @@ def test_public_reports_keep_failed_coverage_and_audio_origin(tmp_path):
     # Mismatched scorers must never enter one comparison table.
     path = runs/plan['jobs'][0]['run']/'config.json'
     cfg = json.loads(path.read_text()); cfg['asr']['revision'] = 'changed'
+    write_json(path,cfg)
+    assert client.get('/api/public-suite/seedtts_en').status_code == 404
+    cfg['asr'] = plan['asr']
+    cfg['input_text_transform'] = 'librispeech_lowercase_v1'
+    write_json(path,cfg)
+    assert client.get('/api/public-suite/seedtts_en').status_code == 404
+    cfg['input_text_transform'] = 'identity'
+    cfg['frontend_protocols'] = {'a':'changed'}
     write_json(path,cfg)
     assert client.get('/api/public-suite/seedtts_en').status_code == 404
 

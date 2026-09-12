@@ -34,6 +34,7 @@ def main():
         plan = read_json(plan_path)
     else:
         from voicehub_arena.catalog import discover, declared_languages
+        from voicehub_arena.inputs import frontend_protocol
         import voicehub
         plan = read_json(args.suite)
         catalog = [s for s in discover() if not declared_languages(s['model_type']) or
@@ -41,6 +42,7 @@ def main():
         priority = ['kokoro', 'supertonic', 'vits', 'vui', 'inflecttts', 'styletts2', 'melotts', 'speecht5']
         catalog.sort(key=lambda s: (priority.index(s['model_type']) if s['model_type'] in priority else 100, s['model_type']))
         plan.update(catalog=catalog, jobs=build_jobs(plan, catalog), normalization_id='whisper_english',
+                    frontend_protocols={s['model_type']:frontend_protocol(s['model_type']) for s in catalog},
                     started_at=time.time(), status='waiting_for_repairs',
                     voicehub_commit=subprocess.check_output(['git','-C',str(Path(voicehub.__file__).parent),'rev-parse','HEAD'],text=True).strip(),
                     gpu=subprocess.check_output(['nvidia-smi','--query-gpu=name,memory.total','--format=csv,noheader'],text=True).strip())
@@ -56,11 +58,16 @@ def main():
     # Multiple controllers may queue work, but the shared GPU lock permits only
     # one generation/recognition run at a time.
     for job in plan['jobs']:
+        if (state_root/'pause.request').exists():
+            plan['status'] = 'paused_at_job_boundary'
+            write_json(plan_path, plan)
+            return
         if job['status'] in ('completed', 'partial', 'failed'):
             continue
         with (root/'runs/.gpu.lock').open('a') as lock:
             fcntl.flock(lock, fcntl.LOCK_EX)
         dataset = next(d for d in plan['datasets'] if d['id'] == job['dataset'])
+        text_transform = dataset.get('input_text_transform', 'identity')
         if hashlib.sha256(Path(job['shard']['path']).read_bytes()).hexdigest() != job['shard']['sha256']:
             raise ValueError('Dataset digest changed: ' + job['dataset'])
         run = root/'runs'/job['run']
@@ -74,7 +81,8 @@ def main():
                 plan.update(status='running', current_job=job['run'])
                 write_json(plan_path, plan)
                 code = subprocess.call([sys.executable, 'scripts/prepare_linguistic.py', job['model'],
-                    '--dataset', job['shard']['path'], '--output', str(prepared), '--overrides', str(overrides_path)])
+                    '--dataset', job['shard']['path'], '--output', str(prepared), '--overrides', str(overrides_path),
+                    '--input-text-transform', text_transform])
                 if code:
                     job.update(status='failed', error='Linguistic input preparation failed; see public-suite.log')
                     write_json(plan_path, plan)
@@ -89,6 +97,7 @@ def main():
             '--scoring-timeout', '14400', '--cache-budget-gib', '45', '--min-free-gib', '32',
             '--asr', plan['asr']['checkpoint'], '--asr-revision', plan['asr']['revision'],
             '--asr-device', 'cuda', '--asr-compute-type', 'float16', '--normalization', plan['normalization_id'],
+            '--input-text-transform', text_transform,
             '--resume', '--resume-samples', '--score-each-model']
         code = subprocess.call(command)
         result_path = run/job['model']/'result.json'

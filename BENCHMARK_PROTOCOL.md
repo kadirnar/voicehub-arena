@@ -27,6 +27,21 @@ See each `datasets/public/*/manifest.json` and `datasets/public/suite.json`.
 No dataset repository code is executed. Published synthetic baseline audio is
 not used as ground-truth human speech.
 
+LibriSpeech publishes all-capital ASR transcripts. The campaign applies
+`librispeech_lowercase_v1` to the synthesis input of **every provider** on both
+LibriSpeech splits. Original source text, IDs, references and JSONL hashes remain
+unchanged; every output records `synthesis_text` and `input_text_transform`.
+This avoids treating corpus capitalization as an instruction to spell words.
+Other datasets keep identity preparation, including intentional acronyms.
+MeloTTS/GPT-SoVITS offline features use the same prepared text as synthesis.
+
+The pilot exposed the issue: InflectTTS spelled whole words in all-capital
+LibriSpeech inputs; Kokoro and other providers also showed casing sensitivity.
+The original attempts remain archived. All LibriSpeech attempts, including
+providers with lower initial error rates, are repeated under `-lc1` run names.
+The report rejects a mixture of input-preparation versions. This correction was
+made during pilot validation before the 256-text panels or full-split evaluation.
+
 ## Coverage and order
 
 Each text is generated once with seed 42. No best-of-N selection is performed.
@@ -70,6 +85,14 @@ Warm-up and model download/load time are excluded from synthesis timing.
 Prepared MeloTTS/GPT-SoVITS linguistic inputs are generated from each actual shard,
 hashed and labelled with their separate preparation timing.
 
+StyleTTS2's `styletts2_nltk_quotes_v1` frontend removes the paired backticks that
+NLTK introduces for opening double quotes. The released StyleTTS2 TextCleaner
+also skips those unsupported characters. Prepared token IDs are tested against
+that released cleaner; other unknown phonemes still fail strict validation.
+This fixes two generation failures in the first Seed pilot. The old attempt is
+preserved, and StyleTTS2 public jobs use fresh `-sf1` run names. Frontend versions
+are frozen in run configurations and checked before resuming or pooling results.
+
 ## Interpretation
 
 This is a **fixed-voice intelligibility track using published test texts**.
@@ -106,6 +129,10 @@ each model/shard has an independent `runs/pub-v2-*` directory. The GPU lock is
 shared with diagnostic/repair jobs. The controller checks hashes and resumes
 verified generated waveforms after interruption. Existing completed shards are
 not generated again.
+
+To pause the campaign without interrupting a model/shard, create
+`runs/public-english-v2/pause.request`. The controller exits at the next job
+boundary with `paused_at_job_boundary`. Remove that request before resuming.
 
 There is a 32 GiB checkpoint-download reserve and a 4 GiB per-waveform storage
 floor. This is a long-running campaign on one GPU. If storage becomes limiting,

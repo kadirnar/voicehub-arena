@@ -41,6 +41,8 @@ if plan_path.exists():
               'WER/CER ve güven aralıkları her veri seti ve kapsam için ayrı gösterilir. Eksik kapsam sıralamaya uygun değildir.',
               'Bu bir sabit ses ile anlaşılabilirlik testidir; Seed ses klonlama SIM veya Emergent duygu/doğallık değerlendirmesinin tekrarı değildir.',
               'LibriTTS ve LibriSpeech ortak kaynak içerir; sonuçlar tek bağımsız veri havuzu olarak birleştirilmez.',
+              'LibriSpeech girişleri tüm modeller için küçük harfe dönüştürülür (librispeech_lowercase_v1); kaynak metin ve referanslar korunur. Eski büyük harfli denemeler ayrı arşivdir.',
+              'StyleTTS2 NLTK tırnak hazırlama düzeltmesi, özgün tokenlarla doğrulanır; eski başarısız deneme korunur ve yeni sf1 koşuları ayrı izlenir.',
               'Yöntem ve kaynaklar: [BENCHMARK_PROTOCOL.md](BENCHMARK_PROTOCOL.md).', '']
 latest = {}
 for config_path in runs.glob('*/config.json'):

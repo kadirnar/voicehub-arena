@@ -115,5 +115,6 @@
   },
   "selection": "Full split, seed-42 SHA256 order within category/depth/length strata; round-robin strata",
   "repeats": 1,
-  "synthesis_seed": 42
+  "synthesis_seed": 42,
+  "input_text_transform": "librispeech_lowercase_v1"
 }

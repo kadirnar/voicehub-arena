@@ -119,11 +119,12 @@ def create_app(runs):
                    'mer','wil','wip','word_substitutions','word_deletions','word_insertions',
                    'char_substitutions','char_deletions','char_insertions','wer_ci95','cer_ci95',
                    'rtf','latency_p50_s','latency_p95_s','peak_vram_mib','generation_failure_rate',
-                   'normalization_id','asr_checkpoint','asr_revision','source_runs','error']
+                   'normalization_id','input_text_transform','asr_checkpoint','asr_revision','source_runs','error']
         writer = csv.DictWriter(output, fieldnames=columns, extrasaction='ignore')
         writer.writeheader()
         for result in data['results']:
             writer.writerow({**result, **result['summary'], 'dataset':dataset,'coverage_phase':phase,
+                             'input_text_transform':data['config'].get('input_text_transform','identity'),
                              'asr_checkpoint':data['config']['asr']['checkpoint'],
                              'asr_revision':data['config']['asr']['revision']})
         return Response(output.getvalue(), media_type='text/csv',

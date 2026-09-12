@@ -18,13 +18,17 @@ parser.add_argument("model", choices=["melotts", "gptsovits"])
 parser.add_argument('--dataset', default='datasets/english.jsonl')
 parser.add_argument('--output')
 parser.add_argument('--overrides', default='configs/models.json')
+parser.add_argument('--input-text-transform', choices=['identity','librispeech_lowercase_v1'], default='identity')
 args = parser.parse_args()
 dataset_path = root/args.dataset
 rows = [json.loads(line) for line in dataset_path.read_text().splitlines() if line]
+from voicehub_arena.inputs import prepare_benchmark_text
+rows = [{**row, 'text':prepare_benchmark_text(row['text'], args.input_text_transform)} for row in rows]
 destination = root/args.output if args.output else root/"datasets/prepared"/args.model
 destination.mkdir(parents=True, exist_ok=True)
 manifest = {"model": args.model, "language": "en", "entries": {}, "device": "cpu",
             'dataset_sha256': hashlib.sha256(dataset_path.read_bytes()).hexdigest(),
+            'input_text_transform': args.input_text_transform,
             "timing_scope": "synthesis with offline linguistic inputs; preparation measured separately"}
 
 def save(row, started, **arrays):

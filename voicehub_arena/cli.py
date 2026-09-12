@@ -91,6 +91,7 @@ def execute(args):
         cfg = read_json(config_path)
     else:
         from .catalog import discover
+        from .inputs import frontend_protocol
         from huggingface_hub import HfApi
         catalog = discover()
         if args.models != "all":
@@ -134,6 +135,8 @@ def execute(args):
                       'language':'en','beam_size':5,'temperature':0,'condition_on_previous_text':False,'vad_filter':False},
                  protocol=args.protocol_id,
                  normalization_id=args.normalization,
+                 input_text_transform=args.input_text_transform,
+                 frontend_protocols={s['model_type']:frontend_protocol(s['model_type']) for s in catalog},
                  resume_samples=args.resume_samples,
                  scoring_timeout_s=args.scoring_timeout,
                  normalization=("whisper-normalizer 0.1.12 EnglishTextNormalizer; corpus WER/CER; CER includes spaces"
@@ -251,6 +254,7 @@ def main():
     run.add_argument('--asr-compute-type', default='float16')
     run.add_argument('--scoring-timeout', type=int, default=14400)
     run.add_argument('--normalization', choices=['orthographic','whisper_english'], default='whisper_english')
+    run.add_argument('--input-text-transform', choices=['identity','librispeech_lowercase_v1'], default='identity')
     run.add_argument('--protocol-id', default='English diagnostic v2; Whisper large-v3; no human MOS')
     run.add_argument('--dataset-manifest')
     run.add_argument('--resume-samples', action='store_true')

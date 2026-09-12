@@ -124,6 +124,7 @@ def write_dataset(destination, key, rows, provenance, panel_size, shard_size):
         shards.append({**emit(root / f'shard-{i:03d}.jsonl', rows[start:end]),
                        'index': i, 'phase': 'pilot' if i == 0 else 'panel' if i == 1 else 'expansion'})
     manifest = dict(id=key, language='en', total_samples=len(rows), full=full, shards=shards,
+                    input_text_transform='librispeech_lowercase_v1' if key.startswith('librispeech_') else 'identity',
                     categories=dict(Counter(r['category'] for r in rows)),
                     track='fixed_voice_intelligibility', provenance=provenance,
                     selection='Full split, seed-42 SHA256 order within category/depth/length strata; round-robin strata',

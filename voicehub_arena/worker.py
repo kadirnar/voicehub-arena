@@ -22,8 +22,11 @@ def generate(config_path, model_type):
     import soundfile as sf
     from voicehub import AutoModelForTextToSpeech, TTSGenerationConfig
     from .metrics import signal_metrics
-    from .inputs import prepare_request
+    from .inputs import prepare_request, prepare_benchmark_text, frontend_protocol
     cfg = read_json(config_path)
+    frontend_version = frontend_protocol(model_type)
+    if cfg.get('frontend_protocols', {}).get(model_type, 'legacy_v1') != frontend_version:
+        raise ValueError('Frontend changed since this run was frozen; use a new run')
     run = Path(config_path).parent
     output = run / model_type
     output.mkdir(exist_ok=True)
@@ -31,6 +34,8 @@ def generate(config_path, model_type):
     if cfg.get('resume_samples') and (output/'result.json').exists():
         for row in read_json(output/'result.json').get('rows', []):
             if row.get('status') in {'generated', 'ok', 'scoring_failed'}:
+                if row.get('frontend_protocol', 'legacy_v1') != frontend_version:
+                    raise ValueError('Cannot resume audio from a different frontend protocol')
                 audio_path = run / row['audio']
                 if not audio_path.is_file() or hashlib.sha256(audio_path.read_bytes()).hexdigest() != row.get('audio_sha256'):
                     raise ValueError('Cannot resume an unverified audio artifact: ' + str(audio_path))
@@ -39,6 +44,7 @@ def generate(config_path, model_type):
     override = cfg["overrides"].get(model_type, {})
     checkpoint = override.get("checkpoint", spec["checkpoint"])
     status = dict(model_type=model_type, checkpoint=checkpoint, status="loading", rows=[],
+                  frontend_protocol=frontend_version,
                   expected_samples=len(cfg["dataset"])*cfg["repeats"])
     # Keep already verified records durable even if the resumed model load fails.
     status['rows'] = list(previous_rows.values())
@@ -124,7 +130,8 @@ def generate(config_path, model_type):
             model = AutoModelForTextToSpeech.from_pretrained(checkpoint, model_type=model_type,
                                                            device=cfg["device"], **config)
         generation = override.get("generation", {})
-        first_text, first_options = prepare_request(model_type, override.get("text_prefix", "")+cfg["dataset"][0]["text"], generation,
+        transform = cfg.get('input_text_transform', 'identity')
+        first_text, first_options = prepare_request(model_type, override.get("text_prefix", "")+prepare_benchmark_text(cfg["dataset"][0]["text"], transform), generation,
                                                    prepared_inputs=override.get("prepared_inputs"))
         defaults = model.generation_config.to_dict()
         defaults.update(seed=cfg["seed"], **first_options)
@@ -141,6 +148,7 @@ def generate(config_path, model_type):
         write_json(output/"result.json",status)
         first = cfg["dataset"][0]["text"]
         def synthesize(text, seed):
+            text = prepare_benchmark_text(text, transform)
             prepared_text, options = prepare_request(model_type, override.get("text_prefix", "")+text, generation,
                                                     prepared_inputs=override.get("prepared_inputs"), model=model)
             return model.generate(prepared_text, generation_config=TTSGenerationConfig(seed=seed), **options)
@@ -165,6 +173,9 @@ def generate(config_path, model_type):
                 row = dict(id=item["id"], category=item["category"], text=item["text"],
                            reference=item.get("reference",item["text"]), repeat=repeat,
                            seed=cfg["seed"]+repeat, status="failed")
+                row['input_text_transform'] = transform
+                row['frontend_protocol'] = frontend_version
+                row['synthesis_text'] = prepare_benchmark_text(item['text'], transform)
                 for key in ('dataset_id', 'source_id', 'speaker_id', 'evolution_depth', 'track'):
                     if key in item:
                         row[key] = item[key]

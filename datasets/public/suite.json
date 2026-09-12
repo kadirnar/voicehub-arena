@@ -111,7 +111,8 @@
       },
       "selection": "Full split, seed-42 SHA256 order within category/depth/length strata; round-robin strata",
       "repeats": 1,
-      "synthesis_seed": 42
+      "synthesis_seed": 42,
+      "input_text_transform": "identity"
     },
     {
       "id": "seedtts_en",
@@ -181,7 +182,8 @@
       },
       "selection": "Full split, seed-42 SHA256 order within category/depth/length strata; round-robin strata",
       "repeats": 1,
-      "synthesis_seed": 42
+      "synthesis_seed": 42,
+      "input_text_transform": "identity"
     },
     {
       "id": "libritts_test_clean",
@@ -349,7 +351,8 @@
       },
       "selection": "Full split, seed-42 SHA256 order within category/depth/length strata; round-robin strata",
       "repeats": 1,
-      "synthesis_seed": 42
+      "synthesis_seed": 42,
+      "input_text_transform": "identity"
     },
     {
       "id": "librispeech_test_clean",
@@ -461,7 +464,8 @@
       },
       "selection": "Full split, seed-42 SHA256 order within category/depth/length strata; round-robin strata",
       "repeats": 1,
-      "synthesis_seed": 42
+      "synthesis_seed": 42,
+      "input_text_transform": "librispeech_lowercase_v1"
     },
     {
       "id": "librispeech_test_other",
@@ -580,7 +584,8 @@
       },
       "selection": "Full split, seed-42 SHA256 order within category/depth/length strata; round-robin strata",
       "repeats": 1,
-      "synthesis_seed": 42
+      "synthesis_seed": 42,
+      "input_text_transform": "librispeech_lowercase_v1"
     }
   ],
   "panel_size": 256,

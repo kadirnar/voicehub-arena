@@ -90,12 +90,20 @@ def public_report(runs, dataset_id, phase='pilot'):
                     raise ValueError('Run scorer differs from frozen public suite')
                 if cfg.get('dataset_part', {}).get('sha256') != job['shard']['sha256']:
                     raise ValueError('Run data differs from the public suite')
+                if cfg.get('input_text_transform', 'identity') != dataset.get('input_text_transform', 'identity'):
+                    raise ValueError('Run text preparation differs from the public suite')
                 override = cfg.get('overrides', {}).get(spec['model_type'], {})
+                frontend = cfg.get('frontend_protocols', {}).get(spec['model_type'], 'legacy_v1')
+                expected_frontend = plan.get('frontend_protocols', {}).get(spec['model_type'], 'legacy_v1')
+                if frontend != expected_frontend or result.get('frontend_protocol', 'legacy_v1') != frontend:
+                    raise ValueError('Run frontend differs from the public suite')
                 synthesis_protocols.add(json.dumps({
                     'checkpoint':result.get('checkpoint', spec['checkpoint']),
                     'revision':result.get('revision', override.get('config', {}).get('revision')),
                     'config':override.get('config'), 'generation':override.get('generation'),
                     'text_prefix':override.get('text_prefix'), 'runtime_adapter':override.get('runtime_adapter'),
+                    'input_text_transform':cfg.get('input_text_transform','identity'),
+                    'frontend_protocol':frontend,
                 }, sort_keys=True))
                 rows.extend({**r, 'source_run': job['run']} for r in result.get('rows', []))
                 if result.get('error'):
@@ -120,6 +128,7 @@ def public_report(runs, dataset_id, phase='pilot'):
     return {'run':'public-' + dataset_id + '-' + phase, 'config':{
         'dataset':dataset_rows, 'repeats':plan['repeats'], 'asr':plan['asr'],
         'normalization_id':plan['normalization_id'], 'protocol':plan['protocol_id'],
+        'input_text_transform':dataset.get('input_text_transform','identity'),
         'gpu':plan.get('gpu'), 'voicehub_commit':plan.get('voicehub_commit'),
         'dataset_manifest':dataset}, 'results':results, 'active_runs':active,
         'coverage_phase':phase, 'total_dataset_samples':dataset['total_samples'],

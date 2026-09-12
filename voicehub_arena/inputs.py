@@ -5,6 +5,19 @@ import json
 from pathlib import Path
 
 
+def frontend_protocol(model_type):
+    return 'styletts2_nltk_quotes_v1' if model_type == 'styletts2' else 'legacy_v1'
+
+
+def prepare_benchmark_text(text, transform='identity'):
+    """Separate corpus transcription conventions from a model's own frontend."""
+    if transform == 'identity':
+        return text
+    if transform == 'librispeech_lowercase_v1':
+        return text.lower()
+    raise ValueError('Unknown benchmark text transform: ' + transform)
+
+
 @lru_cache(maxsize=1)
 def kokoro_frontend():
     from misaki import en, espeak
@@ -54,6 +67,10 @@ def prepare_request(model_type, text, generation, *, prepared_inputs=None, model
         text = phonemize(text, language="en-us", backend="espeak", strip=True,
                          preserve_punctuation=True, with_stress=True)
         text = " ".join(word_tokenize(text, preserve_line=True))
+        # NLTK rewrites opening double quotes as two backticks. The released
+        # StyleTTS2 TextCleaner skips those characters; reproduce that specific
+        # behavior while leaving all other phoneme validation strict.
+        text = text.replace('``', '')
         options["text_is_phonemes"] = True
     elif model_type == "zonos":
         from voicehub.models.zonos.source.zonos.conditioning import phonemize
