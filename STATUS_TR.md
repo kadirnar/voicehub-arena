@@ -1,6 +1,6 @@
 # VoiceHub Arena — durum
 
-Anlık kopya: 2026-09-12T01:14:20+00:00. Canlı arayüz: http://127.0.0.1:7860/
+Anlık kopya: 2026-09-12T06:25:35+00:00. Canlı arayüz: http://127.0.0.1:7860/
 
 RTX 3090 (24 GB), `vast-3090-voicehub` SSH bağlantısı ve ayrı VS Code uzak penceresi hazır.
 `/workspace/voicehub-arena` sunucudaki proje; bu klasör yerel kaynak ve sonuç kopyasıdır.
@@ -32,12 +32,20 @@ Gerçek 541 tensörlü Echo codec iki kısa CPU karşılaştırmasında referans
 Echo repairs-en-10: 24 örnekte WER %3,97, CER %3,30, RTF 0,592; üretim hatası yok.
 repairs-en-10 Echo sonrasında OmniVoice RoPE ve Orpheus disk hatalarıyla durdu.
 OmniVoice meta yüklemesinden sonra RoPE tabloları düzeltildi; 18 test geçti.
-Kalan dokuz model repairs-en-11 içinde yeniden deneniyor.
+repairs-en-11 tamamlandı: OmniVoice WER %3,97 / CER %3,39; Orpheus %7,08 / %6,87.
+Zonos2 WER %12,95 / CER %11,90; uzun metinlerde 44 sözcük silinmesiyle kalite incelemesi açık.
+Üç uzun ses 1.024 adımın karşılığı olan 11,80 saniyede bitti; sınır 3.072 oldu, yeni GPU denemesi bekliyor.
+Kalan altı çalıştırılabilir model yeni repairs-en-12 içinde doğrulanıyor.
 Önbellekler birlikte sınırlanıyor; hardlink dosyaları bir sayılıyor, model öncesi 32 GiB alan ayrılıyor.
 Kullanılmayan Fish/Higgs/Dia/Echo Hub kopyalarından 32,24 GiB alan açıldı.
 Kullanılmayan CSM/CosyVoice Hub önbelleklerinden 9,03 GiB alan açıldı; sonuçlar korundu.
 MOSS-TTS v1.5 gerçek 463 tensörü native yapıyla eşleşti; kayıtlı envanter özeti düzeltildi.
-MOSS-TTS: 10 test ve 8 alt test geçti; GPU doğrulaması repairs-en-11 içinde.
+MOSS metin girdisinde audio-start yoksa -1 döndürür; referans eşliği ve küçük model üretim testleri geçti.
+Parler boş dtype varsayılanı düzeltildi. Qwen3 public API/gerçek küçük codec dahil 17 test geçti.
+VoxCPM2 AudioVAE: doğrulanmış resmî arşivden 312 tensörlü Safetensors üretildi.
+XTTS: sabit SHA256 doğrulaması ve restricted yüklemeyle 963 tensörlü native model hazırlandı.
+XTTS BatchNorm sayaçları int64 olarak korunur; 13 test ve iki alt test geçti.
+Zonos, resmî öğrenilmiş koşulsuz konuşmacı vektörünü kullanır; ses klonlama iddiası yoktur.
 Echo indirmeleri artık değişebilir dalı commit ile sabitleyerek yeniden sürdürülebilir istemciyi kullanır.
 İndirme önbelleği, doğrulanmış sabit dosyaları aynı diskte hardlink ile paylaşır.
 SpeechT5 gerçek tokenizer’ı, 13 örnekte SentencePiece referansıyla eşleşti.
@@ -176,19 +184,30 @@ VibeVoice için yeni Arena adaptörü ayrıca etiketlenir; tam referans dalga bi
 
 | Model | Durum | Puanlanan | WER | CER |
 |---|---|---:|---:|---:|
+| mosstts | blocked | 0 | — | — |
+| omnivoice | completed | 24 | 3.97% | 3.39% |
+| orpheustts | completed | 24 | 7.08% | 6.87% |
+| parlertts | blocked | 0 | — | — |
+| qwen3tts | blocked | 0 | — | — |
+| voxcpm | blocked | 0 | — | — |
+| xtts | blocked | 0 | — | — |
+| zonos | blocked | 0 | — | — |
+| zonos2 | completed | 24 | 12.95% | 11.90% |
+
+## Ayrı doğrulama: repairs-en-12
+
+| Model | Durum | Puanlanan | WER | CER |
+|---|---|---:|---:|---:|
 | mosstts | loading | 0 | — | — |
-| omnivoice | pending | 0 | — | — |
-| orpheustts | pending | 0 | — | — |
 | parlertts | pending | 0 | — | — |
 | qwen3tts | pending | 0 | — | — |
 | voxcpm | pending | 0 | — | — |
 | xtts | pending | 0 | — | — |
 | zonos | pending | 0 | — | — |
-| zonos2 | pending | 0 | — | — |
 
 ## Tamamlanan 24 örneklik son doğrulamalar
 
-23 model ailesinin 24 örneklik üretim ve puanlaması tamamlandı.
+26 model ailesinin 24 örneklik üretim ve puanlaması tamamlandı.
 
 Farklı koşuların en yeni tamamlanan ayarları gösterilir; ayarlar ve süre kapsamı README içindedir.
 
@@ -209,7 +228,9 @@ Farklı koşuların en yeni tamamlanan ayarları gösterilir; ayarlar ve süre k
 | kokoro | repairs-en-01 | 3.63% | 3.27% | 0.018 |
 | llasa | english-extended | 19.00% | 14.17% | 1.406 |
 | melotts | english-extended | 4.66% | 3.60% | 0.019 |
+| omnivoice | repairs-en-11 | 3.97% | 3.39% | 0.243 |
 | openvoice | repairs-en-02 | 4.84% | 3.45% | 0.039 |
+| orpheustts | repairs-en-11 | 7.08% | 6.87% | 4.151 |
 | outetts | english-extended | 3.97% | 3.36% | 5.269 |
 | speecht5 | repairs-en-01 | 3.11% | 2.91% | 0.268 |
 | styletts2 | repairs-en-01 | 3.80% | 3.30% | 0.040 |
@@ -217,8 +238,9 @@ Farklı koşuların en yeni tamamlanan ayarları gösterilir; ayarlar ve süre k
 | vibevoice | repairs-en-04 | 4.66% | 3.97% | 1.015 |
 | vits | english-extended | 7.77% | 4.75% | 0.030 |
 | vui | english-extended | 14.51% | 12.93% | 0.640 |
+| zonos2 | repairs-en-11 | 12.95% | 11.90% | 8.714 |
 
-Etkin koşu: `repairs-en-11`, aşama `generation`, model `mosstts`.
+Etkin koşu: `repairs-en-12`, aşama `generation`, model `mosstts`.
 
 İşler Supervisor altında seri GPU kullanımıyla devam eder. Bu görevde 30 dakikalık
 kontrol ve düzeltme takibi etkindir; değişmeyen durumlarda bildirim göndermez.

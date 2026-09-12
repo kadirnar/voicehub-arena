@@ -300,7 +300,7 @@ audited converter. `repairs-en-08` completed Dia and Fish S2-Pro.
 Dia completed all 24 repair samples with 11.74% WER, 9.51% CER and no generation
 limit hits. Llasa completed with 19.00% WER and 14.17% CER; this remains a quality
 concern. Fish completed all 24 repair samples with 3.80% WER and 3.27% CER.
-There are now 23 families with a completed 24-sample evaluation.
+There are now 26 families with a completed 24-sample evaluation.
 The initial extended pass has finished; eight later families hit the disk
 preflight limit. Unused official CSM and CosyVoice caches were removed after
 checking active file handles, reclaiming 9.03 GiB. Their outputs and prepared
@@ -312,8 +312,16 @@ compares logits with the original CPU graph. All 18 OmniVoice tests pass.
 Orpheus subsequently ran out of disk, and later families hit preflight limits.
 Inactive completed Fish, Higgs, Dia and Echo Hub cache revisions were removed,
 reclaiming 32.24 GiB. The paired cache management above prevents those retained
-Hub references from escaping the budget. `repairs-en-11` now runs MOSS-TTS,
-OmniVoice, Orpheus, Parler, Qwen3-TTS, VoxCPM, XTTS, Zonos and Zonos2 serially. MOSS-TTS v1.5 exposed an incorrect
+Hub references from escaping the budget. `repairs-en-11` finished: OmniVoice
+scored 3.97% WER / 3.39% CER, Orpheus 7.08% / 6.87%, and Zonos2 12.95% / 11.90%.
+Zonos2 omitted words in the long-form category (36.67% WER, 44 deletions across
+three seeds). All three long outputs have exactly the duration implied by its
+default 1024 delayed-frame cap: `(1024 - 8) * 512 / 44100 = 11.7957` seconds.
+This points to truncation; old results did not record EOS. Current overrides
+raise the cap to 3072, and new output metadata records delayed-frame count,
+EOS and limit flags. A fresh Zonos2 GPU run is still required after repair12;
+the earlier scores are retained. Six other families
+need another GPU validation after the fixes below. MOSS-TTS v1.5 exposed an incorrect
 audited-header fingerprint. Independent parsing of the four SHA-verified shards
 confirmed all 463 BF16 tensor names and shapes exactly match the native meta
 graph (8,489,841,664 parameters). Its pinned fingerprint was corrected to
@@ -322,8 +330,33 @@ strict inventory and revision rejection remain in place. The full header audit
 is saved in `runs/validations/moss-v15-header-inventory.json` and its compact
 immutable config/artifact fixture is included in the native patch. The MOSS
 native suite passed 10 tests and 8 subtests, including graph inventory and
-altered-header/revision rejection. MOSS synthesis is being validated in
-`repairs-en-11`.
+altered-header/revision rejection. Its delay generator now also accepts a
+text-only prompt without an audio-start token, matching the pinned reference
+search function's -1 sentinel. Tests compare mixed batches with the reference
+and exercise generation on a real small model.
+
+Parler's unspecified dtype now resolves to float32. Qwen3's public generation
+wrapper preserves raw text until the runtime selects the keyword-only task
+processor. All 17 Qwen3 tests pass, including exported small-model synthesis
+through the public API and its actual audio codec.
+
+`scripts/prepare_remaining_codecs.py voxcpm` and `... xtts` perform explicit CPU
+conversions of pinned official releases. Source commit, size and SHA256 are
+checked before restricted `weights_only=True` loading. VoxCPM2's converted
+AudioVAE matches all 312 native tensors. XTTS restores four reviewed, discarded
+configuration record types into inert metadata objects; no upstream class code
+is executed. Its 963 tensor names/shapes match the full native graph. The native
+XTTS checkpoint boundary preserves int64 BatchNorm counters, including when
+floating weights change dtype; 13 tests and two subtests pass. Conversion
+manifests in `runs/validations/` record input and output hashes. The worker
+checks prepared files again before loading them. Reproduce these conversions
+before using the corresponding absolute paths in `configs/models.json` on a
+new machine.
+
+Zonos uses its published learned unconditional speaker vector for basic TTS.
+It does not claim voice cloning or speaker similarity; its optional reference
+speaker encoder is unavailable in the native checkpoint. Fresh `repairs-en-12`
+validates MOSS, Parler, Qwen3, VoxCPM, XTTS and Zonos with current settings.
 NeuTTS-2e weights are accessible, but the separate
 NeuCodec repository still returned HTTP 403 in the latest access check.
 

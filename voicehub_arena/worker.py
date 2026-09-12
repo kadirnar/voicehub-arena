@@ -58,6 +58,14 @@ def generate(config_path, model_type):
             return
         if not checkpoint:
             raise ValueError("No default checkpoint configured; add a reviewed checkpoint override")
+        for key, expected in override.get('artifact_provenance', {}).get('config_files_sha256', {}).items():
+            artifact = Path(override.get('config', {})[key])
+            digest = hashlib.sha256()
+            with artifact.open('rb') as handle:
+                for chunk in iter(lambda: handle.read(8*2**20), b''):
+                    digest.update(chunk)
+            if digest.hexdigest() != expected:
+                raise ValueError('Configured artifact differs from reviewed provenance: '+key)
         if Path(checkpoint).is_dir():
             for filename, expected in override.get('artifact_provenance', {}).get('files_sha256', {}).items():
                 artifact = Path(checkpoint)/filename
@@ -168,10 +176,13 @@ def generate(config_path, model_type):
                         row['generation_token_limit'] = limit
                         if isinstance(count, int) and count >= limit:
                             row['quality_flags'] = ['generation_limit_reached']
-                    if model_type == 'dia':
+                    if model_type in {'dia', 'zonos2'}:
                         row['speech_token_count'] = result.metadata.get('speech_token_count')
                         row['generation_token_limit'] = result.metadata.get('generation_token_limit')
-                        row['kv_cache'] = result.metadata.get('kv_cache')
+                        if model_type == 'dia':
+                            row['kv_cache'] = result.metadata.get('kv_cache')
+                        else:
+                            row['eos_frame'] = result.metadata.get('eos_frame')
                         if result.metadata.get('generation_limit_reached'):
                             row['quality_flags'] = ['generation_limit_reached']
                     if model_type == 'kokoro':

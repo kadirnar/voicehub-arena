@@ -517,6 +517,54 @@ index 864c587..861b42e 100644
              torch.save(
                  {
                      "state_dict": {
+diff --git a/tests/test_native_mosstts.py b/tests/test_native_mosstts.py
+index 23213a8..e245f09 100644
+--- a/tests/test_native_mosstts.py
++++ b/tests/test_native_mosstts.py
+@@ -1,4 +1,5 @@
+ import hashlib
++import ast
+ import tempfile
+ import unittest
+ from pathlib import Path
+@@ -230,6 +231,37 @@ class _TinySemanticModel(nn.Module):
+         self.anchor = nn.Parameter(torch.zeros(()))
+ 
+ 
++class NativeMossGenerationTests(unittest.TestCase):
++
++    def test_optional_audio_start_matches_pinned_reference(self):
++        from voicehub.architectures.mosstts.modeling import _find_last_equal
++        reference_path = (Path(__file__).resolve().parents[1] / 'voicehub/models/mosstts/source/'
++                          'moss_tts_delay/inference_utils.py')
++        tree = ast.parse(reference_path.read_text())
++        function = next(node for node in tree.body
++                        if isinstance(node, ast.FunctionDef) and node.name == 'find_last_equal_C')
++        namespace = {'torch': torch}
++        exec(compile(ast.Module(body=[function], type_ignores=[]), str(reference_path), 'exec'), namespace)
++        for seed in range(32):
++            torch.manual_seed(seed)
++            ids = torch.randint(0, 8, (3, 11))
++            ids[0] = 0
++            expected = namespace['find_last_equal_C'](ids, 3)
++            torch.testing.assert_close(_find_last_equal(ids, 3, required=False), expected)
++            with self.assertRaises(ValueError):
++                _find_last_equal(ids, 3)
++
++    def test_delay_generation_accepts_text_only_prompt(self):
++        torch.manual_seed(43)
++        config = _tiny_tts_config('delay')
++        model = build_mosstts_model(config).eval()
++        prompt = torch.full((1, 3, config.channels), config.audio_pad_token_id, dtype=torch.long)
++        prompt[0, :, 0] = torch.tensor([config.im_start_token_id, 10, 11])
++        generated = model.generate(prompt, max_new_tokens=1, text_top_k=1, audio_top_k=1)
++        self.assertEqual(len(generated), 1)
++        self.assertEqual(generated[0][1].shape[-1], config.channels)
++
++
+ class NativeMossCodecTests(unittest.TestCase):
+ 
+     def test_official_codec_graph_inventories_match_pinned_headers(self):
 diff --git a/tests/test_native_omnivoice.py b/tests/test_native_omnivoice.py
 index fb45cab..5d5a540 100644
 --- a/tests/test_native_omnivoice.py
@@ -603,6 +651,37 @@ index 04129f1..15aadf1 100644
  
  
  class NativeOuteTTSPromptAndTrainingTests(unittest.TestCase):
+diff --git a/tests/test_native_qwen3_tts.py b/tests/test_native_qwen3_tts.py
+index 2a91441..e777bad 100644
+--- a/tests/test_native_qwen3_tts.py
++++ b/tests/test_native_qwen3_tts.py
+@@ -741,7 +741,10 @@ class NativeQwen3TTSTests(unittest.TestCase):
+     def test_portable_runtime_export_reloads_without_upstream_runtime(self):
+         torch.manual_seed(17)
+         architecture = _portable_architecture()
+-        decoder_config = _tiny_decoder()
++        decoder_config = Qwen3TTSDecoderConfig.from_dict({
++            **_tiny_decoder().to_dict(),
++            'codebook_size': architecture.talker_config.code_predictor_config.vocab_size,
++        })
+         tokenizer_config = Qwen3TTSTokenizerConfig(
+             decoder_config=decoder_config,
+             encoder_valid_num_quantizers=decoder_config.num_quantizers,
+@@ -783,6 +786,14 @@ class NativeQwen3TTSTests(unittest.TestCase):
+                 device="cpu",
+                 compute_dtype="float32",
+             )
++            from voicehub.models.qwen3tts.inference import Qwen3TTSForTextToSpeech
++            wrapper = Qwen3TTSForTextToSpeech(str(exported), device='cpu', torch_dtype='float32')
++            output = wrapper.generate('A short test.', mode='custom_voice', speaker='voicehub',
++                                      language='English', max_new_tokens=2, do_sample=False,
++                                      subtalker_dosample=False, seed=17)
++            self.assertEqual(output.sample_rate, 24000)
++            self.assertGreater(output.audio.numel(), 0)
++            self.assertTrue(bool(torch.isfinite(output.audio).all()))
+ 
+         self.assertEqual(reloaded.config.tts_model_type, "custom_voice")
+         self.assertEqual(
 diff --git a/tests/test_native_speecht5.py b/tests/test_native_speecht5.py
 index af99fd7..138fef3 100644
 --- a/tests/test_native_speecht5.py
@@ -679,6 +758,82 @@ index c3861f1..912fa63 100644
      def test_realtime_graph_exposes_stages_but_rejects_training_forward(self):
          model = VibeVoiceRealtimeForConditionalGeneration(_realtime_config())
          with self.assertRaisesRegex(RuntimeError, "staged inference"):
+diff --git a/tests/test_native_xtts2.py b/tests/test_native_xtts2.py
+index ce9fa33..a521b3b 100644
+--- a/tests/test_native_xtts2.py
++++ b/tests/test_native_xtts2.py
+@@ -20,6 +20,9 @@ from voicehub.architectures.xtts2.checkpoint import (
+ from voicehub.architectures.xtts2.configuration import XTTS2Config
+ from voicehub.architectures.xtts2.gpt import XTTS2GPT
+ from voicehub.architectures.xtts2.tokenizer import XTTS2Tokenizer
++from voicehub.architectures.xtts2.decoder import SEBasicBlock
++from voicehub.checkpointing import save_safetensors
++from voicehub.checkpointing.errors import CheckpointCompatibilityError
+ 
+ PROJECT_ROOT = Path(__file__).resolve().parents[1]
+ RUNTIME_ROOTS = (
+@@ -252,6 +255,38 @@ class NativeXTTS2Tests(unittest.TestCase):
+                 },
+             })
+ 
++    def test_legacy_batchnorm_counters_survive_conversion_and_meta_loading(self):
++        source = SEBasicBlock(16, 16).train()
++        inputs = torch.randn(2, 16, 8, 8)
++        source(inputs)
++        source.eval()
++        with torch.device("meta"):
++            target = SEBasicBlock(16, 16).eval()
++        with tempfile.TemporaryDirectory() as directory:
++            legacy = Path(directory) / "model.pth"
++            torch.save({"model": source.state_dict()}, legacy)
++            converted = convert_trusted_legacy_xtts2_checkpoint(
++                legacy, Path(directory) / "model.safetensors", trust_legacy_pickle=True)
++            load_xtts2_checkpoint(target, converted, dtype=torch.float64)
++            self.assertEqual(target.bn1.num_batches_tracked.dtype, torch.int64)
++            self.assertEqual(target.bn1.num_batches_tracked.item(), 1)
++            torch.testing.assert_close(target(inputs.double()).float(), source(inputs), rtol=1e-5, atol=1e-6)
++            exported = save_xtts2_checkpoint(target, Path(directory) / "export.safetensors")
++            restored = SEBasicBlock(16, 16).eval()
++            load_xtts2_checkpoint(restored, exported)
++            torch.testing.assert_close(restored(inputs.double()), target(inputs.double()))
++
++    def test_loader_rejects_floating_batchnorm_counters_and_integer_weights(self):
++        model = SEBasicBlock(16, 16)
++        with tempfile.TemporaryDirectory() as directory:
++            for name, dtype in (("bn1.num_batches_tracked", torch.float32), ("conv1.weight", torch.int64)):
++                with self.subTest(name=name):
++                    state = model.state_dict()
++                    state[name] = state[name].to(dtype)
++                    path = save_safetensors(state, Path(directory) / "invalid.safetensors")
++                    with self.assertRaisesRegex(CheckpointCompatibilityError, "incompatible dtype"):
++                        load_xtts2_checkpoint(SEBasicBlock(16, 16), path)
++
+     def test_legacy_conversion_is_explicitly_trusted(self):
+         with self.assertRaises(PermissionError):
+             convert_trusted_legacy_xtts2_checkpoint(
+diff --git a/tests/test_native_zonos2.py b/tests/test_native_zonos2.py
+index a01ff05..fdcbafb 100644
+--- a/tests/test_native_zonos2.py
++++ b/tests/test_native_zonos2.py
+@@ -662,6 +662,18 @@ class NativeZonos2RuntimeTests(unittest.TestCase):
+         )
+         self.assertEqual(output.metadata["seed"], 41)
+         self.assertEqual(output.sample_rate, 44_100)
++        self.assertEqual(output.metadata["speech_token_count"], 10)
++        self.assertFalse(output.metadata["generation_limit_reached"])
++        for eos_frame, expected in ((None, True), (1, False)):
++            with self.subTest(eos_frame=eos_frame):
++                wrapper._runtime = SimpleNamespace(
++                    generate=lambda *args, **kwargs: Zonos2Generation(
++                        audio=torch.tensor([0.1, -0.1]),
++                        audio_codes=torch.zeros(10, 3, dtype=torch.long),
++                        sample_rate=44_100, eos_frame=eos_frame, speaker_embedding=None))
++                limited = wrapper._generate("hello", max_new_tokens=10)
++                self.assertEqual(limited.metadata["generation_token_limit"], 10)
++                self.assertEqual(limited.metadata["generation_limit_reached"], expected)
+ 
+     def test_native_files_do_not_import_external_model_libraries(self):
+         root = (Path(__file__).parents[1] / "voicehub" / "architectures" / "zonos2")
 diff --git a/voicehub/architectures/cosyvoice_native/language_model.py b/voicehub/architectures/cosyvoice_native/language_model.py
 index 52e7a8a..ce2ad07 100644
 --- a/voicehub/architectures/cosyvoice_native/language_model.py
@@ -1028,6 +1183,30 @@ index 45fd82e..3277bd1 100644
          sample_rate=24_000,
          codec=MOSS_CODEC_V1_REPOSITORY,
      ),
+diff --git a/voicehub/architectures/mosstts/modeling.py b/voicehub/architectures/mosstts/modeling.py
+index 07a9779..8b40f10 100644
+--- a/voicehub/architectures/mosstts/modeling.py
++++ b/voicehub/architectures/mosstts/modeling.py
+@@ -108,9 +108,9 @@ def _channelwise_cross_entropy(
+     return total, tuple(losses)
+ 
+ 
+-def _find_last_equal(input_ids: Tensor, value: int) -> Tensor:
++def _find_last_equal(input_ids: Tensor, value: int, *, required: bool = True) -> Tensor:
+     matches = input_ids.eq(value)
+-    if not bool(matches.any(dim=1).all()):
++    if required and not bool(matches.any(dim=1).all()):
+         raise ValueError(f"Every sequence must contain token ID {value}.")
+     positions = torch.arange(
+         input_ids.shape[1],
+@@ -342,6 +342,7 @@ class MossDelayModel(nn.Module):
+         audio_start_indices = _find_last_equal(
+             text_ids,
+             self.config.audio_start_token_id,
++            required=False,
+         )
+         continuation = (
+             text_ids[:, -1].eq(self.config.audio_start_token_id)
 diff --git a/voicehub/architectures/omnivoice/checkpoint.py b/voicehub/architectures/omnivoice/checkpoint.py
 index c187a73..b8a0268 100644
 --- a/voicehub/architectures/omnivoice/checkpoint.py
@@ -1117,6 +1296,75 @@ index f00aa16..80947e4 100644
          self._model_outputs: list[Tensor | None] = [None, None]
          self._step_index: int | None = None
          self._lower_order_steps = 0
+diff --git a/voicehub/architectures/xtts2/checkpoint.py b/voicehub/architectures/xtts2/checkpoint.py
+index dff7e0b..75cc9eb 100644
+--- a/voicehub/architectures/xtts2/checkpoint.py
++++ b/voicehub/architectures/xtts2/checkpoint.py
+@@ -20,6 +20,13 @@ _IGNORED_TRAINER_PREFIXES = (
+ )
+ 
+ 
++def _is_batch_counter(name: str, value: torch.Tensor) -> bool:
++    # BatchNorm persists this scalar alongside its floating running statistics.
++    return (name.rsplit(".", 1)[-1] == "num_batches_tracked"
++            and value.dtype == torch.int64 and value.ndim == 0
++            and value.item() >= 0)
++
++
+ @dataclass(frozen=True, slots=True)
+ class XTTS2CheckpointInventory:
+     path: Path
+@@ -58,7 +65,8 @@ def load_xtts2_checkpoint(
+     dtype: torch.dtype | None = None,
+ ) -> XTTS2CheckpointInventory:
+     inventory = inspect_xtts2_checkpoint(path)
+-    expected = {name: tuple(value.shape) for name, value in model.state_dict().items()}
++    expected_state = model.state_dict()
++    expected = {name: tuple(value.shape) for name, value in expected_state.items()}
+     with SafeTensorReader(inventory.path) as reader:
+         names = set(reader.keys())
+         missing = sorted(set(expected) - names)
+@@ -73,8 +81,13 @@ def load_xtts2_checkpoint(
+         with torch.no_grad():
+             for name in sorted(expected):
+                 value = reader.get_tensor(name)
+-                if not value.is_floating_point():
+-                    raise CheckpointCompatibilityError(f"XTTS v2 tensor {name!r} is not floating-point.")
++                reference = expected_state[name]
++                if reference.is_floating_point():
++                    valid_dtype = value.is_floating_point()
++                else:
++                    valid_dtype = value.dtype == reference.dtype and _is_batch_counter(name, value)
++                if not valid_dtype or not torch.isfinite(value).all().item():
++                    raise CheckpointCompatibilityError(f"XTTS v2 tensor {name!r} has an incompatible dtype or value.")
+                 target_dtype = dtype if dtype is not None and value.is_floating_point() else value.dtype
+                 model.load_state_dict(
+                     {name: value.to(device=device, dtype=target_dtype)},
+@@ -134,9 +147,10 @@ def convert_trusted_legacy_xtts2_checkpoint(
+             raise TypeError(f"Legacy XTTS v2 state item {name!r} is not a tensor.")
+         if name in normalized:
+             raise ValueError(f"Legacy XTTS v2 conversion produced duplicate tensor {name!r}.")
+-        if (not value.is_floating_point() or value.is_quantized or value.is_complex()):
++        if (value.is_quantized or value.is_complex()
++                or not (value.is_floating_point() or _is_batch_counter(name, value))):
+             raise TypeError(f"Legacy XTTS v2 tensor {name!r} is not a portable "
+-                            "floating-point weight.")
++                            "floating-point weight or BatchNorm counter.")
+         if not torch.isfinite(value.detach()).all().item():
+             raise ValueError(f"Legacy XTTS v2 tensor {name!r} contains non-finite values.")
+         normalized[name] = value.detach().cpu().contiguous()
+@@ -155,8 +169,9 @@ def save_xtts2_checkpoint(model: nn.Module, path: str | Path) -> Path:
+     for name, value in model.state_dict().items():
+         if value.device.type == "meta":
+             raise CheckpointCompatibilityError(f"XTTS v2 tensor {name!r} is not materialized.")
+-        if not value.is_floating_point() or value.is_quantized or value.is_complex():
+-            raise CheckpointCompatibilityError(f"XTTS v2 tensor {name!r} is not a portable floating tensor.")
++        if (value.is_quantized or value.is_complex()
++                or not (value.is_floating_point() or _is_batch_counter(name, value))):
++            raise CheckpointCompatibilityError(f"XTTS v2 tensor {name!r} is not a portable weight or BatchNorm counter.")
+         if not torch.isfinite(value.detach()).all().item():
+             raise CheckpointCompatibilityError(f"XTTS v2 tensor {name!r} contains non-finite values.")
+         state[name] = value.detach().cpu().contiguous()
 diff --git a/voicehub/models/bark/inference.py b/voicehub/models/bark/inference.py
 index 2ed601d..67323f8 100644
 --- a/voicehub/models/bark/inference.py
@@ -1325,6 +1573,35 @@ index e5b5fd1..1650074 100644
          return self._base_model.generate(
              text,
              input_ids=input_ids,
+diff --git a/voicehub/models/parlertts/inference.py b/voicehub/models/parlertts/inference.py
+index 3138896..0386384 100644
+--- a/voicehub/models/parlertts/inference.py
++++ b/voicehub/models/parlertts/inference.py
+@@ -82,7 +82,7 @@ class ParlerTTSForTextToSpeech(PreTrainedTTSModel):
+         }
+         dtype = resolve_torch_dtype(
+             torch,
+-            self.config.torch_dtype,
++            self.config.torch_dtype if self.config.torch_dtype is not None else "float32",
+             self.device,
+         )
+         # Build on meta first so dtype conversion does not transiently allocate
+diff --git a/voicehub/models/qwen3tts/inference.py b/voicehub/models/qwen3tts/inference.py
+index 34fae3f..04af7fb 100644
+--- a/voicehub/models/qwen3tts/inference.py
++++ b/voicehub/models/qwen3tts/inference.py
+@@ -367,6 +367,11 @@ class Qwen3TTSForTextToSpeech(PreTrainedTTSModel):
+             if cache_config is not None and hasattr(cache_config, "use_cache"):
+                 cache_config.use_cache = True
+ 
++    def prepare_inputs_for_generation(self, text: str, **kwargs) -> dict:
++        # The runtime selects a role-specific prompt and invokes its keyword-only
++        # processor inside generate_custom_voice/voice_design/voice_clone.
++        return {"text": text, **kwargs}
++
+     def _generate(
+         self,
+         text: str,
 diff --git a/voicehub/models/speecht5/inference.py b/voicehub/models/speecht5/inference.py
 index e910517..00649ea 100644
 --- a/voicehub/models/speecht5/inference.py
@@ -1354,6 +1631,21 @@ index 1bc9e6f..926c040 100644
          self.model_file = model_path
          self.model_max_length = _positive_integer(
              model_max_length,
+diff --git a/voicehub/models/zonos2/inference.py b/voicehub/models/zonos2/inference.py
+index eb65a88..62a940d 100644
+--- a/voicehub/models/zonos2/inference.py
++++ b/voicehub/models/zonos2/inference.py
+@@ -488,6 +488,10 @@ class Zonos2ForTextToSpeech(PreTrainedTTSModel):
+                 normalized_language,
+                 "eos_frame":
+                 result.eos_frame,
++                "speech_token_count": int(result.audio_codes.shape[0]),
++                "generation_token_limit": max_new_tokens,
++                "generation_limit_reached": (result.eos_frame is None
++                                             and result.audio_codes.shape[0] >= max_new_tokens),
+                 "voice_cloned": (speaker_audio_path is not None or speaker_embedding is not None),
+                 "seed":
+                 effective_seed,
 diff --git a/voicehub/tokenization/sentencepiece_unigram.py b/voicehub/tokenization/sentencepiece_unigram.py
 index e13b10c..b6c9d48 100644
 --- a/voicehub/tokenization/sentencepiece_unigram.py

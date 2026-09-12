@@ -627,7 +627,33 @@
     "config": {
       "revision": "6c2b0d75eae4b7047358e3b6bd9325f857d43f77"
     },
-    "revision_source": "voicehub/architectures/xtts2/metadata.py::XTTS2_CHECKPOINT_REVISION"
+    "revision_source": "voicehub/architectures/xtts2/metadata.py::XTTS2_CHECKPOINT_REVISION",
+    "checkpoint": "/workspace/voicehub-arena/artifacts/xtts2",
+    "artifact_provenance": {
+      "source": {
+        "repo_id": "coqui/XTTS-v2",
+        "revision": "6c2b0d75eae4b7047358e3b6bd9325f857d43f77",
+        "commit": "6c2b0d75eae4b7047358e3b6bd9325f857d43f77",
+        "relative_file": "model.pth",
+        "sha256": "c7ea20001c6a0a841c77e252d8409f6a74fb423e79b3206a0771ba5989776187",
+        "size": 1867929118
+      },
+      "converted_sha256": "fcd4264bfe190d7298c0a4b66e64ce39db494eb9f5fd53dd6585787ea612c42b",
+      "files_sha256": {
+        "model.safetensors": "fcd4264bfe190d7298c0a4b66e64ce39db494eb9f5fd53dd6585787ea612c42b",
+        "config.json": "ef262b1454dd2a77e1461b0b2cd53e19b8a7624cc131b837d36df67356bc75e8",
+        "vocab.json": "928260878a59da8a72a2a5b7687fea29d5106137669d90945430fe17e415304a"
+      },
+      "tensor_count": 963,
+      "header_fingerprint": "e3a03a9185b33d29db649b75a39912188e729f6b251ad51c608714c052e22f1e",
+      "configuration_records": [
+        "TTS.config.shared_configs.BaseDatasetConfig",
+        "TTS.tts.configs.xtts_config.XttsConfig",
+        "TTS.tts.models.xtts.XttsArgs",
+        "TTS.tts.models.xtts.XttsAudioConfig"
+      ],
+      "conversion": "Pinned digest; weights_only=True; four inert discarded config records; official trainer tensors removed; exact native graph inventory"
+    }
   },
   "gptsovits": {
     "generation": {
@@ -759,9 +785,35 @@
   },
   "voxcpm": {
     "config": {
-      "revision": "bffb3df5a29440629464e5e839f4d214c8714c3d"
+      "revision": "bffb3df5a29440629464e5e839f4d214c8714c3d",
+      "codec_path": "/workspace/voicehub-arena/artifacts/voxcpm2/audiovae.safetensors"
     },
-    "revision_source": "voicehub/architectures/voxcpm2/metadata.py::VOXCPM2_CHECKPOINT_REVISION"
+    "revision_source": "voicehub/architectures/voxcpm2/metadata.py::VOXCPM2_CHECKPOINT_REVISION",
+    "artifact_provenance": {
+      "source": {
+        "repo_id": "openbmb/VoxCPM2",
+        "revision": "bffb3df5a29440629464e5e839f4d214c8714c3d",
+        "commit": "bffb3df5a29440629464e5e839f4d214c8714c3d",
+        "relative_file": "audiovae.pth",
+        "sha256": "94b5d51e107e0507d4acc976cfdadb64edd6fd06d1f751dadbf2fd1594274bf1",
+        "size": 376951122
+      },
+      "config": {
+        "repo_id": "openbmb/VoxCPM2",
+        "revision": "bffb3df5a29440629464e5e839f4d214c8714c3d",
+        "commit": "bffb3df5a29440629464e5e839f4d214c8714c3d",
+        "relative_file": "config.json",
+        "sha256": "405f0dcd92f7feba6011ed4eac5c8d4f74cba9712f07fd5cfa3063bbdd95402c",
+        "size": 4336
+      },
+      "converted_sha256": "e69d12850bbed9452368bc272705382e32fb8d156a99d7d98507faf4a7cba0dc",
+      "config_files_sha256": {
+        "codec_path": "e69d12850bbed9452368bc272705382e32fb8d156a99d7d98507faf4a7cba0dc"
+      },
+      "tensor_count": 312,
+      "header_fingerprint": "64c34273a67acc37eac2bbda68f2f98126c780774a7075b9f67326bd2b387bb9",
+      "conversion": "Pinned digest; weights_only=True; strict native AudioVAE inventory"
+    }
   },
   "zonos": {
     "config": {
@@ -769,9 +821,9 @@
     },
     "revision_source": "voicehub/architectures/zonos/metadata.py::ZONOS_TRANSFORMER_REVISION",
     "generation": {
-      "language": "en-us",
-      "speaker_audio_path": "datasets/reference/emily.wav"
-    }
+      "language": "en-us"
+    },
+    "benchmark_note": "Published learned unconditional speaker vector; basic TTS without voice cloning."
   },
   "fishtts": {
     "config": {
@@ -795,7 +847,8 @@
     "generation": {
       "language": "en",
       "speaker_audio_path": "datasets/reference/emily.wav",
-      "accurate_mode": true
+      "accurate_mode": true,
+      "max_new_tokens": 3072
     },
     "config": {
       "revision": "65f1e80f94b599d474bb6af9094a803dc52f60bd"
@@ -806,6 +859,7 @@
       "weights_revision": "c8470cd6b2c43639780635fac10921fd74a381e0",
       "weights_sha256": "cd2fd4c9e867750e27ccd0544d2ff4cc86b5c403d6bff4ceb7540068d31b26b4",
       "kind": "independently converted checkpoint selected by native VoiceHub"
-    }
+    },
+    "benchmark_note": "Raised delayed-frame cap to 3072 after all three long-form outputs matched the 1024-frame cap; record EOS and limit diagnostics. Pending fresh GPU validation."
   }
 }
