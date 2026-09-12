@@ -1,15 +1,11 @@
 # VoiceHub Arena v1 — Seed-TTS-Eval English
 
-The first release synthesizes **only Seed-TTS-Eval English** with **5 selected
-VoiceHub providers** and transcribes each generated waveform with **Whisper large-v3**.
-The active scope is **1,088 texts per model, 5,440 outputs across 5 models**.
-The selected checkpoints are MOSS-TTS (`OpenMOSS-Team/MOSS-TTS-v1.5`),
-Zonos2 (`Zyphra/ZONOS2`), Qwen3-TTS (`Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice`),
-Nari/Dia (`nari-labs/Dia-1.6B-0626`) and Orpheus-FT (`canopylabs/orpheus-3b-0.1-ft`).
-This cohort was selected by the user for the first release. The 28 other providers
-are deferred and are not automatically restarted. Existing Seed
-results retain their original source hashes, model settings and scores. Other
-datasets and their results remain archived; their queued work is deferred.
+The portable repository synthesizes **only Seed-TTS-Eval English** with all **33
+English-capable VoiceHub providers**, then transcribes each waveform with **Whisper large-v3**.
+The default plan is **1,088 texts per model, 35,904 outputs across 33 models**.
+The former five-model experiment is stopped and preserved separately. A new GPU
+uses a fresh checkout and a new results directory; prior hardware timings are not
+mixed into the new comparison. Other dataset importers remain available but inactive.
 The existing eight authored prompts remain an integration diagnostic, with their
 original scores preserved as history. They are excluded from this campaign.
 
@@ -56,9 +52,9 @@ Each text is generated once with seed 42. No best-of-N selection is performed.
 Within category, evolution-depth and text-length strata, a seed-42 SHA256 order
 is frozen and the strata are interleaved. Stages use disjoint shards:
 
-1. Pilot: first 32 Seed texts per model, **160 outputs** across 5 models.
-2. Panel: extend to 256 Seed texts per model, **1,280 outputs** cumulatively.
-3. Full: evaluate every remaining Seed text, 1,088 per model, **5,440 outputs** cumulatively.
+1. Pilot: first 32 Seed texts per model, **1,056 outputs** across 33 models.
+2. Panel: extend to 256 Seed texts per model, **8,448 outputs** cumulatively.
+3. Full: evaluate every remaining Seed text, 1,088 per model, **35,904 outputs** cumulatively.
 
 Every provider is visited in each stage before moving to the next stage. These
 are planned counts, not completed results. Dataset, phase, generated/scored/planned
@@ -131,15 +127,16 @@ uv pip install --python .venv/bin/python -e '.[datasets]'
 .venv/bin/python scripts/run_public_suite.py
 ```
 
-On the configured RTX 3090, Supervisor service `voicehub-arena-public-suite`
-owns the campaign. Its durable plan is `runs/public-english-v2/suite.json`;
+On a new host, the optional Supervisor service `voicehub-arena-benchmark`
+owns the campaign only after an explicit start. Its durable plan is `runs/public-english-v2/suite.json`;
 each model/shard has an independent `runs/pub-v2-*` directory. The GPU lock is
 shared with diagnostic/repair jobs. The controller checks hashes and resumes
 verified generated waveforms after interruption. Existing completed shards are
 not generated again.
 
-`configs/public-scope.json` limits the first release to `seedtts_en` and the five
-explicit `model_types`. The controller refuses a mismatched catalog or queued model.
+`configs/public-scope.json` limits the dataset to `seedtts_en`. Omitting `model_types`
+selects all English-capable providers; an explicit list can narrow a new experiment.
+The controller refuses a mismatched saved scope, catalog or queued model.
 The importer
 also defaults to Seed only; other corpora require explicit `--datasets` selection.
 After stopping the controller, `scripts/set_public_scope.py` applies a narrower
@@ -156,7 +153,7 @@ There is a 32 GiB checkpoint-download reserve and a 4 GiB per-waveform storage
 floor. This is a long-running campaign on one GPU. If storage becomes limiting,
 the campaign records `waiting_for_storage` for verified archival and resumption;
 it does not discard recordings, start another instance or report completion.
-The existing scheduled monitor checks progress, errors and available disk space.
+The previous scheduled monitor is paused; this repository installs no scheduled monitor.
 
 The UI provides dataset/coverage selectors and dataset-specific JSON/CSV exports:
 `/api/public-suite/{dataset}?phase=pilot|panel|full` and

@@ -20,17 +20,31 @@ from voicehub_arena.benchmarks import build_jobs, restrict_public_scope, public_
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--suite', default='datasets/public/suite.json')
-    parser.add_argument('--after-service', default='voicehub-arena-followup')
-    parser.add_argument('--after-run', default='runs/repairs-en-13')
+    parser.add_argument('--after-service', default='', help='Optional existing Supervisor service to wait for')
+    parser.add_argument('--after-run', default='', help='Run directory belonging to --after-service')
+    parser.add_argument('--plan-only', action='store_true', help='Print the frozen plan without downloads, GPU work or state changes')
+    parser.add_argument('--cache-budget-gib', type=float, default=45)
+    parser.add_argument('--min-free-gib', type=float, default=32)
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     os.chdir(root)
+    scope = read_json(root/'configs/public-scope.json')
+    if args.plan_only:
+        suite = restrict_public_scope({**read_json(args.suite),
+            'catalog':read_json(root/'configs/catalog-english.json')}, scope)
+        jobs = build_jobs(suite, suite['catalog'])
+        print(json.dumps({'scope':scope, 'models':[s['model_type'] for s in suite['catalog']],
+            'jobs':len(jobs), 'texts_per_model':sum(d['total_samples'] for d in suite['datasets']),
+            'planned_audio':sum(j['shard']['samples'] for j in jobs)*suite['repeats']}, indent=2))
+        return
+    if args.after_service and not args.after_run:
+        parser.error('--after-service requires --after-run')
+    (root/'runs').mkdir(exist_ok=True)
     state_root = root/'runs/public-english-v2'
     state_root.mkdir(exist_ok=True)
     guard = (state_root/'.controller.lock').open('a')
     fcntl.flock(guard, fcntl.LOCK_EX | fcntl.LOCK_NB)
     plan_path = state_root/'suite.json'
-    scope = read_json(root/'configs/public-scope.json')
     if plan_path.exists():
         plan = read_json(plan_path)
     else:
@@ -45,7 +59,7 @@ def main():
         catalog = plan['catalog']
         plan.update(catalog=catalog, jobs=build_jobs(plan, catalog), normalization_id='whisper_english',
                     frontend_protocols={s['model_type']:frontend_protocol(s['model_type']) for s in catalog},
-                    started_at=time.time(), status='waiting_for_repairs',
+                    started_at=time.time(), status='ready',
                     voicehub_commit=subprocess.check_output(['git','-C',str(Path(voicehub.__file__).parent),'rev-parse','HEAD'],text=True).strip(),
                     gpu=subprocess.check_output(['nvidia-smi','--query-gpu=name,memory.total','--format=csv,noheader'],text=True).strip())
         write_json(plan_path, plan)
@@ -79,12 +93,14 @@ def main():
         overrides_path = run/'overrides.json'
         if not (run/'config.json').exists():
             write_json(overrides_path, read_json(root/'configs/models.json'))
-            if job['model'] in ('melotts', 'gptsovits'):
+            if job['model'] in ('melotts', 'gptsovits', 'openvoice'):
+                backend = 'melotts' if job['model'] == 'openvoice' else job['model']
                 prepared = root/'datasets/prepared/public'/job['dataset']/str(job['shard']['index'])/job['model']
                 job.update(status='running', phase='preparing_inputs')
                 plan.update(status='running', current_job=job['run'])
                 write_json(plan_path, plan)
-                code = subprocess.call([sys.executable, 'scripts/prepare_linguistic.py', job['model'],
+                code = subprocess.call([sys.executable, 'scripts/prepare_linguistic.py', backend,
+                    '--consumer', job['model'],
                     '--dataset', job['shard']['path'], '--output', str(prepared), '--overrides', str(overrides_path),
                     '--input-text-transform', text_transform])
                 if code:
@@ -98,7 +114,7 @@ def main():
             '--dataset', job['shard']['path'], '--dataset-manifest', f"datasets/public/{job['dataset']}/manifest.json",
             '--overrides', str(overrides_path), '--output', str(run), '--protocol-id', plan['protocol_id'],
             '--repeats', str(plan['repeats']), '--seed', str(plan['seed']), '--timeout', '86400',
-            '--scoring-timeout', '14400', '--cache-budget-gib', '45', '--min-free-gib', '32',
+            '--scoring-timeout', '14400', '--cache-budget-gib', str(args.cache_budget_gib), '--min-free-gib', str(args.min_free_gib),
             '--asr', plan['asr']['checkpoint'], '--asr-revision', plan['asr']['revision'],
             '--asr-device', 'cuda', '--asr-compute-type', 'float16', '--normalization', plan['normalization_id'],
             '--input-text-transform', text_transform,

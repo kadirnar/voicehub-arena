@@ -9,9 +9,9 @@ runs = root/'runs'
 read = lambda path: json.loads(path.read_text())
 now = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='seconds')
 lines = ['# VoiceHub Arena — durum', '', f'Yerel sonuç kopyasının rapor zamanı: {now}.',
-         'Canlı arayüz: http://127.0.0.1:7860/', '',
-         'RTX 3090 (24 GB), `vast-3090-voicehub` SSH bağlantısı ve ayrı VS Code uzak penceresi hazır.',
-         'Bu rapor kaydedilmiş sonuçlardan üretilir; canlı iş ilerledikçe arayüz daha güncel olabilir.', '']
+         'Arayüz, yalnız sunucu açıkken http://127.0.0.1:7860/ adresinde kullanılabilir.', '',
+         'Bu rapor kaydedilmiş sonuçlardan üretilir. Eski RTX 3090 çalışması kullanıcı isteğiyle durduruldu.',
+         'Repo varsayılanı yeni GPU için tüm İngilizce modellerdir; aşağıdaki kayıtlar eski kampanyanın arşividir.', '']
 plan_path = runs/'public-english-v2/suite.json'
 if plan_path.exists():
     plan = read(plan_path)
@@ -77,6 +77,6 @@ lines += ['', 'NeuCodec erişimi doğrulanmış ve NeuTTS 24/24 tanı örneğini
           '## İşletim', '', 'Supervisor hizmeti: `voicehub-arena-public-suite`; plan: `runs/public-english-v2/suite.json`.',
           'Aynı GPU kilidiyle seri sentez ve ASR; model dosyaları için 32 GiB, ses yazımı için 4 GiB alan tabanı.',
           'Alan biterse sonuçlar silinmeden waiting_for_storage kaydı oluşur. Tam koşu devam eden uzun süreli bir kampanyadır.',
-          '30 dakikalık takip, hata düzeltme ve sonuç kopyalama otomasyonu etkin. Değişmeyen durumda bildirim verilmez.',
+          'Eski 30 dakikalık takip otomasyonu durduruldu. Repo otomatik benchmark veya takip başlatmaz.',
           'Kimlik bilgileri proje dışında korunur.', '']
 (root/'STATUS_TR.md').write_text('\n'.join(lines))

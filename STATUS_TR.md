@@ -1,14 +1,14 @@
 # VoiceHub Arena — durum
 
-Yerel sonuç kopyasının rapor zamanı: 2026-09-12T10:38:29+00:00.
-Canlı arayüz: http://127.0.0.1:7860/
+Yerel sonuç kopyasının rapor zamanı: 2026-09-12T10:50:08+00:00.
+Arayüz, yalnız sunucu açıkken http://127.0.0.1:7860/ adresinde kullanılabilir.
 
-RTX 3090 (24 GB), `vast-3090-voicehub` SSH bağlantısı ve ayrı VS Code uzak penceresi hazır.
-Bu rapor kaydedilmiş sonuçlardan üretilir; canlı iş ilerledikçe arayüz daha güncel olabilir.
+Bu rapor kaydedilmiş sonuçlardan üretilir. Eski RTX 3090 çalışması kullanıcı isteğiyle durduruldu.
+Repo varsayılanı yeni GPU için tüm İngilizce modellerdir; aşağıdaki kayıtlar eski kampanyanın arşividir.
 
 ## Yayımlanmış veri setleri ve Whisper large-v3
 
-Kampanya durumu: **running**. Son etkin iş: `pub-v2-dia-seedtts_en-000`.
+Kampanya durumu: **stopped_by_user**. Son etkin iş: `—`.
 5 İngilizce model; model başına 1,088 tam bölüm metni.
 Seçili modeller: Dia, MossTTS, OrpheusTTS, Qwen3TTS, Zonos2.
 Tamamlanan model/bölüm parçaları: 0 / 30; eksik veya hatalı: 0.
@@ -82,5 +82,5 @@ Irodori-TTS Japonca ilan ettiği için İngilizce kapsamı dışındadır.
 Supervisor hizmeti: `voicehub-arena-public-suite`; plan: `runs/public-english-v2/suite.json`.
 Aynı GPU kilidiyle seri sentez ve ASR; model dosyaları için 32 GiB, ses yazımı için 4 GiB alan tabanı.
 Alan biterse sonuçlar silinmeden waiting_for_storage kaydı oluşur. Tam koşu devam eden uzun süreli bir kampanyadır.
-30 dakikalık takip, hata düzeltme ve sonuç kopyalama otomasyonu etkin. Değişmeyen durumda bildirim verilmez.
+Eski 30 dakikalık takip otomasyonu durduruldu. Repo otomatik benchmark veya takip başlatmaz.
 Kimlik bilgileri proje dışında korunur.

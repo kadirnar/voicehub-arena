@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "voicehub-arena"
 version = "0.1.0"
 description = "Reproducible English TTS benchmarks for every VoiceHub model"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 dependencies = ["voicehub", "numpy", "soundfile", "jiwer>=4", "faster-whisper>=1.2", "huggingface-hub", "fastapi", "uvicorn", "whisper-normalizer==0.1.12"]
 
 [project.optional-dependencies]

@@ -269,7 +269,7 @@
       "revision": "29e01c4e8d000f4bcd70751be16fa94bf3d85a18"
     },
     "revision_source": "voicehub/architectures/cosyvoice_native/metadata.py::COSYVOICE3_MODEL_REVISION",
-    "checkpoint": "/workspace/voicehub-arena/artifacts/cosyvoice3",
+    "checkpoint": "artifacts/cosyvoice3",
     "artifact_provenance": {
       "repo_id": "FunAudioLLM/Fun-CosyVoice3-0.5B-2512",
       "revision": "29e01c4e8d000f4bcd70751be16fa94bf3d85a18",
@@ -628,7 +628,7 @@
       "revision": "6c2b0d75eae4b7047358e3b6bd9325f857d43f77"
     },
     "revision_source": "voicehub/architectures/xtts2/metadata.py::XTTS2_CHECKPOINT_REVISION",
-    "checkpoint": "/workspace/voicehub-arena/artifacts/xtts2",
+    "checkpoint": "artifacts/xtts2",
     "artifact_provenance": {
       "source": {
         "repo_id": "coqui/XTTS-v2",
@@ -671,7 +671,7 @@
     "revision_source": "voicehub/architectures/gptsovits/metadata.py::GPT_SOVITS_REVISION"
   },
   "styletts2": {
-    "checkpoint": "/workspace/voicehub-arena/artifacts/styletts2/epochs_2nd_00020.pth",
+    "checkpoint": "artifacts/styletts2/epochs_2nd_00020.pth",
     "artifact_provenance": {
       "repo": "yl4579/StyleTTS2-LibriTTS",
       "revision": "3aa7ba7f8f275ec13dce21682a61494c35089e2a",
@@ -680,7 +680,7 @@
       "typed_config_sha256": "cea28d7cc80970dae433e3a15a75f03a08f8e5c78181fe0c3aab895f106dbc29"
     },
     "config": {
-      "config_path": "/workspace/voicehub-arena/artifacts/styletts2/config.json",
+      "config_path": "artifacts/styletts2/config.json",
       "trust_pickle_checkpoint": true,
       "dtype": "float32"
     },
@@ -735,7 +735,7 @@
       "revision": "b0f6f30e123da06dd15672ddbfc7781b323ea599"
     },
     "revision_source": "voicehub/architectures/conversationtts/metadata.py::CONVERSATIONTTS_CHECKPOINT_REVISION",
-    "checkpoint": "/workspace/voicehub-arena/artifacts/conversationtts/model.safetensors",
+    "checkpoint": "artifacts/conversationtts/model.safetensors",
     "artifact_provenance": {
       "repo_id": "AudioFoundation/SpeechFoundation",
       "revision": "b0f6f30e123da06dd15672ddbfc7781b323ea599",
@@ -786,7 +786,7 @@
   "voxcpm": {
     "config": {
       "revision": "bffb3df5a29440629464e5e839f4d214c8714c3d",
-      "codec_path": "/workspace/voicehub-arena/artifacts/voxcpm2/audiovae.safetensors"
+      "codec_path": "artifacts/voxcpm2/audiovae.safetensors"
     },
     "revision_source": "voicehub/architectures/voxcpm2/metadata.py::VOXCPM2_CHECKPOINT_REVISION",
     "artifact_provenance": {
@@ -829,7 +829,7 @@
     "config": {
       "revision": "1de9996b6be38b745688de084d87a5633f714e4e",
       "trust_official_codec_pickle": true,
-      "codec_conversion_directory": "/workspace/voicehub-arena/artifacts/fish-s2-codec"
+      "codec_conversion_directory": "artifacts/fish-s2-codec"
     },
     "revision_source": "voicehub/architectures/fishtts/metadata.py::FISH_S2_CHECKPOINT_REVISION",
     "artifact_provenance": {

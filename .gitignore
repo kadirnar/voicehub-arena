@@ -6,3 +6,12 @@ runs/
 *.log
 .cache/
 artifacts/
+.deps/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+token
+stored_tokens
+backups/

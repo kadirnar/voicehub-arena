@@ -1,7 +1,8 @@
 {
-  "id": "seedtts-english-five-models-v1",
-  "label": "v1 · Seed-TTS-Eval English · 5 models",
-  "dataset_ids": ["seedtts_en"],
-  "model_types": ["mosstts", "zonos2", "qwen3tts", "dia", "orpheustts"],
+  "id": "seedtts-english-all-models-v1",
+  "label": "Seed-TTS-Eval English \u00b7 all English models",
+  "dataset_ids": [
+    "seedtts_en"
+  ],
   "default_coverage": "full"
 }

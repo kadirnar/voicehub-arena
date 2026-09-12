@@ -6,7 +6,7 @@ import os
 from pathlib import Path
 import time
 
-os.environ.setdefault("NLTK_DATA", "/workspace/.nltk_data")
+os.environ.setdefault("NLTK_DATA", str(Path(__file__).resolve().parents[1]/'.cache/nltk'))
 import numpy as np
 import torch
 from huggingface_hub import HfApi, hf_hub_download
@@ -15,11 +15,15 @@ root = Path(__file__).resolve().parents[1]
 torch.set_num_threads(2)
 parser = argparse.ArgumentParser()
 parser.add_argument("model", choices=["melotts", "gptsovits"])
+parser.add_argument('--consumer', choices=['melotts', 'gptsovits', 'openvoice'])
 parser.add_argument('--dataset', default='datasets/english.jsonl')
 parser.add_argument('--output')
 parser.add_argument('--overrides', default='configs/models.json')
 parser.add_argument('--input-text-transform', choices=['identity','librispeech_lowercase_v1'], default='identity')
 args = parser.parse_args()
+consumer = args.consumer or args.model
+if consumer != args.model and not (consumer == 'openvoice' and args.model == 'melotts'):
+    parser.error('OpenVoice can reuse only the MeloTTS frontend')
 dataset_path = root/args.dataset
 rows = [json.loads(line) for line in dataset_path.read_text().splitlines() if line]
 from voicehub_arena.inputs import prepare_benchmark_text
@@ -122,13 +126,14 @@ else:
 (destination/"manifest.json").write_text(json.dumps(manifest,indent=2)+"\n")
 path = root/args.overrides
 config = json.loads(path.read_text())
-override = config.setdefault(args.model,{})
+override = config.setdefault(consumer,{})
 override["prepared_inputs"] = str(destination.relative_to(root))
-override["timing_scope"] = manifest["timing_scope"]
-override.setdefault("config", {})["trust_pickle_checkpoint"] = True
-if args.model == "gptsovits":
-    override["config"]["revision"] = "336b2ec4e8d4ac74740798dd40af44e74659ecaf"
-else:
-    override["config"]["revision"] = revision
+if consumer != 'openvoice':
+    override["timing_scope"] = manifest["timing_scope"]
+    override.setdefault("config", {})["trust_pickle_checkpoint"] = True
+    if args.model == "gptsovits":
+        override["config"]["revision"] = "336b2ec4e8d4ac74740798dd40af44e74659ecaf"
+    else:
+        override["config"]["revision"] = revision
 path.write_text(json.dumps(config,indent=2)+"\n")
 print(args.model, "preparation complete", flush=True)
