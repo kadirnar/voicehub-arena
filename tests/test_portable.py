@@ -6,6 +6,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+import pytest
 
 ROOT = Path(__file__).parents[1]
 
@@ -55,3 +56,37 @@ def test_bundled_reference_files_match_their_published_provenance():
         metadata = json.loads((reference/filename).read_text())
         audio = reference/('speecht5_slt.npy' if filename.startswith('speecht5') else 'vibevoice_emma.safetensors')
         assert hashlib.sha256(audio.read_bytes()).hexdigest() == metadata['sha256']
+
+
+@pytest.mark.parametrize('conversion_fails', [False, True])
+def test_preparation_preserves_portable_settings(tmp_path, monkeypatch, conversion_fails):
+    spec = importlib.util.spec_from_file_location('prepare_all', ROOT/'scripts/prepare_all.py')
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    (tmp_path/'configs').mkdir()
+    models = tmp_path/'configs/models.json'
+    original = b'{"demo": {"checkpoint": "artifacts/demo"}}\n'
+    models.write_bytes(original)
+    payload = b'converted artifact'
+    lock = tmp_path/'configs/public-models-lock.json'
+    lock.write_text(json.dumps({'overrides': {'demo': {'checkpoint': 'artifacts/demo',
+        'artifact_provenance': {'sha256': hashlib.sha256(payload).hexdigest()}}}}))
+    monkeypatch.setattr(module, 'ROOT', tmp_path)
+    monkeypatch.setattr(module, 'PREPARATIONS', {'demo': ['converter.py']})
+    monkeypatch.setattr(sys, 'argv', ['prepare_all.py'])
+    monkeypatch.chdir(tmp_path)
+
+    def convert(*args, **kwargs):
+        models.write_text('{"demo": {"checkpoint": "/workspace/artifacts/demo"}}')
+        if conversion_fails:
+            raise subprocess.CalledProcessError(1, 'converter')
+        (tmp_path/'artifacts').mkdir()
+        (tmp_path/'artifacts/demo').write_bytes(payload)
+
+    monkeypatch.setattr(module.subprocess, 'run', convert)
+    if conversion_fails:
+        with pytest.raises(subprocess.CalledProcessError):
+            module.main()
+    else:
+        module.main()
+    assert models.read_bytes() == original

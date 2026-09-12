@@ -51,20 +51,29 @@ def main():
     os.chdir(ROOT)
     lock_path = ROOT/'configs/public-models-lock.json'
     lock_bytes = lock_path.read_bytes()
+    models_path = ROOT/'configs/models.json'
+    models_bytes = models_path.read_bytes()
     overrides = json.loads(lock_bytes)['overrides']
     env = {**os.environ, 'CUDA_VISIBLE_DEVICES':'', 'HF_HOME':os.environ.get('HF_HOME',str(ROOT/'.cache/huggingface')),
            'NLTK_DATA':os.environ.get('NLTK_DATA',str(ROOT/'.cache/nltk')), 'PYTHONPATH':str(ROOT)}
     failures = []
-    for name, command in PREPARATIONS.items():
-        expected = required_artifacts(overrides[name])
-        invalid = [f for f, sha in expected.items() if not (ROOT/f).is_file() or digest(ROOT/f) != sha]
-        if invalid and not args.check_only:
-            print('PREPARE', name, flush=True)
-            subprocess.run([sys.executable, *command], env=env, check=True)
+    try:
+        for name, command in PREPARATIONS.items():
+            expected = required_artifacts(overrides[name])
             invalid = [f for f, sha in expected.items() if not (ROOT/f).is_file() or digest(ROOT/f) != sha]
-        if invalid:
-            failures.extend(invalid)
-        print(name, 'MISSING_OR_CHANGED: '+', '.join(invalid) if invalid else 'VERIFIED', flush=True)
+            if invalid and not args.check_only:
+                print('PREPARE', name, flush=True)
+                subprocess.run([sys.executable, *command], env=env, check=True)
+                invalid = [f for f, sha in expected.items() if not (ROOT/f).is_file() or digest(ROOT/f) != sha]
+            if invalid:
+                failures.extend(invalid)
+            print(name, 'MISSING_OR_CHANGED: '+', '.join(invalid) if invalid else 'VERIFIED', flush=True)
+    finally:
+        # Standalone legacy converters also update their model overrides using
+        # absolute paths. The portable campaign already has frozen relative
+        # paths and settings; retain them even if a conversion fails.
+        if models_path.read_bytes() != models_bytes:
+            models_path.write_bytes(models_bytes)
     # Reference voices/vectors are already bundled and hash-verified by the runner.
     # Per-shard MeloTTS / GPT-SoVITS inputs are built by run_public_suite.py.
     if lock_path.read_bytes() != lock_bytes:
