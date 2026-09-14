@@ -1,15 +1,43 @@
 """Private, read-only result explorer. Generation is controlled by the CLI."""
 from pathlib import Path
+from collections import OrderedDict
+from threading import Lock
+import copy
 import csv
+import hashlib
 import io
+import json
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import FileResponse, Response
+from fastapi.responses import FileResponse, JSONResponse, Response
 from .storage import read_json
+
+
+class _SummaryCache:
+    """Reuse exact row summaries; provenance is still checked on every request."""
+
+    def __init__(self, max_entries=128):
+        self.max_entries = max_entries
+        self.entries = OrderedDict()
+        self.lock = Lock()
+
+    def __call__(self, rows):
+        from .metrics import summarize
+        key = hashlib.sha256(json.dumps(rows, sort_keys=True, separators=(',', ':')).encode()).digest()
+        # Serialize cold calculations too: simultaneous page refreshes must not
+        # compete to bootstrap the same completed models on the benchmark host.
+        with self.lock:
+            if key not in self.entries:
+                self.entries[key] = summarize(rows)
+            self.entries.move_to_end(key)
+            while len(self.entries) > self.max_entries:
+                self.entries.popitem(last=False)
+            return copy.deepcopy(self.entries[key])
 
 
 def create_app(runs):
     runs=Path(runs).resolve()
     app=FastAPI(title="VoiceHub Arena",version="0.1.0")
+    summary_cache = _SummaryCache()
 
     def safe_file(relative):
         path=(runs/relative).resolve()
@@ -102,17 +130,20 @@ def create_app(runs):
         plan = read_json(path)
         return {k:plan.get(k) for k in ('datasets','status','current_job','catalog','asr','normalization_id','protocol_id','scope')}
 
-    @app.get('/api/public-suite/{dataset}')
-    def public_dataset(dataset:str, phase:str='full'):
+    def read_public_dataset(dataset, phase):
         from .benchmarks import public_report
         try:
-            return public_report(runs, dataset, phase)
+            return public_report(runs, dataset, phase, summarize_rows=summary_cache)
         except (FileNotFoundError, StopIteration, ValueError) as error:
             raise HTTPException(404, str(error)) from error
 
+    @app.get('/api/public-suite/{dataset}')
+    def public_dataset(dataset:str, phase:str='full'):
+        return JSONResponse(read_public_dataset(dataset, phase), headers={'Cache-Control':'no-store'})
+
     @app.get('/api/public-suite/{dataset}/leaderboard.csv')
     def public_csv(dataset:str, phase:str='full'):
-        data = public_dataset(dataset, phase)
+        data = read_public_dataset(dataset, phase)
         output = io.StringIO()
         columns = ['dataset', 'coverage_phase', 'model_type','status','ranking_eligible','planned_samples',
                    'attempted','generated','scored','wer','cer','utterance_mean_wer','utterance_mean_cer',

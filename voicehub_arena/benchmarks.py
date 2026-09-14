@@ -101,7 +101,8 @@ def build_jobs(suite, catalog):
     return jobs
 
 
-def public_report(runs, dataset_id, phase='pilot'):
+def public_report(runs, dataset_id, phase='pilot', *, summarize_rows=None):
+    summarize_rows = summarize if summarize_rows is None else summarize_rows
     if phase not in PHASES:
         raise ValueError('Unknown coverage phase')
     runs = Path(runs)
@@ -162,7 +163,7 @@ def public_report(runs, dataset_id, phase='pilot'):
             raise ValueError('Overlapping benchmark shards')
         if len(synthesis_protocols) > 1:
             raise ValueError('Mixed synthesis settings for ' + spec['model_type'] + '; rerun a consistent cohort')
-        summary = summarize(rows)
+        summary = summarize_rows(rows)
         planned = len(dataset_rows) * plan['repeats']
         complete = summary['scored'] == planned
         status = ('completed' if complete else 'running' if any(j['status'] == 'running' for j in jobs)

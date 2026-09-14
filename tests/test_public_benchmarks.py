@@ -197,6 +197,53 @@ def test_public_reports_keep_failed_coverage_and_audio_origin(tmp_path):
     assert client.get('/api/public-suite/seedtts_en').status_code == 404
 
 
+def test_live_public_summary_cache_preserves_scores_and_invalidates_changed_rows(tmp_path, monkeypatch):
+    import voicehub_arena.metrics as metrics
+    runs, plan = public_fixture(tmp_path)
+    path = runs/plan['jobs'][0]['run']/'a/result.json'
+    result = json.loads(path.read_text())
+    result['status'] = 'completed'
+    result['rows'][0].update(status='ok', transcript='Hello.', normalization_id='whisper_english',
+                             latency_s=1, duration_s=1, peak_vram_mib=0, clipping_ratio=0,
+                             silence_ratio=0, rms_dbfs=-10)
+    write_json(path, result)
+    expected = public_report(runs, 'seedtts_en', 'full')
+    calls = []
+    def measured(rows):
+        calls.append(len(rows))
+        return summarize(rows)
+    monkeypatch.setattr(metrics, 'summarize', measured)
+    client = TestClient(create_app(runs))
+    endpoint = '/api/public-suite/seedtts_en?phase=full'
+    assert client.get(endpoint).json() == expected
+    assert client.get(endpoint).json() == expected
+    assert client.get('/api/public-suite/seedtts_en/leaderboard.csv').status_code == 200
+    assert calls == [1, 0]
+    # Same coverage and status, changed transcript: never serve the old WER.
+    result['rows'][0]['transcript'] = 'Other.'
+    write_json(path, result)
+    updated = client.get(endpoint).json()
+    assert updated == public_report(runs, 'seedtts_en', 'full')
+    assert updated['results'][0]['summary']['wer'] == 1
+    assert calls == [1, 0, 1]
+    # Suite state remains live even when none of the result rows change.
+    plan['jobs'][1]['status'] = 'running'
+    write_json(runs/'public-english-v2/suite.json', plan)
+    assert client.get(endpoint).json()['active_runs'][0]['model'] == 'b'
+    assert calls == [1, 0, 1]
+
+
+def test_public_summary_cache_never_bypasses_frozen_dataset_validation(tmp_path):
+    runs, plan = public_fixture(tmp_path)
+    client = TestClient(create_app(runs))
+    assert client.get('/api/public-suite/seedtts_en').status_code == 200
+    shard = runs.parent/plan['datasets'][0]['shards'][0]['path']
+    shard.write_text(shard.read_text().replace('Hello.', 'Other.'))
+    response = client.get('/api/public-suite/seedtts_en')
+    assert response.status_code == 404
+    assert 'Frozen dataset changed' in response.text
+
+
 def test_campaign_pins_survive_shard_specific_frontend_preparation(tmp_path):
     frozen = {'a':{'config':{'revision':'frozen'},'generation':{'voice':'fixed'}, 'prepared_inputs':'old'}}
     path = tmp_path/'configs/public-models-lock.json'
