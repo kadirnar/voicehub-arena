@@ -1,6 +1,6 @@
 {
   "campaign": "dia-llasa-variants-20260915",
-  "updated_at": 1789507800.965804,
+  "updated_at": 1789509472.4835596,
   "scope": "Official Llasa-1B, Llasa-3B and Llasa-8B, both Dia2 checkpoints, and the Dia 1.6B reference control.",
   "active_model_ids": [
     "llasa-1b",
@@ -143,9 +143,9 @@
         "artifact_prefix": "experiments/dia-llasa-variants-20260915/pilot/llasa-1b"
       },
       "full": {
-        "status": "generating",
-        "generated": 628,
-        "scored": 0,
+        "status": "generated",
+        "generated": 1088,
+        "scored": 390,
         "expected": 1088,
         "published": false,
         "generation_failures": 0
