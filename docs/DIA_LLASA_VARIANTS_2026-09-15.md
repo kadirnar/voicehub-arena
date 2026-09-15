@@ -1,4 +1,8 @@
-# Dia, Dia2 and Llasa variant expansion
+# Dia, Dia2 and Llasa evaluation
+
+## Active scope — revised by user
+
+Only **Llasa-1B, Llasa-3B and Llasa-8B** remain active, alongside Dia 1.6B and Dia2 1B/2B (six experiments total). Multilingual, TextChat and multi-speaker variants were removed from the queue and active UI. The partially generated Multilingual full run was cancelled. `configs/variant-selection.json` controls execution and visibility independently of the immutable provenance manifest. The main comparison excludes the old Multilingual Llasa baseline. The following broader inventory and paired controls describe historical work, not additional queued models.
 
 The previous full scores are **unconditioned** experiments: Llasa-1B-Multilingual WER 73.99%, Dia-1.6B-0626 WER 67.35%. Previous audits reproduced the corpus edit counts and compared independent LM/decoder implementations. They did not establish that reference conditioning or synthesis protocol was optimal. Do not describe these scores as an intrinsic limit of either model.
 

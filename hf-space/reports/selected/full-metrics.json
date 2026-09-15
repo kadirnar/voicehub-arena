@@ -1,0 +1,4666 @@
+{
+  "created_at": "2026-09-15T14:50:59+03:00",
+  "status": "completed",
+  "instance_id": 50735875,
+  "gpu": "NVIDIA A100-SXM4-40GB",
+  "dataset": "Seed-TTS-Eval English",
+  "samples_per_model": 1088,
+  "models": 33,
+  "scored_audio": 35904,
+  "completed_shards": 198,
+  "dataset_sha256": "8a9386efb1768a90ffba66f8931e3887b53e9c9d1bf246eb46a8cce32bc7b1c1",
+  "suite_sha256": "1a37627704da3f0158d29a0cc3cff712494dadd0f03553fea2511a01d60ea8a9",
+  "source_commit": "3ce0a0aa9cf3c9b24d8e4d6c3d0315b7bf7adc0a",
+  "asr": {
+    "checkpoint": "Systran/faster-whisper-large-v3",
+    "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+    "device": "cuda",
+    "compute_type": "float16",
+    "language": "en",
+    "beam_size": 5,
+    "temperature": 0,
+    "condition_on_previous_text": false,
+    "vad_filter": false
+  },
+  "normalization": "whisper_english",
+  "seed": 42,
+  "repeats": 1,
+  "ci_method": "95% prompt-cluster bootstrap; 1000 resamples; RNG seed 42; full 1088 prompts",
+  "protocol": "Fixed provider voice/reference intelligibility; not official zero-shot speaker identity/SIM evaluation",
+  "backup_verified_at": "2026-09-15T11:48:02.499471+00:00",
+  "records": [
+    {
+      "model": "kokoro",
+      "name": "Kokoro",
+      "checkpoint": "hexgrad/Kokoro-82M",
+      "revision": "cbc78411372edb46f7e42030b241834a55fe0cb6",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 0.08802692033350468,
+        "latency_p95_s": 0.10426744297146796,
+        "rtf": 0.018666759712283744,
+        "peak_vram_mib": 478.27685546875,
+        "audio_seconds": 4623.275,
+        "clipping_ratio": 0.0,
+        "silence_ratio": 0.3701472327051314,
+        "rms_dbfs": -26.425495242960476,
+        "normalization_id": "whisper_english",
+        "wer": 0.009629071422590639,
+        "cer": 0.0024400404689638756,
+        "mer": 0.00962423633776885,
+        "wil": 0.01742962890275368,
+        "wip": 0.9825703710972463,
+        "word_hits": 11834,
+        "word_substitutions": 94,
+        "word_deletions": 15,
+        "word_insertions": 6,
+        "reference_words": 11943,
+        "char_hits": 67093,
+        "char_substitutions": 53,
+        "char_deletions": 66,
+        "char_insertions": 45,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.9136029411764706,
+        "raw": {
+          "wer": 0.052422086720867206,
+          "cer": 0.01234299936331539,
+          "mer": 0.05240877148420964,
+          "wil": 0.09932624372940968,
+          "wip": 0.9006737562705903,
+          "word_hits": 11192,
+          "word_substitutions": 583,
+          "word_deletions": 33,
+          "word_insertions": 3,
+          "reference_words": 11808,
+          "char_hits": 68408,
+          "char_substitutions": 359,
+          "char_deletions": 341,
+          "char_insertions": 153,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.6507352941176471
+        },
+        "orthographic": {
+          "wer": 0.012187896741430384,
+          "cer": 0.00459090436358774,
+          "mer": 0.012185833968012186,
+          "wil": 0.022734798398738487,
+          "wip": 0.9772652016012615,
+          "word_hits": 11673,
+          "word_substitutions": 126,
+          "word_deletions": 16,
+          "word_insertions": 2,
+          "reference_words": 11815,
+          "char_hits": 67032,
+          "char_substitutions": 90,
+          "char_deletions": 185,
+          "char_insertions": 34,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.890625
+        },
+        "wer_ci95": [
+          0.007682849762477258,
+          0.011640828342247611
+        ],
+        "cer_ci95": [
+          0.001896678239861543,
+          0.0029770741117294947
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.009629071422590639,
+            "cer": 0.0024400404689638756,
+            "mer": 0.00962423633776885,
+            "wil": 0.01742962890275368,
+            "wip": 0.9825703710972463,
+            "word_hits": 11834,
+            "word_substitutions": 94,
+            "word_deletions": 15,
+            "word_insertions": 6,
+            "reference_words": 11943,
+            "char_hits": 67093,
+            "char_substitutions": 53,
+            "char_deletions": 66,
+            "char_insertions": 45,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.9136029411764706
+          }
+        },
+        "utterance_mean_wer": 0.009572094061983769,
+        "utterance_mean_cer": 0.002414540728261279
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-kokoro-seedtts_en-000",
+          "result_sha256": "e4374dd51efe49586ae2b2117bd79bf8b9a6a40608a9ecb5b93ecea53c417303",
+          "config_sha256": "5cec1b8a99c55408bdf9f8a7c5e8ef92b0ce8a01687d6bd038dbbcc0f30c442f",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-kokoro-seedtts_en-001",
+          "result_sha256": "2089f0b7800f032b50978eb7b2872011150e283a45c77a4e6fe76d3f36607417",
+          "config_sha256": "76ed25fe3a1a9cbf28420041887104f19d7d08ac6afb01275414e4edea97c0ba",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-kokoro-seedtts_en-002",
+          "result_sha256": "b203730141545e95ea9762cc8211fdc442ff33cb2871f406bb6978ee100de8be",
+          "config_sha256": "40ea26115c7a042d4cba93fad92beb6f7cddfba50871b63e2b52ec1e8eb530be",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-kokoro-seedtts_en-003",
+          "result_sha256": "ce85fdf2a06c364706a9c28ed22eaeb20879a50860981a655b15c4ee6fad640b",
+          "config_sha256": "553d429d96252d9b969aa2c16212bb5cf7faf3bd5b94f8f510a5a36778ba5b13",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-kokoro-seedtts_en-004",
+          "result_sha256": "b684f833f86179df27649e89370ff5eeccdbb2c46a60cc3789154d3cc38e603b",
+          "config_sha256": "58e3a03c6a02c9173fbfdfc804bb7a887ffc7e80a05932c73b00567acd493356",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-kokoro-seedtts_en-005",
+          "result_sha256": "c093baeca1687ea5833f5f72c28da5f281e1d18e9624b2edbdf782c3773f77da",
+          "config_sha256": "e3ca503938a39378fd50448c4273cee32a8923779ac081e8d6206b6e716abb7f",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "supertonic",
+      "name": "Supertonic",
+      "checkpoint": "Supertone/supertonic-3",
+      "revision": "3cadd1ee6394adea1bd021217a0e650ede09a323",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 0.2797527089715004,
+        "latency_p95_s": 0.3004460956901312,
+        "rtf": 0.06423751407986668,
+        "peak_vram_mib": 419.396484375,
+        "audio_seconds": 4756.657505668934,
+        "clipping_ratio": 0.0,
+        "silence_ratio": 0.43568262751000425,
+        "rms_dbfs": -26.68671776510351,
+        "normalization_id": "whisper_english",
+        "wer": 0.009796533534287867,
+        "cer": 0.002663214902100815,
+        "mer": 0.009789156626506024,
+        "wil": 0.017839658400852665,
+        "wip": 0.9821603415991473,
+        "word_hits": 11835,
+        "word_substitutions": 97,
+        "word_deletions": 11,
+        "word_insertions": 9,
+        "reference_words": 11943,
+        "char_hits": 67093,
+        "char_substitutions": 63,
+        "char_deletions": 56,
+        "char_insertions": 60,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.9099264705882353,
+        "raw": {
+          "wer": 0.04725609756097561,
+          "cer": 0.011503733287028998,
+          "mer": 0.047232097511427124,
+          "wil": 0.08938259542996008,
+          "wip": 0.9106174045700399,
+          "word_hits": 11256,
+          "word_substitutions": 521,
+          "word_deletions": 31,
+          "word_insertions": 6,
+          "reference_words": 11808,
+          "char_hits": 68422,
+          "char_substitutions": 330,
+          "char_deletions": 356,
+          "char_insertions": 109,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.6783088235294118
+        },
+        "orthographic": {
+          "wer": 0.012187896741430384,
+          "cer": 0.004784049207363276,
+          "mer": 0.012184802843120663,
+          "wil": 0.022815766562702122,
+          "wip": 0.9771842334372979,
+          "word_hits": 11674,
+          "word_substitutions": 127,
+          "word_deletions": 14,
+          "word_insertions": 3,
+          "reference_words": 11815,
+          "char_hits": 67029,
+          "char_substitutions": 100,
+          "char_deletions": 178,
+          "char_insertions": 44,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.8878676470588235
+        },
+        "wer_ci95": [
+          0.00785054517897158,
+          0.011805873826184896
+        ],
+        "cer_ci95": [
+          0.002118013958236292,
+          0.003225100490647234
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.009796533534287867,
+            "cer": 0.002663214902100815,
+            "mer": 0.009789156626506024,
+            "wil": 0.017839658400852665,
+            "wip": 0.9821603415991473,
+            "word_hits": 11835,
+            "word_substitutions": 97,
+            "word_deletions": 11,
+            "word_insertions": 9,
+            "reference_words": 11943,
+            "char_hits": 67093,
+            "char_substitutions": 63,
+            "char_deletions": 56,
+            "char_insertions": 60,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.9099264705882353
+          }
+        },
+        "utterance_mean_wer": 0.009449587931955387,
+        "utterance_mean_cer": 0.002529207763588537
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-supertonic-seedtts_en-000",
+          "result_sha256": "61f1e7484a814f22b5fce12ad614a2ca4d9a5e2fefb25c3a112e8dda25e2d2a8",
+          "config_sha256": "b0a62fb4dedb3fc17c6628a9b48dcb724dbbb4f87b00e5d71b3df8b660444677",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-supertonic-seedtts_en-001",
+          "result_sha256": "937cc664440315417333e0acca9a4b7caa936426978ef862a7fafa733d541f08",
+          "config_sha256": "84913533e59ff84279dbbe1a42f45b7580ac9fb3c5e0a06226ce1e483d5c3330",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-supertonic-seedtts_en-002",
+          "result_sha256": "54e614676663b347309933eea6544fe51d709aa66d785e34cd97feed72727b0d",
+          "config_sha256": "7e4d9fc06fe9ac79c3a175c62bcc09b547c9fbdfc99dd87d7cbc8c33ecf3721a",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-supertonic-seedtts_en-003",
+          "result_sha256": "48a64d5856628a6fe8500438fa23a8250527d6c826d993781a62b18913befbf0",
+          "config_sha256": "38291d0a927b167d67ec95449d7eb293e85c701df7fc36acecdb65b9d9a00123",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-supertonic-seedtts_en-004",
+          "result_sha256": "05316f4324b2333d9e7798944e62fd450729e6ce01629b093d881fb40885fbb1",
+          "config_sha256": "e1518dc7526044b48ccbafe7fc46d8badf2cd8bb005da59e7c776743e78b7528",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-supertonic-seedtts_en-005",
+          "result_sha256": "2037ef5eee50edb5542dfe54eb8a403e88abae4846d913e9df5bee4fe8c0c5e3",
+          "config_sha256": "10486e227846274ff0709a53f48c12a7829db857f802b42e5983bbaa6f3936c0",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "omnivoice",
+      "name": "OmniVoice",
+      "checkpoint": "k2-fsa/OmniVoice",
+      "revision": "c5fdb5ccb189668d56333f77ba2629f4cd7535f4",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 1.332394178956747,
+        "latency_p95_s": 1.5358351096510887,
+        "rtf": 0.328981732833577,
+        "peak_vram_mib": 3228.8759765625,
+        "audio_seconds": 4436.8,
+        "clipping_ratio": 0.0,
+        "silence_ratio": 0.3348716952743415,
+        "rms_dbfs": -23.852963743668997,
+        "normalization_id": "whisper_english",
+        "wer": 0.009880264590136481,
+        "cer": 0.002648336606558353,
+        "mer": 0.009874476987447698,
+        "wil": 0.0173500167374373,
+        "wip": 0.9826499832625627,
+        "word_hits": 11832,
+        "word_substitutions": 90,
+        "word_deletions": 21,
+        "word_insertions": 7,
+        "reference_words": 11943,
+        "char_hits": 67081,
+        "char_substitutions": 46,
+        "char_deletions": 85,
+        "char_insertions": 47,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.9154411764705882,
+        "raw": {
+          "wer": 0.05047425474254742,
+          "cer": 0.011822075591827285,
+          "mer": 0.05046998052332966,
+          "wil": 0.09555917845872597,
+          "wip": 0.904440821541274,
+          "word_hits": 11213,
+          "word_substitutions": 559,
+          "word_deletions": 36,
+          "word_insertions": 1,
+          "reference_words": 11808,
+          "char_hits": 68404,
+          "char_substitutions": 329,
+          "char_deletions": 375,
+          "char_insertions": 113,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.6617647058823529
+        },
+        "orthographic": {
+          "wer": 0.011595429538721964,
+          "cer": 0.00447204599818741,
+          "mer": 0.011594448205822613,
+          "wil": 0.021232262176693495,
+          "wip": 0.9787677378233065,
+          "word_hits": 11679,
+          "word_substitutions": 115,
+          "word_deletions": 21,
+          "word_insertions": 1,
+          "reference_words": 11815,
+          "char_hits": 67037,
+          "char_substitutions": 79,
+          "char_deletions": 191,
+          "char_insertions": 31,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.8952205882352942
+        },
+        "wer_ci95": [
+          0.007861317788115801,
+          0.012080484304594895
+        ],
+        "cer_ci95": [
+          0.0018904921536443545,
+          0.003657155632574282
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.009880264590136481,
+            "cer": 0.002648336606558353,
+            "mer": 0.009874476987447698,
+            "wil": 0.0173500167374373,
+            "wip": 0.9826499832625627,
+            "word_hits": 11832,
+            "word_substitutions": 90,
+            "word_deletions": 21,
+            "word_insertions": 7,
+            "reference_words": 11943,
+            "char_hits": 67081,
+            "char_substitutions": 46,
+            "char_deletions": 85,
+            "char_insertions": 47,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.9154411764705882
+          }
+        },
+        "utterance_mean_wer": 0.009585752278766985,
+        "utterance_mean_cer": 0.0024681703906616025
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-omnivoice-seedtts_en-000",
+          "result_sha256": "07a9937d9053570193875ae2ff53decfefa8bf41d29fd83a9cbf99ebd6157ea8",
+          "config_sha256": "d9ff68bd7a0db1c4a5cabcb815dea7578df75655f8bdfda8906916f671f19e90",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-omnivoice-seedtts_en-001",
+          "result_sha256": "acef14cdfc3a50e411cf3cedbef2f8c24c5a26183ff46158e4232cbba66166f7",
+          "config_sha256": "1b13a3a6fd88bce203061ad680b5b1cfa4a12b2d7e891cb5a9a095e7d28412be",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-omnivoice-seedtts_en-002",
+          "result_sha256": "8b3ac8e98d90af2988f9c566e7ba880e5cd0a882d6487aa94beba7612a41889e",
+          "config_sha256": "21a04b38e22bf97cb42eff0e227e1beea45e028d18d3bfaec93f0a00f28bf028",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-omnivoice-seedtts_en-003",
+          "result_sha256": "40562f5b7cb6a1a4ac455d4872e3961c298c143ac32787bb1b0ab1e3e9c8bd56",
+          "config_sha256": "e70328f2d96af5b5b9ed96144f11f7db77be9c6941813c2c19b779f561a07aac",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-omnivoice-seedtts_en-004",
+          "result_sha256": "a25cd3aad81cf8226dc38fe29feab4b6d17c41f28a5eb7b50a599c014de5c054",
+          "config_sha256": "446c2d8cf95be653ee1d7f2ba237e619544a4bae3ed4e3f17e48e16c636d31e0",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-omnivoice-seedtts_en-005",
+          "result_sha256": "eed7b59b626ab76d36c1b3edcc119b7ed5632aa10b61baa708974956fee8700d",
+          "config_sha256": "7cbce8b15e013341ab8e1ffba15225a3c196d5c8948a560c729edcd563b762f5",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "speecht5",
+      "name": "SpeechT5",
+      "checkpoint": "microsoft/speecht5_tts",
+      "revision": "30fcde30f19b87502b8435427b5f5068e401d5f6",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 0.6036052946001291,
+        "latency_p95_s": 0.9177474867552518,
+        "rtf": 0.1622327560700419,
+        "peak_vram_mib": 726.37158203125,
+        "audio_seconds": 4101.024,
+        "clipping_ratio": 0.0,
+        "silence_ratio": 0.27561073823840104,
+        "rms_dbfs": -25.413263645785655,
+        "normalization_id": "whisper_english",
+        "wer": 0.010131457757682325,
+        "cer": 0.0029459025174076057,
+        "mer": 0.010123828647925033,
+        "wil": 0.01858563704868821,
+        "wip": 0.9814143629513118,
+        "word_hits": 11831,
+        "word_substitutions": 102,
+        "word_deletions": 10,
+        "word_insertions": 9,
+        "reference_words": 11943,
+        "char_hits": 67066,
+        "char_substitutions": 77,
+        "char_deletions": 69,
+        "char_insertions": 52,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.90625,
+        "raw": {
+          "wer": 0.05377710027100271,
+          "cer": 0.012661341668113677,
+          "mer": 0.05372704966579237,
+          "wil": 0.10168117284972034,
+          "wip": 0.8983188271502797,
+          "word_hits": 11184,
+          "word_substitutions": 597,
+          "word_deletions": 27,
+          "word_insertions": 11,
+          "reference_words": 11808,
+          "char_hits": 68401,
+          "char_substitutions": 383,
+          "char_deletions": 324,
+          "char_insertions": 168,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.6433823529411765
+        },
+        "orthographic": {
+          "wer": 0.012357173085061363,
+          "cer": 0.004754334616013193,
+          "mer": 0.012348811638332064,
+          "wil": 0.02305833832692339,
+          "wip": 0.9769416616730766,
+          "word_hits": 11677,
+          "word_substitutions": 128,
+          "word_deletions": 10,
+          "word_insertions": 8,
+          "reference_words": 11815,
+          "char_hits": 67034,
+          "char_substitutions": 107,
+          "char_deletions": 166,
+          "char_insertions": 47,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.8832720588235294
+        },
+        "wer_ci95": [
+          0.008283238600798748,
+          0.012222576854350246
+        ],
+        "cer_ci95": [
+          0.00235856560816167,
+          0.003572732489586244
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.010131457757682325,
+            "cer": 0.0029459025174076057,
+            "mer": 0.010123828647925033,
+            "wil": 0.01858563704868821,
+            "wip": 0.9814143629513118,
+            "word_hits": 11831,
+            "word_substitutions": 102,
+            "word_deletions": 10,
+            "word_insertions": 9,
+            "reference_words": 11943,
+            "char_hits": 67066,
+            "char_substitutions": 77,
+            "char_deletions": 69,
+            "char_insertions": 52,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.90625
+          }
+        },
+        "utterance_mean_wer": 0.009766929608381814,
+        "utterance_mean_cer": 0.002814133144678633
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-speecht5-seedtts_en-000",
+          "result_sha256": "af41e3808efa0187481db065267115f69e62bd494eb01871e277bb25137a084c",
+          "config_sha256": "ec0b03378772b5af15d8a50cdedb5f5786874325614058ab5f95e5ecb3a21b02",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-speecht5-seedtts_en-001",
+          "result_sha256": "6838a88ab1a9ceee4fd302eabf6ebf017bd0f369947dd3c15649ae8c353e2f28",
+          "config_sha256": "3697a8ab63373c24d0a8a383b3d4be9bd656d1b0d73ab0c69ce32564a6580348",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-speecht5-seedtts_en-002",
+          "result_sha256": "0ad8491f7e862bce410b06eb1c2b4e2515331f8d744995d45691d1e6277a8836",
+          "config_sha256": "5cafe6811047095546af2512aecb95bac7c20e594ba21b91a06854719409261d",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-speecht5-seedtts_en-003",
+          "result_sha256": "abfff491e6fe1aabedeedd4186ace18cced15e0767e240f67bff4b26d85abeb1",
+          "config_sha256": "d14dfbf22a8b59720cb85cf000a4898b79b08137b13f9b7e9262d89786468cc0",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-speecht5-seedtts_en-004",
+          "result_sha256": "e7079c5f3d9954b2999ed3936768e7409383fcd88dbf5956adda5ec4bb012452",
+          "config_sha256": "d1ea9a80efcf6ab8ba8a2a95e3a7b28f2aa16308fedc2e8c09d4a4d6211c7c2e",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-speecht5-seedtts_en-005",
+          "result_sha256": "35a1875bbbd8a621c242de92f9bd14fb47e1748af05b6b21765d803fbf2d94ae",
+          "config_sha256": "77615ed6d414d47f9e353d6fe728be871ce3b2540f996213cf1f93c6c7c85d4a",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "f5tts",
+      "name": "F5TTS",
+      "checkpoint": "F5TTS_v1_Base",
+      "revision": null,
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 2.7469177208840847,
+        "latency_p95_s": 2.9705387711524964,
+        "rtf": 0.7815442867831554,
+        "peak_vram_mib": 1516.4052734375,
+        "audio_seconds": 3739.3813333333333,
+        "clipping_ratio": 3.4988988015009135e-06,
+        "silence_ratio": 0.21193145480339617,
+        "rms_dbfs": -19.899939920591734,
+        "normalization_id": "whisper_english",
+        "wer": 0.010550113036925395,
+        "cer": 0.0031988335416294708,
+        "mer": 0.010543933054393306,
+        "wil": 0.018842870213572005,
+        "wip": 0.981157129786428,
+        "word_hits": 11824,
+        "word_substitutions": 100,
+        "word_deletions": 19,
+        "word_insertions": 7,
+        "reference_words": 11943,
+        "char_hits": 67046,
+        "char_substitutions": 73,
+        "char_deletions": 93,
+        "char_insertions": 49,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.9090073529411765,
+        "raw": {
+          "wer": 0.04361449864498645,
+          "cer": 0.011330092029866297,
+          "mer": 0.04359972908906197,
+          "wil": 0.08187955268207969,
+          "wip": 0.9181204473179203,
+          "word_hits": 11297,
+          "word_substitutions": 471,
+          "word_deletions": 40,
+          "word_insertions": 4,
+          "reference_words": 11808,
+          "char_hits": 68387,
+          "char_substitutions": 327,
+          "char_deletions": 394,
+          "char_insertions": 62,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.7159926470588235
+        },
+        "orthographic": {
+          "wer": 0.013034278459585272,
+          "cer": 0.005363483738689884,
+          "mer": 0.013032072438013033,
+          "wil": 0.023829448845037793,
+          "wip": 0.9761705511549622,
+          "word_hits": 11663,
+          "word_substitutions": 129,
+          "word_deletions": 23,
+          "word_insertions": 2,
+          "reference_words": 11815,
+          "char_hits": 66981,
+          "char_substitutions": 109,
+          "char_deletions": 217,
+          "char_insertions": 35,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.8851102941176471
+        },
+        "wer_ci95": [
+          0.008544055321581331,
+          0.012617792351167754
+        ],
+        "cer_ci95": [
+          0.002511205039574283,
+          0.0039833394587379875
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.010550113036925395,
+            "cer": 0.0031988335416294708,
+            "mer": 0.010543933054393306,
+            "wil": 0.018842870213572005,
+            "wip": 0.981157129786428,
+            "word_hits": 11824,
+            "word_substitutions": 100,
+            "word_deletions": 19,
+            "word_insertions": 7,
+            "reference_words": 11943,
+            "char_hits": 67046,
+            "char_substitutions": 73,
+            "char_deletions": 93,
+            "char_insertions": 49,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.9090073529411765
+          }
+        },
+        "utterance_mean_wer": 0.011274173130790778,
+        "utterance_mean_cer": 0.004422374102850214
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-f5tts-seedtts_en-000",
+          "result_sha256": "27a883187f95316646ef814ee3e8fe3354de2919b520a5472cfcd93a1fd65d79",
+          "config_sha256": "f10f1d92de9c5a16457d43e0785b999b714d7687f8aecb93b40d2aba259e051e",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-f5tts-seedtts_en-001",
+          "result_sha256": "6eb1bbe6d966c2001110b4b10586acc23f16ec0fc544305573966b5350d030a5",
+          "config_sha256": "d51a4e4cb12b6d4cfc6d1bfe17ae0d5bfaf15d13779872d035f992914f2e0bea",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-f5tts-seedtts_en-002",
+          "result_sha256": "5ae930a87986c75d403f4993123a37c6402a737697557131d8e759141f2aa796",
+          "config_sha256": "d10a2155d9381a498327e21b3b713fbfc1b94b4a0562db30da412b2a7318e4cb",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-f5tts-seedtts_en-003",
+          "result_sha256": "e6139058608689ba6ce337458d19b1979a348f0d6397bea728f10a2d9ef5eedf",
+          "config_sha256": "9ab101dad1a62d013159d9fe550a70de56eace44fdf06c19c0f6990db272461a",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-f5tts-seedtts_en-004",
+          "result_sha256": "5e942f992265e139167631ff687e8ef5545c03cedba7bd24a2bd32a345ecc382",
+          "config_sha256": "6df38f583c53050fb84b9ade163aecf5b78facabfa4d1b102f260a0d339c5580",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-f5tts-seedtts_en-005",
+          "result_sha256": "49b7504dbf6ff85e6ffb7e5651410c6c679600310dcfcc866efc2e380eac7905",
+          "config_sha256": "2caf03f93347de9941029cc77a46cf31f1fc813adb01fe427c1da954a7f7ba59",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "styletts2",
+      "name": "StyleTTS2",
+      "checkpoint": "artifacts/styletts2/epochs_2nd_00020.pth",
+      "revision": null,
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 0.19795850105583668,
+        "latency_p95_s": 0.2473351741209626,
+        "rtf": 0.04208604152148397,
+        "peak_vram_mib": 1068.0185546875,
+        "audio_seconds": 5058.533333333333,
+        "clipping_ratio": 0.0,
+        "silence_ratio": 0.29950891529922624,
+        "rms_dbfs": -22.315291148181117,
+        "normalization_id": "whisper_english",
+        "wer": 0.010885037260319853,
+        "cer": 0.0029905374040349935,
+        "mer": 0.010876840696117804,
+        "wil": 0.019831987068541723,
+        "wip": 0.9801680129314583,
+        "word_hits": 11822,
+        "word_substitutions": 108,
+        "word_deletions": 13,
+        "word_insertions": 9,
+        "reference_words": 11943,
+        "char_hits": 67072,
+        "char_substitutions": 78,
+        "char_deletions": 62,
+        "char_insertions": 61,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.9044117647058824,
+        "raw": {
+          "wer": 0.05123644986449864,
+          "cer": 0.012502170515714534,
+          "mer": 0.051193095278388896,
+          "wil": 0.09678668317877503,
+          "wip": 0.903213316821225,
+          "word_hits": 11213,
+          "word_substitutions": 566,
+          "word_deletions": 29,
+          "word_insertions": 10,
+          "reference_words": 11808,
+          "char_hits": 68372,
+          "char_substitutions": 386,
+          "char_deletions": 350,
+          "char_insertions": 128,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.6516544117647058
+        },
+        "orthographic": {
+          "wer": 0.013542107490478206,
+          "cer": 0.0051703388949143475,
+          "mer": 0.013534088986635088,
+          "wil": 0.02507145803641664,
+          "wip": 0.9749285419635834,
+          "word_hits": 11662,
+          "word_substitutions": 138,
+          "word_deletions": 15,
+          "word_insertions": 7,
+          "reference_words": 11815,
+          "char_hits": 67013,
+          "char_substitutions": 111,
+          "char_deletions": 183,
+          "char_insertions": 54,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.8795955882352942
+        },
+        "wer_ci95": [
+          0.008889246341617306,
+          0.01317792950459316
+        ],
+        "cer_ci95": [
+          0.0023622418836487065,
+          0.003664567204361421
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.010885037260319853,
+            "cer": 0.0029905374040349935,
+            "mer": 0.010876840696117804,
+            "wil": 0.019831987068541723,
+            "wip": 0.9801680129314583,
+            "word_hits": 11822,
+            "word_substitutions": 108,
+            "word_deletions": 13,
+            "word_insertions": 9,
+            "reference_words": 11943,
+            "char_hits": 67072,
+            "char_substitutions": 78,
+            "char_deletions": 62,
+            "char_insertions": 61,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.9044117647058824
+          }
+        },
+        "utterance_mean_wer": 0.010743798174864353,
+        "utterance_mean_cer": 0.0029116890397277357
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-styletts2-seedtts_en-000",
+          "result_sha256": "316f9d7402090f646ff8fe0c26e2791ae1ff4974f83e82a1d760afbc1fee06e5",
+          "config_sha256": "3060f43c87944f8cdf9926555c249ce3550a0e0d8550fc49bc0e5c9b4a6a09ae",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-styletts2-seedtts_en-001",
+          "result_sha256": "e33b0b7aa0fe9641e309eeb9314fc33ec05f9e992cacdbeb52a677db598f7245",
+          "config_sha256": "15cbade12c9c1c699b7c0413288385df3880eb5bbaaf31a4ee0df358d7a0353f",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-styletts2-seedtts_en-002",
+          "result_sha256": "a8a599b800750e7bf88c14fa6f763d03d15ca290149029fd3b174a8859033875",
+          "config_sha256": "d88e57c2e1fadde3461173611ae0a945fd42cc6dd4e347ed91ce553876e039f4",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-styletts2-seedtts_en-003",
+          "result_sha256": "751f9cf5978b142f12e730d04811f92deae67afca36c2c74bd7e30a3b1bf7d5d",
+          "config_sha256": "731b6ee04e29a1e0ffb90e8e4b019a490e8721ea9c3db5ccd121c08370213d50",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-styletts2-seedtts_en-004",
+          "result_sha256": "11093f74b147055cc56420e8720568baa0ea707d7beedc914033dc304f4898e8",
+          "config_sha256": "5887debf9ae2863e2bf999537eb5fc31b214ecea01a8f833fe4a8c1b580437a1",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-styletts2-seedtts_en-005",
+          "result_sha256": "c5b2e9a58acda49c8df4c8ac9249b0f8101e779b2ccc18196392078a7d12f784",
+          "config_sha256": "f798544a12eafe2528550bcb6f3aba33f10db3c0ef432d274472d21bf8b13d91",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "echo",
+      "name": "EchoTTS",
+      "checkpoint": "jordand/echo-tts-base",
+      "revision": "06731f67000241d55cff6b0a961f22f5f151f24f",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 2.456841016188264,
+        "latency_p95_s": 2.5182850835844874,
+        "rtf": 0.5723286716880129,
+        "peak_vram_mib": 9363.14453125,
+        "audio_seconds": 4676.359546485261,
+        "clipping_ratio": 0.0,
+        "silence_ratio": 0.12887222618488867,
+        "rms_dbfs": -13.952829189004829,
+        "normalization_id": "whisper_english",
+        "wer": 0.01121996148371431,
+        "cer": 0.0034815211569362613,
+        "mer": 0.011207761793241887,
+        "wil": 0.020324327635941386,
+        "wip": 0.9796756723640586,
+        "word_hits": 11822,
+        "word_substitutions": 110,
+        "word_deletions": 11,
+        "word_insertions": 13,
+        "reference_words": 11943,
+        "char_hits": 67046,
+        "char_substitutions": 92,
+        "char_deletions": 74,
+        "char_insertions": 68,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.9034926470588235,
+        "raw": {
+          "wer": 0.07647357723577236,
+          "cer": 0.017725878335359147,
+          "mer": 0.0764218009478673,
+          "wil": 0.1442527165227956,
+          "wip": 0.8557472834772044,
+          "word_hits": 10913,
+          "word_substitutions": 865,
+          "word_deletions": 30,
+          "word_insertions": 8,
+          "reference_words": 11808,
+          "char_hits": 68015,
+          "char_substitutions": 609,
+          "char_deletions": 484,
+          "char_insertions": 132,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.5
+        },
+        "orthographic": {
+          "wer": 0.013711383834109183,
+          "cer": 0.005601200469490543,
+          "mer": 0.013703265098968026,
+          "wil": 0.025405824334897242,
+          "wip": 0.9745941756651028,
+          "word_hits": 11660,
+          "word_substitutions": 140,
+          "word_deletions": 15,
+          "word_insertions": 7,
+          "reference_words": 11815,
+          "char_hits": 66980,
+          "char_substitutions": 129,
+          "char_deletions": 198,
+          "char_insertions": 50,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.8805147058823529
+        },
+        "wer_ci95": [
+          0.008904209796796562,
+          0.013934323157998304
+        ],
+        "cer_ci95": [
+          0.0025651236034547214,
+          0.0047400288829906
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.01121996148371431,
+            "cer": 0.0034815211569362613,
+            "mer": 0.011207761793241887,
+            "wil": 0.020324327635941386,
+            "wip": 0.9796756723640586,
+            "word_hits": 11822,
+            "word_substitutions": 110,
+            "word_deletions": 11,
+            "word_insertions": 13,
+            "reference_words": 11943,
+            "char_hits": 67046,
+            "char_substitutions": 92,
+            "char_deletions": 74,
+            "char_insertions": 68,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.9034926470588235
+          }
+        },
+        "utterance_mean_wer": 0.011593386444029826,
+        "utterance_mean_cer": 0.003852356493516786
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-echo-seedtts_en-000",
+          "result_sha256": "9edf6308e5f41f589b38784fe76036b4053e0806f9687686d5b8e1fd6a6dea32",
+          "config_sha256": "73c3791000cceb12c51906033bd08a1787bf1553f8c387253570a75bddde8a5f",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-echo-seedtts_en-001",
+          "result_sha256": "0328d2058b8206f3be8ccbaf273849f17aba8eb8b19d4fa894fceb212776a0bc",
+          "config_sha256": "7fc481f3d3756dcab3fd2a381cea80d603ab77e25c84ad652afd7c375aeea165",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-echo-seedtts_en-002",
+          "result_sha256": "5f823434734212f3442b1af2c16d8ed74dbef23fb9d43126e3b4fd4cb64a2365",
+          "config_sha256": "63a47b008d6d8646fd2c12c8cb293c3b3bbe6b6aa11c47f257b4b0ecffb58733",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-echo-seedtts_en-003",
+          "result_sha256": "e2ff5a6c5ed0179869103ec5dbebaf95dd3448b1046e0593063b7386c807f804",
+          "config_sha256": "ce17af283cdc7a4b6e1f6c8b60095e95b4acc58885e31d8974398c87905fcdab",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-echo-seedtts_en-004",
+          "result_sha256": "f2323011620e2bb3664e806b3aae1835b12c9b85acd8ae558b005d503b4994a9",
+          "config_sha256": "1cc0c1738c5f2d14eda62e8c8bddc2e8e05cc0a270b95feaf38c5dbbb9c74679",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-echo-seedtts_en-005",
+          "result_sha256": "78bb955606e9a5eb3f2189fc68c501449a22e4ce17fe8ac86e57d99925fd9c4f",
+          "config_sha256": "c66248faa466eb76ae93dcbe8a39b7a137fa14fcd5aca9f7bfcfb85abca471d7",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "fishtts",
+      "name": "FishTTS",
+      "checkpoint": "fishaudio/s2-pro",
+      "revision": "1de9996b6be38b745688de084d87a5633f714e4e",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 14.975895503535867,
+        "latency_p95_s": 21.895659835077815,
+        "rtf": 3.7434938590228506,
+        "peak_vram_mib": 14652.67431640625,
+        "audio_seconds": 4357.735328798186,
+        "clipping_ratio": 0.0,
+        "silence_ratio": 0.13489419262981148,
+        "rms_dbfs": -16.634614222894925,
+        "normalization_id": "whisper_english",
+        "wer": 0.011471154651260152,
+        "cer": 0.0031690769505445457,
+        "mer": 0.011463475859760689,
+        "wil": 0.020912083738239273,
+        "wip": 0.9790879162617607,
+        "word_hits": 11814,
+        "word_substitutions": 114,
+        "word_deletions": 15,
+        "word_insertions": 8,
+        "reference_words": 11943,
+        "char_hits": 67050,
+        "char_substitutions": 95,
+        "char_deletions": 67,
+        "char_insertions": 51,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.8970588235294118,
+        "raw": {
+          "wer": 0.05013550135501355,
+          "cer": 0.012183828210916247,
+          "mer": 0.05011852353538774,
+          "wil": 0.0951981254515083,
+          "wip": 0.9048018745484917,
+          "word_hits": 11220,
+          "word_substitutions": 559,
+          "word_deletions": 29,
+          "word_insertions": 4,
+          "reference_words": 11808,
+          "char_hits": 68349,
+          "char_substitutions": 382,
+          "char_deletions": 377,
+          "char_insertions": 83,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.65625
+        },
+        "orthographic": {
+          "wer": 0.013118916631400761,
+          "cer": 0.004977194051138812,
+          "mer": 0.013116696285013116,
+          "wil": 0.024658422728009777,
+          "wip": 0.9753415772719902,
+          "word_hits": 11662,
+          "word_substitutions": 138,
+          "word_deletions": 15,
+          "word_insertions": 2,
+          "reference_words": 11815,
+          "char_hits": 67009,
+          "char_substitutions": 125,
+          "char_deletions": 173,
+          "char_insertions": 37,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.8805147058823529
+        },
+        "wer_ci95": [
+          0.009372852661418718,
+          0.013923650739157823
+        ],
+        "cer_ci95": [
+          0.0025164327337067866,
+          0.003856638680410998
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.011471154651260152,
+            "cer": 0.0031690769505445457,
+            "mer": 0.011463475859760689,
+            "wil": 0.020912083738239273,
+            "wip": 0.9790879162617607,
+            "word_hits": 11814,
+            "word_substitutions": 114,
+            "word_deletions": 15,
+            "word_insertions": 8,
+            "reference_words": 11943,
+            "char_hits": 67050,
+            "char_substitutions": 95,
+            "char_deletions": 67,
+            "char_insertions": 51,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.8970588235294118
+          }
+        },
+        "utterance_mean_wer": 0.010823033686085157,
+        "utterance_mean_cer": 0.002976193604265695
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-fishtts-seedtts_en-000",
+          "result_sha256": "d252e80b4fc961551544f996295fb43612013185470710ceb15ef44678787686",
+          "config_sha256": "863b2c507061479d3415793d85eb443d3ec7df553c88dff03604636544c3cd7f",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-fishtts-seedtts_en-001",
+          "result_sha256": "ac5e72a9d027c204c179df805b62d2d76219c72089f532b4b2add392dd36c88d",
+          "config_sha256": "7c06b46f52929108cec6f5bce873ef51377dedcc832cc63f07e5b5e632ae1411",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-fishtts-seedtts_en-002",
+          "result_sha256": "03958e2fb8286619d3bdb78a8a9b31dd7e2ce8328795e1c778d0222cfe40943d",
+          "config_sha256": "dd5a41a07e021dee1b9f5cc917bd642ab36d4fd8a662902279a11176e0afef61",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-fishtts-seedtts_en-003",
+          "result_sha256": "dc5ca876e29b7e90d5a7b9bb4157c25aeda74c31e3fe604a5138f104983cfefa",
+          "config_sha256": "79e9f2de82ce59fbc1cf15ef12875154644c7221ed4b7920f61e12658be67467",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-fishtts-seedtts_en-004",
+          "result_sha256": "5d47ba1fb463a8d99859e22a5767580d19900a322c73ad905e0d689c588a44c3",
+          "config_sha256": "88c16f6f8f349535d5c7ae3b0884774180942b089b262f5079c1287ce8338a52",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-fishtts-seedtts_en-005",
+          "result_sha256": "ab4092314a63f4f3b4314d93da955f1de6dd9317335199b8376844e140e6383e",
+          "config_sha256": "14f7c37de4241c134a1819b8b74d79beb4e4923cac9dd19deec8cfc419c926d1",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "xtts",
+      "name": "XTTS",
+      "checkpoint": "artifacts/xtts2",
+      "revision": null,
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 1.377348417416215,
+        "latency_p95_s": 2.1737355709075925,
+        "rtf": 0.37659089175029953,
+        "peak_vram_mib": 2044.58837890625,
+        "audio_seconds": 4109.9946666666665,
+        "clipping_ratio": 0.0,
+        "silence_ratio": 0.12863922070376485,
+        "rms_dbfs": -17.494293341348765,
+        "normalization_id": "whisper_english",
+        "wer": 0.011722347818805995,
+        "cer": 0.003927870023210141,
+        "mer": 0.011700793982448809,
+        "wil": 0.020155170204901096,
+        "wip": 0.9798448297950989,
+        "word_hits": 11825,
+        "word_substitutions": 102,
+        "word_deletions": 16,
+        "word_insertions": 22,
+        "reference_words": 11943,
+        "char_hits": 67063,
+        "char_substitutions": 80,
+        "char_deletions": 69,
+        "char_insertions": 115,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.8979779411764706,
+        "raw": {
+          "wer": 0.05809620596205962,
+          "cer": 0.014195172773050877,
+          "mer": 0.05803722504230118,
+          "wil": 0.10939329118859553,
+          "wip": 0.8906067088114045,
+          "word_hits": 11134,
+          "word_substitutions": 642,
+          "word_deletions": 32,
+          "word_insertions": 12,
+          "reference_words": 11808,
+          "char_hits": 68345,
+          "char_substitutions": 427,
+          "char_deletions": 336,
+          "char_insertions": 218,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.6121323529411765
+        },
+        "orthographic": {
+          "wer": 0.014049936521371138,
+          "cer": 0.005838917200291203,
+          "mer": 0.014032121724429417,
+          "wil": 0.024984772654058962,
+          "wip": 0.975015227345941,
+          "word_hits": 11664,
+          "word_substitutions": 131,
+          "word_deletions": 20,
+          "word_insertions": 15,
+          "reference_words": 11815,
+          "char_hits": 67012,
+          "char_substitutions": 112,
+          "char_deletions": 183,
+          "char_insertions": 98,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.875
+        },
+        "wer_ci95": [
+          0.009479942028329125,
+          0.013929717071918904
+        ],
+        "cer_ci95": [
+          0.003047702271545646,
+          0.004894855067600172
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.011722347818805995,
+            "cer": 0.003927870023210141,
+            "mer": 0.011700793982448809,
+            "wil": 0.020155170204901096,
+            "wip": 0.9798448297950989,
+            "word_hits": 11825,
+            "word_substitutions": 102,
+            "word_deletions": 16,
+            "word_insertions": 22,
+            "reference_words": 11943,
+            "char_hits": 67063,
+            "char_substitutions": 80,
+            "char_deletions": 69,
+            "char_insertions": 115,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.8979779411764706
+          }
+        },
+        "utterance_mean_wer": 0.012030761823960354,
+        "utterance_mean_cer": 0.003932957956043187
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-xtts-seedtts_en-000",
+          "result_sha256": "f907823ffddf051bd15d488c04cd1baf4ae71e9ebdb6088bc8bb3c3e5c5bf674",
+          "config_sha256": "59354a13046e0ffe3bbbc67dd3bdae714249b9630dcc5f43b1d8592d4e09df55",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-xtts-seedtts_en-001",
+          "result_sha256": "572b02b0030cbc0f3d845a58986474ac47624a58a16d28c71778b33451398980",
+          "config_sha256": "e2aa5bdb9871647fb54c7df3e155fceb973d054f4d4e20d365df81fa12a43f4a",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-xtts-seedtts_en-002",
+          "result_sha256": "cc202239c3d0fb3f1aabc8c9c995e3e9e94ef474d01171435c9054ce7e52860b",
+          "config_sha256": "053336f43ad0e2161056d99de5adf5a1a5efb9cf1ccdb65965e79c5facf6cea3",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-xtts-seedtts_en-003",
+          "result_sha256": "2a5e5588ffd2a6f673f0c3a665ffd47036a5e4f3d705973dbe94871df3c5c57b",
+          "config_sha256": "f53a888f3a7be62165016c9dfb9a16e968a315603de67807cc486b21eb44f24a",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-xtts-seedtts_en-004",
+          "result_sha256": "8d9df39feddef00fee250808a810e2886ddecf1345c382554de8c7af43eac25a",
+          "config_sha256": "a924116ab55a218b9c60e90cd59e8fb73affacb456fa491b7e0cbe7d8613a856",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-xtts-seedtts_en-005",
+          "result_sha256": "c0f03fd8a4d3440f3b0c42374763c82f9c0208c3b6232f3a683207ca19f567f3",
+          "config_sha256": "78d8c393cc0c93c6fc4d8ae0c229a0091717ad503553eea1f2e6c24e3af84627",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "zonos2",
+      "name": "Zonos2",
+      "checkpoint": "Zyphra/ZONOS2",
+      "revision": "65f1e80f94b599d474bb6af9094a803dc52f60bd",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "generation_limit_rate": 0.0,
+        "generation_limit_samples": 0,
+        "generation_limit_checks": 1088,
+        "latency_p50_s": 21.817871015518904,
+        "latency_p95_s": 32.1434196209535,
+        "rtf": 6.227715330972293,
+        "peak_vram_mib": 15765.91650390625,
+        "audio_seconds": 3808.4556916099773,
+        "clipping_ratio": 0.0,
+        "silence_ratio": 0.1599482895773222,
+        "rms_dbfs": -21.204251726272272,
+        "normalization_id": "whisper_english",
+        "wer": 0.01180607887465461,
+        "cer": 0.004210557638516931,
+        "mer": 0.01179817588486319,
+        "wil": 0.020508167521017695,
+        "wip": 0.9794918324789823,
+        "word_hits": 11810,
+        "word_substitutions": 105,
+        "word_deletions": 28,
+        "word_insertions": 8,
+        "reference_words": 11943,
+        "char_hits": 66986,
+        "char_substitutions": 78,
+        "char_deletions": 148,
+        "char_insertions": 57,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.9034926470588235,
+        "raw": {
+          "wer": 0.05013550135501355,
+          "cer": 0.01292180355385773,
+          "mer": 0.05011852353538774,
+          "wil": 0.09373678274355002,
+          "wip": 0.90626321725645,
+          "word_hits": 11220,
+          "word_substitutions": 540,
+          "word_deletions": 48,
+          "word_insertions": 4,
+          "reference_words": 11808,
+          "char_hits": 68338,
+          "char_substitutions": 355,
+          "char_deletions": 415,
+          "char_insertions": 123,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.6599264705882353
+        },
+        "orthographic": {
+          "wer": 0.014049936521371138,
+          "cer": 0.006121205818116987,
+          "mer": 0.014046369944152986,
+          "wil": 0.025256701027486117,
+          "wip": 0.9747432989725139,
+          "word_hits": 11652,
+          "word_substitutions": 134,
+          "word_deletions": 29,
+          "word_insertions": 3,
+          "reference_words": 11815,
+          "char_hits": 66941,
+          "char_substitutions": 108,
+          "char_deletions": 258,
+          "char_insertions": 46,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.8795955882352942
+        },
+        "wer_ci95": [
+          0.009429594420391598,
+          0.01437212173948811
+        ],
+        "cer_ci95": [
+          0.0030648629407874664,
+          0.0057465328607648365
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.01180607887465461,
+            "cer": 0.004210557638516931,
+            "mer": 0.01179817588486319,
+            "wil": 0.020508167521017695,
+            "wip": 0.9794918324789823,
+            "word_hits": 11810,
+            "word_substitutions": 105,
+            "word_deletions": 28,
+            "word_insertions": 8,
+            "reference_words": 11943,
+            "char_hits": 66986,
+            "char_substitutions": 78,
+            "char_deletions": 148,
+            "char_insertions": 57,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.9034926470588235
+          }
+        },
+        "utterance_mean_wer": 0.011642725636291814,
+        "utterance_mean_cer": 0.004352088341262807
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-zonos2-seedtts_en-000",
+          "result_sha256": "2b2b25a6d39fddd1b5ad315a7b99e8b22b4f9f47b3188773c1ab6499b2cc61e2",
+          "config_sha256": "a265ebb598ea66e2ed3f8f874b3e3b57dddc863a7292f46eaca6f49234dd8487",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-zonos2-seedtts_en-001",
+          "result_sha256": "cb7f81b14479530040d6d1cc711211fd0a2b0edf76ab508db47e3edae08ef90d",
+          "config_sha256": "9ca3f421cd1c6155d5fbdf8d6ab05bed4342b2797ff00e34534262d829425ade",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-zonos2-seedtts_en-002",
+          "result_sha256": "fbad9c8a47d92a4651d178adeb6f068a715626550b96de79a564306678710c55",
+          "config_sha256": "6cdcd111ed1c7303224e1efae8175f724882143ae0f5140e2fd3e759fefcffa6",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-zonos2-seedtts_en-003",
+          "result_sha256": "09741a9b237d81fe9df1b8ec6c987af389c72038b8185f4ce90569fe14a41e2a",
+          "config_sha256": "51122621b8f68cd8d88a2fe12374bbe84ce972d6c04510fca1da8e5826901089",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-zonos2-seedtts_en-004",
+          "result_sha256": "c3fb4a85badee1978c1a9d137154e7416eb005db395acc2d34eebc3c66020879",
+          "config_sha256": "972798e06746ff6750bc9dbaa151f329b3fd941925a4cc2fe1376204e4671e29",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-zonos2-seedtts_en-005",
+          "result_sha256": "1212a42060f96e8a0dfd065fb766883df5696c6760bf0c8a762d9dc97abe71bc",
+          "config_sha256": "b220206296f1662022a6a51703b26c13fa12d9316fb8a73fb538d46383b1dbbf",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "chatterbox",
+      "name": "Chatterbox",
+      "checkpoint": "ResembleAI/chatterbox",
+      "revision": "5bb1f6ee58e50c3b8d408bc82a6d3740c2db6e18",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 2.598566422238946,
+        "latency_p95_s": 3.5963106857612717,
+        "rtf": 0.8215815223732541,
+        "peak_vram_mib": 3243.5419921875,
+        "audio_seconds": 3491.6,
+        "clipping_ratio": 3.745316243777417e-06,
+        "silence_ratio": 0.14410049492526528,
+        "rms_dbfs": -17.46151259613592,
+        "normalization_id": "whisper_english",
+        "wer": 0.012308465209746294,
+        "cer": 0.0035261560435636496,
+        "mer": 0.012300225922516944,
+        "wil": 0.022405080632642016,
+        "wip": 0.977594919367358,
+        "word_hits": 11804,
+        "word_substitutions": 122,
+        "word_deletions": 17,
+        "word_insertions": 8,
+        "reference_words": 11943,
+        "char_hits": 67033,
+        "char_substitutions": 91,
+        "char_deletions": 88,
+        "char_insertions": 58,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.8851102941176471,
+        "raw": {
+          "wer": 0.05496273712737127,
+          "cer": 0.01331249638247381,
+          "mer": 0.054948776564219794,
+          "wil": 0.10430035635245993,
+          "wip": 0.8956996436475401,
+          "word_hits": 11162,
+          "word_substitutions": 615,
+          "word_deletions": 31,
+          "word_insertions": 3,
+          "reference_words": 11808,
+          "char_hits": 68318,
+          "char_substitutions": 400,
+          "char_deletions": 390,
+          "char_insertions": 130,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.6102941176470589
+        },
+        "orthographic": {
+          "wer": 0.014980956411341515,
+          "cer": 0.005809202608941121,
+          "mer": 0.014978420919014978,
+          "wil": 0.028252517243297137,
+          "wip": 0.9717474827567029,
+          "word_hits": 11640,
+          "word_substitutions": 159,
+          "word_deletions": 16,
+          "word_insertions": 2,
+          "reference_words": 11815,
+          "char_hits": 66959,
+          "char_substitutions": 132,
+          "char_deletions": 216,
+          "char_insertions": 43,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.8584558823529411
+        },
+        "wer_ci95": [
+          0.010239624689752567,
+          0.014502005846153599
+        ],
+        "cer_ci95": [
+          0.002878993025473877,
+          0.004195101111888829
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.012308465209746294,
+            "cer": 0.0035261560435636496,
+            "mer": 0.012300225922516944,
+            "wil": 0.022405080632642016,
+            "wip": 0.977594919367358,
+            "word_hits": 11804,
+            "word_substitutions": 122,
+            "word_deletions": 17,
+            "word_insertions": 8,
+            "reference_words": 11943,
+            "char_hits": 67033,
+            "char_substitutions": 91,
+            "char_deletions": 88,
+            "char_insertions": 58,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.8851102941176471
+          }
+        },
+        "utterance_mean_wer": 0.011868301735029677,
+        "utterance_mean_cer": 0.0034512612340441458
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-chatterbox-seedtts_en-000",
+          "result_sha256": "7a3f83029980628b58f3d9cace44b59be6495050dd966ffb4f2b9065bf86f073",
+          "config_sha256": "47f65fb9230e89e507e8a9bee36e06c1493d90ef5190766c902d89fbd995e30a",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-chatterbox-seedtts_en-001",
+          "result_sha256": "ca8a90455a6c6e082d84264dae0e59cb21478d416df20f096190fb4f4d28b0b4",
+          "config_sha256": "7616e53f69b116245f655805f352180ad366e411b821deb8a1283865ef77b4c3",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-chatterbox-seedtts_en-002",
+          "result_sha256": "01a294994307b807495f0f84c0f94dbf759ee431db215778f260f4438995edf7",
+          "config_sha256": "ce984dcc1a4e378bb1ae6c0abf0ee8d1a57f8794c39622c10597c930ecf555fa",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-chatterbox-seedtts_en-003",
+          "result_sha256": "0910e2bc078efa4d7b39c2ceb67371f5e2cfbe1694d124ae0601d95b7f486746",
+          "config_sha256": "881a7e4018f3511d422c7d09239bd7301c50da2042dca3ca8f1177797b6fbeee",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-chatterbox-seedtts_en-004",
+          "result_sha256": "011526a95a1ec3d51f25b5ecb7cb7769fea048cbc6825115ec7ae18b91e728ec",
+          "config_sha256": "fd03172df561742576c7afd7bcb9681117de95b6666e83ee0629b242f3b9885d",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-chatterbox-seedtts_en-005",
+          "result_sha256": "94df7c218c2f61ca15012e60a8fed7d2680084ce732077c413e2231eca549fb0",
+          "config_sha256": "b9d4032fb6e6afda80c7852e11d44090012bfc14ee26ca73f2f3ed56ad030cc3",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "mosstts",
+      "name": "MossTTS",
+      "checkpoint": "OpenMOSS-Team/MOSS-TTS-v1.5",
+      "revision": "cdd3b911b1585e3f2dbc7775ef10f9926f58850a",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 7.407788587734103,
+        "latency_p95_s": 10.18555185869335,
+        "rtf": 1.389709319705265,
+        "peak_vram_mib": 25009.28662109375,
+        "audio_seconds": 5986.0,
+        "clipping_ratio": 4.602443648000904e-06,
+        "silence_ratio": 0.43571122588738487,
+        "rms_dbfs": -26.128175142768608,
+        "normalization_id": "whisper_english",
+        "wer": 0.012308465209746294,
+        "cer": 0.00431470570731417,
+        "mer": 0.012298167823977245,
+        "wil": 0.021827881301883956,
+        "wip": 0.978172118698116,
+        "word_hits": 11806,
+        "word_substitutions": 115,
+        "word_deletions": 22,
+        "word_insertions": 10,
+        "reference_words": 11943,
+        "char_hits": 66989,
+        "char_substitutions": 122,
+        "char_deletions": 101,
+        "char_insertions": 67,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.9080882352941176,
+        "raw": {
+          "wer": 0.08536585365853659,
+          "cer": 0.019925334259420037,
+          "mer": 0.08532249873031995,
+          "wil": 0.1605952432709965,
+          "wip": 0.8394047567290035,
+          "word_hits": 10806,
+          "word_substitutions": 969,
+          "word_deletions": 33,
+          "word_insertions": 6,
+          "reference_words": 11808,
+          "char_hits": 67861,
+          "char_substitutions": 678,
+          "char_deletions": 569,
+          "char_insertions": 130,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.5625
+        },
+        "orthographic": {
+          "wer": 0.01388066017774016,
+          "cer": 0.005764630721915997,
+          "mer": 0.013873614753404958,
+          "wil": 0.025081554011935014,
+          "wip": 0.974918445988065,
+          "word_hits": 11657,
+          "word_substitutions": 134,
+          "word_deletions": 24,
+          "word_insertions": 6,
+          "reference_words": 11815,
+          "char_hits": 66973,
+          "char_substitutions": 146,
+          "char_deletions": 188,
+          "char_insertions": 54,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.8943014705882353
+        },
+        "wer_ci95": [
+          0.009509180623730396,
+          0.015755375124648537
+        ],
+        "cer_ci95": [
+          0.002815820019341391,
+          0.006384203524120753
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.012308465209746294,
+            "cer": 0.00431470570731417,
+            "mer": 0.012298167823977245,
+            "wil": 0.021827881301883956,
+            "wip": 0.978172118698116,
+            "word_hits": 11806,
+            "word_substitutions": 115,
+            "word_deletions": 22,
+            "word_insertions": 10,
+            "reference_words": 11943,
+            "char_hits": 66989,
+            "char_substitutions": 122,
+            "char_deletions": 101,
+            "char_insertions": 67,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.9080882352941176
+          }
+        },
+        "utterance_mean_wer": 0.012728509235862176,
+        "utterance_mean_cer": 0.004697708975017243
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-mosstts-seedtts_en-000",
+          "result_sha256": "d72f64744263e85ec09b28901caf83574e1fe2d70f0a0986e5d9ebe126da338e",
+          "config_sha256": "e7917094bfb572e6ef154cc886f3e9950d3e015580608026b36045353e826765",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-mosstts-seedtts_en-001",
+          "result_sha256": "d5a9f758ed143d98f222ba59e8fc38f069729cd8c3fd61830cd8d4f23b33f8c9",
+          "config_sha256": "39180be6478b53a751a90bb713cc91d3f91f493cca512813eb1c0cbdbea84987",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-mosstts-seedtts_en-002",
+          "result_sha256": "2eb4ebf74f038534b06a67715cb922dc340df810834c15bb52efde990af9b7fa",
+          "config_sha256": "1ecb8c3aeb84d960e0b3ccde39f1638cb02fd41960fc4e7e836aad71ccf98acf",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-mosstts-seedtts_en-003",
+          "result_sha256": "5c61a47485a2225c78f7dd618a6cc6b1191a16c38a5b2ef4e7acc036ddc5f2bb",
+          "config_sha256": "d0a3044411d96a6626d1e3e694cebc439c5450cb2e92db9eef60f938aa8527ef",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-mosstts-seedtts_en-004",
+          "result_sha256": "5323703ffde5f5cf8c72554f6a88e7ef6af7e1eda67207404af499fd1fdd275a",
+          "config_sha256": "bf03723297c6f9da155de726b403caad5811793567751b1a64cf020879cb4d88",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-mosstts-seedtts_en-005",
+          "result_sha256": "621336c13e657d6536649cc45855b3a8169c3029745ffd69eaee648323b84372",
+          "config_sha256": "33ad1d9d8366ce7914f6fecac315b8d77cce03f6a9ec114f5dbf3dc505c0fe6d",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "outetts",
+      "name": "OuteTTS",
+      "checkpoint": "OuteAI/Llama-OuteTTS-1.0-1B",
+      "revision": "f445d0d301c7fc9e47fd545eb9f9d2912afe7a77",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 14.944048950448632,
+        "latency_p95_s": 20.17052680440247,
+        "rtf": 3.164612982009557,
+        "peak_vram_mib": 4373.70263671875,
+        "audio_seconds": 5142.874,
+        "clipping_ratio": 0.0,
+        "silence_ratio": 0.3346259142214407,
+        "rms_dbfs": -19.94094323546973,
+        "normalization_id": "whisper_english",
+        "wer": 0.012392196265594908,
+        "cer": 0.00437421888948402,
+        "mer": 0.012376651613982272,
+        "wil": 0.0210828903062108,
+        "wip": 0.9789171096937892,
+        "word_hits": 11810,
+        "word_substitutions": 105,
+        "word_deletions": 28,
+        "word_insertions": 15,
+        "reference_words": 11943,
+        "char_hits": 66995,
+        "char_substitutions": 81,
+        "char_deletions": 136,
+        "char_insertions": 77,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.8933823529411765,
+        "raw": {
+          "wer": 0.05233739837398374,
+          "cer": 0.013500607744400069,
+          "mer": 0.05226657645466847,
+          "wil": 0.09722483907776258,
+          "wip": 0.9027751609222374,
+          "word_hits": 11206,
+          "word_substitutions": 558,
+          "word_deletions": 44,
+          "word_insertions": 16,
+          "reference_words": 11808,
+          "char_hits": 68320,
+          "char_substitutions": 369,
+          "char_deletions": 419,
+          "char_insertions": 145,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.6580882352941176
+        },
+        "orthographic": {
+          "wer": 0.01608125264494287,
+          "cer": 0.006418351731617811,
+          "mer": 0.016060862214708368,
+          "wil": 0.028252517243297137,
+          "wip": 0.9717474827567029,
+          "word_hits": 11640,
+          "word_substitutions": 146,
+          "word_deletions": 29,
+          "word_insertions": 15,
+          "reference_words": 11815,
+          "char_hits": 66957,
+          "char_substitutions": 116,
+          "char_deletions": 234,
+          "char_insertions": 82,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.8621323529411765
+        },
+        "wer_ci95": [
+          0.010140987840998449,
+          0.014841937026503233
+        ],
+        "cer_ci95": [
+          0.003199460828193918,
+          0.0057059813442127735
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.012392196265594908,
+            "cer": 0.00437421888948402,
+            "mer": 0.012376651613982272,
+            "wil": 0.0210828903062108,
+            "wip": 0.9789171096937892,
+            "word_hits": 11810,
+            "word_substitutions": 105,
+            "word_deletions": 28,
+            "word_insertions": 15,
+            "reference_words": 11943,
+            "char_hits": 66995,
+            "char_substitutions": 81,
+            "char_deletions": 136,
+            "char_insertions": 77,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.8933823529411765
+          }
+        },
+        "utterance_mean_wer": 0.01187204084722467,
+        "utterance_mean_cer": 0.004199895383034018
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-outetts-seedtts_en-000",
+          "result_sha256": "afeff7ec619ea7b8ad79b8e08f88c006eebee81a85e37ec16dee288e8a9045b1",
+          "config_sha256": "97f0c1f55945c79ff2fa2f8ec5c4a9b011e631e140c0c1bbee19c6038986899b",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-outetts-seedtts_en-001",
+          "result_sha256": "817f744e6efb4ce40e0ee6510c3aaacf51e5e0b6551f81fd6929551391436e49",
+          "config_sha256": "fe7a8fc412f2e270d119c4827caaa1dfd1bdecf9e70bbc24f1e2aa3eadb851b2",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-outetts-seedtts_en-002",
+          "result_sha256": "ad2cf74b1ae52d20d196a36b0333fb2ed2ef6ef3c2eb4b4297d1d1a9cdd5d958",
+          "config_sha256": "25c41f3b7dc4a95e15ce22e4926c282947ff008865f2c45b6703711bbf6246a6",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-outetts-seedtts_en-003",
+          "result_sha256": "d0277a3d3b8a53bc8b0da6bfd83190cc4125a26fa270220d45724baac371b623",
+          "config_sha256": "7c5cde33944aa739d400baaf134441672ad00a7d30e3a6f3fcc3eb29d5be89cc",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-outetts-seedtts_en-004",
+          "result_sha256": "fdf465132f33d45693e900b230587e08469fef98b8e7cb422626dc21128295c7",
+          "config_sha256": "79c8cf9e283134ce08bce6b36ec1ebba3ca04a0d1b46e223e040998f1d26bd65",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-outetts-seedtts_en-005",
+          "result_sha256": "317b028c3b0f23d70c92b41fb126a490a6db24d84550ea3405d3e951f578efa1",
+          "config_sha256": "9199b65843ec15ab16889144548be0dff35544717ae0af57d6b60730764748be",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "vibevoice",
+      "name": "VibeVoice",
+      "checkpoint": "microsoft/VibeVoice-Realtime-0.5B",
+      "revision": "6bce5f06044837fe6d2c5d7a71a84f0416bd57e4",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 2.793820545077324,
+        "latency_p95_s": 4.0911998309195035,
+        "rtf": 0.6212332774264896,
+        "peak_vram_mib": 2034.2626953125,
+        "audio_seconds": 4941.2,
+        "clipping_ratio": 7.978451797385622e-09,
+        "silence_ratio": 0.31937791229579665,
+        "rms_dbfs": -26.039530312116856,
+        "ttfa_p50_s": 0.06309791281819344,
+        "ttfa_p95_s": 0.07142821289598941,
+        "ttfa_samples": 1088,
+        "normalization_id": "whisper_english",
+        "wer": 0.013145775768232438,
+        "cer": 0.004151044456347081,
+        "mer": 0.013129285833751463,
+        "wil": 0.023229322079901915,
+        "wip": 0.9767706779200981,
+        "word_hits": 11801,
+        "word_substitutions": 122,
+        "word_deletions": 20,
+        "word_insertions": 15,
+        "reference_words": 11943,
+        "char_hits": 67020,
+        "char_substitutions": 93,
+        "char_deletions": 99,
+        "char_insertions": 87,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.8823529411764706,
+        "raw": {
+          "wer": 0.059027777777777776,
+          "cer": 0.013905770677779707,
+          "mer": 0.058987813134732565,
+          "wil": 0.11103724429267559,
+          "wip": 0.8889627557073244,
+          "word_hits": 11119,
+          "word_substitutions": 651,
+          "word_deletions": 38,
+          "word_insertions": 8,
+          "reference_words": 11808,
+          "char_hits": 68341,
+          "char_substitutions": 406,
+          "char_deletions": 361,
+          "char_insertions": 194,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.6139705882352942
+        },
+        "orthographic": {
+          "wer": 0.01388066017774016,
+          "cer": 0.005096052416539142,
+          "mer": 0.01387126786771547,
+          "wil": 0.025490449385964564,
+          "wip": 0.9745095506140354,
+          "word_hits": 11659,
+          "word_substitutions": 139,
+          "word_deletions": 17,
+          "word_insertions": 8,
+          "reference_words": 11815,
+          "char_hits": 67034,
+          "char_substitutions": 110,
+          "char_deletions": 163,
+          "char_insertions": 70,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.8722426470588235
+        },
+        "wer_ci95": [
+          0.010848131126616388,
+          0.015379696839116497
+        ],
+        "cer_ci95": [
+          0.003391400828390384,
+          0.00499105574195605
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.013145775768232438,
+            "cer": 0.004151044456347081,
+            "mer": 0.013129285833751463,
+            "wil": 0.023229322079901915,
+            "wip": 0.9767706779200981,
+            "word_hits": 11801,
+            "word_substitutions": 122,
+            "word_deletions": 20,
+            "word_insertions": 15,
+            "reference_words": 11943,
+            "char_hits": 67020,
+            "char_substitutions": 93,
+            "char_deletions": 99,
+            "char_insertions": 87,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.8823529411764706
+          }
+        },
+        "utterance_mean_wer": 0.012995374453257238,
+        "utterance_mean_cer": 0.004069196706291303
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-vibevoice-seedtts_en-000",
+          "result_sha256": "e5e85513dcc72927cc03579f2b701ba698a778d1985826a17a506c1648b0f9ee",
+          "config_sha256": "75f9b1110c08c0f2e51fee3b922bd7289b01bd32f52ed2b8e9117f4b46ac4de6",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-vibevoice-seedtts_en-001",
+          "result_sha256": "7a90af43080a43c5dd0701cf6e381bd6f6f181989b2d302e2b20234a55fee636",
+          "config_sha256": "0a81c37638695b7eafb8b96945f182e1cf13e8bf3fe9e3502cf28fdd24fbc2a9",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-vibevoice-seedtts_en-002",
+          "result_sha256": "3c18c5a7c9da1b639f343948f21adb2d8ab7dd7dc8cc2d23d8ea3178600ff048",
+          "config_sha256": "3c6aee60bcae6697f33d492ad3a7acae756de6630552f6022f04009ce68e33ce",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-vibevoice-seedtts_en-003",
+          "result_sha256": "7486c5369e38d713093a371d08c1de14e66f246cc2f87e7f3bb970dcedebccb3",
+          "config_sha256": "1d436c39b93d58513169187f3a370d6d83a74d2e85c81b67f4eb026ced9c64bf",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-vibevoice-seedtts_en-004",
+          "result_sha256": "41811523b279ab7e91e267a148c76c3389eb9c194f797c460e586deeef5c0b81",
+          "config_sha256": "f74fcbd5f57cba59d5f42b4d689e85cccbb70915fae99b115c0318ff5accdce5",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-vibevoice-seedtts_en-005",
+          "result_sha256": "b062797f8d468ecb9d013b11346180a32edbcb5cd6d2532403541a7bcde1e7c6",
+          "config_sha256": "6ae5e9b754dcadaeaefe0a5f1ee5aba63829fb2233eb7dada1195a80383c4966",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "qwen3tts",
+      "name": "Qwen3TTS",
+      "checkpoint": "Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice",
+      "revision": "0c0e3051f131929182e2c023b9537f8b1c68adfe",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 8.603621456772089,
+        "latency_p95_s": 13.723505410738287,
+        "rtf": 1.7696765178685818,
+        "peak_vram_mib": 4351.36962890625,
+        "audio_seconds": 5396.08,
+        "clipping_ratio": 0.0,
+        "silence_ratio": 0.2114373210618118,
+        "rms_dbfs": -21.57469666576863,
+        "normalization_id": "whisper_english",
+        "wer": 0.013815624215021352,
+        "cer": 0.0043890971850264835,
+        "mer": 0.013802911159444537,
+        "wil": 0.02513313514949267,
+        "wip": 0.9748668648505073,
+        "word_hits": 11789,
+        "word_substitutions": 137,
+        "word_deletions": 17,
+        "word_insertions": 11,
+        "reference_words": 11943,
+        "char_hits": 66985,
+        "char_substitutions": 116,
+        "char_deletions": 111,
+        "char_insertions": 68,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.8832720588235294,
+        "raw": {
+          "wer": 0.05775745257452575,
+          "cer": 0.014281993401632227,
+          "mer": 0.057737893667456824,
+          "wil": 0.10905054114235402,
+          "wip": 0.890949458857646,
+          "word_hits": 11130,
+          "word_substitutions": 641,
+          "word_deletions": 37,
+          "word_insertions": 4,
+          "reference_words": 11808,
+          "char_hits": 68298,
+          "char_substitutions": 420,
+          "char_deletions": 390,
+          "char_insertions": 177,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.6259191176470589
+        },
+        "orthographic": {
+          "wer": 0.016165890816758358,
+          "cer": 0.006269778774867399,
+          "mer": 0.016159052453468697,
+          "wil": 0.029841656027112418,
+          "wip": 0.9701583439728876,
+          "word_hits": 11629,
+          "word_substitutions": 164,
+          "word_deletions": 22,
+          "word_insertions": 5,
+          "reference_words": 11815,
+          "char_hits": 66938,
+          "char_substitutions": 145,
+          "char_deletions": 224,
+          "char_insertions": 53,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.8621323529411765
+        },
+        "wer_ci95": [
+          0.011347743257994994,
+          0.016629512899164478
+        ],
+        "cer_ci95": [
+          0.00341322717010673,
+          0.005637916399275065
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.013815624215021352,
+            "cer": 0.0043890971850264835,
+            "mer": 0.013802911159444537,
+            "wil": 0.02513313514949267,
+            "wip": 0.9748668648505073,
+            "word_hits": 11789,
+            "word_substitutions": 137,
+            "word_deletions": 17,
+            "word_insertions": 11,
+            "reference_words": 11943,
+            "char_hits": 66985,
+            "char_substitutions": 116,
+            "char_deletions": 111,
+            "char_insertions": 68,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.8832720588235294
+          }
+        },
+        "utterance_mean_wer": 0.013853437463272021,
+        "utterance_mean_cer": 0.004452845678980064
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-qwen3tts-seedtts_en-000",
+          "result_sha256": "4599ad00909bf5add6e6f27f3f3a6b202f378689ffc19dc13621082b74786d46",
+          "config_sha256": "7b9ad8473b9005027c6cce49cad82993068834966e3004c2ffcafbf1cd8e47d2",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-qwen3tts-seedtts_en-001",
+          "result_sha256": "aae11dcb76378183e8204b2f7b5059c104908944ebc1fc0fa23b326be8e9628b",
+          "config_sha256": "09911adff74beed626eeac78bfc562c2e73a47ebb8b7fed944fcf2e07650c7e5",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-qwen3tts-seedtts_en-002",
+          "result_sha256": "e8ad7fbaf05225d55c4f62640de3ee0bb9ed684fd655cf3c5eced6bc156c1915",
+          "config_sha256": "4a4748f23dfc80cc2112cea980fc062a89a66da439ec50b7f874e9e3e4cf79fa",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-qwen3tts-seedtts_en-003",
+          "result_sha256": "41b9f0863020828fc82e66b3ff4ea0c4cefea8721bb409ec2c439eb023040a20",
+          "config_sha256": "709378115906f653258c3aee307c65cf3bff87a7cc11e61f64ffb4e6b68a7eb9",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-qwen3tts-seedtts_en-004",
+          "result_sha256": "fa8fd67693b1e66539ef66417f47aec996f862c973855ad8eb54a7e8490480a6",
+          "config_sha256": "febf78f198da9c4c966327555b3bc6a04024d8a3868990ad826f659bb19663cf",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-qwen3tts-seedtts_en-005",
+          "result_sha256": "90e1020b7cb7c8cb4677656b4ffe1f6a24caf109603a1017d498c722e1417305",
+          "config_sha256": "d1ec321689f3687c92f553a14efdad49c1bad7c6d21547a1bdc41129c09ba7bb",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "neutts",
+      "name": "NeuTTS",
+      "checkpoint": "neuphonic/neutts-2e",
+      "revision": "412aaab11c6b727c6c0fe2552db305c234e568da",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 6.949139470234513,
+        "latency_p95_s": 9.845434662140903,
+        "rtf": 1.7043660177076607,
+        "peak_vram_mib": 3476.28369140625,
+        "audio_seconds": 4472.06,
+        "clipping_ratio": 4.345555472947041e-06,
+        "silence_ratio": 0.27913515952061047,
+        "rms_dbfs": -19.889727299836053,
+        "normalization_id": "whisper_english",
+        "wer": 0.014736665829356108,
+        "cer": 0.006204249241206927,
+        "mer": 0.014692378328741965,
+        "wil": 0.02428765130115995,
+        "wip": 0.97571234869884,
+        "word_hits": 11803,
+        "word_substitutions": 116,
+        "word_deletions": 24,
+        "word_insertions": 36,
+        "reference_words": 11943,
+        "char_hits": 66985,
+        "char_substitutions": 88,
+        "char_deletions": 139,
+        "char_insertions": 190,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.8887867647058824,
+        "raw": {
+          "wer": 0.05005081300813008,
+          "cer": 0.014687156335011865,
+          "mer": 0.04993662864385298,
+          "wil": 0.09201670417314756,
+          "wip": 0.9079832958268524,
+          "word_hits": 11244,
+          "word_substitutions": 521,
+          "word_deletions": 43,
+          "word_insertions": 27,
+          "reference_words": 11808,
+          "char_hits": 68321,
+          "char_substitutions": 384,
+          "char_deletions": 403,
+          "char_insertions": 228,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.6700367647058824
+        },
+        "orthographic": {
+          "wer": 0.017181548878544225,
+          "cer": 0.008126940734247553,
+          "mer": 0.017136586189431032,
+          "wil": 0.029150115444661617,
+          "wip": 0.9708498845553384,
+          "word_hits": 11643,
+          "word_substitutions": 144,
+          "word_deletions": 28,
+          "word_insertions": 31,
+          "reference_words": 11815,
+          "char_hits": 66937,
+          "char_substitutions": 120,
+          "char_deletions": 250,
+          "char_insertions": 177,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.8667279411764706
+        },
+        "wer_ci95": [
+          0.011031144307612399,
+          0.019876654385442543
+        ],
+        "cer_ci95": [
+          0.003660288780343977,
+          0.010057701099493685
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.014736665829356108,
+            "cer": 0.006204249241206927,
+            "mer": 0.014692378328741965,
+            "wil": 0.02428765130115995,
+            "wip": 0.97571234869884,
+            "word_hits": 11803,
+            "word_substitutions": 116,
+            "word_deletions": 24,
+            "word_insertions": 36,
+            "reference_words": 11943,
+            "char_hits": 66985,
+            "char_substitutions": 88,
+            "char_deletions": 139,
+            "char_insertions": 190,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.8887867647058824
+          }
+        },
+        "utterance_mean_wer": 0.014267839703068943,
+        "utterance_mean_cer": 0.00575985081832371
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-neutts-seedtts_en-000",
+          "result_sha256": "09f6ab121178bfdfb072b518864adf9dcfaf3af8339e35476b8527897a59b802",
+          "config_sha256": "ecb01ace6d0aea7feab33d45fd4c7193a8558bc094e0fbe3d391cfce74be97e6",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-neutts-seedtts_en-001",
+          "result_sha256": "467a71c8920670b34507cee0635901e1ad62eb4905eae6c0e7d7409374c77184",
+          "config_sha256": "553fb6440c282c0449ef6ea5a19130d097129a5197852beb249529f90c0ea58b",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-neutts-seedtts_en-002",
+          "result_sha256": "d9544ca9cf58e3cb2b73cf4d978ca15328318ecc2c5ed17ce16095abf0163851",
+          "config_sha256": "170601f7b149e88df40a917b173941376a1183df669bdd6d5499949225b241d2",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-neutts-seedtts_en-003",
+          "result_sha256": "e4db1689d24882d7a6e997c30fc11c4dbf5dc39c2c9cb34296a6536456237ceb",
+          "config_sha256": "3e81e2feeb1bbd3b6d2291601c1a0e65c96e5a47e8ca0a112389c7059243dcf4",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-neutts-seedtts_en-004",
+          "result_sha256": "29227d8f008759405cd61d1c6f4c017a4b103ccd62859b3c58ee6c8eac8903b1",
+          "config_sha256": "24b86a31293a044f81135a3d891528f1d80e54f25955514632242cc9928351c4",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-neutts-seedtts_en-005",
+          "result_sha256": "1e18e1acd1f0267eafa0fdf857b19ddd8130246d097099a97a63a36b07ce897a",
+          "config_sha256": "534d12be5a4bef75916059793ff05c64c9f3638391fc05de26f15c0e1a4ec690",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "higgstts",
+      "name": "HiggsTTS",
+      "checkpoint": "bosonai/higgs-tts-2-3b-base",
+      "revision": "d80c511612b3040ff2877ce3d408747df1739f11",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 4.582375276833773,
+        "latency_p95_s": 7.186718510463833,
+        "rtf": 1.171588010392337,
+        "peak_vram_mib": 11947.0888671875,
+        "audio_seconds": 4356.6,
+        "clipping_ratio": 2.2705394611234025e-06,
+        "silence_ratio": 0.2434151965391991,
+        "rms_dbfs": -21.519289781106792,
+        "normalization_id": "whisper_english",
+        "wer": 0.017416059616511763,
+        "cer": 0.006710111289650658,
+        "mer": 0.01738113144480655,
+        "wil": 0.02976327841893811,
+        "wip": 0.9702367215810619,
+        "word_hits": 11759,
+        "word_substitutions": 150,
+        "word_deletions": 34,
+        "word_insertions": 24,
+        "reference_words": 11943,
+        "char_hits": 66901,
+        "char_substitutions": 145,
+        "char_deletions": 166,
+        "char_insertions": 140,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.859375,
+        "raw": {
+          "wer": 0.06317750677506775,
+          "cer": 0.016611680268565146,
+          "mer": 0.06309201623815967,
+          "wil": 0.11675614684675784,
+          "wip": 0.8832438531532422,
+          "word_hits": 11078,
+          "word_substitutions": 673,
+          "word_deletions": 57,
+          "word_insertions": 16,
+          "reference_words": 11808,
+          "char_hits": 68166,
+          "char_substitutions": 505,
+          "char_deletions": 437,
+          "char_insertions": 206,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.5974264705882353
+        },
+        "orthographic": {
+          "wer": 0.02031316123571731,
+          "cer": 0.008305228282348047,
+          "mer": 0.02028740490278952,
+          "wil": 0.03552046085441474,
+          "wip": 0.9644795391455853,
+          "word_hits": 11590,
+          "word_substitutions": 183,
+          "word_deletions": 42,
+          "word_insertions": 15,
+          "reference_words": 11815,
+          "char_hits": 66856,
+          "char_substitutions": 177,
+          "char_deletions": 274,
+          "char_insertions": 108,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.8363970588235294
+        },
+        "wer_ci95": [
+          0.014684263569190567,
+          0.02052255964339718
+        ],
+        "cer_ci95": [
+          0.005334938979585008,
+          0.008322318642279253
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.017416059616511763,
+            "cer": 0.006710111289650658,
+            "mer": 0.01738113144480655,
+            "wil": 0.02976327841893811,
+            "wip": 0.9702367215810619,
+            "word_hits": 11759,
+            "word_substitutions": 150,
+            "word_deletions": 34,
+            "word_insertions": 24,
+            "reference_words": 11943,
+            "char_hits": 66901,
+            "char_substitutions": 145,
+            "char_deletions": 166,
+            "char_insertions": 140,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.859375
+          }
+        },
+        "utterance_mean_wer": 0.017204365538464803,
+        "utterance_mean_cer": 0.006782952438796437
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-higgstts-seedtts_en-000",
+          "result_sha256": "b349a206a037a08c1840d1ed9aafe8a92beb6ffcad96e74f10d34f7394d10128",
+          "config_sha256": "b14f013cae01241a74f007931f43f3220fd314fb2111a92391c03fa76835c092",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-higgstts-seedtts_en-001",
+          "result_sha256": "d168b4a8fd90f9a76843ce1bb8b1f1d6f202a42ab12c40609b7136ea6a29f167",
+          "config_sha256": "4d3805d0e51d721bf0b31e16310612932f69bb6be22a704b066084b53f5d07b4",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-higgstts-seedtts_en-002",
+          "result_sha256": "332de2c9bd1265c68105cdffc3d48a51dd1e38e4fed5c6af24ec632fd8654f4a",
+          "config_sha256": "72219946666ca8c0a2ee87fd26ff75ae83e565bf080134f2778ca8979d9d8548",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-higgstts-seedtts_en-003",
+          "result_sha256": "8def67f27c34ab7410b377eb4a41ff899583820c2f465c9c09e02d6799abddc3",
+          "config_sha256": "40f4009b67a5c97be8d2e2ce14e21e2deb7b482f2c91ed3b940e346a058fa203",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-higgstts-seedtts_en-004",
+          "result_sha256": "d05f88abbefc019fd4c38a6d76c45fbfcda9dccff102e3823e0bb32df20faccb",
+          "config_sha256": "f91f582d1bc4f6ab1a32af9699072da6a6bc38a9338923d172b8c62fce90cda3",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-higgstts-seedtts_en-005",
+          "result_sha256": "4644bb00894104f10e09d83b2557448ec2a544d678f8b17d233a7603eabed217",
+          "config_sha256": "5858f648b6cba46f94cb1a8aadcb8608bc0cc0a429ee70d35cc7a8db9ad1ea0c",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "cosyvoice",
+      "name": "CosyVoice 3 \u00b7 0.5B \u00b7 2512",
+      "checkpoint": "artifacts/cosyvoice3",
+      "revision": null,
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "generation_limit_rate": 0.0,
+        "generation_limit_samples": 0,
+        "generation_limit_checks": 1088,
+        "latency_p50_s": 2.636332143098116,
+        "latency_p95_s": 3.7965015506371853,
+        "rtf": 0.7025528225695982,
+        "peak_vram_mib": 3429.84326171875,
+        "audio_seconds": 4108.52,
+        "clipping_ratio": 0.0,
+        "silence_ratio": 0.17668273965805056,
+        "rms_dbfs": -18.83834829603301,
+        "normalization_id": "whisper_english",
+        "wer": 0.017416059616511763,
+        "cer": 0.0062340058322918526,
+        "mer": 0.017391304347826087,
+        "wil": 0.031161646058276316,
+        "wip": 0.9688383539417237,
+        "word_hits": 11752,
+        "word_substitutions": 167,
+        "word_deletions": 24,
+        "word_insertions": 17,
+        "reference_words": 11943,
+        "char_hits": 66899,
+        "char_substitutions": 173,
+        "char_deletions": 140,
+        "char_insertions": 106,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.8547794117647058,
+        "raw": {
+          "wer": 0.06537940379403794,
+          "cer": 0.017103663830526132,
+          "mer": 0.06529093369418133,
+          "wil": 0.1219419031470681,
+          "wip": 0.8780580968529319,
+          "word_hits": 11052,
+          "word_substitutions": 713,
+          "word_deletions": 43,
+          "word_insertions": 16,
+          "reference_words": 11808,
+          "char_hits": 68140,
+          "char_substitutions": 534,
+          "char_deletions": 434,
+          "char_insertions": 214,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.5744485294117647
+        },
+        "orthographic": {
+          "wer": 0.020059246720270842,
+          "cer": 0.00833494287369813,
+          "mer": 0.02003381234150465,
+          "wil": 0.03632909965606956,
+          "wip": 0.9636709003439304,
+          "word_hits": 11593,
+          "word_substitutions": 196,
+          "word_deletions": 26,
+          "word_insertions": 15,
+          "reference_words": 11815,
+          "char_hits": 66844,
+          "char_substitutions": 205,
+          "char_deletions": 258,
+          "char_insertions": 98,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.8290441176470589
+        },
+        "wer_ci95": [
+          0.014638886696980343,
+          0.02044482781056171
+        ],
+        "cer_ci95": [
+          0.005187774747425175,
+          0.007428619023023338
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.017416059616511763,
+            "cer": 0.0062340058322918526,
+            "mer": 0.017391304347826087,
+            "wil": 0.031161646058276316,
+            "wip": 0.9688383539417237,
+            "word_hits": 11752,
+            "word_substitutions": 167,
+            "word_deletions": 24,
+            "word_insertions": 17,
+            "reference_words": 11943,
+            "char_hits": 66899,
+            "char_substitutions": 173,
+            "char_deletions": 140,
+            "char_insertions": 106,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.8547794117647058
+          }
+        },
+        "utterance_mean_wer": 0.01791734740953491,
+        "utterance_mean_cer": 0.006269259896464724
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "quality-cosyvoice-v3-fixed-seedtts-en-20260915",
+          "result_sha256": "35d0a81c6c4a3207b9b8a067d5b10c144196c7599fe0c151322b30185d9892f6",
+          "config_sha256": "39e397c83bbb63a94cdf72558bbbf770cfddea0aa5f18cb43d6fdcda113c3fdb",
+          "dataset_part_sha256": "8a9386efb1768a90ffba66f8931e3887b53e9c9d1bf246eb46a8cce32bc7b1c1"
+        }
+      ],
+      "quality_review_reason": "Full 1088-text resynthesis verified after publisher-aligned HiFT repair.",
+      "upstream_checkpoint": "FunAudioLLM/Fun-CosyVoice3-0.5B-2512",
+      "upstream_revision": "29e01c4e8d000f4bcd70751be16fa94bf3d85a18",
+      "score_status": "corrected_full_run",
+      "correction": {
+        "version": "cosyvoice-v3-hift-20260915",
+        "verified_at": "2026-09-15T15:53:32.639125+00:00",
+        "report": "cosyvoice-correction.html",
+        "verification": "reports/cosyvoice-correction-2026-09-15/verification.json",
+        "original_wer": 0.13815624215021352,
+        "original_cer": 0.07709932750104148,
+        "original_score_status": "invalidated_by_implementation_bug",
+        "original_dataset_revision": "7d02b49322a9731ea9b1cc6279ef3f7a80949ae8",
+        "original_audio_archive": "audio_shards/cosyvoice.tar",
+        "original_records": "reports/cosyvoice-correction-2026-09-15/original-model-records.json",
+        "corrected_dataset_revision": "56c87034f5ef6a4b7bcfe403390ed86a0fc36611",
+        "corrected_audio_archive": "corrections/cosyvoice-v3-hift-20260915/cosyvoice.tar"
+      }
+    },
+    {
+      "model": "inflecttts",
+      "name": "InflectTTS",
+      "checkpoint": "owensong/Inflect-Micro-v2",
+      "revision": "132edf8700da8e0d3fa81cdc0fd8844926fc6582",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 0.060717109590768814,
+        "latency_p95_s": 0.07416072003543377,
+        "rtf": 0.014407729416794657,
+        "peak_vram_mib": 174.49169921875,
+        "audio_seconds": 4074.2906666666668,
+        "clipping_ratio": 0.0,
+        "silence_ratio": 0.23552280891102917,
+        "rms_dbfs": -23.741855445278556,
+        "normalization_id": "whisper_english",
+        "wer": 0.017583521728208994,
+        "cer": 0.0058918050348152114,
+        "mer": 0.017562933846282512,
+        "wil": 0.03222911364088443,
+        "wip": 0.9677708863591156,
+        "word_hits": 11747,
+        "word_substitutions": 178,
+        "word_deletions": 18,
+        "word_insertions": 14,
+        "reference_words": 11943,
+        "char_hits": 66925,
+        "char_substitutions": 177,
+        "char_deletions": 110,
+        "char_insertions": 109,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.8566176470588235,
+        "raw": {
+          "wer": 0.05157520325203252,
+          "cer": 0.01435434392545002,
+          "mer": 0.051518484053802556,
+          "wil": 0.09641124971765758,
+          "wip": 0.9035887502823424,
+          "word_hits": 11212,
+          "word_substitutions": 557,
+          "word_deletions": 39,
+          "word_insertions": 13,
+          "reference_words": 11808,
+          "char_hits": 68240,
+          "char_substitutions": 478,
+          "char_deletions": 390,
+          "char_insertions": 124,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.6672794117647058
+        },
+        "orthographic": {
+          "wer": 0.02073635209479475,
+          "cer": 0.008022939664522263,
+          "mer": 0.020715312420732223,
+          "wil": 0.03831992870492207,
+          "wip": 0.9616800712950779,
+          "word_hits": 11582,
+          "word_substitutions": 212,
+          "word_deletions": 21,
+          "word_insertions": 12,
+          "reference_words": 11815,
+          "char_hits": 66867,
+          "char_substitutions": 207,
+          "char_deletions": 233,
+          "char_insertions": 100,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.8272058823529411
+        },
+        "wer_ci95": [
+          0.014729798756944202,
+          0.020587894869992844
+        ],
+        "cer_ci95": [
+          0.004852113065057902,
+          0.006962616006936535
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.017583521728208994,
+            "cer": 0.0058918050348152114,
+            "mer": 0.017562933846282512,
+            "wil": 0.03222911364088443,
+            "wip": 0.9677708863591156,
+            "word_hits": 11747,
+            "word_substitutions": 178,
+            "word_deletions": 18,
+            "word_insertions": 14,
+            "reference_words": 11943,
+            "char_hits": 66925,
+            "char_substitutions": 177,
+            "char_deletions": 110,
+            "char_insertions": 109,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.8566176470588235
+          }
+        },
+        "utterance_mean_wer": 0.017602403723727254,
+        "utterance_mean_cer": 0.006094378628546624
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-inflecttts-seedtts_en-000",
+          "result_sha256": "4e19b3c2ddf61761f6581b6cee3a451da7f5b321e70ad08325f8df80b7e1f13e",
+          "config_sha256": "82ee7ed2fbf3c6dfe030a16513617cf7cf080e577d4c36a74bb14f693d587139",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-inflecttts-seedtts_en-001",
+          "result_sha256": "6a1e178764dea6f643d89fb2d2a29140e29494547b4f4a66a5bab19fde4b6f54",
+          "config_sha256": "46a1d1a0c922127cfe57a465fb8f527093ac2817cfde4a4b54d9ab810fbd60f7",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-inflecttts-seedtts_en-002",
+          "result_sha256": "6d4a8cdb6106384a8e816b845eb902e75dee27cc504e840741b0d3269c62b8a9",
+          "config_sha256": "e728a7e295127e784900965b66d710c2924b304fe450947e38ed024b469cc704",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-inflecttts-seedtts_en-003",
+          "result_sha256": "7ba148fae816861d6adcbf9687fcb26643b46de3cfb427834a6291089e90020d",
+          "config_sha256": "e8e9b2140661b2c737e853be5ee1f10881c8f47fa9f69150445c6fd5e2f5e79e",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-inflecttts-seedtts_en-004",
+          "result_sha256": "37da9feabc214e3a61a854357c23af67bb27e874634cefbafbdb929edce42086",
+          "config_sha256": "69bed90688690c37ad7171aa64e209e8c62b0745fb283a4cfec47f9025a7e492",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-inflecttts-seedtts_en-005",
+          "result_sha256": "395b5646e1bf1a05d07403b036f51cb9dfa0c9ed730bd2fed7405c1db392778a",
+          "config_sha256": "f8d3009b7dd8d09bea032033dfcf6c37a543818aaefbf3284c2ec40fa02bb46a",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "orpheustts",
+      "name": "OrpheusTTS",
+      "checkpoint": "canopylabs/orpheus-3b-0.1-ft",
+      "revision": "4206a56e5a68cf6cf96900a8a78acd3370c02eb6",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 11.744120076298714,
+        "latency_p95_s": 17.74872815031558,
+        "rtf": 2.5830602675349486,
+        "peak_vram_mib": 6409.50244140625,
+        "audio_seconds": 5113.685333333333,
+        "clipping_ratio": 0.0,
+        "silence_ratio": 0.40942533109258156,
+        "rms_dbfs": -27.90337897777544,
+        "normalization_id": "whisper_english",
+        "wer": 0.020011722347818808,
+        "cer": 0.007692078795453193,
+        "mer": 0.019973257563095436,
+        "wil": 0.03503674213176289,
+        "wip": 0.9649632578682371,
+        "word_hits": 11727,
+        "word_substitutions": 183,
+        "word_deletions": 33,
+        "word_insertions": 23,
+        "reference_words": 11943,
+        "char_hits": 66827,
+        "char_substitutions": 211,
+        "char_deletions": 174,
+        "char_insertions": 132,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.8373161764705882,
+        "raw": {
+          "wer": 0.0687669376693767,
+          "cer": 0.018637494935463333,
+          "mer": 0.06868550160717307,
+          "wil": 0.1283068796765916,
+          "wip": 0.8716931203234084,
+          "word_hits": 11010,
+          "word_substitutions": 753,
+          "word_deletions": 45,
+          "word_insertions": 14,
+          "reference_words": 11808,
+          "char_hits": 68037,
+          "char_substitutions": 584,
+          "char_deletions": 487,
+          "char_insertions": 217,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.5854779411764706
+        },
+        "orthographic": {
+          "wer": 0.021921286500211596,
+          "cer": 0.00941952545797614,
+          "mer": 0.021891640605189756,
+          "wil": 0.039410306008345386,
+          "wip": 0.9605896939916546,
+          "word_hits": 11572,
+          "word_substitutions": 211,
+          "word_deletions": 32,
+          "word_insertions": 16,
+          "reference_words": 11815,
+          "char_hits": 66782,
+          "char_substitutions": 243,
+          "char_deletions": 282,
+          "char_insertions": 109,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.8161764705882353
+        },
+        "wer_ci95": [
+          0.016988210857373835,
+          0.023450519014427323
+        ],
+        "cer_ci95": [
+          0.006083833741794046,
+          0.009892766606762127
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.020011722347818808,
+            "cer": 0.007692078795453193,
+            "mer": 0.019973257563095436,
+            "wil": 0.03503674213176289,
+            "wip": 0.9649632578682371,
+            "word_hits": 11727,
+            "word_substitutions": 183,
+            "word_deletions": 33,
+            "word_insertions": 23,
+            "reference_words": 11943,
+            "char_hits": 66827,
+            "char_substitutions": 211,
+            "char_deletions": 174,
+            "char_insertions": 132,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.8373161764705882
+          }
+        },
+        "utterance_mean_wer": 0.020058611476350446,
+        "utterance_mean_cer": 0.008047379814062864
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-orpheustts-seedtts_en-000",
+          "result_sha256": "efcd17bf6344678ee7c4d2b3682ea15d952d4dd34a4e6234d19baf7cad723cd2",
+          "config_sha256": "37944a31fa1b17edbee3103899242619e547d29fa92f92a98fd2286641a52515",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-orpheustts-seedtts_en-001",
+          "result_sha256": "180a32b2075a6306bb958011cb4fec462b8851cf53ba5a57b19029de02c96566",
+          "config_sha256": "921ea95419e4e033984b7d95c57579f6cf24d85dd61af1012840757ccd68c911",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-orpheustts-seedtts_en-002",
+          "result_sha256": "ca6032f4b214f65e859df599472a2a07eb9dde067d21d665dae3ca718580355a",
+          "config_sha256": "0d9385a2bb0e2ab55a95143746a4f83c320c5c39cb5a45a060f546f36c82335e",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-orpheustts-seedtts_en-003",
+          "result_sha256": "3d880468994baed08f10cd5b17451f972f77012185cf6355660a9207be2eb4f8",
+          "config_sha256": "90e728cedd27613042053ecfd5904a1226069a658c98910b3c06f24df0448ec4",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-orpheustts-seedtts_en-004",
+          "result_sha256": "2424142ad0d16121410b1154b83cae0114be3263748af6966e1f92aab1c8ab0c",
+          "config_sha256": "63f54df5e03b4de95bfdfde249e5b5dff57d6e0c8e2a853534ad19728ad1f6df",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-orpheustts-seedtts_en-005",
+          "result_sha256": "4f1dafe28af00d135e08df7167c69c6cc4ee6f19d6e8e236fab53bcbaacbe681",
+          "config_sha256": "f3e98fa2c7bc4350459ac9a9c42b79c0111d8a83c0ce2e56b1cba436193e2507",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "zonos",
+      "name": "Zonos",
+      "checkpoint": "Zyphra/Zonos-v0.1-transformer",
+      "revision": "9d8331fc49cb5ba8aad2bb56cafd809c66598f4e",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 6.9678456503897905,
+        "latency_p95_s": 10.227166134119033,
+        "rtf": 1.7680858104657158,
+        "peak_vram_mib": 4144.82080078125,
+        "audio_seconds": 4331.996009070294,
+        "clipping_ratio": 1.1080583572800664e-07,
+        "silence_ratio": 0.26132722105228,
+        "rms_dbfs": -23.673586565392633,
+        "normalization_id": "whisper_english",
+        "wer": 0.02302604035836892,
+        "cer": 0.0096411355115158,
+        "mer": 0.022951093306626605,
+        "wil": 0.037599506467079435,
+        "wip": 0.9624004935329206,
+        "word_hits": 11707,
+        "word_substitutions": 178,
+        "word_deletions": 58,
+        "word_insertions": 39,
+        "reference_words": 11943,
+        "char_hits": 66756,
+        "char_substitutions": 181,
+        "char_deletions": 275,
+        "char_insertions": 192,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.8023897058823529,
+        "raw": {
+          "wer": 0.07173102981029811,
+          "cer": 0.02076460033570643,
+          "mer": 0.0715130023640662,
+          "wil": 0.13006869071599914,
+          "wip": 0.8699313092840009,
+          "word_hits": 10997,
+          "word_substitutions": 740,
+          "word_deletions": 71,
+          "word_insertions": 36,
+          "reference_words": 11808,
+          "char_hits": 67927,
+          "char_substitutions": 575,
+          "char_deletions": 606,
+          "char_insertions": 254,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.5477941176470589
+        },
+        "orthographic": {
+          "wer": 0.026661024121878967,
+          "cer": 0.0118561219486829,
+          "mer": 0.026580035440047254,
+          "wil": 0.04489202747966681,
+          "wip": 0.9551079725203332,
+          "word_hits": 11536,
+          "word_substitutions": 221,
+          "word_deletions": 58,
+          "word_insertions": 36,
+          "reference_words": 11815,
+          "char_hits": 66705,
+          "char_substitutions": 220,
+          "char_deletions": 382,
+          "char_insertions": 196,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.7775735294117647
+        },
+        "wer_ci95": [
+          0.02007390075144153,
+          0.026153331156134465
+        ],
+        "cer_ci95": [
+          0.008174096745526271,
+          0.01130165207207019
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.02302604035836892,
+            "cer": 0.0096411355115158,
+            "mer": 0.022951093306626605,
+            "wil": 0.037599506467079435,
+            "wip": 0.9624004935329206,
+            "word_hits": 11707,
+            "word_substitutions": 178,
+            "word_deletions": 58,
+            "word_insertions": 39,
+            "reference_words": 11943,
+            "char_hits": 66756,
+            "char_substitutions": 181,
+            "char_deletions": 275,
+            "char_insertions": 192,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.8023897058823529
+          }
+        },
+        "utterance_mean_wer": 0.023355699436872036,
+        "utterance_mean_cer": 0.010020021987216247
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-zonos-seedtts_en-000",
+          "result_sha256": "14c30b42419a188275ad5bd46f4391492de071a491406ed671ca512d1214460b",
+          "config_sha256": "9043d82e15039486d8013fd004ff89c5c0e51ac3acb1781782b1e03847bae6e2",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-zonos-seedtts_en-001",
+          "result_sha256": "34be0fdeedcae3dedf60e22b8abca0453faf690283829d009f97868c2f9d74a0",
+          "config_sha256": "e8e5dcb61e420c61d80adb538db746fe07871c4a747a45ba0cf171a5f0a88023",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-zonos-seedtts_en-002",
+          "result_sha256": "04b0c65d49442f53a51a41d98424be71b573857dedbd95870f4c6da2eb8be820",
+          "config_sha256": "fe4c23121608de46df3f8d6ca5982bf20490fb17b0db83a690fc2accaec6b053",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-zonos-seedtts_en-003",
+          "result_sha256": "f605e25db2c797b0f364102427f39abab1d356b9f59a6c7086114754f26e18a2",
+          "config_sha256": "f2e4e73dfd2a09ff40caa5c7e4bbd01d87b03e71a78722f6f4e8d9c112bd64eb",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-zonos-seedtts_en-004",
+          "result_sha256": "90ef13624288319ca782f5808bb89ee5afa6e0cd80d6f0d6049349f89d6a551c",
+          "config_sha256": "1e64fe23a5a736e28e492aee7c6de968c1510986960ff97ef13f69cd7f31e9ed",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-zonos-seedtts_en-005",
+          "result_sha256": "0f07e10db273655d9d6d57456381b41740ac1536f478e8f8c1aaec1432adf62b",
+          "config_sha256": "db5980cd20c82c598831546388dc85828d867b9c83d0e7ef5b734b2294db7498",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "gptsovits",
+      "name": "GPTSoVITS",
+      "checkpoint": "lj1995/GPT-SoVITS",
+      "revision": "336b2ec4e8d4ac74740798dd40af44e74659ecaf",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 1.066016722470522,
+        "latency_p95_s": 1.7044374926015722,
+        "rtf": 0.3222476706943061,
+        "peak_vram_mib": 764.4111328125,
+        "audio_seconds": 3679.6,
+        "clipping_ratio": 0.0,
+        "silence_ratio": 0.15031361795966175,
+        "rms_dbfs": -21.53940639823217,
+        "normalization_id": "whisper_english",
+        "wer": 0.02637528259231349,
+        "cer": 0.008703802892340653,
+        "mer": 0.02626532143750521,
+        "wil": 0.04524414603704274,
+        "wip": 0.9547558539629573,
+        "word_hits": 11678,
+        "word_substitutions": 232,
+        "word_deletions": 33,
+        "word_insertions": 50,
+        "reference_words": 11943,
+        "char_hits": 66819,
+        "char_substitutions": 238,
+        "char_deletions": 155,
+        "char_insertions": 192,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.8226102941176471,
+        "raw": {
+          "wer": 0.06444783197831978,
+          "cer": 0.018333622735428604,
+          "mer": 0.06427364864864865,
+          "wil": 0.11854431783633534,
+          "wip": 0.8814556821636647,
+          "word_hits": 11079,
+          "word_substitutions": 682,
+          "word_deletions": 47,
+          "word_insertions": 32,
+          "reference_words": 11808,
+          "char_hits": 68051,
+          "char_substitutions": 606,
+          "char_deletions": 451,
+          "char_insertions": 210,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.6047794117647058
+        },
+        "orthographic": {
+          "wer": 0.02852306390181972,
+          "cer": 0.010608109111979437,
+          "mer": 0.028426824124841838,
+          "wil": 0.05012555211084746,
+          "wip": 0.9498744478891525,
+          "word_hits": 11518,
+          "word_substitutions": 263,
+          "word_deletions": 34,
+          "word_insertions": 40,
+          "reference_words": 11815,
+          "char_hits": 66764,
+          "char_substitutions": 270,
+          "char_deletions": 273,
+          "char_insertions": 171,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.8005514705882353
+        },
+        "wer_ci95": [
+          0.022651802065312383,
+          0.030441862466967787
+        ],
+        "cer_ci95": [
+          0.007285552893791007,
+          0.010238613992923822
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.02637528259231349,
+            "cer": 0.008703802892340653,
+            "mer": 0.02626532143750521,
+            "wil": 0.04524414603704274,
+            "wip": 0.9547558539629573,
+            "word_hits": 11678,
+            "word_substitutions": 232,
+            "word_deletions": 33,
+            "word_insertions": 50,
+            "reference_words": 11943,
+            "char_hits": 66819,
+            "char_substitutions": 238,
+            "char_deletions": 155,
+            "char_insertions": 192,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.8226102941176471
+          }
+        },
+        "utterance_mean_wer": 0.02771551747884468,
+        "utterance_mean_cer": 0.009832378998327021
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-gptsovits-seedtts_en-000",
+          "result_sha256": "68c67a56f38d0ae45b02230c9064b0d0e85094da3ef9e8259656829365521b30",
+          "config_sha256": "932901f4efbcc0c8c6eafbe4932f138ac131748b48b6a5263719779134e3a4ea",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-gptsovits-seedtts_en-001",
+          "result_sha256": "df73320b1a6164e64986fac28235db1a1aff3c714bd708c539ba2c21cbe59b75",
+          "config_sha256": "68e36877407486cdb5b4c386a3d3be6bd3bc66e48fc4a8c6da869948cd1b95be",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-gptsovits-seedtts_en-002",
+          "result_sha256": "c0966884e65f54ce8755e2cb1dc8d0698e73c2b935230637036444639a98f1a4",
+          "config_sha256": "d18e78970d7ffdfec4dc3ffaa0e28913b79d9b2ed9c791e2ca129d44c60153f4",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-gptsovits-seedtts_en-003",
+          "result_sha256": "53470ad72590edc8ac0bcc70ef5f86494bf8b002861777d587dbda4752916660",
+          "config_sha256": "17ef2a9cc9762a5498820a4fc98ec3a4a967ebb7641056ef8b7c5d9eac2eb98c",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-gptsovits-seedtts_en-004",
+          "result_sha256": "022a342fabfc883c717a98b26a233703167c98fb8216ff668d7609c31df31401",
+          "config_sha256": "7460e9bfdcc44590575be8d904ac302c0d76a4578870624423c630862e923b9e",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-gptsovits-seedtts_en-005",
+          "result_sha256": "0b4959029afda72e4429ccb580101d921cbd3c92b142978fc80ee2aae3d0bcbb",
+          "config_sha256": "eaa8fb7e9474c81f7d33bc99a8459388cec6fb9806b44c3be6cd655f2ce8aef0",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "melotts",
+      "name": "MeloTTS",
+      "checkpoint": "EN",
+      "revision": null,
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 0.1015011165291071,
+        "latency_p95_s": 0.11808984335511923,
+        "rtf": 0.019975049763602603,
+        "peak_vram_mib": 506.787109375,
+        "audio_seconds": 4986.566530612245,
+        "clipping_ratio": 0.0,
+        "silence_ratio": 0.3701696886986826,
+        "rms_dbfs": -26.93682087807902,
+        "normalization_id": "whisper_english",
+        "wer": 0.02637528259231349,
+        "cer": 0.01065285960840326,
+        "mer": 0.026328986960882646,
+        "wil": 0.048229403790975844,
+        "wip": 0.9517705962090242,
+        "word_hits": 11649,
+        "word_substitutions": 268,
+        "word_deletions": 26,
+        "word_insertions": 21,
+        "reference_words": 11943,
+        "char_hits": 66675,
+        "char_substitutions": 354,
+        "char_deletions": 183,
+        "char_insertions": 179,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.7766544117647058,
+        "raw": {
+          "wer": 0.0725779132791328,
+          "cer": 0.021965619031081785,
+          "mer": 0.07247357293868922,
+          "wil": 0.1353118233270264,
+          "wip": 0.8646881766729736,
+          "word_hits": 10968,
+          "word_substitutions": 797,
+          "word_deletions": 43,
+          "word_insertions": 17,
+          "reference_words": 11808,
+          "char_hits": 67803,
+          "char_substitutions": 704,
+          "char_deletions": 601,
+          "char_insertions": 213,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.5422794117647058
+        },
+        "orthographic": {
+          "wer": 0.030977570884468897,
+          "cer": 0.013772713090763219,
+          "mer": 0.030933062880324543,
+          "wil": 0.05708761850984678,
+          "wip": 0.9429123814901532,
+          "word_hits": 11466,
+          "word_substitutions": 318,
+          "word_deletions": 31,
+          "word_insertions": 17,
+          "reference_words": 11815,
+          "char_hits": 66548,
+          "char_substitutions": 405,
+          "char_deletions": 354,
+          "char_insertions": 168,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.7444852941176471
+        },
+        "wer_ci95": [
+          0.02316930251848474,
+          0.029679677277896818
+        ],
+        "cer_ci95": [
+          0.009173332758245023,
+          0.012222008404797419
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.02637528259231349,
+            "cer": 0.01065285960840326,
+            "mer": 0.026328986960882646,
+            "wil": 0.048229403790975844,
+            "wip": 0.9517705962090242,
+            "word_hits": 11649,
+            "word_substitutions": 268,
+            "word_deletions": 26,
+            "word_insertions": 21,
+            "reference_words": 11943,
+            "char_hits": 66675,
+            "char_substitutions": 354,
+            "char_deletions": 183,
+            "char_insertions": 179,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.7766544117647058
+          }
+        },
+        "utterance_mean_wer": 0.02676533790963938,
+        "utterance_mean_cer": 0.01089498176697487
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-melotts-seedtts_en-000",
+          "result_sha256": "92660fa12cd986a61b233098b2bd145a6f7a70ff2f529c9969ba4a9b6937e97a",
+          "config_sha256": "4446c02f56bb5a8fa50bdf045b9d7fbcca62b13824815680867c2a756224aaf8",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-melotts-seedtts_en-001",
+          "result_sha256": "529d42b0571d7cd7bbd48735394c32083d2a9d264f3af6798f06c97379729230",
+          "config_sha256": "38633d6031f3222dfacfe1b9cdbd99a49dde3aae701e89c066807845b28a9484",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-melotts-seedtts_en-002",
+          "result_sha256": "402d59bbf83f22b26c0cffe5069e37204607e6e788f0eacf8c2614c8e5af20c8",
+          "config_sha256": "2980c63d6f2bff670d524b932b1d1a58b58f2256398442688e2ea28d11e3701e",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-melotts-seedtts_en-003",
+          "result_sha256": "bdac8ed487435a29354e8bf852372d28701d8ef72a8fde7b6d60c14bb0879674",
+          "config_sha256": "34f5259091972e75161f512219f7cbb2e6323e8b9ca3497c8190a2bac4110f2d",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-melotts-seedtts_en-004",
+          "result_sha256": "cce1f7b26b118f7898e91c5153f5220acd417e2ce775b10a044819514612da57",
+          "config_sha256": "72bfda633f01250a6d580c80cd57e536f26db1c6651b7b9bc8f780adbfb7f5df",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-melotts-seedtts_en-005",
+          "result_sha256": "12aecf33f19836eef9e0e13676adb49ef77e35b183bf63bb02207121409198ac",
+          "config_sha256": "a176528f50b490e0111404461fd621473c38c5bade9a9cdd604d1ccbbeece816",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "parlertts",
+      "name": "ParlerTTS",
+      "checkpoint": "parler-tts/parler-tts-mini-v1",
+      "revision": "0392b9451a601e528fd863bbb0598431fee810d9",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 6.555586036294699,
+        "latency_p95_s": 11.28402764480561,
+        "rtf": 1.8774146532842886,
+        "peak_vram_mib": 4507.4521484375,
+        "audio_seconds": 4018.3873015873014,
+        "clipping_ratio": 7.417982043023822e-09,
+        "silence_ratio": 0.1515094306108054,
+        "rms_dbfs": -18.799491891228392,
+        "normalization_id": "whisper_english",
+        "wer": 0.026542744704010718,
+        "cer": 0.0144617032672737,
+        "mer": 0.026438698915763136,
+        "wil": 0.04502352105370688,
+        "wip": 0.9549764789462931,
+        "word_hits": 11673,
+        "word_substitutions": 227,
+        "word_deletions": 43,
+        "word_insertions": 47,
+        "reference_words": 11943,
+        "char_hits": 66504,
+        "char_substitutions": 357,
+        "char_deletions": 351,
+        "char_insertions": 264,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.8079044117647058,
+        "raw": {
+          "wer": 0.07283197831978319,
+          "cer": 0.024743879145685016,
+          "mer": 0.0725799645539708,
+          "wil": 0.13266002542244915,
+          "wip": 0.8673399745775509,
+          "word_hits": 10989,
+          "word_substitutions": 761,
+          "word_deletions": 58,
+          "word_insertions": 41,
+          "reference_words": 11808,
+          "char_hits": 67761,
+          "char_substitutions": 705,
+          "char_deletions": 642,
+          "char_insertions": 363,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.5615808823529411
+        },
+        "orthographic": {
+          "wer": 0.02928480744815912,
+          "cer": 0.016268738764170145,
+          "mer": 0.02917369308600337,
+          "wil": 0.050383522088299326,
+          "wip": 0.9496164779117007,
+          "word_hits": 11514,
+          "word_substitutions": 257,
+          "word_deletions": 44,
+          "word_insertions": 45,
+          "reference_words": 11815,
+          "char_hits": 66469,
+          "char_substitutions": 389,
+          "char_deletions": 449,
+          "char_insertions": 257,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.7830882352941176
+        },
+        "wer_ci95": [
+          0.0227290026732326,
+          0.03095461490670336
+        ],
+        "cer_ci95": [
+          0.012000777770688552,
+          0.017373967449886223
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.026542744704010718,
+            "cer": 0.0144617032672737,
+            "mer": 0.026438698915763136,
+            "wil": 0.04502352105370688,
+            "wip": 0.9549764789462931,
+            "word_hits": 11673,
+            "word_substitutions": 227,
+            "word_deletions": 43,
+            "word_insertions": 47,
+            "reference_words": 11943,
+            "char_hits": 66504,
+            "char_substitutions": 357,
+            "char_deletions": 351,
+            "char_insertions": 264,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.8079044117647058
+          }
+        },
+        "utterance_mean_wer": 0.027006843773840338,
+        "utterance_mean_cer": 0.014403632229321195
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-parlertts-seedtts_en-000",
+          "result_sha256": "cba192bb1c70a538cf56f263714dd81dfc2f9782bcf10601fa44ac734ad02227",
+          "config_sha256": "6887e49a50bb7fd8a353f1e308edd8e3233e1b28bbc0f2b0405d4ff9f74ce990",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-parlertts-seedtts_en-001",
+          "result_sha256": "9bc6630c0d6fa82bd6d45fa0b1fb43d471a8bc2025ab01e1ae6191bc0c7d6048",
+          "config_sha256": "0b45a8e09226715c14a81f757647c0b8b4a40cdc7e2b0c087eb1074e64d34e89",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-parlertts-seedtts_en-002",
+          "result_sha256": "a48799ed03e57f42890debcad36886a4324d72a65850ae0c8ab1746477b147be",
+          "config_sha256": "c4217889669447ffae4b49f8265b06ac2164961075d2e5a8209e235305187f72",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-parlertts-seedtts_en-003",
+          "result_sha256": "3d0ba5029038d918160a861066914b4e3bf1e5b2468aabef3f6632d5bb3e8a5c",
+          "config_sha256": "c2b48aa3a3e962a87e1b6f9e16fcdbd98423c87329bc789baf018491ddc90019",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-parlertts-seedtts_en-004",
+          "result_sha256": "ba631ccca4d49914ca782fd258c88044384294fd4ec4f6e165bff74f67195f6a",
+          "config_sha256": "d9eee540d76d7bc7dbd60b8ab2a020ca240a5f09c97dbe2c48601ee15c6ff05c",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-parlertts-seedtts_en-005",
+          "result_sha256": "537cb30b41a8daa1dcfac07274b901eb6b3f445e61ab763a0ab11f080e1ffed8",
+          "config_sha256": "39d96969c95fcdb384e5bfb682b12616acbfd405142a725e8a33c8837d6ece34",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "csm",
+      "name": "CSM",
+      "checkpoint": "sesame/csm-1b",
+      "revision": "c92a71e1c419772e25be7dc14d952c2521a740ab",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 8.784898072481155,
+        "latency_p95_s": 15.126542358100414,
+        "rtf": 2.2531292765703044,
+        "peak_vram_mib": 4330.97998046875,
+        "audio_seconds": 4515.44,
+        "clipping_ratio": 3.525773558828079e-05,
+        "silence_ratio": 0.3169689076414828,
+        "rms_dbfs": -26.242882987863332,
+        "normalization_id": "whisper_english",
+        "wer": 0.026710206815707946,
+        "cer": 0.014878295542462656,
+        "mer": 0.026462048942347573,
+        "wil": 0.04070971618598751,
+        "wip": 0.9592902838140125,
+        "word_hits": 11736,
+        "word_substitutions": 174,
+        "word_deletions": 33,
+        "word_insertions": 112,
+        "reference_words": 11943,
+        "char_hits": 66835,
+        "char_substitutions": 218,
+        "char_deletions": 159,
+        "char_insertions": 623,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.8088235294117647,
+        "raw": {
+          "wer": 0.0725779132791328,
+          "cer": 0.025221392602882444,
+          "mer": 0.07194425789120215,
+          "wil": 0.12761134062052848,
+          "wip": 0.8723886593794715,
+          "word_hits": 11055,
+          "word_substitutions": 705,
+          "word_deletions": 48,
+          "word_insertions": 104,
+          "reference_words": 11808,
+          "char_hits": 68042,
+          "char_substitutions": 667,
+          "char_deletions": 399,
+          "char_insertions": 677,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.5790441176470589
+        },
+        "orthographic": {
+          "wer": 0.02996191282268303,
+          "cer": 0.016981888956572124,
+          "mer": 0.029680556720046953,
+          "wil": 0.04651722181056417,
+          "wip": 0.9534827781894358,
+          "word_hits": 11573,
+          "word_substitutions": 204,
+          "word_deletions": 38,
+          "word_insertions": 112,
+          "reference_words": 11815,
+          "char_hits": 66783,
+          "char_substitutions": 247,
+          "char_deletions": 277,
+          "char_insertions": 619,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.7849264705882353
+        },
+        "wer_ci95": [
+          0.02256984690648647,
+          0.03114456456487128
+        ],
+        "cer_ci95": [
+          0.012244555826613683,
+          0.017740773268843477
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.026710206815707946,
+            "cer": 0.014878295542462656,
+            "mer": 0.026462048942347573,
+            "wil": 0.04070971618598751,
+            "wip": 0.9592902838140125,
+            "word_hits": 11736,
+            "word_substitutions": 174,
+            "word_deletions": 33,
+            "word_insertions": 112,
+            "reference_words": 11943,
+            "char_hits": 66835,
+            "char_substitutions": 218,
+            "char_deletions": 159,
+            "char_insertions": 623,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.8088235294117647
+          }
+        },
+        "utterance_mean_wer": 0.027264451475091614,
+        "utterance_mean_cer": 0.015297082046186216
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-csm-seedtts_en-000",
+          "result_sha256": "4e96a39da10528209bbe2bede75660e6360e7628347d85d07b2a02d8883d7f86",
+          "config_sha256": "82642982a78a2f0fc644983e208784de3543c83bbd26e7a47608313cddd41f45",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-csm-seedtts_en-001",
+          "result_sha256": "36d9fb5aabbefe3427b127fdf8bc7eedebbb0bbcc448b9b5c4680cbf3e4db544",
+          "config_sha256": "383774f1ef9eae9762b2cfdf3421824ec0d0a4a5504a1c06ea5df7e3697ad58f",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-csm-seedtts_en-002",
+          "result_sha256": "831845e20ce64a704476c926f0ef9039368f5cba3c57baaee21fc34ef51e072e",
+          "config_sha256": "0585db33e83056ced5ff539df45752f83ae30747b7256dcbd6184446c6833c4d",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-csm-seedtts_en-003",
+          "result_sha256": "7e71d723687de7f52326c82e4ee765cabed5558fcd43c643df5453b052096d95",
+          "config_sha256": "9787da2292c6fe5fe247931f59d30154ff63855455cd343deabb079be7192e0a",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-csm-seedtts_en-004",
+          "result_sha256": "f239cca38dd2f2209e320cdfe2f89a029c3fbc7383158307b6b1527ca114e89f",
+          "config_sha256": "bd9d6269b66fecfe72057d0ee11120669ecd081d204fffe6e5920e38694234f6",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-csm-seedtts_en-005",
+          "result_sha256": "941298803a4434653dba5b286663fbdb3d3e933f855a8daa264c4544b81f3803",
+          "config_sha256": "34aff904635b31cbab62df1df8abf4e0c621655f7aef78a88f59a8dc77348b2e",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "voxcpm",
+      "name": "VoxCPM",
+      "checkpoint": "openbmb/VoxCPM2",
+      "revision": "bffb3df5a29440629464e5e839f4d214c8714c3d",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 3.0798537097871304,
+        "latency_p95_s": 4.482512011565265,
+        "rtf": 0.8742893887299773,
+        "peak_vram_mib": 5568.4033203125,
+        "audio_seconds": 3915.68,
+        "clipping_ratio": 0.0,
+        "silence_ratio": 0.25207125031657623,
+        "rms_dbfs": -19.995685779135187,
+        "normalization_id": "whisper_english",
+        "wer": 0.0334924223394457,
+        "cer": 0.02599238231268226,
+        "mer": 0.032706459525756335,
+        "wil": 0.04076054667222251,
+        "wip": 0.9592394533277775,
+        "word_hits": 11830,
+        "word_substitutions": 99,
+        "word_deletions": 14,
+        "word_insertions": 287,
+        "reference_words": 11943,
+        "char_hits": 67067,
+        "char_substitutions": 74,
+        "char_deletions": 71,
+        "char_insertions": 1602,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.8363970588235294,
+        "raw": {
+          "wer": 0.08053861788617886,
+          "cer": 0.036855356832783466,
+          "mer": 0.07870561946536456,
+          "wil": 0.12899821213333718,
+          "wip": 0.8710017878666628,
+          "word_hits": 11132,
+          "word_substitutions": 642,
+          "word_deletions": 34,
+          "word_insertions": 275,
+          "reference_words": 11808,
+          "char_hits": 68301,
+          "char_substitutions": 461,
+          "char_deletions": 346,
+          "char_insertions": 1740,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.5753676470588235
+        },
+        "orthographic": {
+          "wer": 0.03554803216250529,
+          "cer": 0.027530568885851397,
+          "mer": 0.034736580927962946,
+          "wil": 0.04515860053579879,
+          "wip": 0.9548413994642012,
+          "word_hits": 11671,
+          "word_substitutions": 127,
+          "word_deletions": 17,
+          "word_insertions": 276,
+          "reference_words": 11815,
+          "char_hits": 67030,
+          "char_substitutions": 108,
+          "char_deletions": 169,
+          "char_insertions": 1576,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.8143382352941176
+        },
+        "wer_ci95": [
+          0.027210668207721767,
+          0.04040970866798127
+        ],
+        "cer_ci95": [
+          0.020480165206463754,
+          0.03256538243822571
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.0334924223394457,
+            "cer": 0.02599238231268226,
+            "mer": 0.032706459525756335,
+            "wil": 0.04076054667222251,
+            "wip": 0.9592394533277775,
+            "word_hits": 11830,
+            "word_substitutions": 99,
+            "word_deletions": 14,
+            "word_insertions": 287,
+            "reference_words": 11943,
+            "char_hits": 67067,
+            "char_substitutions": 74,
+            "char_deletions": 71,
+            "char_insertions": 1602,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.8363970588235294
+          }
+        },
+        "utterance_mean_wer": 0.04057948791404673,
+        "utterance_mean_cer": 0.03500154595326482
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-voxcpm-seedtts_en-000",
+          "result_sha256": "524e67d1351d7ddda53a1ad9ba758b158273f9c028f5452efb05a0ec5e5e54db",
+          "config_sha256": "97eb7924ba5c71b0aac9999b16d8b1cc3490e2c3b9b892a625181c5125f8dc81",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-voxcpm-seedtts_en-001",
+          "result_sha256": "6a637f35984708ce9bdd27db7afd8139663d13e5052adf521512def779c32257",
+          "config_sha256": "07ba7299557ad8a7839bc764310792df7aebecb33da854e71ea9c9c8eb0cbf4f",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-voxcpm-seedtts_en-002",
+          "result_sha256": "02c86ae2a9afe1214b842c97a3cd285efa420d41e36501648a24fc96e67a3ff2",
+          "config_sha256": "3bad1426059155237779c936202a255d8436aa6dcccf6bd632ad63a0e47927cd",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-voxcpm-seedtts_en-003",
+          "result_sha256": "6bc871dbc544063c45d54274c9bad2108d276f39fe2522d253dfe25f84fd7613",
+          "config_sha256": "6054bf5f6889278d6bf8321647c05dd4db7db2c56f099425a8e59c29fce31332",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-voxcpm-seedtts_en-004",
+          "result_sha256": "a19f328625e96edc8532ca53c94a03902517bd03f871814716dadd7d8f2258e6",
+          "config_sha256": "e3f11c6bf0a55608c906ead083a7c9a37898e8503f5d0fea98c2f89a3159864f",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-voxcpm-seedtts_en-005",
+          "result_sha256": "699d0f81088c6356aa84b4df14b41094d4d907de101b06544b91c0b378713acf",
+          "config_sha256": "29515a7d0dcb419f6f97dece86f7d1ad662c0963ac711746ab217a50a611aab9",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "openvoice",
+      "name": "OpenVoice",
+      "checkpoint": "myshell-ai/OpenVoiceV2",
+      "revision": "f36e7edfe1684461a8343844af60babc2efbb727",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 0.18259630538523197,
+        "latency_p95_s": 0.22698942646384238,
+        "rtf": 0.041566943720588286,
+        "peak_vram_mib": 752.9150390625,
+        "audio_seconds": 4986.566530612245,
+        "clipping_ratio": 0.0,
+        "silence_ratio": 0.3955355348300485,
+        "rms_dbfs": -27.237915118797478,
+        "normalization_id": "whisper_english",
+        "wer": 0.03684166457339027,
+        "cer": 0.015904897934892578,
+        "mer": 0.03674014696058784,
+        "wil": 0.06683946355663117,
+        "wip": 0.9331605364433688,
+        "word_hits": 11536,
+        "word_substitutions": 372,
+        "word_deletions": 35,
+        "word_insertions": 33,
+        "reference_words": 11943,
+        "char_hits": 66378,
+        "char_substitutions": 571,
+        "char_deletions": 263,
+        "char_insertions": 235,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.7205882352941176,
+        "raw": {
+          "wer": 0.08773712737127372,
+          "cer": 0.02773919083174162,
+          "mer": 0.08754436369781984,
+          "wil": 0.16176650401902992,
+          "wip": 0.8382334959809701,
+          "word_hits": 10798,
+          "word_substitutions": 956,
+          "word_deletions": 54,
+          "word_insertions": 26,
+          "reference_words": 11808,
+          "char_hits": 67451,
+          "char_substitutions": 984,
+          "char_deletions": 673,
+          "char_insertions": 260,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.5
+        },
+        "orthographic": {
+          "wer": 0.04054168429961913,
+          "cer": 0.018185329906250464,
+          "mer": 0.04044924843776389,
+          "wil": 0.07418740113058353,
+          "wip": 0.9258125988694165,
+          "word_hits": 11363,
+          "word_substitutions": 414,
+          "word_deletions": 38,
+          "word_insertions": 27,
+          "reference_words": 11815,
+          "char_hits": 66298,
+          "char_substitutions": 614,
+          "char_deletions": 395,
+          "char_insertions": 215,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.6966911764705882
+        },
+        "wer_ci95": [
+          0.03259408128993721,
+          0.0412924532698379
+        ],
+        "cer_ci95": [
+          0.013940913785427172,
+          0.017979386205271203
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.03684166457339027,
+            "cer": 0.015904897934892578,
+            "mer": 0.03674014696058784,
+            "wil": 0.06683946355663117,
+            "wip": 0.9331605364433688,
+            "word_hits": 11536,
+            "word_substitutions": 372,
+            "word_deletions": 35,
+            "word_insertions": 33,
+            "reference_words": 11943,
+            "char_hits": 66378,
+            "char_substitutions": 571,
+            "char_deletions": 263,
+            "char_insertions": 235,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.7205882352941176
+          }
+        },
+        "utterance_mean_wer": 0.039472592478647844,
+        "utterance_mean_cer": 0.01727688301463179
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-openvoice-seedtts_en-000",
+          "result_sha256": "12fe9f549fe51b35660a190bff89e8a22e4d5315d403ff249e89b654fd797d05",
+          "config_sha256": "d2a88f0f79053fdc3ef4db73a98f55f11901c4a93d577587042873aa49eb7ffa",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-openvoice-seedtts_en-001",
+          "result_sha256": "9917c8c804066517031a856dca9fb84754c4cb297cf496570e212d52e517e913",
+          "config_sha256": "1666e3d3557fa888aa6620e0b29915f22950b21b214ed0e0b7edc636b73266fc",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-openvoice-seedtts_en-002",
+          "result_sha256": "0dfe16d7980aacc836d1ed6c106bce434f8ee7ba792dd31854ba70a60af15f17",
+          "config_sha256": "9f9832a14177aaf0f0330fad21f4375fda82e0a66a7afa373eeebe9748d5547c",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-openvoice-seedtts_en-003",
+          "result_sha256": "25cb18c7a3dcf6307d63f4259a868df51924e2dd6d5956fb9dd1b9849d5ecece",
+          "config_sha256": "8a6bbf0de5e90976d014d306270aea3cb56aa8d3a4766c905a83640f79bf6941",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-openvoice-seedtts_en-004",
+          "result_sha256": "ce8a896c607ddc8b3cf76cda2a6d3e9b2acc41a64d8e4ffc627ac940d9b0d67f",
+          "config_sha256": "0b2e652b4582dd88e33db5a4fc80b41e4fc2341ade95df628c9c1f01927601ac",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-openvoice-seedtts_en-005",
+          "result_sha256": "b02fa100d1fc15050b5a8bdae4da061766b0ac52f1158df30d022237f62e9378",
+          "config_sha256": "393c8041a07e33460a8be90de883740f682e6c30af5abbb914bacdc90f72c9fe",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "vits",
+      "name": "Vits",
+      "checkpoint": "facebook/mms-tts-eng",
+      "revision": "c71de0fe7204c83f1c10820a7d696d0b450048ba",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 0.1107128206640482,
+        "latency_p95_s": 0.3603286813944578,
+        "rtf": 0.036346979152729886,
+        "peak_vram_mib": 161.82177734375,
+        "audio_seconds": 4713.184,
+        "clipping_ratio": 0.0,
+        "silence_ratio": 0.24361948208129203,
+        "rms_dbfs": -18.456575731465676,
+        "normalization_id": "whisper_english",
+        "wer": 0.062295905551369005,
+        "cer": 0.02673629708980539,
+        "mer": 0.061881393994843215,
+        "wil": 0.10974369514421811,
+        "wip": 0.8902563048557819,
+        "word_hits": 11279,
+        "word_substitutions": 606,
+        "word_deletions": 58,
+        "word_insertions": 80,
+        "reference_words": 11943,
+        "char_hits": 65855,
+        "char_substitutions": 899,
+        "char_deletions": 458,
+        "char_insertions": 440,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.6084558823529411,
+        "raw": {
+          "wer": 0.11610772357723577,
+          "cer": 0.04038606239509174,
+          "mer": 0.11547207950812768,
+          "wil": 0.20850372907169457,
+          "wip": 0.7914962709283054,
+          "word_hits": 10502,
+          "word_substitutions": 1234,
+          "word_deletions": 72,
+          "word_insertions": 65,
+          "reference_words": 11808,
+          "char_hits": 66861,
+          "char_substitutions": 1398,
+          "char_deletions": 849,
+          "char_insertions": 544,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.40349264705882354
+        },
+        "orthographic": {
+          "wer": 0.06440964875158696,
+          "cer": 0.028110003417178005,
+          "mer": 0.06401951711954236,
+          "wil": 0.11450477370162093,
+          "wip": 0.8854952262983791,
+          "word_hits": 11126,
+          "word_substitutions": 634,
+          "word_deletions": 55,
+          "word_insertions": 72,
+          "reference_words": 11815,
+          "char_hits": 65827,
+          "char_substitutions": 925,
+          "char_deletions": 555,
+          "char_insertions": 412,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.5909926470588235
+        },
+        "wer_ci95": [
+          0.0568077628669862,
+          0.06791827951441402
+        ],
+        "cer_ci95": [
+          0.024251829595567223,
+          0.02939332583322282
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.062295905551369005,
+            "cer": 0.02673629708980539,
+            "mer": 0.061881393994843215,
+            "wil": 0.10974369514421811,
+            "wip": 0.8902563048557819,
+            "word_hits": 11279,
+            "word_substitutions": 606,
+            "word_deletions": 58,
+            "word_insertions": 80,
+            "reference_words": 11943,
+            "char_hits": 65855,
+            "char_substitutions": 899,
+            "char_deletions": 458,
+            "char_insertions": 440,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.6084558823529411
+          }
+        },
+        "utterance_mean_wer": 0.0668014646232554,
+        "utterance_mean_cer": 0.029005364603199517
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-vits-seedtts_en-000",
+          "result_sha256": "19a41482d06d3988280a966bdee26af4668ab61d80e353aef1733d23f3f7931e",
+          "config_sha256": "4af11cee32d0b711eef730ecb9f8dd3226fcb99475df1c87d3dc1760af750625",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-vits-seedtts_en-001",
+          "result_sha256": "7bdd210177a8dd64da450340311a2bbbaf7e17779f75d18d13c77a0600e0a526",
+          "config_sha256": "1dbc8736f5cd6294c1cc4bf8f00691673ba680312216c046ffc6e75a9600e855",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-vits-seedtts_en-002",
+          "result_sha256": "fc3881027e09ebb29e9d83c26a98d62dad6e1a01046953723f20330f1ee5df82",
+          "config_sha256": "b16351380f41ce8826562ffc18448359997f2042dfbdfcf695a42457e9758fec",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-vits-seedtts_en-003",
+          "result_sha256": "e57a4a69ed7f81f6ce34a42ace0e06043f597e19274e74c8d9507f4a417d8c25",
+          "config_sha256": "8d295e6cd39574dc94e0ee293c9919d550cf1906ffb97961b43d03b548008a62",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-vits-seedtts_en-004",
+          "result_sha256": "2d1c681b388d52d3a7fe54c66fd85cdec1fcf3e150d21717aa9bc9825b2d11a2",
+          "config_sha256": "ef7080c9aad067b0438fe2a9156cedb06e0535dcfed37e0778506aa3d0efaf8e",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-vits-seedtts_en-005",
+          "result_sha256": "f06106fbbf942de2360d317b1c2b2767132e20105e1399bff3abe406619ee09c",
+          "config_sha256": "d3dc0ecbe985fef6bcf388c4fdf8c7376c94f9088f65c2f4ad680dc5a57d65fb",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "bark",
+      "name": "Bark",
+      "checkpoint": "suno/bark-small",
+      "revision": "1dbd7a128513b8ae4a4e2130fed57b7ac9da5bcd",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 7.324050920084119,
+        "latency_p95_s": 17.736357633210712,
+        "rtf": 1.3509386013124312,
+        "peak_vram_mib": 1866.55224609375,
+        "audio_seconds": 6735.826666666667,
+        "clipping_ratio": 4.311951581619864e-05,
+        "silence_ratio": 0.3688515404183891,
+        "rms_dbfs": -25.216558823343817,
+        "normalization_id": "whisper_english",
+        "wer": 0.07736749560411957,
+        "cer": 0.049648872225197885,
+        "mer": 0.07522592200602458,
+        "wil": 0.11118412348963358,
+        "wip": 0.8888158765103664,
+        "word_hits": 11359,
+        "word_substitutions": 456,
+        "word_deletions": 128,
+        "word_insertions": 340,
+        "reference_words": 11943,
+        "char_hits": 65614,
+        "char_substitutions": 767,
+        "char_deletions": 831,
+        "char_insertions": 1739,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.6461397058823529,
+        "raw": {
+          "wer": 0.13380758807588075,
+          "cer": 0.06136771430225155,
+          "mer": 0.13028778758142986,
+          "wil": 0.21383086715891775,
+          "wip": 0.7861691328410823,
+          "word_hits": 10547,
+          "word_substitutions": 1117,
+          "word_deletions": 144,
+          "word_insertions": 319,
+          "reference_words": 11808,
+          "char_hits": 66699,
+          "char_substitutions": 1319,
+          "char_deletions": 1090,
+          "char_insertions": 1832,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.4172794117647059
+        },
+        "orthographic": {
+          "wer": 0.08015234870926788,
+          "cer": 0.05039594692973985,
+          "mer": 0.0780323005932762,
+          "wil": 0.11757431144084218,
+          "wip": 0.8824256885591578,
+          "word_hits": 11189,
+          "word_substitutions": 498,
+          "word_deletions": 128,
+          "word_insertions": 321,
+          "reference_words": 11815,
+          "char_hits": 65595,
+          "char_substitutions": 811,
+          "char_deletions": 901,
+          "char_insertions": 1680,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.6231617647058824
+        },
+        "wer_ci95": [
+          0.06542025882580918,
+          0.09126204860193128
+        ],
+        "cer_ci95": [
+          0.041101972027671005,
+          0.06016230488018854
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.07736749560411957,
+            "cer": 0.049648872225197885,
+            "mer": 0.07522592200602458,
+            "wil": 0.11118412348963358,
+            "wip": 0.8888158765103664,
+            "word_hits": 11359,
+            "word_substitutions": 456,
+            "word_deletions": 128,
+            "word_insertions": 340,
+            "reference_words": 11943,
+            "char_hits": 65614,
+            "char_substitutions": 767,
+            "char_deletions": 831,
+            "char_insertions": 1739,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.6461397058823529
+          }
+        },
+        "utterance_mean_wer": 0.08971144156575432,
+        "utterance_mean_cer": 0.06200807096575261
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-bark-seedtts_en-000",
+          "result_sha256": "27c98b9d4ddd0aea7c14be56f96969ced8ebc73a59fc2b0eae5282971e307910",
+          "config_sha256": "0b105fc7c3e4aae28c9cb722d3da163b8bf1506a2a1ab99f83a1f1d5fde86b7e",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-bark-seedtts_en-001",
+          "result_sha256": "ec9f141773a46e0eca377c07cf572c12431d6da046afc7158385f2edce045a6f",
+          "config_sha256": "0e7078a2fbbdf3aadf0e832ca098579b00668aa7bb716f92840c2fc304abd366",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-bark-seedtts_en-002",
+          "result_sha256": "c00728620e4e01e9e0f8d1ecfd66b132e47501224a15e810ef0ea116e513ec6c",
+          "config_sha256": "4bbeac38a22b641809244a69474bdc2e8c5c747eb2de17e192a17caf2e19f798",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-bark-seedtts_en-003",
+          "result_sha256": "d10750a3050ad69b9c3d5facc33163e36e14a8fca221b9cd5acf5fa4da799102",
+          "config_sha256": "7f42c583268730fa45aa3b346bc4c0b05a58bd1915c95a749399a713073afc8a",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-bark-seedtts_en-004",
+          "result_sha256": "2ec596ee13f2a918a5bbfa09c4579dc90a56f71b8183d188a1e15a49962eb543",
+          "config_sha256": "3ac41208c26bb47e7043cd69b87f8baff50d8da6b45813b298995a8abc620906",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-bark-seedtts_en-005",
+          "result_sha256": "951bcf2ad0a32897e0f40be97b9c7bd53395aad33db66e5db14525a0e48f68e5",
+          "config_sha256": "050f7af5bd61b772bbb786dd1e192afdb27be90df23f1ffa342da45c9efa8f9c",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "conversationtts",
+      "name": "ConversationTTS",
+      "checkpoint": "artifacts/conversationtts/model.safetensors",
+      "revision": null,
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 11.374369565397501,
+        "latency_p95_s": 21.11884947624052,
+        "rtf": 2.6722347402449587,
+        "peak_vram_mib": 4320.94140625,
+        "audio_seconds": 5198.24,
+        "clipping_ratio": 0.0010200252838765175,
+        "silence_ratio": 0.22706196691592928,
+        "rms_dbfs": -16.481099157390705,
+        "normalization_id": "whisper_english",
+        "wer": 0.08716402913840743,
+        "cer": 0.0824703921918705,
+        "mer": 0.08171756024805715,
+        "wil": 0.0985030718625245,
+        "wip": 0.9014969281374755,
+        "word_hits": 11698,
+        "word_substitutions": 216,
+        "word_deletions": 29,
+        "word_insertions": 796,
+        "reference_words": 11943,
+        "char_hits": 66731,
+        "char_substitutions": 366,
+        "char_deletions": 115,
+        "char_insertions": 5062,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.765625,
+        "raw": {
+          "wer": 0.12923441734417343,
+          "cer": 0.09216009723910401,
+          "mer": 0.1216033150051797,
+          "wil": 0.17698255806140395,
+          "wip": 0.823017441938596,
+          "word_hits": 11023,
+          "word_substitutions": 739,
+          "word_deletions": 46,
+          "word_insertions": 741,
+          "reference_words": 11808,
+          "char_hits": 67922,
+          "char_substitutions": 844,
+          "char_deletions": 342,
+          "char_insertions": 5183,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.5652573529411765
+        },
+        "orthographic": {
+          "wer": 0.08954718578078713,
+          "cer": 0.08382486219858261,
+          "mer": 0.08401492892876995,
+          "wil": 0.10351571145754379,
+          "wip": 0.8964842885424562,
+          "word_hits": 11535,
+          "word_substitutions": 249,
+          "word_deletions": 31,
+          "word_insertions": 778,
+          "reference_words": 11815,
+          "char_hits": 66684,
+          "char_substitutions": 394,
+          "char_deletions": 229,
+          "char_insertions": 5019,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.7389705882352942
+        },
+        "wer_ci95": [
+          0.06827334380474649,
+          0.10941677412955063
+        ],
+        "cer_ci95": [
+          0.05507506031858041,
+          0.11838151593873322
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.08716402913840743,
+            "cer": 0.0824703921918705,
+            "mer": 0.08171756024805715,
+            "wil": 0.0985030718625245,
+            "wip": 0.9014969281374755,
+            "word_hits": 11698,
+            "word_substitutions": 216,
+            "word_deletions": 29,
+            "word_insertions": 796,
+            "reference_words": 11943,
+            "char_hits": 66731,
+            "char_substitutions": 366,
+            "char_deletions": 115,
+            "char_insertions": 5062,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.765625
+          }
+        },
+        "utterance_mean_wer": 0.09572835930129399,
+        "utterance_mean_cer": 0.10447683402668193
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-conversationtts-seedtts_en-000",
+          "result_sha256": "08d5a2ad6570723b33d69daca623a0ca558805073657883dfb5a4e8349e7f2d7",
+          "config_sha256": "729bb9b0097d15399b29304042fcf6cc8168f5dda6aa18d14aaf9497dfb5d3f3",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-conversationtts-seedtts_en-001",
+          "result_sha256": "351265482f8badafb25596e8a2777a065497b7bd6630293d0f354eb36c608839",
+          "config_sha256": "43d3484a8d1da1d23c2a3a9012e767cc26eb98df20dd2a9f738fc3e105dd4c09",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-conversationtts-seedtts_en-002",
+          "result_sha256": "b78fa14fc4910f66f28a33c826437fc6091149aa990bc79bd0798ba2e63dd68e",
+          "config_sha256": "0eab4527d0226bc0402c2a3b414ce42a84be3c4d8c42105c3b4e3cd18ef7e75a",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-conversationtts-seedtts_en-003",
+          "result_sha256": "d2b35d8abef7e2b952a3eb6626cc53b054f82baf08e3a797efceee36a3139c04",
+          "config_sha256": "fe943826424e30ac65c97b5abe7a13c910ce1901d2ee2db1a7446f13d3839c8f",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-conversationtts-seedtts_en-004",
+          "result_sha256": "d25018a753aa29d0d8ba102db54dd667246413a95db87e63efe29340d93999a0",
+          "config_sha256": "67dd759cf81ada37c1b5925faa9e84aacc157633548c99b7ca8e34caec2ed657",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-conversationtts-seedtts_en-005",
+          "result_sha256": "078caa6bbe9d3f9fe6e5989c20484f2d4a42f96fff4b564997e87f9763cabbed",
+          "config_sha256": "caf91bac325a201464621212735a1cb6aec5507b3a9680c7a12d531c5235ea9b",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "vui",
+      "name": "Vui",
+      "checkpoint": "vui-abraham-100m.pt",
+      "revision": null,
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "latency_p50_s": 1.9950699619948864,
+        "latency_p95_s": 2.9318609584122894,
+        "rtf": 0.4120764092569282,
+        "peak_vram_mib": 3020.765625,
+        "audio_seconds": 5821.52126984127,
+        "clipping_ratio": 1.0284511102981117e-05,
+        "silence_ratio": 0.36983417003042174,
+        "rms_dbfs": -16.98248013674346,
+        "normalization_id": "whisper_english",
+        "wer": 0.12149376203633928,
+        "cer": 0.08397310004165923,
+        "mer": 0.11439608956165248,
+        "wil": 0.15491850701861398,
+        "wip": 0.845081492981386,
+        "word_hits": 11233,
+        "word_substitutions": 528,
+        "word_deletions": 182,
+        "word_insertions": 741,
+        "reference_words": 11943,
+        "char_hits": 65147,
+        "char_substitutions": 1036,
+        "char_deletions": 1029,
+        "char_insertions": 3579,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.4963235294117647,
+        "raw": {
+          "wer": 0.2035060975609756,
+          "cer": 0.10363489031660589,
+          "mer": 0.19237851252902088,
+          "wil": 0.298564173075604,
+          "wip": 0.701435826924396,
+          "word_hits": 10088,
+          "word_substitutions": 1516,
+          "word_deletions": 204,
+          "word_insertions": 683,
+          "reference_words": 11808,
+          "char_hits": 65826,
+          "char_substitutions": 1888,
+          "char_deletions": 1394,
+          "char_insertions": 3880,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.203125
+        },
+        "orthographic": {
+          "wer": 0.13161235717308506,
+          "cer": 0.08641003164603979,
+          "mer": 0.12324641356899421,
+          "wil": 0.16697574156173667,
+          "wip": 0.8330242584382633,
+          "word_hits": 11062,
+          "word_substitutions": 569,
+          "word_deletions": 184,
+          "word_insertions": 802,
+          "reference_words": 11815,
+          "char_hits": 65091,
+          "char_substitutions": 1068,
+          "char_deletions": 1148,
+          "char_insertions": 3600,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.4742647058823529
+        },
+        "wer_ci95": [
+          0.10961879047597937,
+          0.13331448614544683
+        ],
+        "cer_ci95": [
+          0.07456182716011253,
+          0.09409126504207617
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.12149376203633928,
+            "cer": 0.08397310004165923,
+            "mer": 0.11439608956165248,
+            "wil": 0.15491850701861398,
+            "wip": 0.845081492981386,
+            "word_hits": 11233,
+            "word_substitutions": 528,
+            "word_deletions": 182,
+            "word_insertions": 741,
+            "reference_words": 11943,
+            "char_hits": 65147,
+            "char_substitutions": 1036,
+            "char_deletions": 1029,
+            "char_insertions": 3579,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.4963235294117647
+          }
+        },
+        "utterance_mean_wer": 0.1461771074776305,
+        "utterance_mean_cer": 0.11014174174451084
+      },
+      "empty_asr_transcripts": 0,
+      "quality_review": false,
+      "inputs": [
+        {
+          "run": "pub-v2-vui-seedtts_en-000",
+          "result_sha256": "854a4d43db61268d19f20378eb39f40c519d1b79ba9879bc20c85533d85aa29a",
+          "config_sha256": "258f1507962ab394a52eeca0ab249bdcc29611844427d826bfa28047aceefcc4",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-vui-seedtts_en-001",
+          "result_sha256": "b52ea4e77779e2e9bfa46c4ff5d956c1ec761c12f07c7e8bee38b7825b9cbb1f",
+          "config_sha256": "ac205f271d202b460d7aa90fea5b05c2b904f1f7d36f84185923f2cd1646c653",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-vui-seedtts_en-002",
+          "result_sha256": "0fae9765f6d266c6d602d648745db56d3bbb6305ca2052879cc4812daa1ff364",
+          "config_sha256": "f122b5f645d1ed4913294de72dfd44b95d135ddd3a31f56dadf240092a31f95e",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-vui-seedtts_en-003",
+          "result_sha256": "0fc4b08492240cb0991076ba30473d22ac410b06c44d3b32adc303f4209f9ad2",
+          "config_sha256": "a73e18c94b9e00257be6c39eaa67c66da06e4e23cf9259a5cbee922966ac5afd",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-vui-seedtts_en-004",
+          "result_sha256": "13702a405059a3fd49adfab3dd5983b124c302df3e714c8c5f401b33f38ee103",
+          "config_sha256": "ead8c4bd92a38e51bbda650111d9b632b1dc7a4999ce94f073eac94402808cb7",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-vui-seedtts_en-005",
+          "result_sha256": "5a22ad36345ff9583401e4e66b16219b9f023de31c4770ad9a39b3afccd7339d",
+          "config_sha256": "10ebf85a98ec76d000f1a2a548652fa7ac978a0e54966d290880fc359bfc4de2",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ]
+    },
+    {
+      "model": "dia",
+      "name": "Dia",
+      "checkpoint": "nari-labs/Dia-1.6B-0626",
+      "revision": "ef2795fcc29c5abe6ffc91fd33808588b49bbc66",
+      "summary": {
+        "attempted": 1088,
+        "generated": 1088,
+        "scored": 1088,
+        "generation_failure_rate": 0.0,
+        "generation_limit_rate": 0.0,
+        "generation_limit_samples": 0,
+        "generation_limit_checks": 1088,
+        "latency_p50_s": 35.84547644108534,
+        "latency_p95_s": 95.22943165823817,
+        "rtf": 3.1889203149742467,
+        "peak_vram_mib": 9100.61865234375,
+        "audio_seconds": 15192.758276643992,
+        "clipping_ratio": 4.931407476340513e-08,
+        "silence_ratio": 0.19584809755048657,
+        "rms_dbfs": -22.07775442813294,
+        "normalization_id": "whisper_english",
+        "wer": 0.673532613246253,
+        "cer": 0.5928256858894245,
+        "mer": 0.5234934270467265,
+        "wil": 0.6199658900150475,
+        "wip": 0.3800341099849525,
+        "word_hits": 7322,
+        "word_substitutions": 1067,
+        "word_deletions": 3554,
+        "word_insertions": 3423,
+        "reference_words": 11943,
+        "char_hits": 45280,
+        "char_substitutions": 2362,
+        "char_deletions": 19570,
+        "char_insertions": 17913,
+        "reference_chars": 67212,
+        "exact_match_rate": 0.4522058823529412,
+        "raw": {
+          "wer": 0.6946985094850948,
+          "cer": 0.6004225270590959,
+          "mer": 0.5451222753854332,
+          "wil": 0.6576072204602018,
+          "wip": 0.3423927795397982,
+          "word_hits": 6845,
+          "word_substitutions": 1504,
+          "word_deletions": 3459,
+          "word_insertions": 3240,
+          "reference_words": 11808,
+          "char_hits": 46033,
+          "char_substitutions": 2899,
+          "char_deletions": 20176,
+          "char_insertions": 18419,
+          "reference_chars": 69108,
+          "exact_match_rate": 0.29871323529411764
+        },
+        "orthographic": {
+          "wer": 0.6753279729157851,
+          "cer": 0.5921226618330931,
+          "mer": 0.5243133131817584,
+          "wil": 0.6225272886071618,
+          "wip": 0.3774727113928382,
+          "word_hits": 7239,
+          "word_substitutions": 1108,
+          "word_deletions": 3468,
+          "word_insertions": 3403,
+          "reference_words": 11815,
+          "char_hits": 45310,
+          "char_substitutions": 2368,
+          "char_deletions": 19629,
+          "char_insertions": 17857,
+          "reference_chars": 67307,
+          "exact_match_rate": 0.44669117647058826
+        },
+        "wer_ci95": [
+          0.5772596992606132,
+          0.7770414764299733
+        ],
+        "cer_ci95": [
+          0.5068358244822976,
+          0.6812881581151855
+        ],
+        "unique_prompts_scored": 1088,
+        "by_category": {
+          "read_speech": {
+            "wer": 0.673532613246253,
+            "cer": 0.5928256858894245,
+            "mer": 0.5234934270467265,
+            "wil": 0.6199658900150475,
+            "wip": 0.3800341099849525,
+            "word_hits": 7322,
+            "word_substitutions": 1067,
+            "word_deletions": 3554,
+            "word_insertions": 3423,
+            "reference_words": 11943,
+            "char_hits": 45280,
+            "char_substitutions": 2362,
+            "char_deletions": 19570,
+            "char_insertions": 17913,
+            "reference_chars": 67212,
+            "exact_match_rate": 0.4522058823529412
+          }
+        },
+        "utterance_mean_wer": 0.7629098579777105,
+        "utterance_mean_cer": 0.6984215456512638
+      },
+      "empty_asr_transcripts": 183,
+      "quality_review": true,
+      "inputs": [
+        {
+          "run": "pub-v2-dia-seedtts_en-000",
+          "result_sha256": "8bf7583d118997cd752897e3ae052e8e7db93d47437a4436620525131a97d643",
+          "config_sha256": "f28d85ee88dc19a0a584c4bada808ca7e2faea399fcf0ee6452e2414f5a9410d",
+          "dataset_part_sha256": "d38a0f416c46b2c80ccee103e1675fbde938772ed749294bbfbdf81e03469e7c"
+        },
+        {
+          "run": "pub-v2-dia-seedtts_en-001",
+          "result_sha256": "ab045f4c0cdd5bd1317a7549d82e608749faaf63ec8b2a803c208ce714da2c18",
+          "config_sha256": "e8088013a91de8c1f8a6df441423f772ab1d8db9dfbc1325c41f266cbc5c5a26",
+          "dataset_part_sha256": "42b276c4ae726fe57e1732d4d5181c726390e06cd683abd8f62cb970576f0943"
+        },
+        {
+          "run": "pub-v2-dia-seedtts_en-002",
+          "result_sha256": "e3d404301bb3296f0a0eca252583bdc9c0fe4a4d2b6a88d4ca145dc0099d52ea",
+          "config_sha256": "9afa0db4890a092383a2af66c12c2182c754d5bc40650b391bfa792fa69f6a87",
+          "dataset_part_sha256": "70ba2ebdff1cb9b06b97d73ece1e6290f5e5b05790711c546e6bc13d061a10c1"
+        },
+        {
+          "run": "pub-v2-dia-seedtts_en-003",
+          "result_sha256": "298f73759dcd02e936682e13b4f212f38ec15ed97a6b7541d183f2758c2bc29e",
+          "config_sha256": "256a17cf7ef58ac0eb4d093caf84e5a1def188ae5c011fc8ab772a314a7da355",
+          "dataset_part_sha256": "ea2356694a10f7c21cf7fbe9ef7dd2cc35c2bac9296f4e43edb2f8d63a866dca"
+        },
+        {
+          "run": "pub-v2-dia-seedtts_en-004",
+          "result_sha256": "df8c04aa68339213bbeb39da0897bfddb1607dae0451e3429743a83c1266f6be",
+          "config_sha256": "d41deb303579852a547ca95561b2a32c0fc5dd905dc7e35f7a890315408e6966",
+          "dataset_part_sha256": "cd1978d62a06a0fcc5f6599fe90af6b238580b8d398ae539bb59e09667019c85"
+        },
+        {
+          "run": "pub-v2-dia-seedtts_en-005",
+          "result_sha256": "f07179d6d4d2511308fd697f555ac26e3531498f7c0a044c97e56ae6e954e4b5",
+          "config_sha256": "a2f1cd92b3e71111e8337f2386e5616051438d5121c6951f13f159bb99c2fc1c",
+          "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
+        }
+      ],
+      "quality_review_reason": "High WER remains under review. Three native/Transformers generation comparisons and independent DAC decoding did not establish a port defect. Empty transcripts and ASR repetition affect scores; diagnostic VAD does not restore missing speech."
+    }
+  ],
+  "quality_audit": {
+    "date": "2026-09-15",
+    "report": "quality-audit.html",
+    "original_scores_preserved": true,
+    "cosyvoice_corrected_full_run": "completed",
+    "corrected_full_score_available": true
+  },
+  "corrections": [
+    {
+      "version": "cosyvoice-v3-hift-20260915",
+      "verified_at": "2026-09-15T15:53:32.639125+00:00",
+      "report": "cosyvoice-correction.html",
+      "verification": "reports/cosyvoice-correction-2026-09-15/verification.json",
+      "original_wer": 0.13815624215021352,
+      "original_cer": 0.07709932750104148,
+      "original_score_status": "invalidated_by_implementation_bug",
+      "original_dataset_revision": "7d02b49322a9731ea9b1cc6279ef3f7a80949ae8",
+      "original_audio_archive": "audio_shards/cosyvoice.tar",
+      "original_records": "reports/cosyvoice-correction-2026-09-15/original-model-records.json",
+      "corrected_dataset_revision": "56c87034f5ef6a4b7bcfe403390ed86a0fc36611",
+      "corrected_audio_archive": "corrections/cosyvoice-v3-hift-20260915/cosyvoice.tar"
+    }
+  ],
+  "updated_at": "2026-09-15T15:56:52.325543+00:00"
+}

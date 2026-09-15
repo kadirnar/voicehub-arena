@@ -148,7 +148,8 @@ async function init(){
   const response=await fetch('data/leaderboard.json');if(!response.ok)throw new Error('Leaderboard could not be loaded. Please reload.');
   const base=await response.json();if(base.table.length!==33||base.scored_audio!==35904)throw new Error('The benchmark snapshot is incomplete.');
   let variantProgress=null;try{const p=await fetch('data/variant-progress.json',{cache:'no-store'});if(p.ok)variantProgress=await p.json();}catch{}
-  const data=VoiceHubCharts.mergeExperiments(base,variantProgress);state.data=data;
+  const selectionResponse=await fetch('data/variant-selection.json',{cache:'no-store'});if(!selectionResponse.ok)throw Error('Active model selection is unavailable.');const selection=await selectionResponse.json();
+  const data=VoiceHubCharts.mergeExperiments(base,{...variantProgress,...selection,models:variantProgress?.models||[]});state.data=data;
   $('coverage-models').textContent=data.models.toLocaleString('en-US');$('coverage-audio').textContent=data.scored_audio.toLocaleString('en-US');$('leaderboard-total').textContent=data.models;
   $('coverage-note').textContent=`${data.models} configurations, ${data.scored_audio.toLocaleString('en-US')} verified recordings. Original and reference-conditioned experiments are labeled separately.`;
   const csvFields=['model','name','protocol','checkpoint','revision',...core.map(c=>c[0]),...extra.map(c=>c[0])];

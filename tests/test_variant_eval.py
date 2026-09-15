@@ -52,3 +52,16 @@ def test_failure_policy_rejects_arbitrary_exceptions_or_fabricated_recordings():
     validate_scored_row(valid)
     for override in [{'audio':'fake.wav'},{'transcript':'invented speech'},{'failure_policy':'retry-best'},{'failure_kind':'CUDA OOM'},{'status':'failed'}]:
         with pytest.raises(ValueError):validate_scored_row({**valid,**override})
+
+
+def test_active_scope_keeps_only_requested_llasa_bases_and_blocks_removed_models():
+    from voicehub_arena.variant_scope import load_selection,require_active
+    root=__import__('pathlib').Path(__file__).parents[1]
+    manifest=root/'configs/variant-campaign.json';cfg=json.loads(manifest.read_text())
+    selection,models=load_selection(cfg,manifest)
+    assert [m['repo'] for m in models if m['family']=='Llasa']==['HKUSTAudio/Llasa-1B','HKUSTAudio/Llasa-3B','HKUSTAudio/Llasa-8B']
+    assert len(models)==6 and selection['excluded_base_model_ids']==['llasa']
+    for m in cfg['models']:
+        if m['id'] in selection['active_model_ids']:require_active(m['id'],cfg,manifest)
+        else:
+            with pytest.raises(ValueError,match='removed from active scope'):require_active(m['id'],cfg,manifest)

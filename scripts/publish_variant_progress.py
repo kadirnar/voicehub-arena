@@ -19,6 +19,7 @@ from huggingface_hub import HfApi, CommitOperationAdd, hf_hub_download
 from voicehub_arena.auth import configure_hub_auth
 from voicehub_arena.metrics import errors
 from voicehub_arena.storage import write_json
+from voicehub_arena.variant_scope import load_selection,require_active
 from voicehub_arena.variant_eval import load_campaign,digest,SCORED_STATUSES,validate_scored_row,NO_AUDIO_POLICY
 
 DATASET='kadirnar/voicehub-arena-seed-tts-eval';SPACE='kadirnar/voicehub-arena'
@@ -31,6 +32,8 @@ def count_recordings(table):
 
 def publish(manifest='configs/variant-campaign.json',model=None,phase='pilot'):
     configure_hub_auth();cfg,dataset=load_campaign(manifest);run=Path('runs')/cfg['campaign'];run.mkdir(parents=True,exist_ok=True)
+    selection,models=load_selection(cfg,manifest)
+    if model:require_active(model.removesuffix('-unconditioned'),cfg,manifest)
     api=HfApi();assert api.whoami()['name']=='kadirnar'
     receipts=run/'publication';receipts.mkdir(exist_ok=True)
     if model:
@@ -81,8 +84,8 @@ def publish(manifest='configs/variant-campaign.json',model=None,phase='pilot'):
             info=api.create_commit(SPACE,repo_type='space',parent_commit=api.repo_info(SPACE,repo_type='space').sha,commit_message=f'Add verified {phase} samples for {model}',operations=[CommitOperationAdd(path_in_repo=f'data/variants/{phase}/{model}.json',path_or_fileobj=browser_file)])
             write_json(receipt,dict(model=model,phase=phase,result_sha256=digest(source),dataset_revision=commit.oid,space_revision=info.oid,records_path=f'data/variants/{phase}/{model}.json',artifact_prefix=prefix,verification=verification))
             print(json.dumps({'published':model,'phase':phase,'samples':len(selected),'dataset_revision':commit.oid}),flush=True)
-    progress={'campaign':cfg['campaign'],'updated_at':time.time(),'scope':cfg['scope'],'expected_samples':cfg['expected_samples'],'pilot_indices':cfg['pilot_indices'],'pilot_selection':cfg['pilot_selection'],'protocol':'Fixed English Emily reference. Seed 42. All full runs target 1,088 exact texts. Whisper-large-v3, no VAD, corpus WER/CER. These conditioning experiments do not replace the original unconditioned Dia/Llasa scores.','models':[]}
-    for spec in cfg['models']:
+    progress={'campaign':cfg['campaign'],'updated_at':time.time(),'scope':selection['scope'],'active_model_ids':selection['active_model_ids'],'excluded_base_model_ids':selection['excluded_base_model_ids'],'expected_samples':cfg['expected_samples'],'pilot_indices':cfg['pilot_indices'],'pilot_selection':cfg['pilot_selection'],'protocol':'Fixed English Emily reference. Seed 42. All full runs target 1,088 exact texts. Whisper-large-v3, no VAD, corpus WER/CER. These conditioning experiments do not replace the original unconditioned Dia/Llasa scores.','models':[]}
+    for spec in models:
         entry={k:spec[k] for k in ('id','name','repo','revision','family')}
         for ph in ['pilot','full']:
             p=run/ph/spec['id']/'result.json';r=json.loads(p.read_text()) if p.exists() else {};receipt=receipts/(ph+'--'+spec['id']+'.json');published=json.loads(receipt.read_text()) if receipt.exists() else None
@@ -98,20 +101,21 @@ def publish(manifest='configs/variant-campaign.json',model=None,phase='pilot'):
     base_path=hf_hub_download(DATASET,'leaderboard.json',repo_type='dataset',revision='5c3ff83af71a0de21b8fc00c2953157070afa9a5')
     assert digest(base_path)=='0de7dd4c3af30aead1f97e51c00cd7970a81b62f2a1d52fe65cef35609690dcc'
     combined=json.loads(Path(base_path).read_text())
+    combined['table']=[r for r in combined['table'] if r['model'] not in selection['excluded_base_model_ids']]
     for row in combined['table']:row['protocol']='Original provider configuration'
     for spec in progress['models']:
         full=spec['full']
         if full['published'] and full['scored']==1088:
             combined['table'].append({**full['metrics'],'model':spec['id'],'name':spec['name']+' · ref','checkpoint':spec['repo'],'revision':spec['revision'],'protocol':'Fixed reference · independent implementation','experiment':'reference-conditioned','records_path':full['records_path']})
     assert len({r['model'] for r in combined['table']})==len(combined['table'])
-    combined.update(models=len(combined['table']),scored_audio=count_recordings(combined['table']),base_snapshot_sha256=digest(base_path),variant_campaign=cfg['campaign'])
+    combined.update(models=len(combined['table']),scored_audio=count_recordings(combined['table']),base_snapshot_sha256=digest(base_path),variant_campaign=cfg['campaign'],active_model_ids=selection['active_model_ids'],excluded_base_model_ids=selection['excluded_base_model_ids'])
     comparison=run/'current-comparison.json';write_json(comparison,combined)
     csv_path=run/'current-comparison.csv';fields=['model','name','protocol','checkpoint','revision','scored','generated','generation_failures','generation_failure_rate','wer','cer','rtf','latency_p50_s','latency_p95_s','peak_vram_mib','mer','wil','wip','exact_match_rate']
     with csv_path.open('w',newline='') as f:
         writer=csv.DictWriter(f,fieldnames=fields,extrasaction='ignore',lineterminator='\n');writer.writeheader();writer.writerows(combined['table'])
     p=run/'public-progress.json';write_json(p,progress)
-    api.create_commit(DATASET,repo_type='dataset',parent_commit=api.repo_info(DATASET,repo_type='dataset').sha,commit_message='Update variant experiment progress',operations=[CommitOperationAdd(path_in_repo=f'experiments/{cfg["campaign"]}/progress.json',path_or_fileobj=p),CommitOperationAdd(path_in_repo=f'experiments/{cfg["campaign"]}/current-comparison.json',path_or_fileobj=comparison),CommitOperationAdd(path_in_repo=f'experiments/{cfg["campaign"]}/current-comparison.csv',path_or_fileobj=csv_path)])
-    api.create_commit(SPACE,repo_type='space',parent_commit=api.repo_info(SPACE,repo_type='space').sha,commit_message='Update Dia2 and Llasa variant progress',operations=[CommitOperationAdd(path_in_repo='data/variant-progress.json',path_or_fileobj=p),CommitOperationAdd(path_in_repo='data/current-comparison.json',path_or_fileobj=comparison),CommitOperationAdd(path_in_repo='data/current-comparison.csv',path_or_fileobj=csv_path)])
+    api.create_commit(DATASET,repo_type='dataset',parent_commit=api.repo_info(DATASET,repo_type='dataset').sha,commit_message='Update variant experiment progress',operations=[CommitOperationAdd(path_in_repo=f'experiments/{cfg["campaign"]}/selection.json',path_or_fileobj=Path(manifest).parent/'variant-selection.json'),CommitOperationAdd(path_in_repo=f'experiments/{cfg["campaign"]}/progress.json',path_or_fileobj=p),CommitOperationAdd(path_in_repo=f'experiments/{cfg["campaign"]}/current-comparison.json',path_or_fileobj=comparison),CommitOperationAdd(path_in_repo=f'experiments/{cfg["campaign"]}/current-comparison.csv',path_or_fileobj=csv_path)])
+    api.create_commit(SPACE,repo_type='space',parent_commit=api.repo_info(SPACE,repo_type='space').sha,commit_message='Update Dia2 and Llasa variant progress',operations=[CommitOperationAdd(path_in_repo='data/variant-selection.json',path_or_fileobj=Path(manifest).parent/'variant-selection.json'),CommitOperationAdd(path_in_repo='data/variant-progress.json',path_or_fileobj=p),CommitOperationAdd(path_in_repo='data/current-comparison.json',path_or_fileobj=comparison),CommitOperationAdd(path_in_repo='data/current-comparison.csv',path_or_fileobj=csv_path)])
 
 
 if __name__=='__main__':

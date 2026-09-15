@@ -6,7 +6,7 @@ colorTo: purple
 sdk: static
 app_file: index.html
 pinned: false
-short_description: 33 TTS models with full English audio and metrics
+short_description: TTS benchmarks with official Llasa 1B, 3B and 8B
 datasets:
   - kadirnar/voicehub-arena-seed-tts-eval
 tags:
@@ -69,3 +69,7 @@ markers apply to chart results as well as the table.
 ## Additional high-WER audit
 
 [Six-model investigation](https://kadirnar-voicehub-arena.static.hf.space/high-wer-audit.html) covers Vui, ConversationTTS, Bark Small, VITS/MMS, OpenVoice V2 and VoxCPM2. All 35,904 original records were recomputed; 6,528 WAVs passed integrity checks. The audit adds 132 scored diagnostic records, numerical comparisons, error-component plots and sample audio. A confirmed ConversationTTS duration-budget bug is repaired in bootstrap and covered by regression tests. Selected diagnostic rates remain separate from full benchmark scores. See `docs/HIGH_WER_AUDIT_2026-09-15.md` for findings and reproduction steps.
+
+## Active Llasa selection
+
+Only official HKUSTAudio/Llasa-1B, Llasa-3B and Llasa-8B remain in active evaluation. Multilingual, Preserve-TextChat and multi-speaker variants have been removed from the queue, live tables, charts and sample selectors. Dia and Dia2-1B/2B remain active (six experiments total). The original 33-model snapshot is retained for provenance; its Multilingual Llasa row is excluded from current comparisons. The current selected baseline contains 32 models.

@@ -9,7 +9,7 @@ p.add_argument('--output',type=Path,default=Path('hf-space/reports'))
 a=p.parse_args()
 OUT=a.output;OUT.mkdir(parents=True,exist_ok=True)
 records=json.loads(a.source.read_text())['records']
-assert len(records)==33 and all(r['summary']['scored']==1088 for r in records)
+assert len(records)>0 and all(r['summary']['scored']==1088 for r in records)
 ordered=sorted(records,key=lambda r:(r['summary']['wer'],r['name'].casefold()))
 import matplotlib
 matplotlib.use('Agg')
@@ -40,8 +40,8 @@ for ax, metric, color in zip(axes,('wer','cer'),('#2563eb','#0f766e')):
 axes[0].set_yticks(y,[r['name']+(' *' if r['quality_review'] else '') for r in ordered])
 axes[0].invert_yaxis()
 fig.suptitle('VoiceHub Arena · full Seed-TTS-Eval English',x=.03,ha='left',fontsize=19,fontweight='bold',y=.986)
-fig.text(.03,.949,'33 models × 1,088 texts  |  Whisper-large-v3  |  Corrected CosyVoice 3 full split',fontsize=11,color='#475569')
-fig.text(.03,.018,'* Dia and Llasa: high transcript error rates remain under review. Fixed provider voice/reference protocol; no speaker-SIM score.',fontsize=9,color='#475569')
+fig.text(.03,.949,f'{len(records)} models × 1,088 texts  |  Whisper-large-v3  |  Corrected CosyVoice 3 full split',fontsize=11,color='#475569')
+fig.text(.03,.018,'* High transcript error rates remain under review. Fixed provider voice/reference protocol; no speaker-SIM score.',fontsize=9,color='#475569')
 fig.subplots_adjust(left=.17,right=.92,top=.915,bottom=.07,wspace=.30)
 save(fig,'wer-cer-full')
 

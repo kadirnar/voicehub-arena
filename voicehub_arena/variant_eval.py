@@ -18,6 +18,7 @@ os.environ['HF_HOME'] = str(Path.cwd()/'.cache/huggingface')
 os.environ['HF_HUB_DISABLE_PROGRESS_BARS'] = '1'
 
 from .storage import write_json
+from .variant_scope import require_active
 
 
 NO_AUDIO_POLICY = 'empty-output-deletions-v1'
@@ -215,6 +216,7 @@ def generate(manifest, model_id, phase, no_reference=False):
     import soundfile as sf
     from .metrics import signal_metrics
     cfg, dataset = load_campaign(manifest)
+    require_active(model_id,cfg,manifest)
     spec = dict(next(m for m in cfg['models'] if m['id']==model_id))
     if no_reference: spec['conditioning'] = 'none'
     selected = dataset if phase == 'full' else [dataset[i] for i in cfg['pilot_indices']]
@@ -276,7 +278,7 @@ def generate(manifest, model_id, phase, no_reference=False):
 def score(manifest,model_id,phase,no_reference=False):
     from faster_whisper import WhisperModel
     from .metrics import errors
-    cfg,_=load_campaign(manifest);variant=model_id+('-unconditioned' if no_reference else '')
+    cfg,_=load_campaign(manifest);require_active(model_id,cfg,manifest);variant=model_id+('-unconditioned' if no_reference else '')
     run=Path('runs')/cfg['campaign']/phase;path=run/variant/'result.json';result=json.loads(path.read_text())
     asr=cfg['asr'];model=WhisperModel(str(snapshot(asr['checkpoint'],asr['revision'])),device='cuda',compute_type='float16',cpu_threads=4)
     result['asr']=asr

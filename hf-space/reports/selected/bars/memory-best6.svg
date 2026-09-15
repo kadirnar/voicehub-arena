@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="979.2pt" height="468pt" viewBox="0 0 979.2 468" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <title>Peak CUDA allocation</title>
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title>Peak CUDA allocation</dc:title>
+    <dc:date>2026-09-16T00:04:10.187028</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 468
+L 979.2 468
+L 979.2 0
+L 0 0
+z
+" style="fill: #fdfcf8"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 58.752 360.36
+L 967.4496 360.36
+L 967.4496 102.96
+L 58.752 102.96
+z
+" style="fill: #fdfcf8"/>
+   </g>
+   <g id="matplotlib.axis_1"/>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_1">
+      <path d="M 58.752 360.36
+L 967.4496 360.36
+" clip-path="url(#p05bab930b6)" style="fill: none; stroke: #e6e2d8; stroke-width: 0.9; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_2"/>
+     <g id="text_1">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #858997" x="49.752" y="364.158828" transform="rotate(-0 49.752 364.158828)">0.0</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_3">
+      <path d="M 58.752 303.661747
+L 967.4496 303.661747
+" clip-path="url(#p05bab930b6)" style="fill: none; stroke: #e6e2d8; stroke-width: 0.9; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_4"/>
+     <g id="text_2">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #858997" x="49.752" y="307.460575" transform="rotate(-0 49.752 307.460575)">0.2</text>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_5">
+      <path d="M 58.752 246.963493
+L 967.4496 246.963493
+" clip-path="url(#p05bab930b6)" style="fill: none; stroke: #e6e2d8; stroke-width: 0.9; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_6"/>
+     <g id="text_3">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #858997" x="49.752" y="250.762321" transform="rotate(-0 49.752 250.762321)">0.4</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_7">
+      <path d="M 58.752 190.26524
+L 967.4496 190.26524
+" clip-path="url(#p05bab930b6)" style="fill: none; stroke: #e6e2d8; stroke-width: 0.9; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_8"/>
+     <g id="text_4">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #858997" x="49.752" y="194.064068" transform="rotate(-0 49.752 194.064068)">0.6</text>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_9">
+      <path d="M 58.752 133.566987
+L 967.4496 133.566987
+" clip-path="url(#p05bab930b6)" style="fill: none; stroke: #e6e2d8; stroke-width: 0.9; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_10"/>
+     <g id="text_5">
+      <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #858997" x="49.752" y="137.365815" transform="rotate(-0 49.752 137.365815)">0.8</text>
+     </g>
+    </g>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #858997" x="42.395443" y="95.238" transform="rotate(-0 42.395443 95.238)">GiB</text>
+   </g>
+   <g id="patch_3">
+    <path d="M 89.530467 360.36
+L 89.530467 320.193336
+Q 89.530467 315.560136 95.393032 315.560136
+L 197.987923 315.560136
+Q 203.850488 315.560136 203.850488 320.193336
+L 203.850488 360.36
+z
+" clip-path="url(#p05bab930b6)" style="fill: #4385ee"/>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #575c68" x="146.690477" y="406.958438" transform="rotate(-0 146.690477 406.958438)">Vits</text>
+   </g>
+   <g id="patch_4">
+    <path d="M 236.094596 360.36
+L 236.094596 316.685707
+Q 236.094596 312.052507 241.957161 312.052507
+L 344.552052 312.052507
+Q 350.414617 312.052507 350.414617 316.685707
+L 350.414617 360.36
+z
+" clip-path="url(#p05bab930b6)" style="fill: #a96797"/>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #575c68" x="293.254606" y="406.958438" transform="rotate(-0 293.254606 406.958438)">InflectTTS</text>
+   </g>
+   <g id="patch_5">
+    <path d="M 382.658725 360.36
+L 382.658725 248.884567
+Q 382.658725 244.251367 388.52129 244.251367
+L 491.116181 244.251367
+Q 496.978746 244.251367 496.978746 248.884567
+L 496.978746 360.36
+z
+" clip-path="url(#p05bab930b6)" style="fill: #0fa383"/>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #575c68" x="439.818735" y="406.958438" transform="rotate(-0 439.818735 406.958438)">Supertonic</text>
+   </g>
+   <g id="patch_6">
+    <path d="M 529.222854 360.36
+L 529.222854 232.583716
+Q 529.222854 227.950516 535.085419 227.950516
+L 637.68031 227.950516
+Q 643.542875 227.950516 643.542875 232.583716
+L 643.542875 360.36
+z
+" clip-path="url(#p05bab930b6)" style="fill: #32369a"/>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #575c68" x="586.382865" y="406.958438" transform="rotate(-0 586.382865 406.958438)">Kokoro</text>
+   </g>
+   <g id="patch_7">
+    <path d="M 675.786983 360.36
+L 675.786983 224.690739
+Q 675.786983 220.057539 681.649548 220.057539
+L 784.244439 220.057539
+Q 790.107004 220.057539 790.107004 224.690739
+L 790.107004 360.36
+z
+" clip-path="url(#p05bab930b6)" style="fill: #0fa383"/>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #575c68" x="732.946994" y="406.958438" transform="rotate(-0 732.946994 406.958438)">MeloTTS</text>
+   </g>
+   <g id="patch_8">
+    <path d="M 822.351112 360.36
+L 822.351112 163.89945
+Q 822.351112 159.26625 828.213677 159.26625
+L 930.808568 159.26625
+Q 936.671133 159.26625 936.671133 163.89945
+L 936.671133 360.36
+z
+" clip-path="url(#p05bab930b6)" style="fill: #bb754a"/>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #575c68" x="879.511123" y="406.958438" transform="rotate(-0 879.511123 406.958438)">SpeechT5</text>
+   </g>
+   <g id="text_13">
+    <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #252935" x="146.690477" y="304.196855" transform="rotate(-0 146.690477 304.196855)">0.16</text>
+   </g>
+   <g id="text_14">
+    <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #252935" x="293.254606" y="300.689226" transform="rotate(-0 293.254606 300.689226)">0.17</text>
+   </g>
+   <g id="text_15">
+    <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #252935" x="439.818735" y="232.888085" transform="rotate(-0 439.818735 232.888085)">0.41</text>
+   </g>
+   <g id="text_16">
+    <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #252935" x="586.382865" y="216.587235" transform="rotate(-0 586.382865 216.587235)">0.47</text>
+   </g>
+   <g id="text_17">
+    <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #252935" x="732.946994" y="208.694258" transform="rotate(-0 732.946994 208.694258)">0.49</text>
+   </g>
+   <g id="text_18">
+    <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #252935" x="879.511123" y="147.902969" transform="rotate(-0 879.511123 147.902969)">0.71</text>
+   </g>
+   <g id="text_19">
+    <g id="patch_9">
+     <path d="M 146.690477 374.589688
+C 149.933828 374.589688 153.044777 373.30109 155.338172 371.007695
+C 157.631568 368.714299 158.920165 365.603351 158.920165 362.36
+C 158.920165 359.116649 157.631568 356.005701 155.338172 353.712305
+C 153.044777 351.41891 149.933828 350.130313 146.690477 350.130313
+C 143.447126 350.130313 140.336178 351.41891 138.042782 353.712305
+C 135.749387 356.005701 134.46079 359.116649 134.46079 362.36
+C 134.46079 365.603351 135.749387 368.714299 138.042782 371.007695
+C 140.336178 373.30109 143.447126 374.589688 146.690477 374.589688
+z
+" style="fill: #4385ee; stroke: #fdfcf8; stroke-width: 2; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="146.690477" y="364.957656" transform="rotate(-0 146.690477 364.957656)">VI</text>
+   </g>
+   <g id="text_20">
+    <g id="patch_10">
+     <path d="M 293.254606 374.904531
+C 296.581455 374.904531 299.772492 373.58276 302.12493 371.230323
+C 304.477367 368.877886 305.799138 365.686849 305.799138 362.36
+C 305.799138 359.033151 304.477367 355.842114 302.12493 353.489677
+C 299.772492 351.13724 296.581455 349.815469 293.254606 349.815469
+C 289.927758 349.815469 286.736721 351.13724 284.384283 353.489677
+C 282.031846 355.842114 280.710075 359.033151 280.710075 362.36
+C 280.710075 365.686849 282.031846 368.877886 284.384283 371.230323
+C 286.736721 373.58276 289.927758 374.904531 293.254606 374.904531
+z
+" style="fill: #a96797; stroke: #fdfcf8; stroke-width: 2; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="293.254606" y="364.957656" transform="rotate(-0 293.254606 364.957656)">IN</text>
+   </g>
+   <g id="text_21">
+    <g id="patch_11">
+     <path d="M 439.818735 375.871719
+C 443.402085 375.871719 446.839153 374.448039 449.372963 371.914228
+C 451.906774 369.380417 453.330454 365.94335 453.330454 362.36
+C 453.330454 358.77665 451.906774 355.339583 449.372963 352.805772
+C 446.839153 350.271961 443.402085 348.848281 439.818735 348.848281
+C 436.235386 348.848281 432.798318 350.271961 430.264508 352.805772
+C 427.730697 355.339583 426.307017 358.77665 426.307017 362.36
+C 426.307017 365.94335 427.730697 369.380417 430.264508 371.914228
+C 432.798318 374.448039 436.235386 375.871719 439.818735 375.871719
+z
+" style="fill: #0fa383; stroke: #fdfcf8; stroke-width: 2; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="439.818735" y="364.957656" transform="rotate(-0 439.818735 364.957656)">ST</text>
+   </g>
+   <g id="text_22">
+    <g id="patch_12">
+     <path d="M 586.382865 373.86
+C 589.4327 373.86 592.358033 372.648287 594.514592 370.491728
+C 596.671152 368.335169 597.882865 365.409836 597.882865 362.36
+C 597.882865 359.310164 596.671152 356.384831 594.514592 354.228272
+C 592.358033 352.071713 589.4327 350.86 586.382865 350.86
+C 583.333029 350.86 580.407696 352.071713 578.251137 354.228272
+C 576.094577 356.384831 574.882865 359.310164 574.882865 362.36
+C 574.882865 365.409836 576.094577 368.335169 578.251137 370.491728
+C 580.407696 372.648287 583.333029 373.86 586.382865 373.86
+z
+" style="fill: #32369a; stroke: #fdfcf8; stroke-width: 2; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="586.382865" y="364.957656" transform="rotate(-0 586.382865 364.957656)">K</text>
+   </g>
+   <g id="text_23">
+    <g id="patch_13">
+     <path d="M 732.946994 377.251406
+C 736.896241 377.251406 740.684268 375.682354 743.476808 372.889814
+C 746.269347 370.097275 747.8384 366.309247 747.8384 362.36
+C 747.8384 358.410753 746.269347 354.622725 743.476808 351.830186
+C 740.684268 349.037646 736.896241 347.468594 732.946994 347.468594
+C 728.997746 347.468594 725.209719 349.037646 722.417179 351.830186
+C 719.62464 354.622725 718.055587 358.410753 718.055587 362.36
+C 718.055587 366.309247 719.62464 370.097275 722.417179 372.889814
+C 725.209719 375.682354 728.997746 377.251406 732.946994 377.251406
+z
+" style="fill: #0fa383; stroke: #fdfcf8; stroke-width: 2; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="732.946994" y="364.957656" transform="rotate(-0 732.946994 364.957656)">ME</text>
+   </g>
+   <g id="text_24">
+    <g id="patch_14">
+     <path d="M 879.511123 375.939687
+C 883.112498 375.939687 886.566855 374.508846 889.113412 371.962289
+C 891.659969 369.415732 893.09081 365.961375 893.09081 362.36
+C 893.09081 358.758625 891.659969 355.304268 889.113412 352.757711
+C 886.566855 350.211154 883.112498 348.780313 879.511123 348.780313
+C 875.909747 348.780313 872.45539 350.211154 869.908833 352.757711
+C 867.362277 355.304268 865.931435 358.758625 865.931435 362.36
+C 865.931435 365.961375 867.362277 369.415732 869.908833 371.962289
+C 872.45539 374.508846 875.909747 375.939687 879.511123 375.939687
+z
+" style="fill: #bb754a; stroke: #fdfcf8; stroke-width: 2; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="879.511123" y="364.957656" transform="rotate(-0 879.511123 364.957656)">S5</text>
+   </g>
+  </g>
+  <g id="text_25">
+   <text style="font-weight: 700; font-size: 19px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #282d3a" x="44.064" y="28.08" transform="rotate(-0 44.064 28.08)">Peak CUDA allocation</text>
+  </g>
+  <g id="text_26">
+   <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #7b8090" x="44.064" y="53.82" transform="rotate(-0 44.064 53.82)">Best 6 valid models · Seed-TTS-Eval English · 1,088 texts each · Lower is better</text>
+  </g>
+  <g id="text_27">
+   <text style="font-weight: 700; font-size: 19px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #343891" x="961.5744" y="29.952" transform="rotate(-0 961.5744 29.952)">VoiceHub Arena</text>
+  </g>
+  <g id="text_28">
+   <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #858997" x="44.064" y="442.26" transform="rotate(-0 44.064 442.26)">Confidence intervals not measured. Peak allocation, not total process VRAM.  Linear axis starts at zero.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p05bab930b6">
+   <rect x="58.752" y="102.96" width="908.6976" height="257.4"/>
+  </clipPath>
+ </defs>
+</svg>

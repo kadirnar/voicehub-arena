@@ -1,0 +1,1212 @@
+{
+  "source_sha256": "98cecaa358d060bf360a5a60ff3323123b3cb4d619d14c56ac3a1b0138122b2f",
+  "samples_per_model": 1088,
+  "axis": "linear; zero baseline",
+  "confidence": "Existing 95% prompt bootstrap intervals for WER/CER only",
+  "charts": [
+    {
+      "stem": "wer-best6",
+      "metric": "wer",
+      "unit": "%",
+      "scope": "best6",
+      "rows": [
+        {
+          "model": "kokoro",
+          "value": 0.9629071422590639,
+          "ci95": [
+            0.7682849762477257,
+            1.164082834224761
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "supertonic",
+          "value": 0.9796533534287867,
+          "ci95": [
+            0.785054517897158,
+            1.1805873826184896
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "omnivoice",
+          "value": 0.988026459013648,
+          "ci95": [
+            0.7861317788115801,
+            1.2080484304594896
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "speecht5",
+          "value": 1.0131457757682325,
+          "ci95": [
+            0.8283238600798748,
+            1.2222576854350247
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "f5tts",
+          "value": 1.0550113036925395,
+          "ci95": [
+            0.8544055321581331,
+            1.2617792351167754
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "styletts2",
+          "value": 1.0885037260319852,
+          "ci95": [
+            0.8889246341617305,
+            1.317792950459316
+          ],
+          "invalidated": false
+        }
+      ]
+    },
+    {
+      "stem": "wer-all",
+      "metric": "wer",
+      "unit": "%",
+      "scope": "all",
+      "rows": [
+        {
+          "model": "kokoro",
+          "value": 0.9629071422590639,
+          "ci95": [
+            0.7682849762477257,
+            1.164082834224761
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "supertonic",
+          "value": 0.9796533534287867,
+          "ci95": [
+            0.785054517897158,
+            1.1805873826184896
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "omnivoice",
+          "value": 0.988026459013648,
+          "ci95": [
+            0.7861317788115801,
+            1.2080484304594896
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "speecht5",
+          "value": 1.0131457757682325,
+          "ci95": [
+            0.8283238600798748,
+            1.2222576854350247
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "f5tts",
+          "value": 1.0550113036925395,
+          "ci95": [
+            0.8544055321581331,
+            1.2617792351167754
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "styletts2",
+          "value": 1.0885037260319852,
+          "ci95": [
+            0.8889246341617305,
+            1.317792950459316
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "echo",
+          "value": 1.1219961483714311,
+          "ci95": [
+            0.8904209796796563,
+            1.3934323157998303
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "fishtts",
+          "value": 1.1471154651260151,
+          "ci95": [
+            0.9372852661418718,
+            1.3923650739157822
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "xtts",
+          "value": 1.1722347818805994,
+          "ci95": [
+            0.9479942028329126,
+            1.3929717071918903
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "zonos2",
+          "value": 1.180607887465461,
+          "ci95": [
+            0.9429594420391598,
+            1.4372121739488108
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "chatterbox",
+          "value": 1.2308465209746293,
+          "ci95": [
+            1.0239624689752567,
+            1.4502005846153598
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "mosstts",
+          "value": 1.2308465209746293,
+          "ci95": [
+            0.9509180623730397,
+            1.5755375124648536
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "outetts",
+          "value": 1.2392196265594908,
+          "ci95": [
+            1.0140987840998448,
+            1.4841937026503234
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "vibevoice",
+          "value": 1.3145775768232437,
+          "ci95": [
+            1.0848131126616387,
+            1.5379696839116497
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "qwen3tts",
+          "value": 1.3815624215021352,
+          "ci95": [
+            1.1347743257994993,
+            1.6629512899164478
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "neutts",
+          "value": 1.4736665829356108,
+          "ci95": [
+            1.10311443076124,
+            1.9876654385442543
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "cosyvoice",
+          "value": 1.7416059616511763,
+          "ci95": [
+            1.4638886696980344,
+            2.044482781056171
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "higgstts",
+          "value": 1.7416059616511763,
+          "ci95": [
+            1.4684263569190568,
+            2.052255964339718
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "inflecttts",
+          "value": 1.7583521728208995,
+          "ci95": [
+            1.4729798756944201,
+            2.0587894869992844
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "orpheustts",
+          "value": 2.0011722347818806,
+          "ci95": [
+            1.6988210857373836,
+            2.3450519014427322
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "zonos",
+          "value": 2.3026040358368918,
+          "ci95": [
+            2.007390075144153,
+            2.6153331156134465
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "gptsovits",
+          "value": 2.637528259231349,
+          "ci95": [
+            2.2651802065312383,
+            3.044186246696779
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "melotts",
+          "value": 2.637528259231349,
+          "ci95": [
+            2.3169302518484742,
+            2.9679677277896817
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "parlertts",
+          "value": 2.654274470401072,
+          "ci95": [
+            2.27290026732326,
+            3.095461490670336
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "csm",
+          "value": 2.6710206815707944,
+          "ci95": [
+            2.256984690648647,
+            3.114456456487128
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "voxcpm",
+          "value": 3.34924223394457,
+          "ci95": [
+            2.721066820772177,
+            4.040970866798127
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "openvoice",
+          "value": 3.684166457339027,
+          "ci95": [
+            3.259408128993721,
+            4.12924532698379
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "vits",
+          "value": 6.229590555136901,
+          "ci95": [
+            5.68077628669862,
+            6.791827951441403
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "bark",
+          "value": 7.7367495604119565,
+          "ci95": [
+            6.542025882580918,
+            9.126204860193129
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "conversationtts",
+          "value": 8.716402913840742,
+          "ci95": [
+            6.82733438047465,
+            10.941677412955062
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "vui",
+          "value": 12.149376203633928,
+          "ci95": [
+            10.961879047597938,
+            13.331448614544684
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "dia",
+          "value": 67.35326132462531,
+          "ci95": [
+            57.72596992606132,
+            77.70414764299733
+          ],
+          "invalidated": false
+        }
+      ]
+    },
+    {
+      "stem": "cer-best6",
+      "metric": "cer",
+      "unit": "%",
+      "scope": "best6",
+      "rows": [
+        {
+          "model": "kokoro",
+          "value": 0.24400404689638755,
+          "ci95": [
+            0.18966782398615428,
+            0.29770741117294947
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "omnivoice",
+          "value": 0.2648336606558353,
+          "ci95": [
+            0.18904921536443545,
+            0.3657155632574282
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "supertonic",
+          "value": 0.2663214902100815,
+          "ci95": [
+            0.21180139582362922,
+            0.3225100490647234
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "speecht5",
+          "value": 0.2945902517407606,
+          "ci95": [
+            0.235856560816167,
+            0.3572732489586244
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "styletts2",
+          "value": 0.29905374040349936,
+          "ci95": [
+            0.23622418836487064,
+            0.36645672043614214
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "fishtts",
+          "value": 0.3169076950544546,
+          "ci95": [
+            0.25164327337067866,
+            0.3856638680410998
+          ],
+          "invalidated": false
+        }
+      ]
+    },
+    {
+      "stem": "cer-all",
+      "metric": "cer",
+      "unit": "%",
+      "scope": "all",
+      "rows": [
+        {
+          "model": "kokoro",
+          "value": 0.24400404689638755,
+          "ci95": [
+            0.18966782398615428,
+            0.29770741117294947
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "omnivoice",
+          "value": 0.2648336606558353,
+          "ci95": [
+            0.18904921536443545,
+            0.3657155632574282
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "supertonic",
+          "value": 0.2663214902100815,
+          "ci95": [
+            0.21180139582362922,
+            0.3225100490647234
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "speecht5",
+          "value": 0.2945902517407606,
+          "ci95": [
+            0.235856560816167,
+            0.3572732489586244
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "styletts2",
+          "value": 0.29905374040349936,
+          "ci95": [
+            0.23622418836487064,
+            0.36645672043614214
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "fishtts",
+          "value": 0.3169076950544546,
+          "ci95": [
+            0.25164327337067866,
+            0.3856638680410998
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "f5tts",
+          "value": 0.31988335416294705,
+          "ci95": [
+            0.2511205039574283,
+            0.3983339458737988
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "echo",
+          "value": 0.34815211569362614,
+          "ci95": [
+            0.25651236034547215,
+            0.47400288829906
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "chatterbox",
+          "value": 0.35261560435636496,
+          "ci95": [
+            0.2878993025473877,
+            0.4195101111888829
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "xtts",
+          "value": 0.3927870023210141,
+          "ci95": [
+            0.3047702271545646,
+            0.48948550676001723
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "vibevoice",
+          "value": 0.4151044456347081,
+          "ci95": [
+            0.3391400828390384,
+            0.499105574195605
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "zonos2",
+          "value": 0.42105576385169313,
+          "ci95": [
+            0.3064862940787466,
+            0.5746532860764837
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "mosstts",
+          "value": 0.43147057073141704,
+          "ci95": [
+            0.2815820019341391,
+            0.6384203524120753
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "outetts",
+          "value": 0.43742188894840206,
+          "ci95": [
+            0.3199460828193918,
+            0.5705981344212774
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "qwen3tts",
+          "value": 0.43890971850264837,
+          "ci95": [
+            0.341322717010673,
+            0.5637916399275065
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "inflecttts",
+          "value": 0.5891805034815212,
+          "ci95": [
+            0.48521130650579014,
+            0.6962616006936535
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "neutts",
+          "value": 0.6204249241206927,
+          "ci95": [
+            0.3660288780343977,
+            1.0057701099493686
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "cosyvoice",
+          "value": 0.6234005832291852,
+          "ci95": [
+            0.5187774747425175,
+            0.7428619023023337
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "higgstts",
+          "value": 0.6710111289650658,
+          "ci95": [
+            0.5334938979585008,
+            0.8322318642279253
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "orpheustts",
+          "value": 0.7692078795453192,
+          "ci95": [
+            0.6083833741794046,
+            0.9892766606762128
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "gptsovits",
+          "value": 0.8703802892340653,
+          "ci95": [
+            0.7285552893791007,
+            1.0238613992923822
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "zonos",
+          "value": 0.96411355115158,
+          "ci95": [
+            0.8174096745526271,
+            1.130165207207019
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "melotts",
+          "value": 1.065285960840326,
+          "ci95": [
+            0.9173332758245023,
+            1.222200840479742
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "parlertts",
+          "value": 1.44617032672737,
+          "ci95": [
+            1.200077777068855,
+            1.7373967449886223
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "csm",
+          "value": 1.4878295542462656,
+          "ci95": [
+            1.2244555826613683,
+            1.7740773268843477
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "openvoice",
+          "value": 1.5904897934892577,
+          "ci95": [
+            1.3940913785427171,
+            1.7979386205271202
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "voxcpm",
+          "value": 2.599238231268226,
+          "ci95": [
+            2.0480165206463754,
+            3.256538243822571
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "vits",
+          "value": 2.673629708980539,
+          "ci95": [
+            2.4251829595567225,
+            2.939332583322282
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "bark",
+          "value": 4.964887222519788,
+          "ci95": [
+            4.1101972027671,
+            6.016230488018854
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "conversationtts",
+          "value": 8.24703921918705,
+          "ci95": [
+            5.507506031858041,
+            11.838151593873322
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "vui",
+          "value": 8.397310004165922,
+          "ci95": [
+            7.456182716011253,
+            9.409126504207617
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "dia",
+          "value": 59.28256858894245,
+          "ci95": [
+            50.68358244822976,
+            68.12881581151855
+          ],
+          "invalidated": false
+        }
+      ]
+    },
+    {
+      "stem": "rtf-best6",
+      "metric": "rtf",
+      "unit": "\u00d7",
+      "scope": "best6",
+      "rows": [
+        {
+          "model": "inflecttts",
+          "value": 0.014407729416794657,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "kokoro",
+          "value": 0.018666759712283744,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "melotts",
+          "value": 0.019975049763602603,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "vits",
+          "value": 0.036346979152729886,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "openvoice",
+          "value": 0.041566943720588286,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "styletts2",
+          "value": 0.04208604152148397,
+          "ci95": null,
+          "invalidated": false
+        }
+      ]
+    },
+    {
+      "stem": "rtf-all",
+      "metric": "rtf",
+      "unit": "\u00d7",
+      "scope": "all",
+      "rows": [
+        {
+          "model": "inflecttts",
+          "value": 0.014407729416794657,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "kokoro",
+          "value": 0.018666759712283744,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "melotts",
+          "value": 0.019975049763602603,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "vits",
+          "value": 0.036346979152729886,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "openvoice",
+          "value": 0.041566943720588286,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "styletts2",
+          "value": 0.04208604152148397,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "supertonic",
+          "value": 0.06423751407986668,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "speecht5",
+          "value": 0.1622327560700419,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "gptsovits",
+          "value": 0.3222476706943061,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "omnivoice",
+          "value": 0.328981732833577,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "xtts",
+          "value": 0.37659089175029953,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "vui",
+          "value": 0.4120764092569282,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "echo",
+          "value": 0.5723286716880129,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "vibevoice",
+          "value": 0.6212332774264896,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "cosyvoice",
+          "value": 0.7025528225695982,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "f5tts",
+          "value": 0.7815442867831554,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "chatterbox",
+          "value": 0.8215815223732541,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "voxcpm",
+          "value": 0.8742893887299773,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "higgstts",
+          "value": 1.171588010392337,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "bark",
+          "value": 1.3509386013124312,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "mosstts",
+          "value": 1.389709319705265,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "neutts",
+          "value": 1.7043660177076607,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "zonos",
+          "value": 1.7680858104657158,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "qwen3tts",
+          "value": 1.7696765178685818,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "parlertts",
+          "value": 1.8774146532842886,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "csm",
+          "value": 2.2531292765703044,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "orpheustts",
+          "value": 2.5830602675349486,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "conversationtts",
+          "value": 2.6722347402449587,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "outetts",
+          "value": 3.164612982009557,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "dia",
+          "value": 3.1889203149742467,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "fishtts",
+          "value": 3.7434938590228506,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "zonos2",
+          "value": 6.227715330972293,
+          "ci95": null,
+          "invalidated": false
+        }
+      ]
+    },
+    {
+      "stem": "memory-best6",
+      "metric": "peak_vram_mib",
+      "unit": "GiB",
+      "scope": "best6",
+      "rows": [
+        {
+          "model": "vits",
+          "value": 0.15802907943725586,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "inflecttts",
+          "value": 0.17040205001831055,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "supertonic",
+          "value": 0.40956687927246094,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "kokoro",
+          "value": 0.46706724166870117,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "melotts",
+          "value": 0.49490928649902344,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "speecht5",
+          "value": 0.7093472480773926,
+          "ci95": null,
+          "invalidated": false
+        }
+      ]
+    },
+    {
+      "stem": "memory-all",
+      "metric": "peak_vram_mib",
+      "unit": "GiB",
+      "scope": "all",
+      "rows": [
+        {
+          "model": "vits",
+          "value": 0.15802907943725586,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "inflecttts",
+          "value": 0.17040205001831055,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "supertonic",
+          "value": 0.40956687927246094,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "kokoro",
+          "value": 0.46706724166870117,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "melotts",
+          "value": 0.49490928649902344,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "speecht5",
+          "value": 0.7093472480773926,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "openvoice",
+          "value": 0.7352685928344727,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "gptsovits",
+          "value": 0.746495246887207,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "styletts2",
+          "value": 1.0429868698120117,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "f5tts",
+          "value": 1.4808645248413086,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "bark",
+          "value": 1.8228049278259277,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "vibevoice",
+          "value": 1.9865846633911133,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "xtts",
+          "value": 1.9966683387756348,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "vui",
+          "value": 2.9499664306640625,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "omnivoice",
+          "value": 3.1531991958618164,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "chatterbox",
+          "value": 3.1675214767456055,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "cosyvoice",
+          "value": 3.349456310272217,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "neutts",
+          "value": 3.394808292388916,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "zonos",
+          "value": 4.0476765632629395,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "conversationtts",
+          "value": 4.219669342041016,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "csm",
+          "value": 4.229472637176514,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "qwen3tts",
+          "value": 4.24938440322876,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "outetts",
+          "value": 4.271193981170654,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "parlertts",
+          "value": 4.401808738708496,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "voxcpm",
+          "value": 5.437893867492676,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "orpheustts",
+          "value": 6.259279727935791,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "dia",
+          "value": 8.887322902679443,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "echo",
+          "value": 9.143695831298828,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "higgstts",
+          "value": 11.667078971862793,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "fishtts",
+          "value": 14.309252262115479,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "zonos2",
+          "value": 15.396402835845947,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "mosstts",
+          "value": 24.423131465911865,
+          "ci95": null,
+          "invalidated": false
+        }
+      ]
+    }
+  ]
+}

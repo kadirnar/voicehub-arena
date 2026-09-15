@@ -118,9 +118,12 @@
 /* Merge only completely scored, published experiments. Preserve the base snapshot. */
 (function(root){
  function mergeExperiments(base,progress){
-  const table=base.table.map(r=>({...r,protocol:'Original provider configuration'}));
+  const excluded=new Set(progress?.excluded_base_model_ids||[]);
+  const table=base.table.filter(r=>!excluded.has(r.model)).map(r=>({...r,protocol:'Original provider configuration'}));
   const ids=new Set(table.map(r=>r.model));
+  const active=progress?.active_model_ids?new Set(progress.active_model_ids):null;
   for(const spec of progress?.models||[]){
+   if(active&&!active.has(spec.id))continue;
    const full=spec.full;
    if(!full?.published||full.status!=='completed'||full.scored!==1088||full.expected!==1088)continue;
    if(ids.has(spec.id))throw Error('Duplicate variant experiment ID');

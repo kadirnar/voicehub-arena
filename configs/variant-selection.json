@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "campaign": "dia-llasa-variants-20260915",
+  "frozen_manifest_sha256": "6709fab44115d32d31124665def6183d5bd97e1e24060e4879c98daf591122d4",
+  "reason": "User requested only official Llasa-1B, Llasa-3B and Llasa-8B; exclude all other Llasa variants. Dia and Dia2 remain active.",
+  "active_model_ids": [
+    "llasa-1b",
+    "llasa-3b",
+    "llasa-8b",
+    "dia-1.6b-reference",
+    "dia2-1b",
+    "dia2-2b"
+  ],
+  "excluded_base_model_ids": [
+    "llasa"
+  ],
+  "scope": "Official Llasa-1B, Llasa-3B and Llasa-8B, both Dia2 checkpoints, and the Dia 1.6B reference control."
+}

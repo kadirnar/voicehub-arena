@@ -75,3 +75,14 @@ test('combined comparison excludes pilots, partial or unpublished runs and retai
  for(const full of [{...spec.full,published:false},{...spec.full,status:'partial'},{...spec.full,scored:8}])assert.equal(charts.mergeExperiments(data,{models:[{...spec,full}]}).table.length,33);
  assert.equal(data.table.length,33);
 });
+
+test('user scope removes multilingual from all active comparisons, including stale progress',()=>{
+ const selection=JSON.parse(fs.readFileSync(path.join(__dirname,'../configs/variant-selection.json')));
+ const removed={id:'llasa-1b-multilingual',name:'Removed',full:{published:true,status:'completed',scored:1088,expected:1088,metrics:{wer:0,scored:1088}}};
+ const merged=charts.mergeExperiments(data,{...selection,models:[removed]});
+ assert.equal(merged.table.length,32);assert.equal(merged.scored_audio,32*1088);
+ assert.ok(!merged.table.some(r=>r.model.startsWith('llasa')));
+ assert.equal(data.table.length,33);
+ const active=JSON.parse(fs.readFileSync(path.join(__dirname,'../hf-space/reports/selected/leaderboard.json')));
+ assert.deepEqual(merged.table.map(r=>r.model),active.table.map(r=>r.model));
+});

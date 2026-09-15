@@ -45,7 +45,7 @@ def rounded_bar(ax, center, height, color, max_y, hatched=False):
 def render(source, output):
     raw = source.read_bytes()
     data = json.loads(raw)
-    assert len(data['table']) == 33 and data['samples_per_model'] == 1088
+    assert len(data['table']) > 0 and data['samples_per_model'] == 1088
     output.mkdir(parents=True, exist_ok=True)
     colors = {r['model']: COLORS[i % len(COLORS)]
               for i, r in enumerate(sorted(data['table'], key=lambda r: r['model']))}
@@ -68,7 +68,7 @@ def render(source, output):
             fig.subplots_adjust(left=.06 if scope == 'best6' else .025, right=.988, top=.78, bottom=.23)
             fig.text(.045 if scope == 'best6' else .02, .94, title, fontsize=19, weight='bold', color='#282d3a')
             fig.text(.045 if scope == 'best6' else .02, .885,
-                     f"{'Best 6 valid' if scope == 'best6' else 'All 33'} models · Seed-TTS-Eval English · 1,088 texts each · Lower is better", color='#7b8090', fontsize=11)
+                     f"{'Best 6 valid' if scope == 'best6' else 'All '+str(len(rows))} models · Seed-TTS-Eval English · 1,088 texts each · Lower is better", color='#7b8090', fontsize=11)
             fig.text(.982, .936, 'VoiceHub Arena', ha='right', fontsize=19, weight='bold', color='#343891')
             ax.set_xlim(-.6, len(rows)-.4)
             ax.set_ylim(0, max_y)

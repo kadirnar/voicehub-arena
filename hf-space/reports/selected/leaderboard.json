@@ -62,8 +62,7 @@
       "audio_seconds": 4623.275,
       "silence_ratio": 0.3701472327051314,
       "clipping_ratio": 0.0,
-      "rms_dbfs": -26.425495242960476,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -26.425495242960476
     },
     {
       "model": "supertonic",
@@ -96,8 +95,7 @@
       "audio_seconds": 4756.657505668934,
       "silence_ratio": 0.43568262751000425,
       "clipping_ratio": 0.0,
-      "rms_dbfs": -26.68671776510351,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -26.68671776510351
     },
     {
       "model": "omnivoice",
@@ -130,8 +128,7 @@
       "audio_seconds": 4436.8,
       "silence_ratio": 0.3348716952743415,
       "clipping_ratio": 0.0,
-      "rms_dbfs": -23.852963743668997,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -23.852963743668997
     },
     {
       "model": "speecht5",
@@ -164,8 +161,7 @@
       "audio_seconds": 4101.024,
       "silence_ratio": 0.27561073823840104,
       "clipping_ratio": 0.0,
-      "rms_dbfs": -25.413263645785655,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -25.413263645785655
     },
     {
       "model": "f5tts",
@@ -198,8 +194,7 @@
       "audio_seconds": 3739.3813333333333,
       "silence_ratio": 0.21193145480339617,
       "clipping_ratio": 3.4988988015009135e-06,
-      "rms_dbfs": -19.899939920591734,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -19.899939920591734
     },
     {
       "model": "styletts2",
@@ -232,8 +227,7 @@
       "audio_seconds": 5058.533333333333,
       "silence_ratio": 0.29950891529922624,
       "clipping_ratio": 0.0,
-      "rms_dbfs": -22.315291148181117,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -22.315291148181117
     },
     {
       "model": "echo",
@@ -266,8 +260,7 @@
       "audio_seconds": 4676.359546485261,
       "silence_ratio": 0.12887222618488867,
       "clipping_ratio": 0.0,
-      "rms_dbfs": -13.952829189004829,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -13.952829189004829
     },
     {
       "model": "fishtts",
@@ -300,8 +293,7 @@
       "audio_seconds": 4357.735328798186,
       "silence_ratio": 0.13489419262981148,
       "clipping_ratio": 0.0,
-      "rms_dbfs": -16.634614222894925,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -16.634614222894925
     },
     {
       "model": "xtts",
@@ -334,8 +326,7 @@
       "audio_seconds": 4109.9946666666665,
       "silence_ratio": 0.12863922070376485,
       "clipping_ratio": 0.0,
-      "rms_dbfs": -17.494293341348765,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -17.494293341348765
     },
     {
       "model": "zonos2",
@@ -368,8 +359,7 @@
       "audio_seconds": 3808.4556916099773,
       "silence_ratio": 0.1599482895773222,
       "clipping_ratio": 0.0,
-      "rms_dbfs": -21.204251726272272,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -21.204251726272272
     },
     {
       "model": "chatterbox",
@@ -402,8 +392,7 @@
       "audio_seconds": 3491.6,
       "silence_ratio": 0.14410049492526528,
       "clipping_ratio": 3.745316243777417e-06,
-      "rms_dbfs": -17.46151259613592,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -17.46151259613592
     },
     {
       "model": "mosstts",
@@ -436,8 +425,7 @@
       "audio_seconds": 5986.0,
       "silence_ratio": 0.43571122588738487,
       "clipping_ratio": 4.602443648000904e-06,
-      "rms_dbfs": -26.128175142768608,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -26.128175142768608
     },
     {
       "model": "outetts",
@@ -470,8 +458,7 @@
       "audio_seconds": 5142.874,
       "silence_ratio": 0.3346259142214407,
       "clipping_ratio": 0.0,
-      "rms_dbfs": -19.94094323546973,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -19.94094323546973
     },
     {
       "model": "vibevoice",
@@ -504,8 +491,7 @@
       "audio_seconds": 4941.2,
       "silence_ratio": 0.31937791229579665,
       "clipping_ratio": 7.978451797385622e-09,
-      "rms_dbfs": -26.039530312116856,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -26.039530312116856
     },
     {
       "model": "qwen3tts",
@@ -538,8 +524,7 @@
       "audio_seconds": 5396.08,
       "silence_ratio": 0.2114373210618118,
       "clipping_ratio": 0.0,
-      "rms_dbfs": -21.57469666576863,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -21.57469666576863
     },
     {
       "model": "neutts",
@@ -572,12 +557,11 @@
       "audio_seconds": 4472.06,
       "silence_ratio": 0.27913515952061047,
       "clipping_ratio": 4.345555472947041e-06,
-      "rms_dbfs": -19.889727299836053,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -19.889727299836053
     },
     {
       "model": "cosyvoice",
-      "name": "CosyVoice 3 · 0.5B · 2512",
+      "name": "CosyVoice 3 \u00b7 0.5B \u00b7 2512",
       "checkpoint": "artifacts/cosyvoice3",
       "revision": null,
       "scored": 1088,
@@ -626,8 +610,7 @@
         "original_records": "reports/cosyvoice-correction-2026-09-15/original-model-records.json",
         "corrected_dataset_revision": "56c87034f5ef6a4b7bcfe403390ed86a0fc36611",
         "corrected_audio_archive": "corrections/cosyvoice-v3-hift-20260915/cosyvoice.tar"
-      },
-      "protocol": "Original provider configuration"
+      }
     },
     {
       "model": "higgstts",
@@ -660,8 +643,7 @@
       "audio_seconds": 4356.6,
       "silence_ratio": 0.2434151965391991,
       "clipping_ratio": 2.2705394611234025e-06,
-      "rms_dbfs": -21.519289781106792,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -21.519289781106792
     },
     {
       "model": "inflecttts",
@@ -694,8 +676,7 @@
       "audio_seconds": 4074.2906666666668,
       "silence_ratio": 0.23552280891102917,
       "clipping_ratio": 0.0,
-      "rms_dbfs": -23.741855445278556,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -23.741855445278556
     },
     {
       "model": "orpheustts",
@@ -728,8 +709,7 @@
       "audio_seconds": 5113.685333333333,
       "silence_ratio": 0.40942533109258156,
       "clipping_ratio": 0.0,
-      "rms_dbfs": -27.90337897777544,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -27.90337897777544
     },
     {
       "model": "zonos",
@@ -762,8 +742,7 @@
       "audio_seconds": 4331.996009070294,
       "silence_ratio": 0.26132722105228,
       "clipping_ratio": 1.1080583572800664e-07,
-      "rms_dbfs": -23.673586565392633,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -23.673586565392633
     },
     {
       "model": "gptsovits",
@@ -796,8 +775,7 @@
       "audio_seconds": 3679.6,
       "silence_ratio": 0.15031361795966175,
       "clipping_ratio": 0.0,
-      "rms_dbfs": -21.53940639823217,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -21.53940639823217
     },
     {
       "model": "melotts",
@@ -830,8 +808,7 @@
       "audio_seconds": 4986.566530612245,
       "silence_ratio": 0.3701696886986826,
       "clipping_ratio": 0.0,
-      "rms_dbfs": -26.93682087807902,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -26.93682087807902
     },
     {
       "model": "parlertts",
@@ -864,8 +841,7 @@
       "audio_seconds": 4018.3873015873014,
       "silence_ratio": 0.1515094306108054,
       "clipping_ratio": 7.417982043023822e-09,
-      "rms_dbfs": -18.799491891228392,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -18.799491891228392
     },
     {
       "model": "csm",
@@ -898,8 +874,7 @@
       "audio_seconds": 4515.44,
       "silence_ratio": 0.3169689076414828,
       "clipping_ratio": 3.525773558828079e-05,
-      "rms_dbfs": -26.242882987863332,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -26.242882987863332
     },
     {
       "model": "voxcpm",
@@ -932,8 +907,7 @@
       "audio_seconds": 3915.68,
       "silence_ratio": 0.25207125031657623,
       "clipping_ratio": 0.0,
-      "rms_dbfs": -19.995685779135187,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -19.995685779135187
     },
     {
       "model": "openvoice",
@@ -966,8 +940,7 @@
       "audio_seconds": 4986.566530612245,
       "silence_ratio": 0.3955355348300485,
       "clipping_ratio": 0.0,
-      "rms_dbfs": -27.237915118797478,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -27.237915118797478
     },
     {
       "model": "vits",
@@ -1000,8 +973,7 @@
       "audio_seconds": 4713.184,
       "silence_ratio": 0.24361948208129203,
       "clipping_ratio": 0.0,
-      "rms_dbfs": -18.456575731465676,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -18.456575731465676
     },
     {
       "model": "bark",
@@ -1034,8 +1006,7 @@
       "audio_seconds": 6735.826666666667,
       "silence_ratio": 0.3688515404183891,
       "clipping_ratio": 4.311951581619864e-05,
-      "rms_dbfs": -25.216558823343817,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -25.216558823343817
     },
     {
       "model": "conversationtts",
@@ -1068,8 +1039,7 @@
       "audio_seconds": 5198.24,
       "silence_ratio": 0.22706196691592928,
       "clipping_ratio": 0.0010200252838765175,
-      "rms_dbfs": -16.481099157390705,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -16.481099157390705
     },
     {
       "model": "vui",
@@ -1102,8 +1072,7 @@
       "audio_seconds": 5821.52126984127,
       "silence_ratio": 0.36983417003042174,
       "clipping_ratio": 1.0284511102981117e-05,
-      "rms_dbfs": -16.98248013674346,
-      "protocol": "Original provider configuration"
+      "rms_dbfs": -16.98248013674346
     },
     {
       "model": "dia",
@@ -1138,8 +1107,7 @@
       "clipping_ratio": 4.931407476340513e-08,
       "rms_dbfs": -22.07775442813294,
       "quality_review_reason": "High WER remains under review. Three native/Transformers generation comparisons and independent DAC decoding did not establish a port defect. Empty transcripts and ASR repetition affect scores; diagnostic VAD does not restore missing speech.",
-      "quality_audit": "quality-audit.html",
-      "protocol": "Original provider configuration"
+      "quality_audit": "quality-audit.html"
     }
   ],
   "audio_bytes": 19539199408,
@@ -1168,18 +1136,5 @@
       "corrected_dataset_revision": "56c87034f5ef6a4b7bcfe403390ed86a0fc36611",
       "corrected_audio_archive": "corrections/cosyvoice-v3-hift-20260915/cosyvoice.tar"
     }
-  ],
-  "base_snapshot_sha256": "0de7dd4c3af30aead1f97e51c00cd7970a81b62f2a1d52fe65cef35609690dcc",
-  "variant_campaign": "dia-llasa-variants-20260915",
-  "active_model_ids": [
-    "llasa-1b",
-    "llasa-3b",
-    "llasa-8b",
-    "dia-1.6b-reference",
-    "dia2-1b",
-    "dia2-2b"
-  ],
-  "excluded_base_model_ids": [
-    "llasa"
   ]
 }

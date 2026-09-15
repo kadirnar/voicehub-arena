@@ -12,7 +12,10 @@ import time
 from voicehub_arena.storage import write_json
 from voicehub_arena.variant_eval import load_campaign, digest, SCORED_STATUSES
 
+from voicehub_arena.variant_scope import load_selection
+
 cfg,_=load_campaign('configs/variant-campaign.json')
+selection,models=load_selection(cfg)
 root=Path.cwd();run=root/'runs'/cfg['campaign'];run.mkdir(parents=True,exist_ok=True)
 lock=(root/'runs/.gpu.lock').open('a');fcntl.flock(lock,fcntl.LOCK_EX)
 pause_requested=False
@@ -46,10 +49,12 @@ def remove_staging(model):
     assert cache.parent==root/'.cache/variant-staging' and '/' not in model
     if cache.exists():shutil.rmtree(cache)
 
+save(active_model_ids=selection['active_model_ids'])
+
 if not (run/'reference-words.json').exists() and not run_action('align'):
     save(status='failed',error='Reference alignment failed');sys.exit(1)
 for phase in ['pilot','full']:
-    for spec in cfg['models']:
+    for spec in models:
         model=spec['id']
         if complete(model,phase):continue
         if pause_requested:
@@ -65,7 +70,7 @@ for phase in ['pilot','full']:
         if publisher.exists():
             code=subprocess.call([sys.executable,str(publisher),'--model',model,'--phase',phase])
             state['events'].append({'action':'publish','model':model,'phase':phase,'exit_code':code,'time':time.time()});save()
-missing=[s['id'] for s in cfg['models'] if not complete(s['id'],'full')]
+missing=[s['id'] for s in models if not complete(s['id'],'full')]
 save(status='completed' if not missing else 'needs_attention',incomplete=missing)
 print(json.dumps({'campaign':cfg['campaign'],'status':state['status'],'incomplete':missing}),flush=True)
 sys.exit(bool(missing))
