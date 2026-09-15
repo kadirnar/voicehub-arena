@@ -1,0 +1,13 @@
+diff --git a/dia2/runtime/context.py b/dia2/runtime/context.py
+index 3e24e65..eea3012 100644
+--- a/dia2/runtime/context.py
++++ b/dia2/runtime/context.py
+@@ -79,7 +79,7 @@ def build_runtime(
+     device_obj = torch.device(device)
+     if device_obj.type == "cuda":
+         cuda_matmul = torch.backends.cuda.matmul
+-        cudnn_conv = torch.backends.cudnn.conv
++        cudnn_conv = getattr(torch.backends.cudnn, "conv", torch.backends.cudnn)
+         if hasattr(cuda_matmul, "fp32_precision"):
+             cuda_matmul.fp32_precision = "tf32"
+             with warnings.catch_warnings():

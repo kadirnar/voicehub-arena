@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "campaign": "dia-llasa-variants-20260915",
+  "inventory_date": "2026-09-15",
+  "scope": "All 8 official HKUSTAudio Llasa checkpoints, both official Nari Labs Dia2 checkpoints, and an independently prepared Dia reference control. No community finetunes or duplicate quantizations.",
+  "dataset": "datasets/public/seedtts_en/full.jsonl",
+  "dataset_sha256": "8a9386efb1768a90ffba66f8931e3887b53e9c9d1bf246eb46a8cce32bc7b1c1",
+  "expected_samples": 1088,
+  "pilot_indices": [
+    0,
+    155,
+    310,
+    465,
+    621,
+    776,
+    931,
+    1087
+  ],
+  "pilot_selection": "Eight evenly spaced source indices, chosen before evaluating variants. Diagnostic only.",
+  "reference": {
+    "path": "datasets/reference/emily.wav",
+    "sha256": "adf33bfc12725d5660f80a54d5df409b241a788ecec8a470d0c7a0b0b8923e38",
+    "text": "What we need, helping us to develop the scope of work for a future procurement. Most important to this process is that you look at process changes."
+  },
+  "seed": 42,
+  "asr": {
+    "checkpoint": "Systran/faster-whisper-large-v3",
+    "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+    "device": "cuda",
+    "compute_type": "float16",
+    "beam_size": 5,
+    "temperature": 0,
+    "vad_filter": false,
+    "condition_on_previous_text": false
+  },
+  "normalization_id": "whisper_english",
+  "dependencies": {
+    "dia2_source": "https://github.com/nari-labs/dia2",
+    "dia2_revision": "8687268f4ed3ed20704638fd353b51491de3b476",
+    "mimi_repo": "kyutai/mimi",
+    "mimi_revision": "89091b3e466eb6a9d11e537bf26b144f194978f7"
+  },
+  "models": [
+    {
+      "id": "llasa-1b-multilingual",
+      "name": "Llasa-1B-Multilingual",
+      "repo": "HKUSTAudio/Llasa-1B-Multilingual",
+      "revision": "7f094cb62b0a9779b334c60d039a61c5a6e04456",
+      "family": "Llasa",
+      "backend": "hf_llasa",
+      "conditioning": "fixed_reference",
+      "weight_bytes": 3533918792
+    },
+    {
+      "id": "dia-1.6b-reference",
+      "name": "Dia 1.6B \u00b7 reference",
+      "repo": "nari-labs/Dia-1.6B-0626",
+      "revision": "ef2795fcc29c5abe6ffc91fd33808588b49bbc66",
+      "family": "Dia",
+      "backend": "hf_dia",
+      "conditioning": "fixed_reference",
+      "weight_bytes": 0
+    },
+    {
+      "id": "dia2-1b",
+      "name": "Dia2-1B",
+      "repo": "nari-labs/Dia2-1B",
+      "revision": "00042629c61c3268a6473552c911966ec7a5a450",
+      "family": "Dia2",
+      "backend": "official_dia2",
+      "conditioning": "fixed_reference",
+      "weight_bytes": 4305028488
+    },
+    {
+      "id": "dia2-2b",
+      "name": "Dia2-2B",
+      "repo": "nari-labs/Dia2-2B",
+      "revision": "7abae125471a73b0fc6b9d413cb15f4ae1e771d8",
+      "family": "Dia2",
+      "backend": "official_dia2",
+      "conditioning": "fixed_reference",
+      "weight_bytes": 7678277416
+    },
+    {
+      "id": "llasa-1b",
+      "name": "Llasa-1B",
+      "repo": "HKUSTAudio/Llasa-1B",
+      "revision": "cef8ce6a6eea3b593c5b28868d2391ec15eb9058",
+      "family": "Llasa",
+      "backend": "hf_llasa",
+      "conditioning": "fixed_reference",
+      "weight_bytes": 2740113872
+    },
+    {
+      "id": "llasa-1b-multi-speakers-genshin-zh-en-ja-ko",
+      "name": "Llasa-1B-multi-speakers-genshin-zh-en-ja-ko",
+      "repo": "HKUSTAudio/Llasa-1B-multi-speakers-genshin-zh-en-ja-ko",
+      "revision": "73af1c55159e29cb61909c7061ea3f94a4f99b9e",
+      "family": "Llasa",
+      "backend": "hf_llasa",
+      "conditioning": "fixed_reference",
+      "weight_bytes": 3533918792
+    },
+    {
+      "id": "llasa-1b-preserve-textchat",
+      "name": "Llasa-1B-Preserve-TextChat",
+      "repo": "HKUSTAudio/Llasa-1B-Preserve-TextChat",
+      "revision": "047e0b7b64484afef7c0f054e5b43f465a107be6",
+      "family": "Llasa",
+      "backend": "hf_llasa",
+      "conditioning": "fixed_reference",
+      "weight_bytes": 3533918792
+    },
+    {
+      "id": "llasa-1b-two-speakers-kore-puck",
+      "name": "Llasa-1B-two-speakers-kore-puck",
+      "repo": "HKUSTAudio/Llasa-1B-two-speakers-kore-puck",
+      "revision": "dda8da11d29dc5e45ecdde493b4f0a55b10adb04",
+      "family": "Llasa",
+      "backend": "hf_llasa",
+      "conditioning": "fixed_reference",
+      "weight_bytes": 3533918792
+    },
+    {
+      "id": "llasa-3b",
+      "name": "Llasa-3B",
+      "repo": "HKUSTAudio/Llasa-3B",
+      "revision": "740b08c956fdde4a5a33f2caffbf004ff76e2748",
+      "family": "Llasa",
+      "backend": "hf_llasa",
+      "conditioning": "fixed_reference",
+      "weight_bytes": 8018938800
+    },
+    {
+      "id": "llasa-3b-preserve-textchat",
+      "name": "Llasa-3B-Preserve-TextChat",
+      "repo": "HKUSTAudio/Llasa-3B-Preserve-TextChat",
+      "revision": "5d8d8717f8c35dc801730dbe2b3fa1991f7f9c46",
+      "family": "Llasa",
+      "backend": "hf_llasa",
+      "conditioning": "fixed_reference",
+      "weight_bytes": 8018938800
+    },
+    {
+      "id": "llasa-8b",
+      "name": "Llasa-8B",
+      "repo": "HKUSTAudio/Llasa-8B",
+      "revision": "2a8339e387348a5cad5160b978a6f364fa06ad74",
+      "family": "Llasa",
+      "backend": "hf_llasa",
+      "conditioning": "fixed_reference",
+      "weight_bytes": 17134429272
+    }
+  ]
+}

@@ -58,9 +58,9 @@ def signal_metrics(audio, sample_rate):
                 dc_offset=float(np.mean(x)))
 
 
-def summarize(rows):
+def summarize(rows, *, scored_statuses=("ok",)):
     generated = [r for r in rows if r.get("status") in ("generated", "ok", "scoring_failed")]
-    scored = [r for r in rows if r.get("status") == "ok"]
+    scored = [r for r in rows if r.get("status") in scored_statuses]
     result = {"attempted": len(rows), "generated":len(generated), "scored":len(scored),
               "generation_failure_rate": 1-len(generated)/len(rows) if rows else None}
     measured_limits = [r for r in generated if 'generation_token_limit' in r]

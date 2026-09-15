@@ -11,16 +11,17 @@ const core = [
  ['latency_p50_s','p50 · s','Median synthesis latency, seconds',x=>num(x)],
  ['latency_p95_s','p95 · s','95th percentile synthesis latency, seconds',x=>num(x)],
  ['peak_vram_mib','CUDA · GiB','Peak per-sample CUDA allocation, not process VRAM',x=>num(x/1024)],
- ['scored','Samples','All generated and scored texts',x=>x.toLocaleString('en-US')]
+ ['scored','Samples','All evaluated texts, including explicitly penalized no-audio failures',x=>x.toLocaleString('en-US')]
 ];
 const extra = [
  ['mer','MER','Match error rate; lower is better',pct],['wil','WIL','Word information lost; lower is better',pct],
  ['wip','WIP','Word information preserved; higher is better',pct],['exact_match_rate','Exact match','Normalized exact transcript matches; higher is better',pct],
  ['utterance_mean_wer','Mean WER','Unweighted utterance mean, distinct from corpus WER',pct],
  ['utterance_mean_cer','Mean CER','Unweighted utterance mean, distinct from corpus CER',pct],
+ ['generation_failure_rate','No audio · %','No speech was generated; these targets receive an explicit deletion penalty',pct],
  ['audio_seconds','Audio · h','Total generated audio hours',x=>num(x/3600)],
  ['silence_ratio','Silence','Mean measured silence ratio',pct],['clipping_ratio','Clipping','Mean measured clipping ratio',pct],
- ['rms_dbfs','RMS · dBFS','Mean measured RMS amplitude',x=>num(x)],['empty_asr_transcripts','Empty ASR','Empty transcripts; not proof of silent audio',x=>String(x)]
+ ['rms_dbfs','RMS · dBFS','Mean measured RMS amplitude',x=>num(x)],['empty_asr_transcripts','Empty ASR','Empty transcripts; not proof of silent audio',x=>Number.isFinite(x)?String(x):'—']
 ];
 function columns(){return $('columns').value==='all'?[...core,...extra]:core;}
 function checkpointLink(r){
@@ -41,8 +42,8 @@ function renderTable(){
  const ranking=state.data.table.filter(r=>r.score_status!=='invalidated_by_implementation_bug').sort((a,b)=>a.wer-b.wer||a.name.localeCompare(b.name));
  const rank=new Map();let previous=null,currentRank=0;
  ranking.forEach((r,i)=>{if(r.wer!==previous)currentRank=i+1;rank.set(r.model,currentRank);previous=r.wer;});
- $('leaderboard').tBodies[0].innerHTML=rows.map(r=>`<tr class="${rank.get(r.model)<=3?'best':''}"><td>${rank.get(r.model)??'—'}</td><td><button class="model-name" data-model="${r.model}">${esc(r.name)}</button>${checkpointLink(r)}${r.quality_review?`<span class="review-badge" title="${esc(r.quality_review_reason||'High transcript error rate; root cause unresolved')}">Review</span>`:''}</td>${cols.map(([key,,tip,format])=>`<td class="${key==='wer'||key==='cer'?'main-metric':''}" title="${esc(tip)}">${format(r[key])}${key==='wer'||key==='cer'?`<span class="ci">${(r[key+'_ci95'][0]*100).toFixed(2)}–${(r[key+'_ci95'][1]*100).toFixed(2)}</span>`:''}</td>`).join('')}</tr>`).join('')||`<tr><td colspan="${cols.length+2}" class="empty">No models match this search.</td></tr>`;
- $('model-count').textContent=`${rows.length} / 33 models · 1,088 texts each`;
+ $('leaderboard').tBodies[0].innerHTML=rows.map(r=>`<tr class="${rank.get(r.model)<=3?'best':''}"><td>${rank.get(r.model)??'—'}</td><td><button class="model-name" data-model="${r.model}">${esc(r.name)}</button>${checkpointLink(r)}${r.experiment?'<span class="review-badge" title="Fixed-reference conditioning; original configuration is retained separately">Reference</span>':''}${r.generation_failures?`<span class="review-badge" title="Included in corpus WER as empty-output deletions">${r.generation_failures} no audio</span>`:''}${r.quality_review?`<span class="review-badge" title="${esc(r.quality_review_reason||'High transcript error rate; root cause unresolved')}">Review</span>`:''}</td>${cols.map(([key,,tip,format])=>`<td class="${key==='wer'||key==='cer'?'main-metric':''}" title="${esc(tip)}">${format(r[key])}${key==='wer'||key==='cer'?`<span class="ci">${(r[key+'_ci95'][0]*100).toFixed(2)}–${(r[key+'_ci95'][1]*100).toFixed(2)}</span>`:''}</td>`).join('')}</tr>`).join('')||`<tr><td colspan="${cols.length+2}" class="empty">No models match this search.</td></tr>`;
+ $('model-count').textContent=`${rows.length} / ${state.data.table.length} configurations · 1,088 texts each`;
 }
 function showTab(tab){
  if(!['leaderboard','samples','charts'].includes(tab))return;
@@ -53,7 +54,8 @@ function showTab(tab){
 }
 async function loadModel(model){
  if(!state.modelRows.has(model)){
-  const promise=fetch(`data/models/${encodeURIComponent(model)}.json`).then(async res=>{
+  const modelPath=state.data.table.find(r=>r.model===model)?.records_path||`data/models/${encodeURIComponent(model)}.json`;
+  const promise=fetch(modelPath).then(async res=>{
    if(!res.ok)throw new Error(`Could not load ${model} samples (${res.status}).`);
    const data=await res.json();if(data.rows.length!==1088)throw new Error(`Incomplete sample file for ${model}.`);return data.rows;
   }).catch(e=>{state.modelRows.delete(model);throw e;});
@@ -62,12 +64,13 @@ async function loadModel(model){
  return state.modelRows.get(model);
 }
 function audioURL(row){
- const base=`https://huggingface.co/datasets/${state.data.dataset_id}/resolve/${state.data.dataset_revision}/`;
+ const base=`https://huggingface.co/datasets/${row.audio_dataset_id||state.data.dataset_id}/resolve/${row.audio_dataset_revision||state.data.dataset_revision}/`;
  return base+row.audio_archive.split('/').map(encodeURIComponent).join('/');
 }
 function recording(row,model,label){
  if(!row)return '<div class="recording">Matching sample unavailable.</div>';
  const name=state.data.table.find(m=>m.model===model).name,key=model+':'+row.id;state.audioRows.set(key,row);
+ if(row.status==='generation_failed_scored')return `<div class="recording"><b>${esc(name)} · No audio generated</b><p>WER ${pct(row.metrics.wer)} · CER ${pct(row.metrics.cer)} · Empty-output deletion penalty. No recording exists.</p><p>${esc(row.error)}</p></div>`;
  return `<div class="recording" data-audio-key="${esc(key)}"><div class="recording-title"><b>${label} · ${esc(name)}</b><span>WER ${pct(row.metrics.wer)} · CER ${pct(row.metrics.cer)}</span></div><p>${row.transcript.trim()?esc(row.transcript):'<em>Empty ASR transcript</em>'}</p><button class="button secondary load-audio" data-load-audio aria-label="Load ${esc(name)} audio">▶ Load audio</button><audio controls preload="none" aria-label="${esc(name)} · ${esc(row.id)}" hidden></audio><div class="audio-links"><span>${num(row.duration_s,1)} s audio · ${num(row.latency_s,2)} s synthesis</span><button class="wav-download" data-download-audio>WAV ↓</button></div><div class="audio-error" hidden>Audio could not be loaded. Please try again.</div></div>`;
 }
 function clearAudio(){
@@ -113,7 +116,7 @@ async function renderSamples(){
   $('sample-count').textContent=`${rows.length.toLocaleString('en-US')} / 1,088 texts · ${rows.length?start+1:0}–${Math.min(start+state.pageSize,rows.length)} shown`;
   $('page').value=state.page;$('page').max=pages;$('page-total').textContent=`of ${pages}`;
   $('previous').disabled=state.page===1;$('next').disabled=state.page===pages;
-  $('model-json').href=`data/models/${model}.json`;
+  $('model-json').href=state.data.table.find(r=>r.model===model)?.records_path||`data/models/${model}.json`;
   $('sample-status').textContent='';
   document.querySelectorAll('audio').forEach(audio=>{
    audio.addEventListener('play',()=>document.querySelectorAll('audio').forEach(other=>{if(other!==audio)other.pause();}));
@@ -143,8 +146,15 @@ $('page-go').addEventListener('click',goToPage);
 async function init(){
  try{
   const response=await fetch('data/leaderboard.json');if(!response.ok)throw new Error('Leaderboard could not be loaded. Please reload.');
-  const data=await response.json();if(data.table.length!==33||data.scored_audio!==35904)throw new Error('The benchmark snapshot is incomplete.');
-  state.data=data;
+  const base=await response.json();if(base.table.length!==33||base.scored_audio!==35904)throw new Error('The benchmark snapshot is incomplete.');
+  let variantProgress=null;try{const p=await fetch('data/variant-progress.json',{cache:'no-store'});if(p.ok)variantProgress=await p.json();}catch{}
+  const data=VoiceHubCharts.mergeExperiments(base,variantProgress);state.data=data;
+  $('coverage-models').textContent=data.models.toLocaleString('en-US');$('coverage-audio').textContent=data.scored_audio.toLocaleString('en-US');$('leaderboard-total').textContent=data.models;
+  $('coverage-note').textContent=`${data.models} configurations, ${data.scored_audio.toLocaleString('en-US')} verified recordings. Original and reference-conditioned experiments are labeled separately.`;
+  const csvFields=['model','name','protocol','checkpoint','revision',...core.map(c=>c[0]),...extra.map(c=>c[0])];
+  const cell=x=>'"'+String(x??'').replaceAll('"','""')+'"';
+  const csv=[csvFields.map(cell).join(','),...data.table.map(r=>csvFields.map(k=>cell(r[k])).join(','))].join('\n');
+  $('comparison-csv').href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
   const choices=[...data.table].sort((a,b)=>a.name.localeCompare(b.name)).map(r=>`<option value="${r.model}">${esc(r.name)}</option>`).join('');
   $('model-a').innerHTML=choices;$('model-a').value=data.table[0].model;
   $('model-b').innerHTML='<option value="">No comparison</option>'+choices;

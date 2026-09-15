@@ -51,3 +51,27 @@ test('download plots use the same exact data and units as the live table',()=>{
   }
  }
 });
+
+test('compact comparison contains every selected model once with shared axes and bounded width',()=>{
+ const rows=charts.selectRows(data.table,'wer','all');
+ const svg=charts.compactChart(rows,'wer',{},2);
+ assert.match(svg,/viewBox="0 0 1240 \d+"/);
+ assert.equal((svg.match(/data-chart-model=/g)||[]).length,rows.length);
+ for(const row of rows)assert.equal((svg.match(new RegExp('data-chart-model="'+row.model+'"','g'))||[]).length,1);
+ assert.match(svg,/SAME SCALE IN EVERY COLUMN/);
+ assert.match(svg,/ZERO BASELINE/);
+ assert.match(svg,/95% prompt bootstrap/);
+ assert.match(charts.compactChart(rows,'wer',{},1),/viewBox="0 0 620 \d+"/);
+ const rtf=charts.compactChart(rows,'rtf',{},2);
+ assert.match(rtf,/No confidence intervals measured/);
+});
+
+test('combined comparison excludes pilots, partial or unpublished runs and retains original measurements',()=>{
+ const spec={id:'llasa-8b',name:'Llasa-8B',repo:'HKUSTAudio/Llasa-8B',revision:'a'.repeat(40),full:{published:true,status:'completed',expected:1088,scored:1088,records_path:'data/variants/full/llasa-8b.json',metrics:{wer:.02,cer:.01,scored:1088}}};
+ const merged=charts.mergeExperiments(data,{models:[spec]});
+ assert.equal(merged.table.length,34);assert.equal(merged.scored_audio,data.scored_audio+1088);
+ assert.equal(merged.table.at(-1).records_path,spec.full.records_path);
+ for(const [i,row] of data.table.entries())assert.equal(merged.table[i].wer,row.wer);
+ for(const full of [{...spec.full,published:false},{...spec.full,status:'partial'},{...spec.full,scored:8}])assert.equal(charts.mergeExperiments(data,{models:[{...spec,full}]}).table.length,33);
+ assert.equal(data.table.length,33);
+});

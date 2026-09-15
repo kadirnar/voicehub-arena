@@ -1,0 +1,51 @@
+{
+  "kind": "diagnostic only; never included in benchmark rankings",
+  "source_index": 931,
+  "text": "Carnegie High also has two won state titles in boys cross country.",
+  "attempts": [
+    {
+      "dtype": "torch.bfloat16",
+      "generated_ids": [
+        128261
+      ],
+      "eos": 128261,
+      "input_length": 490,
+      "seed": 42,
+      "error": "LLaSA generated no XCodec2 speech tokens."
+    },
+    {
+      "dtype": "torch.float32",
+      "generated_ids": [
+        128261
+      ],
+      "eos": 128261,
+      "input_length": 490,
+      "seed": 42,
+      "error": "LLaSA generated no XCodec2 speech tokens."
+    }
+  ],
+  "effective": {
+    "backend": "Transformers Llama + independently audited native XCodec2",
+    "dtype": "bfloat16 LM / float32 codec",
+    "max_length": 2048,
+    "temperature": 0.8,
+    "top_p": 1.0,
+    "top_k": 50,
+    "checkpoint_files_sha256": {
+      "config.json": "d0f9264b2045b4524dd7f8504aef2110bfd79841ebb64b0fd7f4fb6dd1002fa4",
+      "generation_config.json": "cb5da0fc37a4c2c65a10c44806a67c9eef81af99b5b756fd5d2e802c317c45b9",
+      "model-00001-of-00004.safetensors": "2c3e09fe9c3fbabe32ab0b553a063d8a6589a32cef1739d4601f7b3df6e828dc",
+      "model-00002-of-00004.safetensors": "1563be3255fc3ec2af299c6cc07e45cd784d8226545a19666199f52fb5a39cde",
+      "model-00003-of-00004.safetensors": "00b3faa3ab648a3ec9f42a0e2bf1b569e0d8ce5a8aecc38c0e424668234030d0",
+      "model-00004-of-00004.safetensors": "4dcc810f81f3f9be04785b4e24bc82f376306257834ec2e43510e23bf4c28392",
+      "model.safetensors.index.json": "55166a339d76b35ffb4fa70c0c7de3813b4445790784adeb7800a84d73c18805",
+      "special_tokens_map.json": "1b1835caa5b4d70acaa210fa222b0036f1882f9525c4660fd4810fb3e1e40ff8",
+      "tokenizer.json": "71d92f3dbf3c23d734e6356241cef149b42fe79848176a54145b6f9a886fd73b",
+      "tokenizer_config.json": "7cd63e98d3aa8624ae8a145724b1fb9fe4ea612a9aeeb7e96e8147f1361f51ab"
+    },
+    "codec_config_sha256": "f3082487a22d44095e42f0824825e4ed36f5b464ba8405d64eb20dc440a5756e",
+    "codec_weights_sha256": "611a63e4dff70c19bd4718d701bb7bc522acf6293a109ab62f5db2f7ff395114",
+    "prefix_tokens": 403,
+    "crop_samples": 128960
+  }
+}

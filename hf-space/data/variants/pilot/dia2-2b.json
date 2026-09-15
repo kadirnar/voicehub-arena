@@ -1,0 +1,992 @@
+{
+  "model_type": "dia2-2b",
+  "checkpoint": "nari-labs/Dia2-2B",
+  "revision": "7abae125471a73b0fc6b9d413cb15f4ae1e771d8",
+  "phase": "pilot",
+  "conditioning": "fixed_reference",
+  "expected_samples": 8,
+  "rows": [
+    {
+      "id": "seed_common_voice_en_25313898-common_voice_en_25313899",
+      "source_id": "common_voice_en_25313898-common_voice_en_25313899",
+      "text": "Suddenly, Franzen was breaking Big Brother's house rules, not once, but many times over.",
+      "reference": "Suddenly, Franzen was breaking Big Brother's house rules, not once, but many times over.",
+      "category": "read_speech",
+      "language": "en",
+      "prompt_text": "As technology progressed, it became clear that the default skybox had severe disadvantages.",
+      "publisher_prompt_audio": "prompt-wavs/common_voice_en_25313898.wav",
+      "publisher_target_audio": null,
+      "dataset_id": "seedtts_en",
+      "track": "fixed_voice_intelligibility",
+      "repeat": 0,
+      "seed": 42,
+      "status": "ok",
+      "latency_s": 12.97121800109744,
+      "peak_vram_mib": 8324.23876953125,
+      "conditioning": "fixed_reference",
+      "normalization_id": "whisper_english",
+      "duration_s": 5.6,
+      "sample_rate": 24000,
+      "peak_dbfs": -4.151757822558727,
+      "rms_dbfs": -22.01034815380136,
+      "clipping_ratio": 0.0,
+      "silence_ratio": 0.29642857142857143,
+      "leading_silence_s": 0.26,
+      "trailing_silence_s": 0.44,
+      "dc_offset": -0.00013826669490175022,
+      "audio_token_frames": 70,
+      "timestamps": [
+        [
+          "Suddenly,",
+          0.0
+        ],
+        [
+          "Franzen",
+          0.56
+        ],
+        [
+          "was",
+          1.12
+        ],
+        [
+          "breaking",
+          1.36
+        ],
+        [
+          "Big",
+          1.68
+        ],
+        [
+          "Brother's",
+          2.0
+        ],
+        [
+          "house",
+          2.32
+        ],
+        [
+          "rules,",
+          2.48
+        ],
+        [
+          "not",
+          2.88
+        ],
+        [
+          "once,",
+          3.28
+        ],
+        [
+          "but",
+          3.68
+        ],
+        [
+          "many",
+          4.16
+        ],
+        [
+          "times",
+          4.4
+        ],
+        [
+          "over.",
+          4.72
+        ]
+      ],
+      "audio": "dia2-2b/seed_common_voice_en_25313898-common_voice_en_25313899.wav",
+      "rtf": 2.3162889287674004,
+      "audio_sha256": "ae65d5074b1be53728815bf7f817a7e4a1da4ae0aaf1d8bac444a3df3e490089",
+      "transcript": "Suddenly, Franson was breaking Big Brother's house rules, not once, but many times over.",
+      "metrics": {
+        "wer": 0.06666666666666667,
+        "cer": 0.023529411764705882,
+        "mer": 0.06666666666666667,
+        "wil": 0.12888888888888883,
+        "wip": 0.8711111111111112,
+        "word_hits": 14,
+        "word_substitutions": 1,
+        "word_deletions": 0,
+        "word_insertions": 0,
+        "reference_words": 15,
+        "char_hits": 83,
+        "char_substitutions": 2,
+        "char_deletions": 0,
+        "char_insertions": 0,
+        "reference_chars": 85,
+        "exact_match_rate": 0.0
+      },
+      "asr_latency_s": 0.6927481852471828,
+      "audio_archive": "experiments/dia-llasa-variants-20260915/pilot/dia2-2b/audio.tar",
+      "audio_offset": 512,
+      "audio_bytes": 537680,
+      "audio_path": "seed_common_voice_en_25313898-common_voice_en_25313899.wav",
+      "audio_dataset_revision": "fdee17d93b7b9eddf18c11b8a3c2ff01ce16dbb8",
+      "audio_dataset_id": "kadirnar/voicehub-arena-seed-tts-eval"
+    },
+    {
+      "id": "seed_common_voice_en_32717587-common_voice_en_32717583",
+      "source_id": "common_voice_en_32717587-common_voice_en_32717583",
+      "text": "This version of Thor was marketed as \"Party Thor\".",
+      "reference": "This version of Thor was marketed as \"Party Thor\".",
+      "category": "read_speech",
+      "language": "en",
+      "prompt_text": "Potter is eligible to represent both Australia and England at senior international level.",
+      "publisher_prompt_audio": "prompt-wavs/common_voice_en_32717587.wav",
+      "publisher_target_audio": null,
+      "dataset_id": "seedtts_en",
+      "track": "fixed_voice_intelligibility",
+      "repeat": 0,
+      "seed": 42,
+      "status": "ok",
+      "latency_s": 11.1710051484406,
+      "peak_vram_mib": 8281.04345703125,
+      "conditioning": "fixed_reference",
+      "normalization_id": "whisper_english",
+      "duration_s": 3.52,
+      "sample_rate": 24000,
+      "peak_dbfs": -1.0240813540963942,
+      "rms_dbfs": -18.001190885936566,
+      "clipping_ratio": 0.0,
+      "silence_ratio": 0.36363636363636365,
+      "leading_silence_s": 0.46,
+      "trailing_silence_s": 0.44,
+      "dc_offset": -0.00010959793357262593,
+      "audio_token_frames": 44,
+      "timestamps": [
+        [
+          "This",
+          0.0
+        ],
+        [
+          "version",
+          0.56
+        ],
+        [
+          "of",
+          0.88
+        ],
+        [
+          "Thor",
+          1.04
+        ],
+        [
+          "was",
+          1.28
+        ],
+        [
+          "marketed",
+          1.52
+        ],
+        [
+          "as",
+          1.92
+        ],
+        [
+          "\"Party",
+          2.24
+        ],
+        [
+          "Thor\".",
+          2.64
+        ]
+      ],
+      "audio": "dia2-2b/seed_common_voice_en_32717587-common_voice_en_32717583.wav",
+      "rtf": 3.1735810080797155,
+      "audio_sha256": "d99d3533150da55187d82a9366d51c40fbaf05ada69239a2ad845ea9bddf477b",
+      "transcript": "This version of Thor was marketed as Party Thor.",
+      "metrics": {
+        "wer": 0.0,
+        "cer": 0.0,
+        "mer": 0.0,
+        "wil": 0.0,
+        "wip": 1.0,
+        "word_hits": 9,
+        "word_substitutions": 0,
+        "word_deletions": 0,
+        "word_insertions": 0,
+        "reference_words": 9,
+        "char_hits": 47,
+        "char_substitutions": 0,
+        "char_deletions": 0,
+        "char_insertions": 0,
+        "reference_chars": 47,
+        "exact_match_rate": 1.0
+      },
+      "asr_latency_s": 0.22369207814335823,
+      "audio_archive": "experiments/dia-llasa-variants-20260915/pilot/dia2-2b/audio.tar",
+      "audio_offset": 539136,
+      "audio_bytes": 338000,
+      "audio_path": "seed_common_voice_en_32717587-common_voice_en_32717583.wav",
+      "audio_dataset_revision": "fdee17d93b7b9eddf18c11b8a3c2ff01ce16dbb8",
+      "audio_dataset_id": "kadirnar/voicehub-arena-seed-tts-eval"
+    },
+    {
+      "id": "seed_common_voice_en_20066900-common_voice_en_20066901",
+      "source_id": "common_voice_en_20066900-common_voice_en_20066901",
+      "text": "Several indoor and street shots were also made in that locale.",
+      "reference": "Several indoor and street shots were also made in that locale.",
+      "category": "read_speech",
+      "language": "en",
+      "prompt_text": "To minimize signal distortion, it is desirable that the stub maintain high impedance.",
+      "publisher_prompt_audio": "prompt-wavs/common_voice_en_20066900.wav",
+      "publisher_target_audio": null,
+      "dataset_id": "seedtts_en",
+      "track": "fixed_voice_intelligibility",
+      "repeat": 0,
+      "seed": 42,
+      "status": "ok",
+      "latency_s": 11.462014317512512,
+      "peak_vram_mib": 8281.04345703125,
+      "conditioning": "fixed_reference",
+      "normalization_id": "whisper_english",
+      "duration_s": 3.92,
+      "sample_rate": 24000,
+      "peak_dbfs": -8.495000823530368,
+      "rms_dbfs": -26.632409771092487,
+      "clipping_ratio": 0.0,
+      "silence_ratio": 0.32653061224489793,
+      "leading_silence_s": 0.36,
+      "trailing_silence_s": 0.62,
+      "dc_offset": -0.00012552472352582163,
+      "audio_token_frames": 49,
+      "timestamps": [
+        [
+          "Several",
+          0.0
+        ],
+        [
+          "indoor",
+          0.56
+        ],
+        [
+          "and",
+          0.88
+        ],
+        [
+          "street",
+          1.12
+        ],
+        [
+          "shots",
+          1.36
+        ],
+        [
+          "were",
+          1.68
+        ],
+        [
+          "also",
+          1.92
+        ],
+        [
+          "made",
+          2.16
+        ],
+        [
+          "in",
+          2.4
+        ],
+        [
+          "that",
+          2.64
+        ],
+        [
+          "locale.",
+          2.8
+        ]
+      ],
+      "audio": "dia2-2b/seed_common_voice_en_20066900-common_voice_en_20066901.wav",
+      "rtf": 2.923983244263396,
+      "audio_sha256": "f6bda864b9947b12caa97b589c6b6503d6b1fe1925960b819b54074d4b7d8343",
+      "transcript": "Several indoor and street shots were also made in that locale.",
+      "metrics": {
+        "wer": 0.0,
+        "cer": 0.0,
+        "mer": 0.0,
+        "wil": 0.0,
+        "wip": 1.0,
+        "word_hits": 11,
+        "word_substitutions": 0,
+        "word_deletions": 0,
+        "word_insertions": 0,
+        "reference_words": 11,
+        "char_hits": 61,
+        "char_substitutions": 0,
+        "char_deletions": 0,
+        "char_insertions": 0,
+        "reference_chars": 61,
+        "exact_match_rate": 1.0
+      },
+      "asr_latency_s": 0.29202184081077576,
+      "audio_archive": "experiments/dia-llasa-variants-20260915/pilot/dia2-2b/audio.tar",
+      "audio_offset": 878080,
+      "audio_bytes": 376400,
+      "audio_path": "seed_common_voice_en_20066900-common_voice_en_20066901.wav",
+      "audio_dataset_revision": "fdee17d93b7b9eddf18c11b8a3c2ff01ce16dbb8",
+      "audio_dataset_id": "kadirnar/voicehub-arena-seed-tts-eval"
+    },
+    {
+      "id": "seed_common_voice_en_19294198-common_voice_en_19294200",
+      "source_id": "common_voice_en_19294198-common_voice_en_19294200",
+      "text": "Her mental health deteriorated in the following years.",
+      "reference": "Her mental health deteriorated in the following years.",
+      "category": "read_speech",
+      "language": "en",
+      "prompt_text": "These are used by players as well to interpret the characteristics of individual games.",
+      "publisher_prompt_audio": "prompt-wavs/common_voice_en_19294198.wav",
+      "publisher_target_audio": null,
+      "dataset_id": "seedtts_en",
+      "track": "fixed_voice_intelligibility",
+      "repeat": 0,
+      "seed": 42,
+      "status": "ok",
+      "latency_s": 11.013542652130127,
+      "peak_vram_mib": 8281.04345703125,
+      "conditioning": "fixed_reference",
+      "normalization_id": "whisper_english",
+      "duration_s": 3.2,
+      "sample_rate": 24000,
+      "peak_dbfs": -0.1460372840173294,
+      "rms_dbfs": -14.223214341753485,
+      "clipping_ratio": 0.0,
+      "silence_ratio": 0.33125,
+      "leading_silence_s": 0.5,
+      "trailing_silence_s": 0.4,
+      "dc_offset": -7.908335280158478e-05,
+      "audio_token_frames": 40,
+      "timestamps": [
+        [
+          "Her",
+          0.0
+        ],
+        [
+          "mental",
+          0.56
+        ],
+        [
+          "health",
+          0.88
+        ],
+        [
+          "deteriorated",
+          1.12
+        ],
+        [
+          "in",
+          1.68
+        ],
+        [
+          "the",
+          1.92
+        ],
+        [
+          "following",
+          2.08
+        ],
+        [
+          "years.",
+          2.24
+        ]
+      ],
+      "audio": "dia2-2b/seed_common_voice_en_19294198-common_voice_en_19294200.wav",
+      "rtf": 3.4417320787906647,
+      "audio_sha256": "5883b4246821f9db49ef950f198915398f72a7ea549254f0f645009e33b3a525",
+      "transcript": "Her mental health deteriorated in the following years.",
+      "metrics": {
+        "wer": 0.0,
+        "cer": 0.0,
+        "mer": 0.0,
+        "wil": 0.0,
+        "wip": 1.0,
+        "word_hits": 8,
+        "word_substitutions": 0,
+        "word_deletions": 0,
+        "word_insertions": 0,
+        "reference_words": 8,
+        "char_hits": 53,
+        "char_substitutions": 0,
+        "char_deletions": 0,
+        "char_insertions": 0,
+        "reference_chars": 53,
+        "exact_match_rate": 1.0
+      },
+      "asr_latency_s": 0.25997068360447884,
+      "audio_archive": "experiments/dia-llasa-variants-20260915/pilot/dia2-2b/audio.tar",
+      "audio_offset": 1255424,
+      "audio_bytes": 307280,
+      "audio_path": "seed_common_voice_en_19294198-common_voice_en_19294200.wav",
+      "audio_dataset_revision": "fdee17d93b7b9eddf18c11b8a3c2ff01ce16dbb8",
+      "audio_dataset_id": "kadirnar/voicehub-arena-seed-tts-eval"
+    },
+    {
+      "id": "seed_common_voice_en_497961-common_voice_en_497960",
+      "source_id": "common_voice_en_497961-common_voice_en_497960",
+      "text": "A little boy in a striped shirt jumps from a blue slide.",
+      "reference": "A little boy in a striped shirt jumps from a blue slide.",
+      "category": "read_speech",
+      "language": "en",
+      "prompt_text": "A person dressed in all black throwing a ball down a bowling alley.",
+      "publisher_prompt_audio": "prompt-wavs/common_voice_en_497961.wav",
+      "publisher_target_audio": null,
+      "dataset_id": "seedtts_en",
+      "track": "fixed_voice_intelligibility",
+      "repeat": 0,
+      "seed": 42,
+      "status": "ok",
+      "latency_s": 11.398747101426125,
+      "peak_vram_mib": 8281.04345703125,
+      "conditioning": "fixed_reference",
+      "normalization_id": "whisper_english",
+      "duration_s": 3.92,
+      "sample_rate": 24000,
+      "peak_dbfs": -5.530358348930349,
+      "rms_dbfs": -21.16704260533707,
+      "clipping_ratio": 0.0,
+      "silence_ratio": 0.33163265306122447,
+      "leading_silence_s": 0.52,
+      "trailing_silence_s": 0.62,
+      "dc_offset": -8.697176456435107e-05,
+      "audio_token_frames": 49,
+      "timestamps": [
+        [
+          "A",
+          0.0
+        ],
+        [
+          "little",
+          0.56
+        ],
+        [
+          "boy",
+          0.8
+        ],
+        [
+          "in",
+          1.12
+        ],
+        [
+          "a",
+          1.28
+        ],
+        [
+          "striped",
+          1.44
+        ],
+        [
+          "shirt",
+          1.68
+        ],
+        [
+          "jumps",
+          1.92
+        ],
+        [
+          "from",
+          2.24
+        ],
+        [
+          "a",
+          2.48
+        ],
+        [
+          "blue",
+          2.64
+        ],
+        [
+          "slide.",
+          2.8
+        ]
+      ],
+      "audio": "dia2-2b/seed_common_voice_en_497961-common_voice_en_497960.wav",
+      "rtf": 2.907843648322991,
+      "audio_sha256": "ac8fd97abc04230ca1fd071a27b052cd9a2657a52ca419caedc3cbe5679df53f",
+      "transcript": "A little boy in a striped shirt jumps from a blue slide.",
+      "metrics": {
+        "wer": 0.0,
+        "cer": 0.0,
+        "mer": 0.0,
+        "wil": 0.0,
+        "wip": 1.0,
+        "word_hits": 12,
+        "word_substitutions": 0,
+        "word_deletions": 0,
+        "word_insertions": 0,
+        "reference_words": 12,
+        "char_hits": 55,
+        "char_substitutions": 0,
+        "char_deletions": 0,
+        "char_insertions": 0,
+        "reference_chars": 55,
+        "exact_match_rate": 1.0
+      },
+      "asr_latency_s": 0.27491532638669014,
+      "audio_archive": "experiments/dia-llasa-variants-20260915/pilot/dia2-2b/audio.tar",
+      "audio_offset": 1563648,
+      "audio_bytes": 376400,
+      "audio_path": "seed_common_voice_en_497961-common_voice_en_497960.wav",
+      "audio_dataset_revision": "fdee17d93b7b9eddf18c11b8a3c2ff01ce16dbb8",
+      "audio_dataset_id": "kadirnar/voicehub-arena-seed-tts-eval"
+    },
+    {
+      "id": "seed_common_voice_en_21589881-common_voice_en_21589886",
+      "source_id": "common_voice_en_21589881-common_voice_en_21589886",
+      "text": "The language from which the lexicon is derived is called the \"lexifier\".",
+      "reference": "The language from which the lexicon is derived is called the \"lexifier\".",
+      "category": "read_speech",
+      "language": "en",
+      "prompt_text": "Bombelles was the former custodian of his aunt Empress Charlotte of Mexico.",
+      "publisher_prompt_audio": "prompt-wavs/common_voice_en_21589881.wav",
+      "publisher_target_audio": null,
+      "dataset_id": "seedtts_en",
+      "track": "fixed_voice_intelligibility",
+      "repeat": 0,
+      "seed": 42,
+      "status": "ok",
+      "latency_s": 11.70368093252182,
+      "peak_vram_mib": 8292.52880859375,
+      "conditioning": "fixed_reference",
+      "normalization_id": "whisper_english",
+      "duration_s": 4.4,
+      "sample_rate": 24000,
+      "peak_dbfs": 0.0,
+      "rms_dbfs": -18.890292561761846,
+      "clipping_ratio": 4.734848484848485e-05,
+      "silence_ratio": 0.31363636363636366,
+      "leading_silence_s": 0.46,
+      "trailing_silence_s": 0.46,
+      "dc_offset": -0.00010734733700584195,
+      "audio_token_frames": 55,
+      "timestamps": [
+        [
+          "The",
+          0.0
+        ],
+        [
+          "language",
+          0.56
+        ],
+        [
+          "from",
+          0.88
+        ],
+        [
+          "which",
+          1.12
+        ],
+        [
+          "the",
+          1.28
+        ],
+        [
+          "lexicon",
+          1.44
+        ],
+        [
+          "is",
+          1.92
+        ],
+        [
+          "derived",
+          2.08
+        ],
+        [
+          "is",
+          2.48
+        ],
+        [
+          "called",
+          2.88
+        ],
+        [
+          "the",
+          3.12
+        ],
+        [
+          "\"lexifier\".",
+          3.28
+        ]
+      ],
+      "audio": "dia2-2b/seed_common_voice_en_21589881-common_voice_en_21589886.wav",
+      "rtf": 2.65992748466405,
+      "audio_sha256": "4ac2765cef2585a9428aa0c097b191513deff4d5c26e5c3794b20d1d24391350",
+      "transcript": "The language from which the lexicon is derived is called the lexifier.",
+      "metrics": {
+        "wer": 0.0,
+        "cer": 0.0,
+        "mer": 0.0,
+        "wil": 0.0,
+        "wip": 1.0,
+        "word_hits": 12,
+        "word_substitutions": 0,
+        "word_deletions": 0,
+        "word_insertions": 0,
+        "reference_words": 12,
+        "char_hits": 69,
+        "char_substitutions": 0,
+        "char_deletions": 0,
+        "char_insertions": 0,
+        "reference_chars": 69,
+        "exact_match_rate": 1.0
+      },
+      "asr_latency_s": 0.32140789926052094,
+      "audio_archive": "experiments/dia-llasa-variants-20260915/pilot/dia2-2b/audio.tar",
+      "audio_offset": 1940992,
+      "audio_bytes": 422480,
+      "audio_path": "seed_common_voice_en_21589881-common_voice_en_21589886.wav",
+      "audio_dataset_revision": "fdee17d93b7b9eddf18c11b8a3c2ff01ce16dbb8",
+      "audio_dataset_id": "kadirnar/voicehub-arena-seed-tts-eval"
+    },
+    {
+      "id": "seed_common_voice_en_19933238-common_voice_en_19933256",
+      "source_id": "common_voice_en_19933238-common_voice_en_19933256",
+      "text": "Carnegie High also has two won state titles in boys cross country.",
+      "reference": "Carnegie High also has two won state titles in boys cross country.",
+      "category": "read_speech",
+      "language": "en",
+      "prompt_text": "The Pope, who comes of Revelation, has no jurisdiction over Nature.",
+      "publisher_prompt_audio": "prompt-wavs/common_voice_en_19933238.wav",
+      "publisher_target_audio": null,
+      "dataset_id": "seedtts_en",
+      "track": "fixed_voice_intelligibility",
+      "repeat": 0,
+      "seed": 42,
+      "status": "ok",
+      "latency_s": 11.559942964464426,
+      "peak_vram_mib": 8286.1865234375,
+      "conditioning": "fixed_reference",
+      "normalization_id": "whisper_english",
+      "duration_s": 4.16,
+      "sample_rate": 24000,
+      "peak_dbfs": -1.8604466887669744,
+      "rms_dbfs": -18.029109998451208,
+      "clipping_ratio": 0.0,
+      "silence_ratio": 0.19230769230769232,
+      "leading_silence_s": 0.22,
+      "trailing_silence_s": 0.52,
+      "dc_offset": -7.891235523807621e-05,
+      "audio_token_frames": 52,
+      "timestamps": [
+        [
+          "Carnegie",
+          0.0
+        ],
+        [
+          "High",
+          0.56
+        ],
+        [
+          "also",
+          0.88
+        ],
+        [
+          "has",
+          1.28
+        ],
+        [
+          "two",
+          1.52
+        ],
+        [
+          "won",
+          1.76
+        ],
+        [
+          "state",
+          2.0
+        ],
+        [
+          "titles",
+          2.24
+        ],
+        [
+          "in",
+          2.64
+        ],
+        [
+          "boys",
+          2.8
+        ],
+        [
+          "cross",
+          2.96
+        ],
+        [
+          "country.",
+          3.2
+        ]
+      ],
+      "audio": "dia2-2b/seed_common_voice_en_19933238-common_voice_en_19933256.wav",
+      "rtf": 2.7788324433808715,
+      "audio_sha256": "08adcaf4a285b60b8aa1c5407fa8379c8e3e11cab909114f56822a5e3c628148",
+      "transcript": "Sonny Goodhigh also has two one-state titles in boys cross-country.",
+      "metrics": {
+        "wer": 0.3333333333333333,
+        "cer": 0.19047619047619047,
+        "mer": 0.3333333333333333,
+        "wil": 0.5151515151515151,
+        "wip": 0.48484848484848486,
+        "word_hits": 8,
+        "word_substitutions": 3,
+        "word_deletions": 1,
+        "word_insertions": 0,
+        "reference_words": 12,
+        "char_hits": 52,
+        "char_substitutions": 8,
+        "char_deletions": 3,
+        "char_insertions": 1,
+        "reference_chars": 63,
+        "exact_match_rate": 0.0
+      },
+      "asr_latency_s": 0.33141350001096725,
+      "audio_archive": "experiments/dia-llasa-variants-20260915/pilot/dia2-2b/audio.tar",
+      "audio_offset": 2364416,
+      "audio_bytes": 399440,
+      "audio_path": "seed_common_voice_en_19933238-common_voice_en_19933256.wav",
+      "audio_dataset_revision": "fdee17d93b7b9eddf18c11b8a3c2ff01ce16dbb8",
+      "audio_dataset_id": "kadirnar/voicehub-arena-seed-tts-eval"
+    },
+    {
+      "id": "seed_common_voice_en_19778240-common_voice_en_19778244",
+      "source_id": "common_voice_en_19778240-common_voice_en_19778244",
+      "text": "She married David Wallett, and moved to Los Angeles to try acting.",
+      "reference": "She married David Wallett, and moved to Los Angeles to try acting.",
+      "category": "read_speech",
+      "language": "en",
+      "prompt_text": "Part of the Lake Victoria system is within the boundaries of Kenya.",
+      "publisher_prompt_audio": "prompt-wavs/common_voice_en_19778240.wav",
+      "publisher_target_audio": null,
+      "dataset_id": "seedtts_en",
+      "track": "fixed_voice_intelligibility",
+      "repeat": 0,
+      "seed": 42,
+      "status": "ok",
+      "latency_s": 11.806734394282103,
+      "peak_vram_mib": 8296.75927734375,
+      "conditioning": "fixed_reference",
+      "normalization_id": "whisper_english",
+      "duration_s": 4.56,
+      "sample_rate": 24000,
+      "peak_dbfs": -15.868703128681265,
+      "rms_dbfs": -30.913237680744132,
+      "clipping_ratio": 0.0,
+      "silence_ratio": 0.43859649122807015,
+      "leading_silence_s": 0.52,
+      "trailing_silence_s": 0.6,
+      "dc_offset": -0.00016807869847795503,
+      "audio_token_frames": 57,
+      "timestamps": [
+        [
+          "She",
+          0.0
+        ],
+        [
+          "married",
+          0.56
+        ],
+        [
+          "David",
+          0.88
+        ],
+        [
+          "Wallett,",
+          1.2
+        ],
+        [
+          "and",
+          1.68
+        ],
+        [
+          "moved",
+          2.08
+        ],
+        [
+          "to",
+          2.32
+        ],
+        [
+          "Los",
+          2.48
+        ],
+        [
+          "Angeles",
+          2.64
+        ],
+        [
+          "to",
+          2.96
+        ],
+        [
+          "try",
+          3.2
+        ],
+        [
+          "acting.",
+          3.44
+        ]
+      ],
+      "audio": "dia2-2b/seed_common_voice_en_19778240-common_voice_en_19778244.wav",
+      "rtf": 2.5891961390969525,
+      "audio_sha256": "cd38c6bdddaed01d2bb2f579e4e4b6f909b1dcf6aa3d74a9388ebf2c041f1044",
+      "transcript": "She married David Wallet and moved to Los Angeles to try acting.",
+      "metrics": {
+        "wer": 0.08333333333333333,
+        "cer": 0.015625,
+        "mer": 0.08333333333333333,
+        "wil": 0.15972222222222232,
+        "wip": 0.8402777777777777,
+        "word_hits": 11,
+        "word_substitutions": 1,
+        "word_deletions": 0,
+        "word_insertions": 0,
+        "reference_words": 12,
+        "char_hits": 63,
+        "char_substitutions": 0,
+        "char_deletions": 1,
+        "char_insertions": 0,
+        "reference_chars": 64,
+        "exact_match_rate": 0.0
+      },
+      "asr_latency_s": 0.31115297228097916,
+      "audio_archive": "experiments/dia-llasa-variants-20260915/pilot/dia2-2b/audio.tar",
+      "audio_offset": 2764800,
+      "audio_bytes": 437840,
+      "audio_path": "seed_common_voice_en_19778240-common_voice_en_19778244.wav",
+      "audio_dataset_revision": "fdee17d93b7b9eddf18c11b8a3c2ff01ce16dbb8",
+      "audio_dataset_id": "kadirnar/voicehub-arena-seed-tts-eval"
+    }
+  ],
+  "config_sha256": "6709fab44115d32d31124665def6183d5bd97e1e24060e4879c98daf591122d4",
+  "status": "completed",
+  "started_at": 1789502620.1680386,
+  "updated_at": 1789503325.3359137,
+  "effective": {
+    "backend": "Official nari-labs/dia2",
+    "source_revision": "8687268f4ed3ed20704638fd353b51491de3b476",
+    "compatibility_patch": "dia2-torch28-cudnn.patch",
+    "runtime_context_sha256": "f34b76efa653c662bee8c7fec41a61a11060fdda6c1025f08fbb5cf8e55d088c",
+    "dtype": "bfloat16",
+    "cfg_scale": 2.0,
+    "audio_temperature": 0.8,
+    "audio_top_k": 50,
+    "text_temperature": 0.6,
+    "text_top_k": 50,
+    "use_cuda_graph": true,
+    "prefix_alignment": "pinned Whisper-large-v3 word timestamps, cached once",
+    "prefix_frames": 101
+  },
+  "runner_sha256": "fc2b10c7914b0818eb2b3a78cf2625e0a206b5eb65fa6863c81269864265f5a5",
+  "packages": {
+    "torch": "2.8.0+cu128",
+    "transformers": "4.57.6",
+    "huggingface-hub": "0.36.2",
+    "soundfile": "0.14.0"
+  },
+  "asr": {
+    "checkpoint": "Systran/faster-whisper-large-v3",
+    "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+    "device": "cuda",
+    "compute_type": "float16",
+    "beam_size": 5,
+    "temperature": 0,
+    "vad_filter": false,
+    "condition_on_previous_text": false
+  },
+  "summary": {
+    "attempted": 8,
+    "generated": 8,
+    "scored": 8,
+    "generation_failure_rate": 0.0,
+    "latency_p50_s": 11.51097864098847,
+    "latency_p95_s": 12.563648738712072,
+    "rtf": 2.797081896390479,
+    "peak_vram_mib": 8324.23876953125,
+    "audio_seconds": 33.28,
+    "clipping_ratio": 5.918560606060606e-06,
+    "silence_ratio": 0.32425234344289794,
+    "rms_dbfs": -21.23335574985977,
+    "normalization_id": "whisper_english",
+    "wer": 0.06593406593406594,
+    "cer": 0.030181086519114688,
+    "mer": 0.06593406593406594,
+    "wil": 0.11782661782661785,
+    "wip": 0.8821733821733821,
+    "word_hits": 85,
+    "word_substitutions": 5,
+    "word_deletions": 1,
+    "word_insertions": 0,
+    "reference_words": 91,
+    "char_hits": 483,
+    "char_substitutions": 10,
+    "char_deletions": 4,
+    "char_insertions": 1,
+    "reference_chars": 497,
+    "exact_match_rate": 0.625,
+    "raw": {
+      "wer": 0.12222222222222222,
+      "cer": 0.042801556420233464,
+      "mer": 0.12222222222222222,
+      "wil": 0.21199494949494957,
+      "wip": 0.7880050505050504,
+      "word_hits": 79,
+      "word_substitutions": 9,
+      "word_deletions": 2,
+      "word_insertions": 0,
+      "reference_words": 90,
+      "char_hits": 494,
+      "char_substitutions": 13,
+      "char_deletions": 7,
+      "char_insertions": 2,
+      "reference_chars": 514,
+      "exact_match_rate": 0.375
+    },
+    "orthographic": {
+      "wer": 0.05555555555555555,
+      "cer": 0.026156941649899398,
+      "mer": 0.05555555555555555,
+      "wil": 0.10802469135802473,
+      "wip": 0.8919753086419753,
+      "word_hits": 85,
+      "word_substitutions": 5,
+      "word_deletions": 0,
+      "word_insertions": 0,
+      "reference_words": 90,
+      "char_hits": 486,
+      "char_substitutions": 9,
+      "char_deletions": 2,
+      "char_insertions": 2,
+      "reference_chars": 497,
+      "exact_match_rate": 0.625
+    },
+    "wer_ci95": [
+      0.0,
+      0.14852538445333893
+    ],
+    "cer_ci95": [
+      0.0,
+      0.07755144825225688
+    ],
+    "unique_prompts_scored": 8,
+    "by_category": {
+      "read_speech": {
+        "wer": 0.06593406593406594,
+        "cer": 0.030181086519114688,
+        "mer": 0.06593406593406594,
+        "wil": 0.11782661782661785,
+        "wip": 0.8821733821733821,
+        "word_hits": 85,
+        "word_substitutions": 5,
+        "word_deletions": 1,
+        "word_insertions": 0,
+        "reference_words": 91,
+        "char_hits": 483,
+        "char_substitutions": 10,
+        "char_deletions": 4,
+        "char_insertions": 1,
+        "reference_chars": 497,
+        "exact_match_rate": 0.625
+      }
+    },
+    "utterance_mean_wer": 0.06041666666666666,
+    "utterance_mean_cer": 0.028703825280112043
+  }
+}
