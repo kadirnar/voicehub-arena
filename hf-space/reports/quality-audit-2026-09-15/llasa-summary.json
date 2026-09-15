@@ -1,0 +1,42 @@
+{
+  "samples": 8,
+  "selection": "diagnostic WER strata, not an unbiased benchmark",
+  "variants": {
+    "baseline": {
+      "wer": 2.0930232558139537,
+      "cer": 0.9828326180257511,
+      "mer": 0.8823529411764706,
+      "wil": 0.9641835592587986,
+      "wip": 0.03581644074120135,
+      "word_hits": 24,
+      "word_substitutions": 45,
+      "word_deletions": 17,
+      "word_insertions": 118,
+      "reference_words": 86,
+      "char_hits": 239,
+      "char_substitutions": 109,
+      "char_deletions": 118,
+      "char_insertions": 231,
+      "reference_chars": 466,
+      "exact_match_rate": 0.0
+    },
+    "top_k_50": {
+      "wer": 0.7558139534883721,
+      "cer": 0.6051502145922747,
+      "mer": 0.7065217391304348,
+      "wil": 0.8610369805566146,
+      "wip": 0.13896301944338543,
+      "word_hits": 27,
+      "word_substitutions": 28,
+      "word_deletions": 31,
+      "word_insertions": 6,
+      "reference_words": 86,
+      "char_hits": 196,
+      "char_substitutions": 80,
+      "char_deletions": 190,
+      "char_insertions": 12,
+      "reference_chars": 466,
+      "exact_match_rate": 0.0
+    }
+  }
+}

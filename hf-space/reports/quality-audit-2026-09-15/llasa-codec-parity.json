@@ -1,0 +1,94 @@
+[
+  {
+    "sample": 0,
+    "latent_parity": {
+      "shape": [
+        1,
+        324,
+        2048
+      ],
+      "max_abs_diff": 0.0,
+      "rms_diff": 0.0,
+      "reference_rms": 0.12812769412994385
+    },
+    "waveform_parity": {
+      "shape": [
+        1,
+        1,
+        103680
+      ],
+      "max_abs_diff": 5.4104020819067955e-06,
+      "rms_diff": 5.054974394624878e-07,
+      "reference_rms": 0.0028921477496623993
+    }
+  },
+  {
+    "sample": 1,
+    "latent_parity": {
+      "shape": [
+        1,
+        317,
+        2048
+      ],
+      "max_abs_diff": 0.0,
+      "rms_diff": 0.0,
+      "reference_rms": 0.129459947347641
+    },
+    "waveform_parity": {
+      "shape": [
+        1,
+        1,
+        101440
+      ],
+      "max_abs_diff": 6.917119026184082e-05,
+      "rms_diff": 2.6765294478536816e-06,
+      "reference_rms": 0.019076598808169365
+    }
+  },
+  {
+    "sample": 2,
+    "latent_parity": {
+      "shape": [
+        1,
+        1167,
+        2048
+      ],
+      "max_abs_diff": 0.0,
+      "rms_diff": 0.0,
+      "reference_rms": 0.12769389152526855
+    },
+    "waveform_parity": {
+      "shape": [
+        1,
+        1,
+        373440
+      ],
+      "max_abs_diff": 1.788884401321411e-05,
+      "rms_diff": 6.046307703400089e-07,
+      "reference_rms": 0.007073675747960806
+    }
+  },
+  {
+    "sample": 3,
+    "latent_parity": {
+      "shape": [
+        1,
+        893,
+        2048
+      ],
+      "max_abs_diff": 0.0,
+      "rms_diff": 0.0,
+      "reference_rms": 0.12941166758537292
+    },
+    "waveform_parity": {
+      "shape": [
+        1,
+        1,
+        285760
+      ],
+      "max_abs_diff": 0.00017768144607543945,
+      "rms_diff": 7.312804882531054e-06,
+      "reference_rms": 0.08435121178627014
+    }
+  }
+]

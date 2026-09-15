@@ -1,0 +1,191 @@
+[
+  {
+    "model": "cosyvoice",
+    "samples": 1088,
+    "recomputed": {
+      "wer": 0.13815624215021352,
+      "cer": 0.07709932750104148,
+      "mer": 0.13532354629705567,
+      "wil": 0.2294798518533584,
+      "wip": 0.7705201481466416,
+      "word_hits": 10543,
+      "word_substitutions": 1286,
+      "word_deletions": 114,
+      "word_insertions": 250,
+      "reference_words": 11943,
+      "char_hits": 63228,
+      "char_substitutions": 2852,
+      "char_deletions": 1132,
+      "char_insertions": 1198,
+      "reference_chars": 67212,
+      "exact_match_rate": 0.41911764705882354
+    },
+    "published_metrics_match": true,
+    "empty_transcripts": 0,
+    "speech_token_limit_hits": 0,
+    "wer_over_1": 7,
+    "repeated_hypotheses": [
+      {
+        "transcript": "This was the strangest of all things that ever came to Earth from outer space.",
+        "count": 2
+      },
+      {
+        "transcript": "Revenge is not my style, but obviously accidents will happen.",
+        "count": 2
+      },
+      {
+        "transcript": "You know him, though?",
+        "count": 2
+      },
+      {
+        "transcript": "He must be disguised to avoid encounters with thieves.",
+        "count": 2
+      },
+      {
+        "transcript": "When you're at a party and somebody says banana bread, a sniper might be near you.",
+        "count": 2
+      },
+      {
+        "transcript": "I'm trying to explain to my mother how to get pictures off her phone.",
+        "count": 2
+      }
+    ],
+    "waveform_sha256_verified": 1088,
+    "sample_fraction_at_099": 0.5204173177527025,
+    "median_recording_fraction_at_099": 0.5271409172888181,
+    "recordings_over_10pct_saturation": 1088
+  },
+  {
+    "model": "llasa",
+    "samples": 1088,
+    "recomputed": {
+      "wer": 0.7399313405342042,
+      "cer": 0.514342676902934,
+      "mer": 0.6458851045168835,
+      "wil": 0.835797418691164,
+      "wip": 0.16420258130883603,
+      "word_hits": 4845,
+      "word_substitutions": 5386,
+      "word_deletions": 1712,
+      "word_insertions": 1739,
+      "reference_words": 11943,
+      "char_hits": 39011,
+      "char_substitutions": 14900,
+      "char_deletions": 13301,
+      "char_insertions": 6369,
+      "reference_chars": 67212,
+      "exact_match_rate": 0.03125
+    },
+    "published_metrics_match": true,
+    "empty_transcripts": 16,
+    "speech_token_limit_hits": 0,
+    "wer_over_1": 177,
+    "repeated_hypotheses": [
+      {
+        "transcript": "",
+        "count": 16
+      },
+      {
+        "transcript": "Thank you for watching.",
+        "count": 9
+      },
+      {
+        "transcript": "this was the strangest of all things that e'er came to earth for of us",
+        "count": 2
+      },
+      {
+        "transcript": "revenge is not my stay but obviously accidents",
+        "count": 2
+      },
+      {
+        "transcript": "Thank you.",
+        "count": 2
+      },
+      {
+        "transcript": "I don't know where you're going.",
+        "count": 2
+      }
+    ]
+  },
+  {
+    "model": "dia",
+    "samples": 1088,
+    "recomputed": {
+      "wer": 0.673532613246253,
+      "cer": 0.5928256858894245,
+      "mer": 0.5234934270467265,
+      "wil": 0.6199658900150475,
+      "wip": 0.3800341099849525,
+      "word_hits": 7322,
+      "word_substitutions": 1067,
+      "word_deletions": 3554,
+      "word_insertions": 3423,
+      "reference_words": 11943,
+      "char_hits": 45280,
+      "char_substitutions": 2362,
+      "char_deletions": 19570,
+      "char_insertions": 17913,
+      "reference_chars": 67212,
+      "exact_match_rate": 0.4522058823529412
+    },
+    "published_metrics_match": true,
+    "empty_transcripts": 183,
+    "speech_token_limit_hits": 0,
+    "wer_over_1": 52,
+    "repeated_hypotheses": [
+      {
+        "transcript": "",
+        "count": 183
+      },
+      {
+        "transcript": "Thank you for watching.",
+        "count": 77
+      },
+      {
+        "transcript": "\ud83c\udfb5",
+        "count": 43
+      },
+      {
+        "transcript": "I don't know.",
+        "count": 12
+      },
+      {
+        "transcript": "I'll see you next time.",
+        "count": 12
+      },
+      {
+        "transcript": "\ud83c\udfb5 \ud83c\udfb5",
+        "count": 11
+      }
+    ],
+    "by_text_length": [
+      {
+        "characters": [
+          0,
+          40
+        ],
+        "samples": 89,
+        "wer": 1.8754646840148699,
+        "empty_transcripts": 26
+      },
+      {
+        "characters": [
+          40,
+          80
+        ],
+        "samples": 805,
+        "wer": 0.7146150299677271,
+        "empty_transcripts": 143
+      },
+      {
+        "characters": [
+          80,
+          100000
+        ],
+        "samples": 194,
+        "wer": 0.3059728838402345,
+        "empty_transcripts": 14
+      }
+    ]
+  }
+]

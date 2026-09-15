@@ -1,0 +1,53 @@
+[
+  {
+    "id": "seed_common_voice_en_25313898-common_voice_en_25313899",
+    "inputs_equal": {
+      "input_ids": true,
+      "attention_mask": true,
+      "decoder_input_ids": true,
+      "decoder_attention_mask": true
+    },
+    "logits_shape": [
+      9,
+      16,
+      1028
+    ],
+    "max_abs_diff": 0.0,
+    "mean_abs_diff": 0.0,
+    "argmax_fraction_equal": 1.0
+  },
+  {
+    "id": "seed_common_voice_en_21619912-common_voice_en_21619910",
+    "inputs_equal": {
+      "input_ids": true,
+      "attention_mask": true,
+      "decoder_input_ids": true,
+      "decoder_attention_mask": true
+    },
+    "logits_shape": [
+      9,
+      16,
+      1028
+    ],
+    "max_abs_diff": 0.0,
+    "mean_abs_diff": 0.0,
+    "argmax_fraction_equal": 1.0
+  },
+  {
+    "id": "seed_common_voice_en_17879420-common_voice_en_17879418",
+    "inputs_equal": {
+      "input_ids": true,
+      "attention_mask": true,
+      "decoder_input_ids": true,
+      "decoder_attention_mask": true
+    },
+    "logits_shape": [
+      9,
+      16,
+      1028
+    ],
+    "max_abs_diff": 0.0,
+    "mean_abs_diff": 0.0,
+    "argmax_fraction_equal": 1.0
+  }
+]

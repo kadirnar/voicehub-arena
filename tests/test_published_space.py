@@ -38,7 +38,7 @@ def test_csv_and_complete_metrics_report_match_leaderboard():
     for model in data['table']:
         for key in ('wer','cer','rtf','latency_p50_s','latency_p95_s','peak_vram_mib'):
             assert float(records[model['model']][key])==model[key]==summaries[model['model']][key]
-    assert {r['model'] for r in data['table'] if r['quality_review']}=={'dia','llasa'}
+    assert {r['model'] for r in data['table'] if r['quality_review']}=={'cosyvoice','dia','llasa'}
 
 
 def test_every_audio_range_is_unique_and_inside_its_published_archive():
@@ -57,3 +57,13 @@ def test_every_audio_range_is_unique_and_inside_its_published_archive():
             assert (archive,start) not in seen
             seen.add((archive,start));previous_end=end
     assert len(seen)==35904
+
+
+def test_cosyvoice_version_and_invalidated_snapshot_are_explicit():
+    data=json.loads((SPACE/'data/leaderboard.json').read_text())
+    row=next(r for r in data['table'] if r['model']=='cosyvoice')
+    assert row['upstream_checkpoint']=='FunAudioLLM/Fun-CosyVoice3-0.5B-2512'
+    assert row['upstream_revision']=='29e01c4e8d000f4bcd70751be16fa94bf3d85a18'
+    assert row['score_status']=='invalidated_by_implementation_bug'
+    assert row['wer']==0.13815624215021352  # Do not substitute the selected eight-text pilot.
+    assert 'quality-audit.html' in (SPACE/'index.html').read_text()

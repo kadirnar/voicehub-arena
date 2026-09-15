@@ -51,6 +51,24 @@ def export(report_dir, runs, space_dir, dataset_dir, dataset_id):
                   'empty_asr_transcripts':summaries[model]['empty_asr_transcripts'],
                   'wer_ci95':summary['wer_ci95'],'cer_ci95':summary['cer_ci95'],
                   **{key:summary.get(key) for key in scalar_metrics}}
+        for key in ('score_status', 'quality_review_reason'):
+            if key in summaries[model]:
+                record[key] = summaries[model][key]
+        provenance = result.get('artifact_provenance', {})
+        if not provenance:
+            source_provenance = []
+            for source_run in result.get('source_runs', []):
+                source_config = json.loads((runs/source_run/'config.json').read_text())
+                source_provenance.append(source_config.get('overrides', {}).get(model, {}).get('artifact_provenance', {}))
+            if source_provenance:
+                assert all(p == source_provenance[0] for p in source_provenance), f'Artifact provenance differs across {model} shards'
+                provenance = source_provenance[0]
+        if provenance.get('repo_id'):
+            record['upstream_checkpoint'] = provenance['repo_id']
+            record['upstream_revision'] = provenance.get('revision')
+        if model == 'cosyvoice' and provenance.get('repo_id') == 'FunAudioLLM/Fun-CosyVoice3-0.5B-2512':
+            record['name'] = 'CosyVoice 3 · 0.5B · 2512'
+            record['version_label'] = 'CosyVoice 3, 0.5B, December 2025 base checkpoint (llm.pt)'
         table.append(record)
         dataset_audio = dataset_dir/'audio'/model
         dataset_audio.mkdir(parents=True, exist_ok=True)
@@ -96,7 +114,7 @@ def export(report_dir, runs, space_dir, dataset_dir, dataset_id):
     write_json(dataset_dir/'leaderboard.json', release)
     write_json(dataset_dir/'audio-manifest.json', manifest)
     with (space_dir/'data/leaderboard.csv').open('w',newline='') as f:
-        fields=['model','name','checkpoint','revision','scored']+list(scalar_metrics)+['quality_review','empty_asr_transcripts']
+        fields=['model','name','checkpoint','revision','upstream_checkpoint','upstream_revision','version_label','scored']+list(scalar_metrics)+['quality_review','quality_review_reason','score_status','empty_asr_transcripts']
         writer=csv.DictWriter(f,fieldnames=fields,extrasaction='ignore');writer.writeheader();writer.writerows(table)
     (space_dir/'reports').mkdir(parents=True,exist_ok=True)
     (dataset_dir/'reports').mkdir(parents=True,exist_ok=True)

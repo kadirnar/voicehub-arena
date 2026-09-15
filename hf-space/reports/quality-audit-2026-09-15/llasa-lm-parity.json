@@ -1,0 +1,74 @@
+[
+  {
+    "id": "seed_common_voice_en_25313898-common_voice_en_25313899",
+    "max_abs_diff": 0.25,
+    "mean_abs_diff": 0.06840857863426208,
+    "argmax_same": true,
+    "native_top": [
+      [
+        189191,
+        172807,
+        173063,
+        173059,
+        189447
+      ]
+    ],
+    "hf_top": [
+      [
+        189191,
+        172807,
+        173063,
+        173059,
+        189447
+      ]
+    ]
+  },
+  {
+    "id": "seed_common_voice_en_28932865-common_voice_en_28932866",
+    "max_abs_diff": 0.25,
+    "mean_abs_diff": 0.051882173866033554,
+    "argmax_same": true,
+    "native_top": [
+      [
+        189191,
+        173062,
+        172807,
+        173063,
+        193287
+      ]
+    ],
+    "hf_top": [
+      [
+        189191,
+        172807,
+        173062,
+        173063,
+        193287
+      ]
+    ]
+  },
+  {
+    "id": "seed_common_voice_en_19984445-common_voice_en_19984446",
+    "max_abs_diff": 0.5,
+    "mean_abs_diff": 0.3458556532859802,
+    "argmax_same": true,
+    "native_top": [
+      [
+        189191,
+        173062,
+        173063,
+        172807,
+        193287
+      ]
+    ],
+    "hf_top": [
+      [
+        189191,
+        173062,
+        173063,
+        172807,
+        193287
+      ]
+    ]
+  }
+]

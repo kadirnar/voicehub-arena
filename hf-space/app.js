@@ -24,8 +24,10 @@ const extra = [
 ];
 function columns(){return $('columns').value==='all'?[...core,...extra]:core;}
 function checkpointLink(r){
- const remote=/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(r.checkpoint)&&!r.checkpoint.startsWith('artifacts/');
- return remote?`<a class="checkpoint" href="https://huggingface.co/${r.checkpoint}" target="_blank" rel="noreferrer" title="${esc(r.checkpoint)}" aria-label="${esc(r.name)} checkpoint">↗</a>`:`<span class="checkpoint" title="Frozen checkpoint: ${esc(r.checkpoint)}">ⓘ</span>`;
+ const checkpoint=r.upstream_checkpoint||r.checkpoint,revision=r.upstream_revision||r.revision;
+ const remote=/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(checkpoint)&&!checkpoint.startsWith('artifacts/');
+ const suffix=/^[a-f0-9]{40}$/.test(revision)?'/tree/'+revision:'';
+ return remote?`<a class="checkpoint" href="https://huggingface.co/${checkpoint}${suffix}" target="_blank" rel="noreferrer" title="${esc(checkpoint)} · ${esc(revision||'revision in manifest')}" aria-label="${esc(r.name)} checkpoint">↗</a>`:`<span class="checkpoint" title="Frozen checkpoint: ${esc(r.checkpoint)}">ⓘ</span>`;
 }
 function renderTable(){
  if(!state.data)return;
@@ -36,10 +38,10 @@ function renderTable(){
  });
  const cols=columns();
  $('leaderboard').tHead.innerHTML='<tr><th scope="col">#</th><th scope="col" aria-sort="'+(state.sort==='name'?(state.direction===1?'ascending':'descending'):'none')+'"><button data-sort="name">Model '+(state.sort==='name'?(state.direction===1?'↑':'↓'):'↕')+'</button></th>'+cols.map(([key,title,tip])=>`<th scope="col" aria-sort="${state.sort===key?(state.direction===1?'ascending':'descending'):'none'}"><button data-sort="${key}" title="${tip}">${title} ${state.sort===key?(state.direction===1?'↑':'↓'):'↕'}</button></th>`).join('')+'</tr>';
- const ranking=[...state.data.table].sort((a,b)=>a.wer-b.wer||a.name.localeCompare(b.name));
+ const ranking=state.data.table.filter(r=>r.score_status!=='invalidated_by_implementation_bug').sort((a,b)=>a.wer-b.wer||a.name.localeCompare(b.name));
  const rank=new Map();let previous=null,currentRank=0;
  ranking.forEach((r,i)=>{if(r.wer!==previous)currentRank=i+1;rank.set(r.model,currentRank);previous=r.wer;});
- $('leaderboard').tBodies[0].innerHTML=rows.map(r=>`<tr class="${rank.get(r.model)<=3?'best':''}"><td>${rank.get(r.model)}</td><td><button class="model-name" data-model="${r.model}">${esc(r.name)}</button>${checkpointLink(r)}${r.quality_review?'<span class="review-badge" title="High transcript error rate; root cause unresolved">Review</span>':''}</td>${cols.map(([key,,tip,format])=>`<td class="${key==='wer'||key==='cer'?'main-metric':''}" title="${esc(tip)}">${format(r[key])}${key==='wer'||key==='cer'?`<span class="ci">${(r[key+'_ci95'][0]*100).toFixed(2)}–${(r[key+'_ci95'][1]*100).toFixed(2)}</span>`:''}</td>`).join('')}</tr>`).join('')||`<tr><td colspan="${cols.length+2}" class="empty">No models match this search.</td></tr>`;
+ $('leaderboard').tBodies[0].innerHTML=rows.map(r=>`<tr class="${rank.get(r.model)<=3?'best':''}"><td>${rank.get(r.model)??'—'}</td><td><button class="model-name" data-model="${r.model}">${esc(r.name)}</button>${checkpointLink(r)}${r.quality_review?`<span class="review-badge" title="${esc(r.quality_review_reason||'High transcript error rate; root cause unresolved')}">Review</span>`:''}</td>${cols.map(([key,,tip,format])=>`<td class="${key==='wer'||key==='cer'?'main-metric':''}" title="${esc(tip)}">${format(r[key])}${key==='wer'||key==='cer'?`<span class="ci">${(r[key+'_ci95'][0]*100).toFixed(2)}–${(r[key+'_ci95'][1]*100).toFixed(2)}</span>`:''}</td>`).join('')}</tr>`).join('')||`<tr><td colspan="${cols.length+2}" class="empty">No models match this search.</td></tr>`;
  $('model-count').textContent=`${rows.length} / 33 models · 1,088 texts each`;
 }
 function showTab(tab){

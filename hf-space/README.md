@@ -45,3 +45,13 @@ whose root causes are unresolved; their results remain visible.
 Source texts: [ByteDance Seed-TTS-Eval](https://github.com/BytedanceSpeech/seed-tts-eval),
 publisher revision `752f4297f090c46bb1a55a1f7439e5944ddefe8d`, English `en/meta.lst`.
 Checkpoint provenance, sample hashes and full verification records accompany the data.
+
+## Quality audit — 15 September 2026
+
+CosyVoice is **Fun-CosyVoice3-0.5B-2512, base llm.pt**. The archived 13.82% WER
+is affected by a confirmed HiFT implementation defect and is excluded from ranking.
+The vocoder is repaired; a fresh full 1,088-text run is in progress. The selected
+eight-text 2.30% WER diagnostic is not a replacement full score. Llasa and Dia
+remain under quality review after independent LM/codec checks.
+
+[Read the investigation and paired audio](https://kadirnar-voicehub-arena.static.hf.space/quality-audit.html).

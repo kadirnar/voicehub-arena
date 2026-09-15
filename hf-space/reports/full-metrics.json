@@ -4357,7 +4357,7 @@
     },
     {
       "model": "cosyvoice",
-      "name": "CosyVoice",
+      "name": "CosyVoice 3 · 0.5B · 2512",
       "checkpoint": "artifacts/cosyvoice3",
       "revision": null,
       "summary": {
@@ -4462,7 +4462,7 @@
         "utterance_mean_cer": 0.08461964252927998
       },
       "empty_asr_transcripts": 0,
-      "quality_review": false,
+      "quality_review": true,
       "inputs": [
         {
           "run": "pub-v2-cosyvoice-seedtts_en-000",
@@ -4500,7 +4500,11 @@
           "config_sha256": "02cca9f6392e44f635d98689d767ab8d8aaef5469df7b8e5ff18617813104d90",
           "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
         }
-      ]
+      ],
+      "quality_review_reason": "Confirmed HiFT implementation bug in archived audio: magnitude clamp order and final LeakyReLU slope differ from publisher. Historical score invalidated; full corrected rerun started. Eight-text diagnostic is not the full score.",
+      "upstream_checkpoint": "FunAudioLLM/Fun-CosyVoice3-0.5B-2512",
+      "upstream_revision": "29e01c4e8d000f4bcd70751be16fa94bf3d85a18",
+      "score_status": "invalidated_by_implementation_bug"
     },
     {
       "model": "dia",
@@ -4647,7 +4651,8 @@
           "config_sha256": "a2f1cd92b3e71111e8337f2386e5616051438d5121c6951f13f159bb99c2fc1c",
           "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
         }
-      ]
+      ],
+      "quality_review_reason": "High WER remains under review. Three native/Transformers generation comparisons and independent DAC decoding did not establish a port defect. Empty transcripts and ASR repetition affect scores; diagnostic VAD does not restore missing speech."
     },
     {
       "model": "llasa",
@@ -4791,7 +4796,15 @@
           "config_sha256": "2a5fa06713b697123ec609a6fea6ed2bcf8f940a636a1967d66332e2c848b6b9",
           "dataset_part_sha256": "7dbeb30a8710c5ad4958677f4206868ce042ff7f796ac5b178da561e6c25a7a0"
         }
-      ]
+      ],
+      "quality_review_reason": "High WER remains under review. Official top_k=50 differs from native default; setting it alone did not resolve errors. FP32 LM and legacy publisher XCodec2 comparisons agree closely on the audited examples."
     }
-  ]
+  ],
+  "quality_audit": {
+    "date": "2026-09-15",
+    "report": "quality-audit.html",
+    "original_scores_preserved": true,
+    "cosyvoice_corrected_full_run": "in_progress",
+    "corrected_full_score_available": false
+  }
 }

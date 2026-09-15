@@ -1745,3 +1745,24 @@ index e13b10c..b6c9d48 100644
      trainer = ((0, 1, 2, -1, f" {_REPLACEMENT_CHARACTER} ",
                  False) if not raw_trainers else _parse_trainer(raw_trainers[0]))
      if trainer[0] != unknown_ids[0]:
+diff --git a/voicehub/architectures/cosyvoice_native/vocoder.py b/voicehub/architectures/cosyvoice_native/vocoder.py
+--- a/voicehub/architectures/cosyvoice_native/vocoder.py
++++ b/voicehub/architectures/cosyvoice_native/vocoder.py
+@@ -374,7 +374,7 @@
+ 
+     def _istft(self, values: Tensor) -> Tensor:
+         bins = self.config.istft_n_fft // 2 + 1
+-        magnitude = values[:, :bins].clamp_max(100).exp()
++        magnitude = values[:, :bins].exp().clamp_max(100)
+         phase = values[:, bins:].sin()
+         spectrum = torch.polar(magnitude, phase)
+         return torch.istft(
+@@ -410,7 +410,7 @@
+                                             len(self.config.resblock_kernel_sizes)]
+             ]
+             values = torch.stack(candidates).mean(dim=0)
+-        values = self.conv_post(functional.leaky_relu(values, 0.1))
++        values = self.conv_post(functional.leaky_relu(values, 0.01))
+         waveform = self._istft(values).clamp(
+             -self.config.audio_limit,
+             self.config.audio_limit,

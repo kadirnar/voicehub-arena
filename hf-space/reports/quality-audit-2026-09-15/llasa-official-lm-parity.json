@@ -1,0 +1,58 @@
+[
+  {
+    "id": "seed_common_voice_en_25313898-common_voice_en_25313899",
+    "prefix_length": 64,
+    "max_abs_diff": 6.4849853515625e-05,
+    "mean_abs_diff": 1.0256261703034397e-05,
+    "argmax_same": true
+  },
+  {
+    "id": "seed_common_voice_en_25313898-common_voice_en_25313899",
+    "prefix_length": 128,
+    "max_abs_diff": 4.9591064453125e-05,
+    "mean_abs_diff": 6.4928194660751615e-06,
+    "argmax_same": true
+  },
+  {
+    "id": "seed_common_voice_en_19698719-common_voice_en_19698716",
+    "prefix_length": 59,
+    "max_abs_diff": 6.4849853515625e-05,
+    "mean_abs_diff": 8.62020897329785e-06,
+    "argmax_same": true
+  },
+  {
+    "id": "seed_common_voice_en_19698719-common_voice_en_19698716",
+    "prefix_length": 123,
+    "max_abs_diff": 4.9591064453125e-05,
+    "mean_abs_diff": 6.969100468268152e-06,
+    "argmax_same": true
+  },
+  {
+    "id": "seed_common_voice_en_19944630-common_voice_en_19944633",
+    "prefix_length": 58,
+    "max_abs_diff": 7.62939453125e-05,
+    "mean_abs_diff": 1.43713159559411e-05,
+    "argmax_same": true
+  },
+  {
+    "id": "seed_common_voice_en_19944630-common_voice_en_19944633",
+    "prefix_length": 122,
+    "max_abs_diff": 4.57763671875e-05,
+    "mean_abs_diff": 1.1938336683670059e-05,
+    "argmax_same": true
+  },
+  {
+    "id": "seed_common_voice_en_155313-common_voice_en_155315",
+    "prefix_length": 64,
+    "max_abs_diff": 7.2479248046875e-05,
+    "mean_abs_diff": 9.821264029596932e-06,
+    "argmax_same": true
+  },
+  {
+    "id": "seed_common_voice_en_155313-common_voice_en_155315",
+    "prefix_length": 128,
+    "max_abs_diff": 6.29425048828125e-05,
+    "mean_abs_diff": 9.666729056334589e-06,
+    "argmax_same": true
+  }
+]

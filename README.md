@@ -181,3 +181,13 @@ installs the GPU framework separately. Native model tests require the full envir
 
 Detailed native fixes and their historical validation are recorded in
 [Runtime repair notes](docs/RUNTIME_NOTES.md).
+
+## Quality audit — 15 September 2026
+
+CosyVoice is **Fun-CosyVoice3-0.5B-2512, base llm.pt**. The archived 13.82% WER
+is affected by a confirmed HiFT implementation defect and is excluded from ranking.
+The vocoder is repaired; a fresh full 1,088-text run is in progress. The selected
+eight-text 2.30% WER diagnostic is not a replacement full score. Llasa and Dia
+remain under quality review after independent LM/codec checks.
+
+[Read the investigation and paired audio](https://kadirnar-voicehub-arena.static.hf.space/quality-audit.html).
