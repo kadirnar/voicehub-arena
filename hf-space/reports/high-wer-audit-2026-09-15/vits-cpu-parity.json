@@ -1,0 +1,72 @@
+{
+  "checkpoint_revision": "c71de0fe7204c83f1c10820a7d696d0b450048ba",
+  "all1088_tokenizer_mismatches": [],
+  "samples": [
+    {
+      "id": "seed_common_voice_en_18436934-common_voice_en_18436935",
+      "reference": "Biotechnology, or Biotech, is a very popular degree choice",
+      "sample": 0,
+      "shape_native": 76800,
+      "shape_transformers": 76800,
+      "native_dtype": "torch.float32",
+      "max_abs_diff": 3.814697265625e-06,
+      "mean_abs_diff": 1.133399933905821e-07,
+      "correlation": 0.9999999999976965
+    },
+    {
+      "id": "seed_common_voice_en_29890305-common_voice_en_29890301",
+      "reference": "His father used to play Dholak at Radio Pakistan Hyderabad.",
+      "sample": 1,
+      "shape_native": 68608,
+      "shape_transformers": 68608,
+      "native_dtype": "torch.float32",
+      "max_abs_diff": 5.21540641784668e-06,
+      "mean_abs_diff": 7.805488166923169e-08,
+      "correlation": 0.9999999999984343
+    },
+    {
+      "id": "seed_common_voice_en_17259121-common_voice_en_17259122",
+      "reference": "This pepperoni tastes off, she said.",
+      "sample": 2,
+      "shape_native": 47360,
+      "shape_transformers": 47360,
+      "native_dtype": "torch.float32",
+      "max_abs_diff": 2.1398067474365234e-05,
+      "mean_abs_diff": 1.7582449629571784e-07,
+      "correlation": 0.9999999999738823
+    },
+    {
+      "id": "seed_common_voice_en_25313898-common_voice_en_25313899",
+      "reference": "Suddenly, Franzen was breaking Big Brother's house rules, not once, but many times over.",
+      "sample": 3,
+      "shape_native": 89600,
+      "shape_transformers": 89600,
+      "native_dtype": "torch.float32",
+      "max_abs_diff": 5.304813385009766e-06,
+      "mean_abs_diff": 9.758898755762857e-08,
+      "correlation": 0.9999999999983252
+    },
+    {
+      "id": "seed_common_voice_en_21619912-common_voice_en_21619910",
+      "reference": "His son is \"underground\" publisher Adam Parfrey.",
+      "sample": 4,
+      "shape_native": 52480,
+      "shape_transformers": 52480,
+      "native_dtype": "torch.float32",
+      "max_abs_diff": 1.7412006855010986e-05,
+      "mean_abs_diff": 1.7182713918373338e-07,
+      "correlation": 0.9999999999880351
+    },
+    {
+      "id": "seed_common_voice_en_682528-common_voice_en_682530",
+      "reference": "Before guns were invented, armies had to throw bullets at each other and if a bullet touched you, you had to sit out until the next war.",
+      "sample": 5,
+      "shape_native": 128000,
+      "shape_transformers": 128000,
+      "native_dtype": "torch.float32",
+      "max_abs_diff": 2.950429916381836e-05,
+      "mean_abs_diff": 1.6797497437437414e-07,
+      "correlation": 0.9999999999909737
+    }
+  ]
+}

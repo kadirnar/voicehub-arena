@@ -64,3 +64,7 @@ own models. The complete table remains directly below the chart. Click a bar to
 open its recordings. The Plots tab provides downloadable PNG/SVG bar charts for
 WER, CER, RTF and GPU memory; all axes start at zero. Review and invalidation
 markers apply to chart results as well as the table.
+
+## Additional high-WER audit
+
+[Six-model investigation](https://kadirnar-voicehub-arena.static.hf.space/high-wer-audit.html) covers Vui, ConversationTTS, Bark Small, VITS/MMS, OpenVoice V2 and VoxCPM2. All 35,904 original records were recomputed; 6,528 WAVs passed integrity checks. The audit adds 132 scored diagnostic records, numerical comparisons, error-component plots and sample audio. A confirmed ConversationTTS duration-budget bug is repaired in bootstrap and covered by regression tests. Selected diagnostic rates remain separate from full benchmark scores. See `docs/HIGH_WER_AUDIT_2026-09-15.md` for findings and reproduction steps.

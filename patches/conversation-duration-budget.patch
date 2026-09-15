@@ -1,0 +1,23 @@
+--- a/voicehub/models/conversationtts/source/conversationtts/inference/generator.py
++++ b/voicehub/models/conversationtts/source/conversationtts/inference/generator.py
+@@ -138,7 +138,8 @@
+         '''
+         self._model.reset_caches()
+ 
+-        max_audio_frames = int(max_audio_length_ms / 40) # the frame number of max prediction
++        frame_rate = self._audio_tokenizer.model.target_frame_rate
++        max_audio_frames = int(max_audio_length_ms * frame_rate / 1000)
+         tokens, tokens_mask = [], []
+         for segment in context or ():
+             segment_tokens, segment_tokens_mask = self._tokenize_segment(segment)
+--- a/voicehub/models/conversationtts/modeling_conversationtts.py
++++ b/voicehub/models/conversationtts/modeling_conversationtts.py
+@@ -18,7 +18,7 @@
+ if TYPE_CHECKING:
+     from voicehub.architectures.conversationtts.processing import ConversationTTSProtocol
+ 
+-_AUDIO_FRAME_MILLISECONDS = 40
++_AUDIO_FRAME_MILLISECONDS = 80
+ _MODEL_CONTEXT_TOKENS = 2_048
+ _MINIMUM_TEXT_PROMPT_TOKENS = 5
+ _MAX_AUDIO_LENGTH_MILLISECONDS = (

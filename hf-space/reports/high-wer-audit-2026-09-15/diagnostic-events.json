@@ -1,0 +1,169 @@
+[
+  {
+    "model": "vits",
+    "checkpoint": "facebook/mms-tts-eng",
+    "dtype": "torch.float16",
+    "phase": "loaded"
+  },
+  {
+    "model": "vui",
+    "checkpoint": "vui-abraham-100m.pt",
+    "dtype": "torch.float32",
+    "phase": "loaded"
+  },
+  {
+    "model": "conversationtts",
+    "checkpoint": "artifacts/conversationtts/model.safetensors",
+    "dtype": "torch.bfloat16",
+    "phase": "loaded"
+  },
+  {
+    "model": "conversationtts",
+    "codec_probe_frames": 20,
+    "codec_probe_samples": 38400,
+    "sample_rate": 24000,
+    "actual_ms_per_frame": 80.0,
+    "generator_ms_per_frame": 40
+  },
+  {
+    "model": "bark",
+    "checkpoint": "suno/bark-small",
+    "dtype": "torch.float32",
+    "phase": "loaded"
+  },
+  {
+    "model": "bark",
+    "sample": 0,
+    "variant": "transformers",
+    "error": "RuntimeError: The size of tensor a (9) must match the size of tensor b (256) at non-singleton dimension 1",
+    "resolution": "Diagnostic harness corrected: BarkProcessor input padding; per-source-run OpenVoice prepared inputs. Repeated below."
+  },
+  {
+    "model": "bark",
+    "sample": 1,
+    "variant": "transformers",
+    "error": "RuntimeError: The size of tensor a (15) must match the size of tensor b (256) at non-singleton dimension 1",
+    "resolution": "Diagnostic harness corrected: BarkProcessor input padding; per-source-run OpenVoice prepared inputs. Repeated below."
+  },
+  {
+    "model": "bark",
+    "sample": 2,
+    "variant": "transformers",
+    "error": "RuntimeError: The size of tensor a (18) must match the size of tensor b (256) at non-singleton dimension 1",
+    "resolution": "Diagnostic harness corrected: BarkProcessor input padding; per-source-run OpenVoice prepared inputs. Repeated below."
+  },
+  {
+    "model": "bark",
+    "sample": 3,
+    "variant": "transformers",
+    "error": "RuntimeError: The size of tensor a (25) must match the size of tensor b (256) at non-singleton dimension 1",
+    "resolution": "Diagnostic harness corrected: BarkProcessor input padding; per-source-run OpenVoice prepared inputs. Repeated below."
+  },
+  {
+    "model": "bark",
+    "sample": 4,
+    "variant": "transformers",
+    "error": "RuntimeError: The size of tensor a (14) must match the size of tensor b (256) at non-singleton dimension 1",
+    "resolution": "Diagnostic harness corrected: BarkProcessor input padding; per-source-run OpenVoice prepared inputs. Repeated below."
+  },
+  {
+    "model": "bark",
+    "sample": 5,
+    "variant": "transformers",
+    "error": "RuntimeError: The size of tensor a (36) must match the size of tensor b (256) at non-singleton dimension 1",
+    "resolution": "Diagnostic harness corrected: BarkProcessor input padding; per-source-run OpenVoice prepared inputs. Repeated below."
+  },
+  {
+    "model": "openvoice",
+    "checkpoint": "myshell-ai/OpenVoiceV2",
+    "dtype": "torch.float32",
+    "phase": "loaded"
+  },
+  {
+    "model": "openvoice",
+    "sample": 0,
+    "variant": "baseline",
+    "error": "KeyError: '3e67afbc8d955d6826cead83dda8f5f23dcca44d8a39dd2b27222e2cd5c4d3c2'",
+    "resolution": "Diagnostic harness corrected: BarkProcessor input padding; per-source-run OpenVoice prepared inputs. Repeated below."
+  },
+  {
+    "model": "openvoice",
+    "sample": 1,
+    "variant": "baseline",
+    "error": "KeyError: '1e9ec0222e6873a58f6019c85ff2b67e560176e1a938fcc5ab73aa00eb62eea4'",
+    "resolution": "Diagnostic harness corrected: BarkProcessor input padding; per-source-run OpenVoice prepared inputs. Repeated below."
+  },
+  {
+    "model": "openvoice",
+    "sample": 2,
+    "variant": "baseline",
+    "error": "KeyError: '6b6bc3a399c46299c458d5ffa733de5ae953390113a58fd302199b8035bb7987'",
+    "resolution": "Diagnostic harness corrected: BarkProcessor input padding; per-source-run OpenVoice prepared inputs. Repeated below."
+  },
+  {
+    "model": "openvoice",
+    "sample": 5,
+    "variant": "baseline",
+    "error": "KeyError: '19ea2338047aa12fe3458e9d6cee72326df10292a96b00d09464ad5a1de5a0db'",
+    "resolution": "Diagnostic harness corrected: BarkProcessor input padding; per-source-run OpenVoice prepared inputs. Repeated below."
+  },
+  {
+    "model": "openvoice",
+    "sample": 0,
+    "variant": "captured_conversion",
+    "error": "KeyError: '3e67afbc8d955d6826cead83dda8f5f23dcca44d8a39dd2b27222e2cd5c4d3c2'",
+    "resolution": "Diagnostic harness corrected: BarkProcessor input padding; per-source-run OpenVoice prepared inputs. Repeated below."
+  },
+  {
+    "model": "openvoice",
+    "sample": 1,
+    "variant": "captured_conversion",
+    "error": "KeyError: '1e9ec0222e6873a58f6019c85ff2b67e560176e1a938fcc5ab73aa00eb62eea4'",
+    "resolution": "Diagnostic harness corrected: BarkProcessor input padding; per-source-run OpenVoice prepared inputs. Repeated below."
+  },
+  {
+    "model": "openvoice",
+    "sample": 2,
+    "variant": "captured_conversion",
+    "error": "KeyError: '6b6bc3a399c46299c458d5ffa733de5ae953390113a58fd302199b8035bb7987'",
+    "resolution": "Diagnostic harness corrected: BarkProcessor input padding; per-source-run OpenVoice prepared inputs. Repeated below."
+  },
+  {
+    "model": "openvoice",
+    "sample": 5,
+    "variant": "captured_conversion",
+    "error": "KeyError: '19ea2338047aa12fe3458e9d6cee72326df10292a96b00d09464ad5a1de5a0db'",
+    "resolution": "Diagnostic harness corrected: BarkProcessor input padding; per-source-run OpenVoice prepared inputs. Repeated below."
+  },
+  {
+    "model": "voxcpm",
+    "checkpoint": "openbmb/VoxCPM2",
+    "dtype": "torch.bfloat16",
+    "phase": "loaded"
+  },
+  {
+    "model": "bark",
+    "checkpoint": "suno/bark-small",
+    "dtype": "torch.float32",
+    "phase": "loaded"
+  },
+  {
+    "model": "openvoice",
+    "checkpoint": "myshell-ai/OpenVoiceV2",
+    "dtype": "torch.float32",
+    "phase": "loaded"
+  },
+  {
+    "model": "openvoice",
+    "checkpoint": "myshell-ai/OpenVoiceV2",
+    "dtype": "torch.float32",
+    "phase": "loaded"
+  },
+  {
+    "model": "openvoice",
+    "variant": "publisher_source_embedding",
+    "source_speaker": "EN-US (id 0, original default)",
+    "source_file": "base_speakers/ses/en-us.pth",
+    "source_file_sha256": "0d092d4af0815a4bfbc6105b65621ab68dc4c61b2f55044d8a66968a34947c32"
+  }
+]

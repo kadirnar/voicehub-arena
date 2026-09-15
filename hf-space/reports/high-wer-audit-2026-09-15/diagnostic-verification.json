@@ -1,0 +1,525 @@
+{
+  "records": 132,
+  "scored": 132,
+  "all_audio_hashes_and_metrics_match": true,
+  "waveform_pairs": [
+    {
+      "model": "bark",
+      "sample": 0,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "bark",
+      "sample": 1,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "bark",
+      "sample": 2,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "bark",
+      "sample": 3,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "bark",
+      "sample": 4,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "bark",
+      "sample": 5,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "bark",
+      "sample": 0,
+      "left": "baseline",
+      "right": "transformers",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "bark",
+      "sample": 1,
+      "left": "baseline",
+      "right": "transformers",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "bark",
+      "sample": 2,
+      "left": "baseline",
+      "right": "transformers",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "bark",
+      "sample": 3,
+      "left": "baseline",
+      "right": "transformers",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "bark",
+      "sample": 4,
+      "left": "baseline",
+      "right": "transformers",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "bark",
+      "sample": 5,
+      "left": "baseline",
+      "right": "transformers",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "conversationtts",
+      "sample": 0,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 0.9999999999999998
+    },
+    {
+      "model": "conversationtts",
+      "sample": 1,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "conversationtts",
+      "sample": 2,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "conversationtts",
+      "sample": 3,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 0.9999999999999999
+    },
+    {
+      "model": "conversationtts",
+      "sample": 4,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "conversationtts",
+      "sample": 5,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "openvoice",
+      "sample": 0,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "openvoice",
+      "sample": 1,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "openvoice",
+      "sample": 2,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "openvoice",
+      "sample": 3,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "openvoice",
+      "sample": 4,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "openvoice",
+      "sample": 5,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "openvoice",
+      "sample": 0,
+      "left": "baseline",
+      "right": "captured_conversion",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "openvoice",
+      "sample": 1,
+      "left": "baseline",
+      "right": "captured_conversion",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "openvoice",
+      "sample": 2,
+      "left": "baseline",
+      "right": "captured_conversion",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "openvoice",
+      "sample": 3,
+      "left": "baseline",
+      "right": "captured_conversion",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "openvoice",
+      "sample": 4,
+      "left": "baseline",
+      "right": "captured_conversion",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "openvoice",
+      "sample": 5,
+      "left": "baseline",
+      "right": "captured_conversion",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "vits",
+      "sample": 0,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 0.9999999999999998
+    },
+    {
+      "model": "vits",
+      "sample": 1,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "vits",
+      "sample": 2,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "vits",
+      "sample": 3,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "vits",
+      "sample": 4,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "vits",
+      "sample": 5,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "voxcpm",
+      "sample": 0,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "voxcpm",
+      "sample": 1,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "voxcpm",
+      "sample": 2,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "voxcpm",
+      "sample": 3,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "voxcpm",
+      "sample": 4,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "voxcpm",
+      "sample": 5,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "vui",
+      "sample": 0,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "vui",
+      "sample": 1,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "vui",
+      "sample": 2,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "vui",
+      "sample": 3,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 0.9999999999999999
+    },
+    {
+      "model": "vui",
+      "sample": 4,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    },
+    {
+      "model": "vui",
+      "sample": 5,
+      "left": "archived",
+      "right": "baseline",
+      "same_shape": true,
+      "pcm_equal": true,
+      "max_abs_diff": 0.0,
+      "correlation": 1.0
+    }
+  ],
+  "archived_vad_sensitivity": [
+    {
+      "model": "bark",
+      "samples": 6,
+      "rescore_wer": 1.2236842105263157,
+      "vad_diagnostic_wer": 0.4868421052631579
+    },
+    {
+      "model": "conversationtts",
+      "samples": 6,
+      "rescore_wer": 1.7222222222222223,
+      "vad_diagnostic_wer": 1.7222222222222223
+    },
+    {
+      "model": "openvoice",
+      "samples": 6,
+      "rescore_wer": 0.26666666666666666,
+      "vad_diagnostic_wer": 0.26666666666666666
+    },
+    {
+      "model": "vits",
+      "samples": 6,
+      "rescore_wer": 0.22972972972972974,
+      "vad_diagnostic_wer": 0.21621621621621623
+    },
+    {
+      "model": "voxcpm",
+      "samples": 6,
+      "rescore_wer": 0.39759036144578314,
+      "vad_diagnostic_wer": 0.39759036144578314
+    },
+    {
+      "model": "vui",
+      "samples": 6,
+      "rescore_wer": 0.8051948051948052,
+      "vad_diagnostic_wer": 0.8571428571428571
+    }
+  ]
+}

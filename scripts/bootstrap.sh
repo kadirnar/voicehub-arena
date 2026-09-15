@@ -25,6 +25,13 @@ else
   git -C "$native" apply --check "$patch_file"
   git -C "$native" apply "$patch_file"
 fi
+duration_patch="$arena_root/patches/conversation-duration-budget.patch"
+if git -C "$native" apply --reverse --check "$duration_patch" 2>/dev/null; then
+  echo 'ConversationTTS duration correction is already applied.'
+else
+  git -C "$native" apply --check "$duration_patch"
+  git -C "$native" apply "$duration_patch"
+fi
 [[ -x .venv/bin/python ]] || uv venv --python 3.12 .venv
 # Keep the validated Torch API version. The wheel index is configurable for the host.
 uv pip install --python .venv/bin/python torch==2.8.0 torchaudio==2.8.0 \

@@ -1,0 +1,15 @@
+{
+  "actual_codec_probe": {
+    "model": "conversationtts",
+    "codec_probe_frames": 20,
+    "codec_probe_samples": 38400,
+    "sample_rate": 24000,
+    "actual_ms_per_frame": 80.0,
+    "generator_ms_per_frame": 40
+  },
+  "before": "3 failed (all requested limits exceeded)",
+  "after": "3 passed",
+  "patch_sha256": "0357a2b4e9ace64b40bbdcaa64213b0d96f064313a47406f525820143d62425a",
+  "benchmark_audio_unchanged": true,
+  "applied_after_all_conversation_diagnostics_finished": true
+}

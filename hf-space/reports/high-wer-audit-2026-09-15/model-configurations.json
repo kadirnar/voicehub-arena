@@ -1,0 +1,298 @@
+{
+  "vui": {
+    "catalog": {
+      "model_type": "vui",
+      "name": "Vui",
+      "checkpoint": "vui-abraham-100m.pt",
+      "capabilities": [
+        "text-to-speech",
+        "fine-tuning",
+        "safetensors",
+        "standalone-safetensors-export",
+        "voicehub-native",
+        "native-runtime",
+        "preprocessed-training"
+      ],
+      "declared_languages": [
+        "en"
+      ],
+      "module": "voicehub.models.vui.modeling_vui",
+      "class_name": "VuiForTextToSpeech"
+    },
+    "override": {},
+    "asr": {
+      "checkpoint": "Systran/faster-whisper-large-v3",
+      "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+      "device": "cuda",
+      "compute_type": "float16",
+      "language": "en",
+      "beam_size": 5,
+      "temperature": 0,
+      "condition_on_previous_text": false,
+      "vad_filter": false
+    },
+    "seed": 42
+  },
+  "conversationtts": {
+    "catalog": {
+      "model_type": "conversationtts",
+      "name": "ConversationTTS",
+      "checkpoint": "AudioFoundation/SpeechFoundation",
+      "capabilities": [
+        "text-to-speech",
+        "voice-cloning",
+        "conversation",
+        "multilingual",
+        "fine-tuning",
+        "safetensors",
+        "voicehub-native",
+        "native-runtime",
+        "raw-audio-fine-tuning",
+        "preencoded-code-fine-tuning",
+        "noncommercial"
+      ],
+      "declared_languages": [
+        "en",
+        "zh",
+        "yue"
+      ],
+      "module": "voicehub.models.conversationtts.modeling_conversationtts",
+      "class_name": "ConversationTTSForTextToSpeech"
+    },
+    "override": {
+      "config": {
+        "revision": "b0f6f30e123da06dd15672ddbfc7781b323ea599"
+      },
+      "checkpoint": "artifacts/conversationtts/model.safetensors"
+    },
+    "asr": {
+      "checkpoint": "Systran/faster-whisper-large-v3",
+      "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+      "device": "cuda",
+      "compute_type": "float16",
+      "language": "en",
+      "beam_size": 5,
+      "temperature": 0,
+      "condition_on_previous_text": false,
+      "vad_filter": false
+    },
+    "seed": 42
+  },
+  "bark": {
+    "catalog": {
+      "model_type": "bark",
+      "name": "Bark",
+      "checkpoint": "suno/bark-small",
+      "capabilities": [
+        "text-to-speech",
+        "expressive-speech",
+        "voice-prompt",
+        "safetensors",
+        "fine-tuning",
+        "voicehub-native",
+        "native-runtime",
+        "preencoded-stage-training",
+        "restricted-pickle-conversion"
+      ],
+      "declared_languages": [
+        "de",
+        "en",
+        "es",
+        "fr",
+        "hi",
+        "it",
+        "ja",
+        "ko",
+        "pl",
+        "pt",
+        "ru",
+        "tr",
+        "zh"
+      ],
+      "module": "voicehub.models.bark.modeling_bark",
+      "class_name": "BarkForTextToSpeech"
+    },
+    "override": {
+      "config": {
+        "trust_official_pickle": true,
+        "revision": "1dbd7a128513b8ae4a4e2130fed57b7ac9da5bcd"
+      }
+    },
+    "asr": {
+      "checkpoint": "Systran/faster-whisper-large-v3",
+      "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+      "device": "cuda",
+      "compute_type": "float16",
+      "language": "en",
+      "beam_size": 5,
+      "temperature": 0,
+      "condition_on_previous_text": false,
+      "vad_filter": false
+    },
+    "seed": 42
+  },
+  "vits": {
+    "catalog": {
+      "model_type": "vits",
+      "name": "Vits",
+      "checkpoint": "facebook/mms-tts-eng",
+      "capabilities": [
+        "text-to-speech",
+        "multilingual",
+        "mms-tts",
+        "safetensors",
+        "fine-tuning",
+        "voicehub-native",
+        "native-runtime",
+        "raw-audio-training",
+        "preprocessed-training",
+        "adversarial-training",
+        "generator-warm-start",
+        "explicit-acoustic-training-config"
+      ],
+      "declared_languages": [
+        "en"
+      ],
+      "module": "voicehub.models.vits.modeling_vits",
+      "class_name": "VitsForTextToSpeech"
+    },
+    "override": {
+      "config": {
+        "revision": "c71de0fe7204c83f1c10820a7d696d0b450048ba"
+      }
+    },
+    "asr": {
+      "checkpoint": "Systran/faster-whisper-large-v3",
+      "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+      "device": "cuda",
+      "compute_type": "float16",
+      "language": "en",
+      "beam_size": 5,
+      "temperature": 0,
+      "condition_on_previous_text": false,
+      "vad_filter": false
+    },
+    "seed": 42
+  },
+  "openvoice": {
+    "catalog": {
+      "model_type": "openvoice",
+      "name": "OpenVoice",
+      "checkpoint": "myshell-ai/OpenVoiceV2",
+      "capabilities": [
+        "text-to-speech",
+        "voice-cloning",
+        "multilingual",
+        "fine-tuning",
+        "safetensors",
+        "voicehub-native",
+        "native-runtime",
+        "paired-waveform-training",
+        "explicit-base-waveform"
+      ],
+      "declared_languages": [
+        "en",
+        "es",
+        "fr",
+        "zh",
+        "ja",
+        "ko"
+      ],
+      "module": "voicehub.models.openvoice.modeling_openvoice",
+      "class_name": "OpenVoiceForTextToSpeech"
+    },
+    "override": {
+      "config": {
+        "base_model_name_or_path": "EN",
+        "trust_pickle_checkpoint": true,
+        "revision": "f36e7edfe1684461a8343844af60babc2efbb727"
+      },
+      "generation": {
+        "speaker_audio_path": "datasets/reference/emily.wav",
+        "language": "EN"
+      }
+    },
+    "asr": {
+      "checkpoint": "Systran/faster-whisper-large-v3",
+      "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+      "device": "cuda",
+      "compute_type": "float16",
+      "language": "en",
+      "beam_size": 5,
+      "temperature": 0,
+      "condition_on_previous_text": false,
+      "vad_filter": false
+    },
+    "seed": 42
+  },
+  "voxcpm": {
+    "catalog": {
+      "model_type": "voxcpm",
+      "name": "VoxCPM",
+      "checkpoint": "openbmb/VoxCPM2",
+      "capabilities": [
+        "text-to-speech",
+        "voice-cloning",
+        "voice-design",
+        "audio-continuation",
+        "multilingual",
+        "fine-tuning",
+        "safetensors",
+        "voicehub-native",
+        "native-runtime"
+      ],
+      "declared_languages": [
+        "zh",
+        "en",
+        "ar",
+        "my",
+        "da",
+        "nl",
+        "fi",
+        "fr",
+        "de",
+        "el",
+        "he",
+        "hi",
+        "id",
+        "it",
+        "ja",
+        "km",
+        "ko",
+        "lo",
+        "ms",
+        "no",
+        "pl",
+        "pt",
+        "ru",
+        "es",
+        "sw",
+        "sv",
+        "tl",
+        "th",
+        "tr",
+        "vi"
+      ],
+      "module": "voicehub.models.voxcpm.modeling_voxcpm",
+      "class_name": "VoxCPMForTextToSpeech"
+    },
+    "override": {
+      "config": {
+        "revision": "bffb3df5a29440629464e5e839f4d214c8714c3d",
+        "codec_path": "artifacts/voxcpm2/audiovae.safetensors"
+      }
+    },
+    "asr": {
+      "checkpoint": "Systran/faster-whisper-large-v3",
+      "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+      "device": "cuda",
+      "compute_type": "float16",
+      "language": "en",
+      "beam_size": 5,
+      "temperature": 0,
+      "condition_on_previous_text": false,
+      "vad_filter": false
+    },
+    "seed": 42
+  }
+}

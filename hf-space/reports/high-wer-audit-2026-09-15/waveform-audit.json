@@ -1,0 +1,56 @@
+[
+  {
+    "model": "vui",
+    "wav_sha_verified": 1088,
+    "sample_rate_and_duration_match": true,
+    "nonfinite_wavs": 0,
+    "peak_amplitude": 0.999872624874115,
+    "mean_fraction_at_099": 5.248414572922562e-05,
+    "recordings_over_10pct_at_099": 0
+  },
+  {
+    "model": "conversationtts",
+    "wav_sha_verified": 1088,
+    "sample_rate_and_duration_match": true,
+    "nonfinite_wavs": 0,
+    "peak_amplitude": 2.088331460952759,
+    "mean_fraction_at_099": 0.001087340215006601,
+    "recordings_over_10pct_at_099": 0
+  },
+  {
+    "model": "bark",
+    "wav_sha_verified": 1088,
+    "sample_rate_and_duration_match": true,
+    "nonfinite_wavs": 0,
+    "peak_amplitude": 2.3246562480926514,
+    "mean_fraction_at_099": 4.687589752061232e-05,
+    "recordings_over_10pct_at_099": 0
+  },
+  {
+    "model": "vits",
+    "wav_sha_verified": 1088,
+    "sample_rate_and_duration_match": true,
+    "nonfinite_wavs": 0,
+    "peak_amplitude": 0.96875,
+    "mean_fraction_at_099": 0.0,
+    "recordings_over_10pct_at_099": 0
+  },
+  {
+    "model": "openvoice",
+    "wav_sha_verified": 1088,
+    "sample_rate_and_duration_match": true,
+    "nonfinite_wavs": 0,
+    "peak_amplitude": 0.6683558225631714,
+    "mean_fraction_at_099": 0.0,
+    "recordings_over_10pct_at_099": 0
+  },
+  {
+    "model": "voxcpm",
+    "wav_sha_verified": 1088,
+    "sample_rate_and_duration_match": true,
+    "nonfinite_wavs": 0,
+    "peak_amplitude": 0.9953122735023499,
+    "mean_fraction_at_099": 3.4545963646627557e-06,
+    "recordings_over_10pct_at_099": 0
+  }
+]
