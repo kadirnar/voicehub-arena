@@ -108,7 +108,7 @@ def publish(manifest='configs/variant-campaign.json',model=None,phase='pilot'):
     comparison=run/'current-comparison.json';write_json(comparison,combined)
     csv_path=run/'current-comparison.csv';fields=['model','name','protocol','checkpoint','revision','scored','generated','generation_failures','generation_failure_rate','wer','cer','rtf','latency_p50_s','latency_p95_s','peak_vram_mib','mer','wil','wip','exact_match_rate']
     with csv_path.open('w',newline='') as f:
-        writer=csv.DictWriter(f,fieldnames=fields,extrasaction='ignore');writer.writeheader();writer.writerows(combined['table'])
+        writer=csv.DictWriter(f,fieldnames=fields,extrasaction='ignore',lineterminator='\n');writer.writeheader();writer.writerows(combined['table'])
     p=run/'public-progress.json';write_json(p,progress)
     api.create_commit(DATASET,repo_type='dataset',parent_commit=api.repo_info(DATASET,repo_type='dataset').sha,commit_message='Update variant experiment progress',operations=[CommitOperationAdd(path_in_repo=f'experiments/{cfg["campaign"]}/progress.json',path_or_fileobj=p),CommitOperationAdd(path_in_repo=f'experiments/{cfg["campaign"]}/current-comparison.json',path_or_fileobj=comparison),CommitOperationAdd(path_in_repo=f'experiments/{cfg["campaign"]}/current-comparison.csv',path_or_fileobj=csv_path)])
     api.create_commit(SPACE,repo_type='space',parent_commit=api.repo_info(SPACE,repo_type='space').sha,commit_message='Update Dia2 and Llasa variant progress',operations=[CommitOperationAdd(path_in_repo='data/variant-progress.json',path_or_fileobj=p),CommitOperationAdd(path_in_repo='data/current-comparison.json',path_or_fileobj=comparison),CommitOperationAdd(path_in_repo='data/current-comparison.csv',path_or_fileobj=csv_path)])
