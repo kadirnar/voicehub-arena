@@ -109,6 +109,9 @@ def render(source, output):
             for extension in ('png', 'svg'):
                 fig.savefig(output/f'{stem}.{extension}', dpi=160, facecolor=BG,
                             metadata={'Title': title} if extension == 'svg' else {'Title': title, 'Description': note})
+                if extension == 'svg':
+                    svg = output/f'{stem}.{extension}'
+                    svg.write_text('\n'.join(line.rstrip() for line in svg.read_text().splitlines())+'\n')
             plt.close(fig)
             manifest['charts'].append({'stem': stem, 'metric': key, 'unit': unit, 'scope': scope,
                                        'rows': [{'model': r['model'], 'value': r[key] * factor,
