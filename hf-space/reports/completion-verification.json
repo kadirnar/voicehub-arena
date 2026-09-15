@@ -1,0 +1,19 @@
+{
+  "verified_at": "2026-09-15T11:53:00.106549+00:00",
+  "status": "completed",
+  "models": 33,
+  "texts_per_model": 1088,
+  "scored_audio": 35904,
+  "completed_shards": 198,
+  "dataset_ids_and_references_match": true,
+  "api_http_status": 200,
+  "api_full_scope_matches_local_summaries": true,
+  "audio_sha256_verified": 35904,
+  "dataset_sha256": "8a9386efb1768a90ffba66f8931e3887b53e9c9d1bf246eb46a8cce32bc7b1c1",
+  "suite_sha256": "1a37627704da3f0158d29a0cc3cff712494dadd0f03553fea2511a01d60ea8a9",
+  "source_commit": "3ce0a0aa9cf3c9b24d8e4d6c3d0315b7bf7adc0a",
+  "known_quality_issues": [
+    "Dia high transcript error rate",
+    "Llasa high transcript error rate"
+  ]
+}

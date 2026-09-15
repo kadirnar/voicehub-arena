@@ -2,7 +2,7 @@
 
 A portable English TTS benchmark for all **33 English-capable VoiceHub model families**.
 The default dataset is **Seed-TTS-Eval English**: 1,088 texts per model and **35,904
-planned outputs**. Recognition uses pinned **Whisper large-v3**; results include WER,
+completed outputs** in the published A100 campaign. Recognition uses pinned **Whisper large-v3**; results include WER,
 CER, edit counts, MER/WIL/WIP, confidence intervals, latency, RTF and audio quality flags.
 
 The previous RTX 3090 campaign and its monitoring have been stopped. This repository
@@ -119,11 +119,53 @@ estimate; allow additional room for environments, converted weights and recordin
 Use `--cache-budget-gib` and `--min-free-gib` to configure the new host's storage budget.
 
 All 33 models completed an earlier 24-sample integration diagnostic at least once.
-The complete 35,904-output Seed benchmark has **not** finished, and this repository
-has **not** yet been evaluated on your next GPU. Successful inference does not by
-itself establish good speech quality. See [BENCHMARK_PROTOCOL.md](BENCHMARK_PROTOCOL.md)
+The A100 campaign completed on **15 September 2026**: **33/33 models, 198/198
+shards, 35,904/35,904 scored recordings**, with all WAV hashes verified. New GPU
+experiments still need their own validation. Successful inference does not by
+itself establish good speech quality; Dia and Llasa retain unresolved high error rates. See [BENCHMARK_PROTOCOL.md](BENCHMARK_PROTOCOL.md)
 for interpretation and limitations. Historical eight-text `small.en` scores are not
 mixed into the Seed / large-v3 leaderboard.
+
+## Published results and Hugging Face Space
+
+- [Interactive Space](https://huggingface.co/spaces/kadirnar/voicehub-arena): sortable
+  full leaderboard, all metrics, plots, and all 1,088 samples per model with A/B listening.
+- [Permanent dataset](https://huggingface.co/datasets/kadirnar/voicehub-arena-seed-tts-eval):
+  all 35,904 original WAV files in 33 indexed WebDataset tar shards, targets, ASR transcripts, per-sample metrics and SHA256 manifest.
+- [`hf-space/`](hf-space/): the static app, all 35,904 text/metric records split by model,
+  complete summary JSON/CSV and plots, versioned in this GitHub repository.
+
+The Space does not require the A100 or a local SSH tunnel. Its audio URLs use the
+pinned dataset revision recorded in `hf-space/data/leaderboard.json`. Model samples
+are paginated across the **full 1,088-text set**, not limited to the first 256.
+The viewer range-loads one WAV from its archive and verifies its SHA256 before playback.
+Audio binaries live in the HF dataset; GitHub holds their hashes, paths and all
+associated text/metric records. The source repository keeps its existing visibility.
+
+Preview without GPU dependencies:
+
+```bash
+python -m http.server 7862 --bind 127.0.0.1 --directory hf-space
+```
+
+Regenerate a publication from a verified full campaign with
+`scripts/export_space.py --help`, then run `scripts/pack_space_audio.py` to build
+the indexed audio shards. Use a separate CPU environment for publishing:
+
+```bash
+python -m venv .venv-publication
+source .venv-publication/bin/activate
+pip install -r requirements/publication.txt
+hf auth login
+python scripts/publish_dataset.py --dataset-dir /path/to/exported-dataset
+# Use the verified dataset commit SHA returned by the upload:
+python scripts/publish_space.py --dataset-revision COMMIT_SHA
+```
+
+The dataset publisher verifies all 33 remote archive sizes and SHA256 digests.
+Use `--verify-only --revision COMMIT_SHA` to repeat that read-only check.
+The Space publisher pins playback to this immutable dataset commit. Authentication
+may also use a protected `HF_TOKEN`; never put a token in the static app.
 
 ## Development checks
 

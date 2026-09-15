@@ -1,0 +1,209 @@
+{
+  "verified_at": "2026-09-15T11:48:02.499471+00:00",
+  "instance_id": 50735875,
+  "scope": "Completed A100 shards only; live partial shards are not declared complete",
+  "sha256_verified_audio": 35904,
+  "completed_jobs": 198,
+  "models": [
+    {
+      "model": "kokoro",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "supertonic",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "vits",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "vui",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "inflecttts",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "styletts2",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "melotts",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "speecht5",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "bark",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "chatterbox",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "conversationtts",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "cosyvoice",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "csm",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "dia",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "echo",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "f5tts",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "fishtts",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "gptsovits",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "higgstts",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "llasa",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "mosstts",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "neutts",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "omnivoice",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "openvoice",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "orpheustts",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "outetts",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "parlertts",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "qwen3tts",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "vibevoice",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "voxcpm",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "xtts",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "zonos",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    },
+    {
+      "model": "zonos2",
+      "generated": 1088,
+      "scored": 1088,
+      "completed_jobs": 6
+    }
+  ],
+  "campaign_status_at_sync": "completed",
+  "current_job_at_sync": null
+}

@@ -1,0 +1,2 @@
+# Separate CPU environment for publishing; does not change the frozen GPU runtime.
+huggingface-hub==1.31.0
