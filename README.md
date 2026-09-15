@@ -191,3 +191,24 @@ eight-text 2.30% WER diagnostic is not a replacement full score. Llasa and Dia
 remain under quality review after independent LM/codec checks.
 
 [Read the investigation and paired audio](https://kadirnar-voicehub-arena.static.hf.space/quality-audit.html).
+
+## Comparison bar charts
+
+The Space shows a colored bar chart above the full table, with numerical labels,
+zero-baseline axes and the measured WER/CER confidence intervals. Choose among
+nine metrics and compare six, twelve, all 33 or a custom model selection. Click a
+bar to open that model's audio samples. Invalidated archived scores are hatched;
+quality-review flags remain visible. No intervals are invented for other metrics.
+
+The Plots tab includes PNG/SVG bar charts for WER, CER, RTF and GPU allocation,
+in both best-six and complete 33-model scopes. Rebuild these assets after every
+leaderboard update, using the optional `plots` dependency:
+
+```bash
+python scripts/render_bar_charts.py
+node --test tests/test_charts.cjs
+```
+
+`hf-space/reports/bars/manifest.json` records the input JSON hash, model IDs,
+exact values, units and intervals for every export. The interactive chart reads
+`data/leaderboard.json` directly, just like the table.

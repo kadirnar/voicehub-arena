@@ -55,3 +55,12 @@ eight-text 2.30% WER diagnostic is not a replacement full score. Llasa and Dia
 remain under quality review after independent LM/codec checks.
 
 [Read the investigation and paired audio](https://kadirnar-voicehub-arena.static.hf.space/quality-audit.html).
+
+## Charts and table
+
+The leaderboard now includes colored vertical bar charts with values and
+WER/CER confidence intervals. Select a metric and compare 6, 12, all 33, or your
+own models. The complete table remains directly below the chart. Click a bar to
+open its recordings. The Plots tab provides downloadable PNG/SVG bar charts for
+WER, CER, RTF and GPU memory; all axes start at zero. Review and invalidation
+markers apply to chart results as well as the table.

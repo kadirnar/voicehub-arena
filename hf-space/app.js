@@ -122,6 +122,7 @@ async function renderSamples(){
  }catch(e){if(seq===state.sequence){$('sample-status').textContent=e.message;$('sample-count').textContent='';}}
 }
 document.querySelector('.tabs').addEventListener('click',e=>{const button=e.target.closest('[data-tab]');if(button)showTab(button.dataset.tab);});
+$('open-chart-exports').addEventListener('click',e=>{e.preventDefault();showTab('charts');document.querySelector('.tabs').scrollIntoView({behavior:'smooth',block:'start'});});
 $('model-search').addEventListener('input',renderTable);
 $('columns').addEventListener('change',renderTable);
 $('leaderboard').addEventListener('click',e=>{
@@ -149,6 +150,7 @@ async function init(){
   $('model-b').innerHTML='<option value="">No comparison</option>'+choices;
   $('dataset-link').href=`https://huggingface.co/datasets/${data.dataset_id}`;
   $('all-results').href=`https://huggingface.co/datasets/${data.dataset_id}/tree/${data.dataset_revision}`;
+  VoiceHubCharts.mount(data,model=>{$('model-a').value=model;state.page=1;showTab('samples');document.querySelector('.tabs').scrollIntoView({behavior:'smooth',block:'start'});});
   renderTable();if(state.tab==='samples')renderSamples();
  }catch(e){$('load-error').textContent=e.message;$('load-error').hidden=false;$('model-count').textContent='Results unavailable';}
 }
