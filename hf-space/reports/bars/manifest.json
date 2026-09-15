@@ -1,5 +1,5 @@
 {
-  "source_sha256": "8b8caeb5d33be17c7b40566028a54f3e312728ca95205057ff0d5b52c99514c3",
+  "source_sha256": "0de7dd4c3af30aead1f97e51c00cd7970a81b62f2a1d52fe65cef35609690dcc",
   "samples_per_model": 1088,
   "axis": "linear; zero baseline",
   "confidence": "Existing 95% prompt bootstrap intervals for WER/CER only",
@@ -217,6 +217,15 @@
           "invalidated": false
         },
         {
+          "model": "cosyvoice",
+          "value": 1.7416059616511763,
+          "ci95": [
+            1.4638886696980344,
+            2.044482781056171
+          ],
+          "invalidated": false
+        },
+        {
           "model": "higgstts",
           "value": 1.7416059616511763,
           "ci95": [
@@ -359,15 +368,6 @@
             77.06671980254734
           ],
           "invalidated": false
-        },
-        {
-          "model": "cosyvoice",
-          "value": 13.815624215021352,
-          "ci95": [
-            12.685322593416545,
-            14.966956384385439
-          ],
-          "invalidated": true
         }
       ]
     },
@@ -593,6 +593,15 @@
           "invalidated": false
         },
         {
+          "model": "cosyvoice",
+          "value": 0.6234005832291852,
+          "ci95": [
+            0.5187774747425175,
+            0.7428619023023337
+          ],
+          "invalidated": false
+        },
+        {
           "model": "higgstts",
           "value": 0.6710111289650658,
           "ci95": [
@@ -726,15 +735,6 @@
             68.12881581151855
           ],
           "invalidated": false
-        },
-        {
-          "model": "cosyvoice",
-          "value": 7.709932750104148,
-          "ci95": [
-            7.0945897643377025,
-            8.377590503471117
-          ],
-          "invalidated": true
         }
       ]
     },
@@ -873,6 +873,12 @@
           "invalidated": false
         },
         {
+          "model": "cosyvoice",
+          "value": 0.7025528225695982,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
           "model": "f5tts",
           "value": 0.7815442867831554,
           "ci95": null,
@@ -979,12 +985,6 @@
           "value": 6.227715330972293,
           "ci95": null,
           "invalidated": false
-        },
-        {
-          "model": "cosyvoice",
-          "value": 0.7114221107347759,
-          "ci95": null,
-          "invalidated": true
         }
       ]
     },
@@ -1135,6 +1135,12 @@
           "invalidated": false
         },
         {
+          "model": "cosyvoice",
+          "value": 3.349456310272217,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
           "model": "neutts",
           "value": 3.394808292388916,
           "ci95": null,
@@ -1229,12 +1235,6 @@
           "value": 24.423131465911865,
           "ci95": null,
           "invalidated": false
-        },
-        {
-          "model": "cosyvoice",
-          "value": 3.3509554862976074,
-          "ci95": null,
-          "invalidated": true
         }
       ]
     }

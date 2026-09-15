@@ -4,3 +4,4 @@ patches/*.patch whitespace=-blank-at-eol
 # Preserve original exported report bytes (CSV CRLF and Matplotlib SVG spacing).
 hf-space/data/leaderboard.csv whitespace=cr-at-eol
 hf-space/reports/*.svg whitespace=-blank-at-eol
+hf-space/reports/cosyvoice-correction-2026-09-15/archived-*.svg whitespace=-blank-at-eol

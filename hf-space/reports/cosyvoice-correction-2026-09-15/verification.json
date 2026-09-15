@@ -1,0 +1,41 @@
+{
+  "verified_at": "2026-09-15T15:53:32.639125+00:00",
+  "version": "cosyvoice-v3-hift-20260915",
+  "generated": 1088,
+  "scored": 1088,
+  "unique_source_texts": 1088,
+  "verified_wav_sha256": 1088,
+  "verified_archive_ranges": 1088,
+  "per_sample_metrics_match": true,
+  "generation_limit_samples": 0,
+  "configuration_matches_original": true,
+  "dataset_sha256": "8a9386efb1768a90ffba66f8931e3887b53e9c9d1bf246eb46a8cce32bc7b1c1",
+  "original_result_sha256": "d54540d064d2863ebc12049922ab790683afed777fcdb56ebdb7c0ce069ea3fe",
+  "corrected_result_sha256": "35d0a81c6c4a3207b9b8a067d5b10c144196c7599fe0c151322b30185d9892f6",
+  "corrected_config_sha256": "39e397c83bbb63a94cdf72558bbbf770cfddea0aa5f18cb43d6fdcda113c3fdb",
+  "vocoder_source_sha256": "212f82751d7bedfd32349fb8aa3393489b6e2e70881677d291aefd2b55f3ed21",
+  "wer": 0.017416059616511763,
+  "cer": 0.0062340058322918526,
+  "wer_ci95": [
+    0.014638886696980343,
+    0.02044482781056171
+  ],
+  "cer_ci95": [
+    0.005187774747425175,
+    0.007428619023023338
+  ],
+  "word_substitutions": 167,
+  "word_deletions": 24,
+  "word_insertions": 17,
+  "reference_words": 11943,
+  "saturation_threshold": 0.9899999,
+  "saturated_waveform_samples": 5756,
+  "waveform_samples": 98604480,
+  "saturation_fraction": 5.837462963143257e-05,
+  "archive": {
+    "path": "corrections/cosyvoice-v3-hift-20260915/cosyvoice.tar",
+    "sha256": "c20a52218cd1f62412b35c1d758e75837079aaae4c7abd5ba178f1341ab55b5c",
+    "size": 398325760,
+    "samples": 1088
+  }
+}

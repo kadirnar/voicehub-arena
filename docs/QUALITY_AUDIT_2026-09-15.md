@@ -1,6 +1,6 @@
 # CosyVoice, Llasa and Dia quality audit — 15 September 2026
 
-**A real CosyVoice vocoder defect was confirmed and repaired. Its archived full-run score is invalidated for ranking.** The original 1,088 recordings and scores remain available as evidence. A fresh full-split CosyVoice run is in progress; the eight-text diagnostic below is not a replacement benchmark.
+**A real CosyVoice vocoder defect was confirmed and repaired. Its archived full-run score is invalidated for ranking.** The original 1,088 recordings and scores remain available as evidence. The corrected full 1,088-text result is now verified: WER 1.7416%, CER 0.6234% ([full correction](https://kadirnar-voicehub-arena.static.hf.space/cosyvoice-correction.html)); the eight-text diagnostic below is not a replacement benchmark.
 
 The audit independently recomputed WER/CER from all 1,088 target/transcript pairs for each of the three models. All three matched the published corpus scores exactly. There is no arithmetic discrepancy in those scores. Poor synthesis and ASR behavior can still make them unsuitable as estimates of a correctly configured model's quality.
 
@@ -61,4 +61,4 @@ All machine-readable ablations, transcript checks and parity measurements are in
 
 ASR remained `Systran/faster-whisper-large-v3`, revision `edaa852ec7e145841d8ffdb056a99866b5f0a478`, CUDA FP16, English, beam 5, temperature 0, no VAD, no previous-text conditioning. Normalizer: `whisper_english`, whisper-normalizer 0.1.12. VAD results are separately labeled diagnostic variants.
 
-Full source SHA256: `8a9386efb1768a90ffba66f8931e3887b53e9c9d1bf246eb46a8cce32bc7b1c1`. Historical run data and tar archive bytes were not overwritten. The table now distinguishes a confirmed invalidated CosyVoice score from unresolved Llasa/Dia quality issues.
+Full source SHA256: `8a9386efb1768a90ffba66f8931e3887b53e9c9d1bf246eb46a8cce32bc7b1c1`. Historical run data and tar archive bytes were not overwritten. The current table uses the corrected CosyVoice full score. The invalidated original remains in the historical records; Llasa/Dia remain under review.

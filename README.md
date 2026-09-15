@@ -186,8 +186,9 @@ Detailed native fixes and their historical validation are recorded in
 
 CosyVoice is **Fun-CosyVoice3-0.5B-2512, base llm.pt**. The archived 13.82% WER
 is affected by a confirmed HiFT implementation defect and is excluded from ranking.
-The vocoder is repaired; a fresh full 1,088-text run is in progress. The selected
-eight-text 2.30% WER diagnostic is not a replacement full score. Llasa and Dia
+The corrected full 1,088-text evaluation is verified: **WER 1.7416%, CER 0.6234%**.
+The current table, samples and plots use this full run. The selected eight-text
+pilot was not used as the replacement score. [Verification and preserved original data](https://kadirnar-voicehub-arena.static.hf.space/cosyvoice-correction.html). Llasa and Dia
 remain under quality review after independent LM/codec checks.
 
 [Read the investigation and paired audio](https://kadirnar-voicehub-arena.static.hf.space/quality-audit.html).
