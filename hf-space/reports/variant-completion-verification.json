@@ -1,0 +1,270 @@
+{
+  "verified_at": "2026-09-16T11:05:27.512900+00:00",
+  "status": "completed",
+  "selected_experiments": 6,
+  "evaluated_reference_targets": 6528,
+  "real_reference_recordings": 6471,
+  "no_audio_failures": 57,
+  "failure_policy": "empty-output-deletions-v1",
+  "current_configurations": 38,
+  "current_evaluated_targets": 41344,
+  "current_real_recordings": 41287,
+  "comparison_sha256": "2b4e40235f3d3923aaece401a846efd9fde4e0f8b1a8debd035a3e955227bc04",
+  "plots_match_comparison": true,
+  "base33_snapshot_preserved": true,
+  "original_and_corrected_archives_preserved": [
+    "audio_shards/bark.tar",
+    "audio_shards/chatterbox.tar",
+    "audio_shards/conversationtts.tar",
+    "audio_shards/cosyvoice.tar",
+    "audio_shards/csm.tar",
+    "audio_shards/dia.tar",
+    "audio_shards/echo.tar",
+    "audio_shards/f5tts.tar",
+    "audio_shards/fishtts.tar",
+    "audio_shards/gptsovits.tar",
+    "audio_shards/higgstts.tar",
+    "audio_shards/inflecttts.tar",
+    "audio_shards/kokoro.tar",
+    "audio_shards/llasa.tar",
+    "audio_shards/melotts.tar",
+    "audio_shards/mosstts.tar",
+    "audio_shards/neutts.tar",
+    "audio_shards/omnivoice.tar",
+    "audio_shards/openvoice.tar",
+    "audio_shards/orpheustts.tar",
+    "audio_shards/outetts.tar",
+    "audio_shards/parlertts.tar",
+    "audio_shards/qwen3tts.tar",
+    "audio_shards/speecht5.tar",
+    "audio_shards/styletts2.tar",
+    "audio_shards/supertonic.tar",
+    "audio_shards/vibevoice.tar",
+    "audio_shards/vits.tar",
+    "audio_shards/voxcpm.tar",
+    "audio_shards/vui.tar",
+    "audio_shards/xtts.tar",
+    "audio_shards/zonos.tar",
+    "audio_shards/zonos2.tar",
+    "corrections/cosyvoice-v3-hift-20260915/cosyvoice.tar"
+  ],
+  "dataset_revision_verified": "ecd6eb16785c54793392dd87aecd1b7a28b7c583",
+  "models": [
+    {
+      "model": "llasa-1b",
+      "checkpoint": "HKUSTAudio/Llasa-1B",
+      "model_revision": "cef8ce6a6eea3b593c5b28868d2391ec15eb9058",
+      "proof": {
+        "model": "llasa-1b",
+        "expected": 1088,
+        "generated": 1088,
+        "generation_failures": 0,
+        "scored": 1088,
+        "wer": 0.011554885707108766,
+        "cer": 0.004151044456347081,
+        "word_counts": [
+          11812,
+          100,
+          31,
+          7,
+          11943
+        ],
+        "char_counts": [
+          66984,
+          72,
+          156,
+          51,
+          67212
+        ],
+        "dataset_revision": "2c2c16db27dbfd61ddb9f72035939ce92d2b933b",
+        "result_sha256": "a3f06e98e2452ea90e8156a04d33e8d6f35207a473a70c3f6138ddc766ded6a6",
+        "all_targets_verified": true,
+        "all_wav_hashes_verified": true,
+        "finite_audio_verified": true,
+        "independent_edit_counts_verified": true,
+        "pinned_audio_range_verified": true
+      },
+      "archive_sha256": "d1d9d7288b5ba08577775de27930097c7e40da2842608d8f4111f4c5dabfe743"
+    },
+    {
+      "model": "llasa-3b",
+      "checkpoint": "HKUSTAudio/Llasa-3B",
+      "model_revision": "740b08c956fdde4a5a33f2caffbf004ff76e2748",
+      "proof": {
+        "model": "llasa-3b",
+        "expected": 1088,
+        "generated": 1088,
+        "generation_failures": 0,
+        "scored": 1088,
+        "wer": 0.009377878255044795,
+        "cer": 0.0025739451288460395,
+        "word_counts": [
+          11836,
+          93,
+          14,
+          5,
+          11943
+        ],
+        "char_counts": [
+          67091,
+          65,
+          56,
+          52,
+          67212
+        ],
+        "dataset_revision": "55f533f22eeb8d4268002ddcdf267486e90fd60c",
+        "result_sha256": "62a81024b19eb33001181353ddfb949f1d22c96a62ec133b42d77f452f5aca68",
+        "all_targets_verified": true,
+        "all_wav_hashes_verified": true,
+        "finite_audio_verified": true,
+        "independent_edit_counts_verified": true,
+        "pinned_audio_range_verified": true
+      },
+      "archive_sha256": "c8422d5358e3db951d87e4fe0a66565448c26c90483b03bbd041f59e678741a2"
+    },
+    {
+      "model": "llasa-8b",
+      "checkpoint": "HKUSTAudio/Llasa-8B",
+      "model_revision": "2a8339e387348a5cad5160b978a6f364fa06ad74",
+      "proof": {
+        "model": "llasa-8b",
+        "expected": 1088,
+        "generated": 1031,
+        "generation_failures": 57,
+        "scored": 1088,
+        "wer": 0.05182952357029222,
+        "cer": 0.04292388264000476,
+        "word_counts": [
+          11332,
+          92,
+          519,
+          8,
+          11943
+        ],
+        "char_counts": [
+          64376,
+          63,
+          2773,
+          49,
+          67212
+        ],
+        "dataset_revision": "d10c1c6809a7035bf48acd9cc1de65553f648701",
+        "result_sha256": "472237ef8a4698c79a50f4903bf18cc801239d7b1f40b45749602579e371e34b",
+        "all_targets_verified": true,
+        "all_wav_hashes_verified": true,
+        "finite_audio_verified": true,
+        "independent_edit_counts_verified": true,
+        "pinned_audio_range_verified": true
+      },
+      "archive_sha256": "fd2a69ef39fb88b774dcf1080e149c3f51980fe8446a4d8c324710d41d683851"
+    },
+    {
+      "model": "dia-1.6b-reference",
+      "checkpoint": "nari-labs/Dia-1.6B-0626",
+      "model_revision": "ef2795fcc29c5abe6ffc91fd33808588b49bbc66",
+      "proof": {
+        "model": "dia-1.6b-reference",
+        "expected": 1088,
+        "generated": 1088,
+        "generation_failures": 0,
+        "scored": 1088,
+        "wer": 0.049652516118228254,
+        "cer": 0.043161935368684165,
+        "word_counts": [
+          11381,
+          254,
+          308,
+          31,
+          11943
+        ],
+        "char_counts": [
+          64483,
+          362,
+          2367,
+          172,
+          67212
+        ],
+        "dataset_revision": "2b6cb4af0e79542584162cbafcbb1c7d4ca98134",
+        "result_sha256": "4a483cf947ea6c8493b22e9754ef6415e0cadf95a1a04ff1d8b3918134e39385",
+        "all_targets_verified": true,
+        "all_wav_hashes_verified": true,
+        "finite_audio_verified": true,
+        "independent_edit_counts_verified": true,
+        "pinned_audio_range_verified": true
+      },
+      "archive_sha256": "0bcd3f3a1056bd5d4fa09f2972949269e7d5b2f1fc447e37234d809f294fccf0"
+    },
+    {
+      "model": "dia2-1b",
+      "checkpoint": "nari-labs/Dia2-1B",
+      "model_revision": "00042629c61c3268a6473552c911966ec7a5a450",
+      "proof": {
+        "model": "dia2-1b",
+        "expected": 1088,
+        "generated": 1088,
+        "generation_failures": 0,
+        "scored": 1088,
+        "wer": 0.02754751737419409,
+        "cer": 0.014193893947509374,
+        "word_counts": [
+          11649,
+          271,
+          23,
+          35,
+          11943
+        ],
+        "char_counts": [
+          66506,
+          454,
+          252,
+          248,
+          67212
+        ],
+        "dataset_revision": "5c82611be422de10defea37a920a0d13956d3db2",
+        "result_sha256": "783110a9e822b1d0e9820b734b95e558d742f22fda8a888dbbb47121be8cc09c",
+        "all_targets_verified": true,
+        "all_wav_hashes_verified": true,
+        "finite_audio_verified": true,
+        "independent_edit_counts_verified": true,
+        "pinned_audio_range_verified": true
+      },
+      "archive_sha256": "620fe7d8dfdba0653fc7b96b1347a5de12b6601098c329d1e8bd2d651891408e"
+    },
+    {
+      "model": "dia2-2b",
+      "checkpoint": "nari-labs/Dia2-2B",
+      "model_revision": "7abae125471a73b0fc6b9d413cb15f4ae1e771d8",
+      "proof": {
+        "model": "dia2-2b",
+        "expected": 1088,
+        "generated": 1088,
+        "generation_failures": 0,
+        "scored": 1088,
+        "wer": 0.02168634346479109,
+        "cer": 0.009536987442718562,
+        "word_counts": [
+          11705,
+          219,
+          19,
+          21,
+          11943
+        ],
+        "char_counts": [
+          66708,
+          307,
+          197,
+          137,
+          67212
+        ],
+        "dataset_revision": "b5e8edf750459c24823e5170b0a61ec3ebc2d1ef",
+        "result_sha256": "f103cab2acc76cf0c52e5191199e2a40928bc09d4e6139f70dfa09abfec70e51",
+        "all_targets_verified": true,
+        "all_wav_hashes_verified": true,
+        "finite_audio_verified": true,
+        "independent_edit_counts_verified": true,
+        "pinned_audio_range_verified": true
+      },
+      "archive_sha256": "fceceabd69d420d223d3c3451564135a256868a4b956ed0fe50c59b44a2b7f2c"
+    }
+  ]
+}

@@ -202,8 +202,9 @@ remain under quality review after independent LM/codec checks.
 | Llasa-8B | 1,088 | 1,031 | 57 | 5.1830% | 4.2924% |
 | Dia 1.6B · reference | 1,088 | 1,088 | 0 | 4.9653% | 4.3162% |
 | Dia2-1B | 1,088 | 1,088 | 0 | 2.7548% | 1.4194% |
+| Dia2-2B | 1,088 | 1,088 | 0 | 2.1686% | 0.9537% |
 
-Still in progress: Dia2-2B. The current comparison contains 37 configurations: 32 selected baselines and 5 verified full reference experiments.
+All six selected reference experiments are complete. The current comparison contains 38 configurations: 32 selected baselines and 6 verified full reference experiments.
 
 Only the official Llasa 1B/3B/8B base checkpoints remain selected. Llasa-8B failures remain in corpus scores as deletions. [Protocol and independent verification](docs/DIA_LLASA_VARIANTS_2026-09-15.md) · [Live results, chart and audio](https://kadirnar-voicehub-arena.static.hf.space/variants.html).
 

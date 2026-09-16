@@ -1,5 +1,5 @@
 {
-  "source_sha256": "693fc9bbabc33638236b94ebba880d89369531d58639d6c999d6023a93648ac8",
+  "source_sha256": "2b4e40235f3d3923aaece401a846efd9fde4e0f8b1a8debd035a3e955227bc04",
   "samples_per_model": 1088,
   "axis": "linear; zero baseline",
   "confidence": "Existing 95% prompt bootstrap intervals for WER/CER only",
@@ -267,6 +267,15 @@
           "ci95": [
             1.6988210857373836,
             2.3450519014427322
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "dia2-2b",
+          "value": 2.1686343464791094,
+          "ci95": [
+            1.88867689114121,
+            2.475265123752024
           ],
           "invalidated": false
         },
@@ -683,6 +692,15 @@
           "invalidated": false
         },
         {
+          "model": "dia2-2b",
+          "value": 0.9536987442718562,
+          "ci95": [
+            0.7964731585759912,
+            1.117886140291653
+          ],
+          "invalidated": false
+        },
+        {
           "model": "zonos",
           "value": 0.96411355115158,
           "ci95": [
@@ -1059,6 +1077,12 @@
           "invalidated": false
         },
         {
+          "model": "dia2-2b",
+          "value": 2.8539758534153523,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
           "model": "outetts",
           "value": 3.164612982009557,
           "ci95": null,
@@ -1305,6 +1329,12 @@
         {
           "model": "dia-1.6b-reference",
           "value": 6.947813034057617,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "dia2-2b",
+          "value": 8.189716339111328,
           "ci95": null,
           "invalidated": false
         },

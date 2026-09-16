@@ -15,11 +15,12 @@ Each row evaluates all 1,088 English targets with the frozen fixed-reference and
 | Llasa-8B | 1,088 | 1,031 | 57 | 5.1830% | 4.2924% |
 | Dia 1.6B · reference | 1,088 | 1,088 | 0 | 4.9653% | 4.3162% |
 | Dia2-1B | 1,088 | 1,088 | 0 | 2.7548% | 1.4194% |
+| Dia2-2B | 1,088 | 1,088 | 0 | 2.1686% | 0.9537% |
 
 
 All 57 Llasa-8B failures emitted only EOS token 128261, before codec decoding or ASR. Their 505 reference words are retained as deletions under `empty-output-deletions-v1`; no audio is fabricated. The 1,031 successful recordings alone yield 0.9967% WER, which is a secondary diagnostic and does not replace the all-target 5.1830% score. The fixed-seed sampling settings remain unchanged.
 
-Still in progress: Dia2-2B. The current comparison contains 37 configurations: 32 selected baselines and 5 verified full reference experiments. Original unconditioned results remain historical evidence, with the removed Multilingual baseline excluded from the active view.
+All six selected reference experiments are complete. The current comparison contains 38 configurations: 32 selected baselines and 6 verified full reference experiments. Original unconditioned results remain historical evidence, with the removed Multilingual baseline excluded from the active view.
 
 ## Historical baseline and inventory
 

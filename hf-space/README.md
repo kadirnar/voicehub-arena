@@ -87,8 +87,9 @@ Every completed row uses **1,088 English targets**, fixed reference audio and pi
 | Llasa-8B | 1,088 | 1,031 | 57 | 5.1830% | 4.2924% |
 | Dia 1.6B · reference | 1,088 | 1,088 | 0 | 4.9653% | 4.3162% |
 | Dia2-1B | 1,088 | 1,088 | 0 | 2.7548% | 1.4194% |
+| Dia2-2B | 1,088 | 1,088 | 0 | 2.1686% | 0.9537% |
 
-Still in progress: Dia2-2B. The current comparison contains 37 configurations: 32 selected baselines and 5 verified full reference experiments.
+All six selected reference experiments are complete. The current comparison contains 38 configurations: 32 selected baselines and 6 verified full reference experiments.
 
 Llasa-8B's 57 early-EOS failures remain in corpus WER/CER as empty-output deletion penalties, with no fabricated WAVs. Targets, real audio hashes and corpus edit counts were independently verified. [Full table, chart and recordings](https://kadirnar-voicehub-arena.static.hf.space/variants.html).
 
