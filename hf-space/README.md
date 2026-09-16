@@ -39,8 +39,9 @@ WER/CER are corpus-level ratios, not averages of shard scores.
 
 This run uses fixed provider voices/references. It is **not** the official
 zero-shot speaker-identity/SIM protocol, a MOS test, or a claim of model superiority
-across all voice configurations. Dia and Llasa have high transcript error rates
-whose root causes are unresolved; their results remain visible.
+across all voice configurations. The historical unconditioned Dia and Llasa runs
+had high error rates. Separately verified fixed-reference results are listed below;
+the removed Multilingual Llasa baseline is excluded from active comparisons.
 
 Source texts: [ByteDance Seed-TTS-Eval](https://github.com/BytedanceSpeech/seed-tts-eval),
 publisher revision `752f4297f090c46bb1a55a1f7439e5944ddefe8d`, English `en/meta.lst`.
@@ -59,9 +60,10 @@ remain under quality review after independent LM/codec checks.
 
 ## Charts and table
 
-The leaderboard now includes colored vertical bar charts with values and
-WER/CER confidence intervals. Select a metric and compare 6, 12, all 33, or your
-own models. The complete table remains directly below the chart. Click a bar to
+The leaderboard defaults to compact horizontal bar charts with values and
+WER/CER confidence intervals; vertical bars remain available. Select a metric
+and compare 6, 12, all selected configurations, or your own models.
+The complete table remains directly below the chart. Click a bar to
 open its recordings. The Plots tab provides downloadable PNG/SVG bar charts for
 WER, CER, RTF and GPU memory; all axes start at zero. Review and invalidation
 markers apply to chart results as well as the table.
@@ -73,3 +75,16 @@ markers apply to chart results as well as the table.
 ## Active Llasa selection
 
 Only official HKUSTAudio/Llasa-1B, Llasa-3B and Llasa-8B remain in active evaluation. Multilingual, Preserve-TextChat and multi-speaker variants have been removed from the queue, live tables, charts and sample selectors. Dia and Dia2-1B/2B remain active (six experiments total). The original 33-model snapshot is retained for provenance; its Multilingual Llasa row is excluded from current comparisons. The current selected baseline contains 32 models.
+
+## Verified full reference results — 16 September 2026
+
+All four rows use **1,088 English targets**, fixed reference audio and pinned Whisper-large-v3. Dia2 full runs are still in progress in this snapshot.
+
+| Model | WER | CER | Real recordings | No audio |
+|---|---:|---:|---:|---:|
+| Llasa-1B | 1.1555% | 0.4151% | 1,088 | 0 |
+| Llasa-3B | 0.9378% | 0.2574% | 1,088 | 0 |
+| Llasa-8B | 5.1830% | 4.2924% | 1,031 | 57 |
+| Dia 1.6B · reference | 4.9653% | 4.3162% | 1,088 | 0 |
+
+Llasa-8B's 57 failures emitted only EOS before synthesis. They remain in corpus WER/CER as empty-output deletion penalties, with no fabricated WAVs. Targets, real audio hashes and corpus edit counts were independently verified. [Full table, chart and recordings](https://kadirnar-voicehub-arena.static.hf.space/variants.html).

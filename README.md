@@ -193,6 +193,12 @@ remain under quality review after independent LM/codec checks.
 
 [Read the investigation and paired audio](https://kadirnar-voicehub-arena.static.hf.space/quality-audit.html).
 
+## Full reference experiments — 16 September 2026
+
+The official Llasa-1B, Llasa-3B, Llasa-8B and Dia 1.6B reference experiments each evaluated all **1,088 English Seed-TTS-Eval targets** with pinned Whisper-large-v3. WER/CER are respectively **1.1555% / 0.4151%**, **0.9378% / 0.2574%**, **5.1830% / 4.2924%**, and **4.9653% / 4.3162%**. Llasa-8B produced 1,031 recordings and 57 explicit early-EOS failures; all failed targets remain in the score as deletions. The other three produced all 1,088 recordings. Dia2 full evaluations are still running in this snapshot.
+
+Only the official Llasa 1B/3B/8B base checkpoints remain selected. The live comparison contains 32 selected baseline configurations plus these four verified reference experiments. [Protocol and independent verification](docs/DIA_LLASA_VARIANTS_2026-09-15.md) · [Live results, chart and audio](https://kadirnar-voicehub-arena.static.hf.space/variants.html).
+
 ## Comparison bar charts
 
 The Space shows a colored bar chart above the full table, with numerical labels,

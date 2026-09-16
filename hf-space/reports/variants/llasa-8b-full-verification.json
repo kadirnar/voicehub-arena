@@ -1,0 +1,30 @@
+{
+  "model": "llasa-8b",
+  "expected": 1088,
+  "generated": 1031,
+  "generation_failures": 57,
+  "scored": 1088,
+  "wer": 0.05182952357029222,
+  "cer": 0.04292388264000476,
+  "word_counts": [
+    11332,
+    92,
+    519,
+    8,
+    11943
+  ],
+  "char_counts": [
+    64376,
+    63,
+    2773,
+    49,
+    67212
+  ],
+  "dataset_revision": "d10c1c6809a7035bf48acd9cc1de65553f648701",
+  "result_sha256": "472237ef8a4698c79a50f4903bf18cc801239d7b1f40b45749602579e371e34b",
+  "all_targets_verified": true,
+  "all_wav_hashes_verified": true,
+  "finite_audio_verified": true,
+  "independent_edit_counts_verified": true,
+  "pinned_audio_range_verified": true
+}
