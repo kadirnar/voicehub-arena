@@ -4,6 +4,23 @@
 
 Only **Llasa-1B, Llasa-3B and Llasa-8B** remain active, alongside Dia 1.6B and Dia2 1B/2B (six experiments total). Multilingual, TextChat and multi-speaker variants were removed from the queue and active UI. The partially generated Multilingual full run was cancelled. `configs/variant-selection.json` controls execution and visibility independently of the immutable provenance manifest. The main comparison excludes the old Multilingual Llasa baseline. The following broader inventory and paired controls describe historical work, not additional queued models.
 
+## Verified full results — 16 September 2026
+
+Each row evaluates all 1,088 English targets with the frozen fixed-reference and Whisper-large-v3 protocol. Local verification independently matched target IDs/text, every real WAV hash and finite waveform, corpus edit counts, publication receipts and pinned audio byte ranges. Machine-readable verification is in `hf-space/reports/variants/*-full-verification.json`.
+
+| Model | Evaluated | Real recordings | No audio | Corpus WER | Corpus CER |
+|---|---:|---:|---:|---:|---:|
+| Llasa-1B | 1,088 | 1,088 | 0 | 1.1555% | 0.4151% |
+| Llasa-3B | 1,088 | 1,088 | 0 | 0.9378% | 0.2574% |
+| Llasa-8B | 1,088 | 1,031 | 57 | 5.1830% | 4.2924% |
+| Dia 1.6B · reference | 1,088 | 1,088 | 0 | 4.9653% | 4.3162% |
+
+All 57 Llasa-8B failures emitted only EOS token 128261, before codec decoding or ASR. Their 505 reference words are retained as deletions under `empty-output-deletions-v1`; no audio is fabricated. The 1,031 successful recordings alone yield 0.9967% WER, which is a secondary diagnostic and does not replace the all-target 5.1830% score. The fixed-seed sampling settings remain unchanged.
+
+Dia2 full evaluations are still in progress in this snapshot. The live table contains the 32 selected baseline configurations plus these four completed reference experiments. Original unconditioned results remain historical evidence, with the removed Multilingual baseline excluded from the active view.
+
+## Historical baseline and inventory
+
 The previous full scores are **unconditioned** experiments: Llasa-1B-Multilingual WER 73.99%, Dia-1.6B-0626 WER 67.35%. Previous audits reproduced the corpus edit counts and compared independent LM/decoder implementations. They did not establish that reference conditioning or synthesis protocol was optimal. Do not describe these scores as an intrinsic limit of either model.
 
 A new fixed-reference campaign is frozen in `configs/variant-campaign.json`. It covers every official HKUSTAudio Llasa checkpoint found on 15 September 2026 (eight models), both official Dia2 checkpoints, and an independently prepared Dia 1.6B reference experiment. Community fine-tunes and duplicate quantizations are outside this finite inventory. Each checkpoint and the official Dia2 source are commit-pinned.
@@ -19,7 +36,7 @@ Eight evenly spaced source indices were chosen before running the variants: 0, 1
 
 A separate, fully independent Transformers Dia processor/LM/DAC comparison on the same eight texts measured WER **51.65% without reference → 7.69% with reference**. This is also a pilot, not a replacement full score.
 
-Reference conditioning materially changes these small controls. It does not yet establish a new full-corpus score. The 73.99% full result must not be compared numerically to the 3.30% eight-text pilot as if coverage were the same. No original score or artifact has been overwritten.
+Reference conditioning materially changes these small controls. These eight-text controls alone do not establish a full-corpus score; the separately completed full experiments are reported above. The 73.99% full result must not be compared numerically to the 3.30% eight-text pilot as if coverage were the same. No original score or artifact has been overwritten.
 
 The Llasa reference/text join explicitly preserves a word boundary. The previous unconditioned experiment had no reference text, so this boundary fix alone does **not** explain its high WER. Llasa uses explicit top-k 50 as in the publisher's Transformers default. Its native codec was independently checked in the earlier audit; the new pilot additionally saves the reference reconstruction.
 
