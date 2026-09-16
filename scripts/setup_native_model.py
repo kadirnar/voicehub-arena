@@ -15,14 +15,14 @@ DEPENDENCIES={
     'parlertts':['transformers==4.46.1','tokenizers==0.20.3','sentencepiece==0.2.1','descript-audio-codec==1.0.0','descript-audiotools==0.7.2','flatten-dict==0.4.2','argbind==0.3.9','julius==0.2.7','pyloudnorm==0.1.1','torch-stoi==0.2.3','ffmpy==0.5.0'],
     'supertonic':['onnxruntime==1.23.1','soundfile==0.13.1'],
     'dia':['descript-audio-codec==1.0.0','descript-audiotools==0.7.2','argbind==0.3.9','julius==0.2.7','pyloudnorm==0.1.1','torch-stoi==0.2.3','ffmpy==0.5.0'],
-    'llasa':['xcodec2==0.1.5','torchao==0.12.0','torchtune==0.3.1','vector-quantize-pytorch==1.17.8','einops==0.8.1','einx==0.3.0','local-attention==1.11.1','blobfile==3.1.0','omegaconf==2.3.0','antlr4-python3-runtime==4.9.3','datasets==3.6.0','dill==0.3.8','multiprocess==0.70.16','tiktoken==0.9.0'],
+    'llasa':['xcodec2==0.1.5','torchao==0.12.0','torchtune==0.3.1','vector-quantize-pytorch==1.17.8','einops==0.8.1','einx==0.3.0','frozendict==2.4.6','local-attention==1.11.1','blobfile==3.1.0','omegaconf==2.3.0','antlr4-python3-runtime==4.9.3','datasets==3.6.0','dill==0.3.8','multiprocess==0.70.16','tiktoken==0.9.0'],
     'dia2':['sphn==0.2.1','whisper-timestamped==1.15.9','openai-whisper==20250625','dtw-python==1.5.3','tiktoken==0.9.0'],
-    'f5tts':['cached-path==1.6.5','vocos==0.1.0','torchdiffeq==0.2.5','ema-pytorch==0.7.9','x-transformers==2.8.2','hydra-core==1.3.2','omegaconf==2.3.0','antlr4-python3-runtime==4.9.3','pydub==0.25.1','rjieba==0.1.13','transformers-stream-generator==0.0.5','einx==0.3.0','loguru==0.7.3','encodec==0.1.1'],
+    'f5tts':['accelerate==1.12.0','cached-path==1.6.5','vocos==0.1.0','torchdiffeq==0.2.5','ema-pytorch==0.7.9','x-transformers==2.8.2','hydra-core==1.3.2','omegaconf==2.3.0','antlr4-python3-runtime==4.9.3','pydub==0.25.1','rjieba==0.1.13','transformers-stream-generator==0.0.5','einx==0.3.0','frozendict==2.4.6','loguru==0.7.3','encodec==0.1.1'],
 }
 
 # Import-time helpers do not pull in a second Torch runtime. Effective versions
 # are recorded in arena-runtime.json for every environment.
-AUDIO_UTILITIES=['importlib-resources==6.5.2','matplotlib==3.10.6','ipython==9.5.0',
+AUDIO_UTILITIES=['docstring-parser==0.16','importlib-resources==6.5.2','matplotlib==3.10.6','ipython==9.5.0',
     'pystoi==0.4.1','markdown2==2.5.4','randomname==0.2.1','tensorboard==2.20.0',
     'protobuf==3.19.6','numpy==2.2.6']
 SUPPORT_DEPENDENCIES={

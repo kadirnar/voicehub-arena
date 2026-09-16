@@ -99,6 +99,7 @@ def publish_progress(api):
         entry={k:spec[k] for k in ('id','family','method','streaming','repo','revision','source','uses_reference','implementation_status')}
         entry['availability']=spec.get('availability','supported' if spec.get('verified_api') else 'under_review')
         entry['method_note']=spec.get('method_note')
+        entry['generation_device']=spec.get('settings',{}).get('inference_device','cuda')
         for phase in ('pilot','full'):
             p=run/phase/spec['id']/'result.json';r=json.loads(p.read_text()) if p.exists() else {}
             receipt=run/'publication'/(phase+'--'+spec['id']+'.json')
@@ -118,7 +119,7 @@ def publish_progress(api):
         progress['experiments'].append(entry)
     path=run/'public-progress.json';write_json(path,progress)
     csv_path=run/'native-comparison.csv'
-    fields=['experiment','family','method','streaming','repo','phase','evaluated','generated','generation_failures',
+    fields=['experiment','family','method','streaming','generation_device','repo','phase','evaluated','generated','generation_failures',
             'wer','cer','wer_ci95','cer_ci95','raw_wer','raw_cer','mer','wil','wip','exact_match',
             'rtf','latency_p50_s','latency_p95_s','ttfa_p50_s','peak_vram_mib','silence_ratio','clipping_ratio','rms_dbfs',
             'dnsmos_sig','dnsmos_bak','dnsmos_ovrl','dnsmos_p808','utmos22_mos','wavlm_sim_similarity']

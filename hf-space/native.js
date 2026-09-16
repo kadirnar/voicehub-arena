@@ -3,7 +3,7 @@ let nativeData=null;
 const el=id=>document.getElementById(id);
 const value=(s,key)=>typeof s?.[key]==='object'?s[key]?.value:s?.[key];
 const fmt=(v,key)=>typeof v==='number'&&Number.isFinite(v)?(['wer','cer'].includes(key)?(v*100).toFixed(2)+'%':v.toFixed(3)):'—';
-const label=x=>x.family+' · '+x.method.replaceAll('_',' ')+(x.streaming?' · streaming':'');
+const label=x=>x.family+' · '+x.method.replaceAll('_',' ')+(x.streaming?' · streaming':'')+(x.generation_device==='cpu'?' · CPU':'');
 const interval=(s,key)=>s?.[key]?.ci95??s?.[key+'_ci95'];
 const cell=(row,text,cls)=>{const c=document.createElement('td');c.textContent=text;if(cls)c.className=cls;row.append(c);return c;};
 function render(){
@@ -35,7 +35,7 @@ function render(){
  el('rows').replaceChildren();
  for(const x of items){const r=x[phase],s=r.published?r.summary:null,row=document.createElement('tr');
   const name=cell(row,x.family);const a=document.createElement('a');a.href='https://huggingface.co/'+x.repo;a.textContent=x.repo;name.append(document.createElement('br'),a);
-  cell(row,x.method.replaceAll('_',' ')+(x.streaming?' · stream':''));
+  cell(row,x.method.replaceAll('_',' ')+(x.streaming?' · stream':'')+' · '+(x.generation_device==='cpu'?'CPU':'GPU'));
   const status=cell(row,r.published?'Verified':r.status==='pending'?x.implementation_status.replaceAll('_',' '):r.status.replaceAll('_',' '));
   if(x.method_note){const note=document.createElement('details');const title=document.createElement('summary');title.textContent='API support';const p=document.createElement('p');p.textContent=x.method_note;note.append(title,p);status.append(note);}
   if(r.error){const d=document.createElement('details');const title=document.createElement('summary');title.textContent='Details';const p=document.createElement('p');p.textContent=r.error;d.append(title,p);status.append(d);}

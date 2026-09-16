@@ -1,6 +1,6 @@
 {
   "campaign": "native-methods-20260916",
-  "updated_at": 1789563466.0850813,
+  "updated_at": 1789564225.443217,
   "scope": "All 32 retained baseline families, official Llasa 1B/3B/8B and Dia2 1B/2B; native generation methods; official defaults; single predeclared seed; no sampling/voice Cartesian sweep. API review may add supported methods or explicitly mark unavailable methods. No non-English or other Llasa variants.",
   "dataset": "Seed-TTS-Eval English",
   "expected_samples": 1088,
@@ -64,6 +64,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "completed",
         "attempted": 8,
@@ -227,13 +228,13 @@
         "dataset_revision": "e4b3ffa0353f8106d7e7078eed618ca0d0734a8d"
       },
       "full": {
-        "status": "pending",
-        "attempted": 0,
-        "generated": 0,
+        "status": "scoring_asr",
+        "attempted": 1088,
+        "generated": 1088,
         "expected": 1088,
         "published": false,
         "metric_counts": {
-          "asr": 0,
+          "asr": 69,
           "dnsmos": 0,
           "utmos22": 0,
           "wavlm_sim": 0
@@ -257,6 +258,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cpu",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -299,6 +301,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "completed",
         "attempted": 8,
@@ -462,17 +465,166 @@
         "dataset_revision": "f9aa8ddee737ef4ab21a709f21c59966f40a3515"
       },
       "full": {
-        "status": "scoring_dnsmos",
+        "status": "completed",
         "attempted": 1088,
         "generated": 1088,
         "expected": 1088,
-        "published": false,
+        "published": true,
         "metric_counts": {
           "asr": 1088,
-          "dnsmos": 495,
-          "utmos22": 0,
+          "dnsmos": 1088,
+          "utmos22": 1088,
           "wavlm_sim": 0
-        }
+        },
+        "summary": {
+          "evaluated": 1088,
+          "generated": 1088,
+          "generation_failures": 0,
+          "expected_samples": 1088,
+          "attempted": 1088,
+          "scored": 1088,
+          "generation_failure_rate": 0.0,
+          "latency_p50_s": 0.031868310645222664,
+          "latency_p95_s": 0.073133753426373,
+          "rtf": 0.009652540981945268,
+          "peak_vram_mib": 253.630859375,
+          "audio_seconds": 4979.888,
+          "clipping_ratio": 0.0,
+          "silence_ratio": 0.2628847796619235,
+          "rms_dbfs": -18.531640993532488,
+          "normalization_id": "whisper_english",
+          "wer": 0.06531022356191911,
+          "cer": 0.027167767660536808,
+          "mer": 0.06477867286770202,
+          "wil": 0.1135460574703181,
+          "wip": 0.8864539425296819,
+          "word_hits": 11261,
+          "word_substitutions": 619,
+          "word_deletions": 63,
+          "word_insertions": 98,
+          "reference_words": 11943,
+          "char_hits": 65808,
+          "char_substitutions": 934,
+          "char_deletions": 470,
+          "char_insertions": 422,
+          "reference_chars": 67212,
+          "exact_match_rate": 0.6001838235294118,
+          "raw": {
+            "wer": 0.11686991869918699,
+            "cer": 0.040429472709382415,
+            "mer": 0.1160346422265198,
+            "wil": 0.20811975677392136,
+            "wip": 0.7918802432260786,
+            "word_hits": 10513,
+            "word_substitutions": 1222,
+            "word_deletions": 73,
+            "word_insertions": 85,
+            "reference_words": 11808,
+            "char_hits": 66863,
+            "char_substitutions": 1430,
+            "char_deletions": 815,
+            "char_insertions": 549,
+            "reference_chars": 69108,
+            "exact_match_rate": 0.3961397058823529
+          },
+          "orthographic": {
+            "wer": 0.06745662293694456,
+            "cer": 0.02840714933067883,
+            "mer": 0.06691293762068676,
+            "wil": 0.11805371332307224,
+            "wip": 0.8819462866769278,
+            "word_hits": 11114,
+            "word_substitutions": 644,
+            "word_deletions": 57,
+            "word_insertions": 96,
+            "reference_words": 11815,
+            "char_hits": 65810,
+            "char_substitutions": 954,
+            "char_deletions": 543,
+            "char_insertions": 415,
+            "reference_chars": 67307,
+            "exact_match_rate": 0.5836397058823529
+          },
+          "wer_ci95": [
+            0.05974576621765304,
+            0.07182207384293744
+          ],
+          "cer_ci95": [
+            0.02475944753714984,
+            0.02990551961586609
+          ],
+          "unique_prompts_scored": 1088,
+          "by_category": {
+            "read_speech": {
+              "wer": 0.06531022356191911,
+              "cer": 0.027167767660536808,
+              "mer": 0.06477867286770202,
+              "wil": 0.1135460574703181,
+              "wip": 0.8864539425296819,
+              "word_hits": 11261,
+              "word_substitutions": 619,
+              "word_deletions": 63,
+              "word_insertions": 98,
+              "reference_words": 11943,
+              "char_hits": 65808,
+              "char_substitutions": 934,
+              "char_deletions": 470,
+              "char_insertions": 422,
+              "reference_chars": 67212,
+              "exact_match_rate": 0.6001838235294118
+            }
+          },
+          "utterance_mean_wer": 0.0701120996264114,
+          "utterance_mean_cer": 0.02932941627460021,
+          "asr_scored": 1088,
+          "dnsmos_sig": {
+            "value": 3.615753756085301,
+            "n": 1088,
+            "ci95": [
+              3.609570905675586,
+              3.6212890652211787
+            ]
+          },
+          "dnsmos_bak": {
+            "value": 4.150471260096924,
+            "n": 1088,
+            "ci95": [
+              4.145825247483254,
+              4.154872668258434
+            ]
+          },
+          "dnsmos_ovrl": {
+            "value": 3.3788724475264185,
+            "n": 1088,
+            "ci95": [
+              3.371434768429331,
+              3.385605591564557
+            ]
+          },
+          "dnsmos_p808": {
+            "value": 4.042386881349718,
+            "n": 1088,
+            "ci95": [
+              4.032739546188318,
+              4.05210245924947
+            ]
+          },
+          "utmos22_mos": {
+            "value": 4.157183300484629,
+            "n": 1088,
+            "ci95": [
+              4.146387735847384,
+              4.168828810022815
+            ]
+          },
+          "wavlm_sim_similarity": {
+            "value": null,
+            "n": 0,
+            "ci95": null
+          }
+        },
+        "records_path": "data/native/full/vits--default.json",
+        "dataset_revision": "87edc394e6f163c283e61e46aa12194a18aaf3aa"
       }
     },
     {
@@ -492,6 +644,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -536,6 +689,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -580,6 +734,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -624,6 +779,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -668,6 +824,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -710,6 +867,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "partial",
         "attempted": 8,
@@ -754,6 +912,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -798,6 +957,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -842,6 +1002,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -886,6 +1047,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -930,6 +1092,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -974,6 +1137,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -1018,6 +1182,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -1062,6 +1227,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -1106,6 +1272,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -1150,6 +1317,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -1194,6 +1362,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -1238,6 +1407,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -1282,6 +1452,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -1326,6 +1497,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -1370,6 +1542,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -1414,6 +1587,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -1458,6 +1632,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -1502,6 +1677,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -1546,6 +1722,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -1590,6 +1767,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -1634,6 +1812,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -1678,6 +1857,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -1722,6 +1902,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -1766,6 +1947,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -1810,6 +1992,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -1854,6 +2037,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -1898,6 +2082,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -1942,6 +2127,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -1986,6 +2172,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -2030,6 +2217,7 @@
       "implementation_status": "native_codec_loader_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -2074,6 +2262,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -2118,6 +2307,7 @@
       "implementation_status": "gguf_runtime_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -2162,6 +2352,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "needs_attention",
         "attempted": 0,
@@ -2207,6 +2398,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "needs_attention",
         "attempted": 0,
@@ -2252,6 +2444,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "needs_attention",
         "attempted": 0,
@@ -2297,6 +2490,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -2341,6 +2535,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -2385,6 +2580,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -2429,6 +2625,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -2473,6 +2670,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "needs_attention",
         "attempted": 0,
@@ -2518,6 +2716,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "needs_attention",
         "attempted": 0,
@@ -2563,6 +2762,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -2607,6 +2807,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -2651,6 +2852,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -2695,6 +2897,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -2739,6 +2942,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -2783,6 +2987,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -2827,6 +3032,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -2871,6 +3077,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -2915,6 +3122,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -2959,6 +3167,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -3003,6 +3212,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -3047,6 +3257,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -3091,6 +3302,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -3135,6 +3347,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -3179,6 +3392,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -3223,6 +3437,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -3267,6 +3482,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -3311,6 +3527,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -3355,6 +3572,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -3399,6 +3617,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -3443,6 +3662,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -3487,6 +3707,7 @@
       "implementation_status": "api_review_pending",
       "availability": "under_review",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -3531,6 +3752,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -3575,6 +3797,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -3619,6 +3842,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -3663,6 +3887,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -3707,6 +3932,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -3751,6 +3977,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -3795,6 +4022,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -3839,6 +4067,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -3883,6 +4112,7 @@
       "implementation_status": "not_supported_upstream",
       "availability": "not_supported_upstream",
       "method_note": "The pinned official Dia2 API returns a completed GenerationResult; real streaming support is listed as upcoming in the author README. No fabricated chunking/TTFA.",
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -3927,6 +4157,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -3971,6 +4202,7 @@
       "implementation_status": "smoke_test_pending",
       "availability": "supported",
       "method_note": null,
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
@@ -4015,6 +4247,7 @@
       "implementation_status": "not_supported_upstream",
       "availability": "not_supported_upstream",
       "method_note": "The pinned official Dia2 API returns a completed GenerationResult; real streaming support is listed as upcoming in the author README. No fabricated chunking/TTFA.",
+      "generation_device": "cuda",
       "pilot": {
         "status": "pending",
         "attempted": 0,
