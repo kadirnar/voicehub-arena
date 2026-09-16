@@ -123,6 +123,16 @@ def publish_progress(api,manifest='configs/native-methods.json'):
                 setup_events=[e for e in events if e.get('experiment')==spec['id'] and e.get('phase')==phase and e.get('action')=='setup']
                 if setup_events and setup_events[-1].get('error'):
                     entry[phase].update(status='needs_attention',error=setup_events[-1]['error'])
+            if not published:
+                jobs=state.get('jobs',{})
+                setup_status=jobs.get('setup:'+spec['backend'],{}).get('status')
+                stages={k:v['status'] for k,v in jobs.items() if k.startswith(spec['id']+':'+phase+':')}
+                if setup_status=='failed' and spec.get('verified_api'):
+                    entry[phase].update(status='needs_attention',error='Native runtime setup failed; see setup--'+spec['backend']+'.log')
+                elif any(v=='failed' for v in stages.values()):
+                    entry[phase]['status']='needs_attention'
+                    entry[phase]['failed_jobs']=[k for k,v in stages.items() if v=='failed']
+                elif any(v=='blocked' for v in stages.values()):entry[phase]['status']='blocked_by_dependency'
         progress['experiments'].append(entry)
     path=run/'public-progress.json';write_json(path,progress)
     csv_path=run/'native-comparison.csv'

@@ -122,7 +122,8 @@ def main():
     for sig in (signal.SIGINT,signal.SIGTERM):signal.signal(sig,scheduler.stop)
     signal.signal(signal.SIGUSR1,scheduler.drain)
     done=scheduler.run_all()
-    if done and scheduler.state['review_pending']:scheduler.save('needs_attention')
+    if done and scheduler.state['review_pending']:
+        scheduler.save('needs_attention');done=False
     if args.publish:
         import subprocess
         subprocess.run([sys.executable,'scripts/publish_native_progress.py','--manifest',str(manifest)],check=True)
