@@ -8,7 +8,7 @@
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
     <dc:title>Peak CUDA allocation</dc:title>
-    <dc:date>2026-09-16T10:03:11.704891</dc:date>
+    <dc:date>2026-09-16T11:06:13.853808</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -45,7 +45,7 @@ z
      <g id="line2d_1">
       <path d="M 58.752 360.36
 L 967.4496 360.36
-" clip-path="url(#p1a1e77ff57)" style="fill: none; stroke: #e6e2d8; stroke-width: 0.9; stroke-linecap: square"/>
+" clip-path="url(#pad4ade0ad2)" style="fill: none; stroke: #e6e2d8; stroke-width: 0.9; stroke-linecap: square"/>
      </g>
      <g id="line2d_2"/>
      <g id="text_1">
@@ -56,7 +56,7 @@ L 967.4496 360.36
      <g id="line2d_3">
       <path d="M 58.752 303.661747
 L 967.4496 303.661747
-" clip-path="url(#p1a1e77ff57)" style="fill: none; stroke: #e6e2d8; stroke-width: 0.9; stroke-linecap: square"/>
+" clip-path="url(#pad4ade0ad2)" style="fill: none; stroke: #e6e2d8; stroke-width: 0.9; stroke-linecap: square"/>
      </g>
      <g id="line2d_4"/>
      <g id="text_2">
@@ -67,7 +67,7 @@ L 967.4496 303.661747
      <g id="line2d_5">
       <path d="M 58.752 246.963493
 L 967.4496 246.963493
-" clip-path="url(#p1a1e77ff57)" style="fill: none; stroke: #e6e2d8; stroke-width: 0.9; stroke-linecap: square"/>
+" clip-path="url(#pad4ade0ad2)" style="fill: none; stroke: #e6e2d8; stroke-width: 0.9; stroke-linecap: square"/>
      </g>
      <g id="line2d_6"/>
      <g id="text_3">
@@ -78,7 +78,7 @@ L 967.4496 246.963493
      <g id="line2d_7">
       <path d="M 58.752 190.26524
 L 967.4496 190.26524
-" clip-path="url(#p1a1e77ff57)" style="fill: none; stroke: #e6e2d8; stroke-width: 0.9; stroke-linecap: square"/>
+" clip-path="url(#pad4ade0ad2)" style="fill: none; stroke: #e6e2d8; stroke-width: 0.9; stroke-linecap: square"/>
      </g>
      <g id="line2d_8"/>
      <g id="text_4">
@@ -89,7 +89,7 @@ L 967.4496 190.26524
      <g id="line2d_9">
       <path d="M 58.752 133.566987
 L 967.4496 133.566987
-" clip-path="url(#p1a1e77ff57)" style="fill: none; stroke: #e6e2d8; stroke-width: 0.9; stroke-linecap: square"/>
+" clip-path="url(#pad4ade0ad2)" style="fill: none; stroke: #e6e2d8; stroke-width: 0.9; stroke-linecap: square"/>
      </g>
      <g id="line2d_10"/>
      <g id="text_5">
@@ -108,7 +108,7 @@ L 197.987923 315.560136
 Q 203.850488 315.560136 203.850488 320.193336
 L 203.850488 360.36
 z
-" clip-path="url(#p1a1e77ff57)" style="fill: #c65b78"/>
+" clip-path="url(#pad4ade0ad2)" style="fill: #347f9e"/>
    </g>
    <g id="text_7">
     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #575c68" x="146.690477" y="406.958438" transform="rotate(-0 146.690477 406.958438)">Vits</text>
@@ -121,7 +121,7 @@ L 344.552052 312.052507
 Q 350.414617 312.052507 350.414617 316.685707
 L 350.414617 360.36
 z
-" clip-path="url(#p1a1e77ff57)" style="fill: #32369a"/>
+" clip-path="url(#pad4ade0ad2)" style="fill: #0fa383"/>
    </g>
    <g id="text_8">
     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #575c68" x="293.254606" y="406.958438" transform="rotate(-0 293.254606 406.958438)">InflectTTS</text>
@@ -134,7 +134,7 @@ L 491.116181 244.251367
 Q 496.978746 244.251367 496.978746 248.884567
 L 496.978746 360.36
 z
-" clip-path="url(#p1a1e77ff57)" style="fill: #0fa383"/>
+" clip-path="url(#pad4ade0ad2)" style="fill: #0fa383"/>
    </g>
    <g id="text_9">
     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #575c68" x="439.818735" y="406.958438" transform="rotate(-0 439.818735 406.958438)">Supertonic</text>
@@ -147,7 +147,7 @@ L 637.68031 227.950516
 Q 643.542875 227.950516 643.542875 232.583716
 L 643.542875 360.36
 z
-" clip-path="url(#p1a1e77ff57)" style="fill: #32369a"/>
+" clip-path="url(#pad4ade0ad2)" style="fill: #32369a"/>
    </g>
    <g id="text_10">
     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #575c68" x="586.382865" y="406.958438" transform="rotate(-0 586.382865 406.958438)">Kokoro</text>
@@ -160,7 +160,7 @@ L 784.244439 220.057539
 Q 790.107004 220.057539 790.107004 224.690739
 L 790.107004 360.36
 z
-" clip-path="url(#p1a1e77ff57)" style="fill: #317c39"/>
+" clip-path="url(#pad4ade0ad2)" style="fill: #c65b78"/>
    </g>
    <g id="text_11">
     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #575c68" x="732.946994" y="406.958438" transform="rotate(-0 732.946994 406.958438)">MeloTTS</text>
@@ -173,7 +173,7 @@ L 930.808568 159.26625
 Q 936.671133 159.26625 936.671133 163.89945
 L 936.671133 360.36
 z
-" clip-path="url(#p1a1e77ff57)" style="fill: #bb754a"/>
+" clip-path="url(#pad4ade0ad2)" style="fill: #bb754a"/>
    </g>
    <g id="text_12">
     <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #575c68" x="879.511123" y="406.958438" transform="rotate(-0 879.511123 406.958438)">SpeechT5</text>
@@ -208,7 +208,7 @@ C 135.749387 356.005701 134.46079 359.116649 134.46079 362.36
 C 134.46079 365.603351 135.749387 368.714299 138.042782 371.007695
 C 140.336178 373.30109 143.447126 374.589688 146.690477 374.589688
 z
-" style="fill: #c65b78; stroke: #fdfcf8; stroke-width: 2; stroke-linejoin: miter"/>
+" style="fill: #347f9e; stroke: #fdfcf8; stroke-width: 2; stroke-linejoin: miter"/>
     </g>
     <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="146.690477" y="364.957656" transform="rotate(-0 146.690477 364.957656)">VI</text>
    </g>
@@ -224,7 +224,7 @@ C 282.031846 355.842114 280.710075 359.033151 280.710075 362.36
 C 280.710075 365.686849 282.031846 368.877886 284.384283 371.230323
 C 286.736721 373.58276 289.927758 374.904531 293.254606 374.904531
 z
-" style="fill: #32369a; stroke: #fdfcf8; stroke-width: 2; stroke-linejoin: miter"/>
+" style="fill: #0fa383; stroke: #fdfcf8; stroke-width: 2; stroke-linejoin: miter"/>
     </g>
     <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="293.254606" y="364.957656" transform="rotate(-0 293.254606 364.957656)">IN</text>
    </g>
@@ -272,7 +272,7 @@ C 719.62464 354.622725 718.055587 358.410753 718.055587 362.36
 C 718.055587 366.309247 719.62464 370.097275 722.417179 372.889814
 C 725.209719 375.682354 728.997746 377.251406 732.946994 377.251406
 z
-" style="fill: #317c39; stroke: #fdfcf8; stroke-width: 2; stroke-linejoin: miter"/>
+" style="fill: #c65b78; stroke: #fdfcf8; stroke-width: 2; stroke-linejoin: miter"/>
     </g>
     <text style="font-weight: 700; font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="732.946994" y="364.957656" transform="rotate(-0 732.946994 364.957656)">ME</text>
    </g>
@@ -307,7 +307,7 @@ z
   </g>
  </g>
  <defs>
-  <clipPath id="p1a1e77ff57">
+  <clipPath id="pad4ade0ad2">
    <rect x="58.752" y="102.96" width="908.6976" height="257.4"/>
   </clipPath>
  </defs>

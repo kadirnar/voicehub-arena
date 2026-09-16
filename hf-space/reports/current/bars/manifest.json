@@ -1,5 +1,5 @@
 {
-  "source_sha256": "fbd6554ca3ece054399485f2b82f39d1764505f6b33ef2a0dff052b3abbb434d",
+  "source_sha256": "693fc9bbabc33638236b94ebba880d89369531d58639d6c999d6023a93648ac8",
   "samples_per_model": 1088,
   "axis": "linear; zero baseline",
   "confidence": "Existing 95% prompt bootstrap intervals for WER/CER only",
@@ -312,6 +312,15 @@
           "ci95": [
             2.256984690648647,
             3.114456456487128
+          ],
+          "invalidated": false
+        },
+        {
+          "model": "dia2-1b",
+          "value": 2.754751737419409,
+          "ci95": [
+            2.424945783152844,
+            3.10445546903704
           ],
           "invalidated": false
         },
@@ -692,6 +701,15 @@
           "invalidated": false
         },
         {
+          "model": "dia2-1b",
+          "value": 1.4193893947509373,
+          "ci95": [
+            1.2211420128244528,
+            1.6116875814609084
+          ],
+          "invalidated": false
+        },
+        {
           "model": "parlertts",
           "value": 1.44617032672737,
           "ci95": [
@@ -1035,6 +1053,12 @@
           "invalidated": false
         },
         {
+          "model": "dia2-1b",
+          "value": 2.7462189545183864,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
           "model": "outetts",
           "value": 3.164612982009557,
           "ci95": null,
@@ -1257,6 +1281,12 @@
         {
           "model": "llasa-1b",
           "value": 5.019418716430664,
+          "ci95": null,
+          "invalidated": false
+        },
+        {
+          "model": "dia2-1b",
+          "value": 5.07175350189209,
           "ci95": null,
           "invalidated": false
         },

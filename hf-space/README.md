@@ -78,16 +78,19 @@ Only official HKUSTAudio/Llasa-1B, Llasa-3B and Llasa-8B remain in active evalua
 
 ## Verified full reference results — 16 September 2026
 
-All four rows use **1,088 English targets**, fixed reference audio and pinned Whisper-large-v3. Dia2 full runs are still in progress in this snapshot.
+Every completed row uses **1,088 English targets**, fixed reference audio and pinned Whisper-large-v3.
 
-| Model | WER | CER | Real recordings | No audio |
-|---|---:|---:|---:|---:|
-| Llasa-1B | 1.1555% | 0.4151% | 1,088 | 0 |
-| Llasa-3B | 0.9378% | 0.2574% | 1,088 | 0 |
-| Llasa-8B | 5.1830% | 4.2924% | 1,031 | 57 |
-| Dia 1.6B · reference | 4.9653% | 4.3162% | 1,088 | 0 |
+| Model | Evaluated | Real recordings | No audio | Corpus WER | Corpus CER |
+|---|---:|---:|---:|---:|---:|
+| Llasa-1B | 1,088 | 1,088 | 0 | 1.1555% | 0.4151% |
+| Llasa-3B | 1,088 | 1,088 | 0 | 0.9378% | 0.2574% |
+| Llasa-8B | 1,088 | 1,031 | 57 | 5.1830% | 4.2924% |
+| Dia 1.6B · reference | 1,088 | 1,088 | 0 | 4.9653% | 4.3162% |
+| Dia2-1B | 1,088 | 1,088 | 0 | 2.7548% | 1.4194% |
 
-Llasa-8B's 57 failures emitted only EOS before synthesis. They remain in corpus WER/CER as empty-output deletion penalties, with no fabricated WAVs. Targets, real audio hashes and corpus edit counts were independently verified. [Full table, chart and recordings](https://kadirnar-voicehub-arena.static.hf.space/variants.html).
+Still in progress: Dia2-2B. The current comparison contains 37 configurations: 32 selected baselines and 5 verified full reference experiments.
+
+Llasa-8B's 57 early-EOS failures remain in corpus WER/CER as empty-output deletion penalties, with no fabricated WAVs. Targets, real audio hashes and corpus edit counts were independently verified. [Full table, chart and recordings](https://kadirnar-voicehub-arena.static.hf.space/variants.html).
 
 ## Current arena exports
 

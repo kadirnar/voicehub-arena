@@ -1,0 +1,30 @@
+{
+  "model": "dia2-1b",
+  "expected": 1088,
+  "generated": 1088,
+  "generation_failures": 0,
+  "scored": 1088,
+  "wer": 0.02754751737419409,
+  "cer": 0.014193893947509374,
+  "word_counts": [
+    11649,
+    271,
+    23,
+    35,
+    11943
+  ],
+  "char_counts": [
+    66506,
+    454,
+    252,
+    248,
+    67212
+  ],
+  "dataset_revision": "5c82611be422de10defea37a920a0d13956d3db2",
+  "result_sha256": "783110a9e822b1d0e9820b734b95e558d742f22fda8a888dbbb47121be8cc09c",
+  "all_targets_verified": true,
+  "all_wav_hashes_verified": true,
+  "finite_audio_verified": true,
+  "independent_edit_counts_verified": true,
+  "pinned_audio_range_verified": true
+}

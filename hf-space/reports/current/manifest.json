@@ -1,8 +1,8 @@
 {
-  "source_sha256": "fbd6554ca3ece054399485f2b82f39d1764505f6b33ef2a0dff052b3abbb434d",
-  "generated_at": "2026-09-16T07:03:13.635568+00:00",
-  "progress_updated_at": 1789541132.4918916,
-  "configurations": 36,
+  "source_sha256": "693fc9bbabc33638236b94ebba880d89369531d58639d6c999d6023a93648ac8",
+  "generated_at": "2026-09-16T08:06:15.879290+00:00",
+  "progress_updated_at": 1789545939.976784,
+  "configurations": 37,
   "model_ids": [
     "kokoro",
     "supertonic",
@@ -39,17 +39,19 @@
     "llasa-1b",
     "llasa-3b",
     "llasa-8b",
-    "dia-1.6b-reference"
+    "dia-1.6b-reference",
+    "dia2-1b"
   ],
   "completed_experiments": [
     "llasa-1b",
     "llasa-3b",
     "llasa-8b",
-    "dia-1.6b-reference"
+    "dia-1.6b-reference",
+    "dia2-1b"
   ],
   "expected_experiments": 6,
-  "evaluated_targets": 39168,
-  "real_recordings": 39111,
+  "evaluated_targets": 40256,
+  "real_recordings": 40199,
   "no_audio_failures": 57,
   "samples_per_configuration": 1088
 }
