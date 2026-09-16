@@ -36,10 +36,10 @@ def release_completed_staging(cfg,identifier):
     shutil.rmtree(cache)
 
 
-def offload(identifier,phase):
+def offload(identifier,phase,manifest='configs/native-methods.json'):
     from huggingface_hub import HfApi
     from scripts.publish_native_progress import DATASET,verify_remote
-    cfg=json.loads(Path('configs/native-methods.json').read_text())
+    cfg=json.loads(Path(manifest).read_text())
     if identifier not in {s['id'] for s in cfg['experiments']}:raise ValueError('Unknown experiment')
     run=Path('runs')/cfg['campaign'];directory=run/phase/identifier
     receipt=json.loads((run/'publication'/(phase+'--'+identifier+'.json')).read_text())
@@ -74,10 +74,10 @@ def offload(identifier,phase):
     print(json.dumps(dict(experiment=identifier,phase=phase,verified_offload_bytes=freed)),flush=True)
 
 
-def restore(identifier,phase):
+def restore(identifier,phase,manifest='configs/native-methods.json'):
     import requests
     from huggingface_hub import hf_hub_url
-    cfg=json.loads(Path('configs/native-methods.json').read_text())
+    cfg=json.loads(Path(manifest).read_text())
     if identifier not in {s['id'] for s in cfg['experiments']}:raise ValueError('Unknown experiment')
     directory=Path('runs')/cfg['campaign']/phase/identifier
     marker=json.loads((directory/'audio-storage.json').read_text())
@@ -110,5 +110,5 @@ def restore(identifier,phase):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--experiment',required=True);p.add_argument('--phase',choices=['pilot','full'],required=True);p.add_argument('--restore',action='store_true');a=p.parse_args()
-    (restore if a.restore else offload)(a.experiment,a.phase)
+    p=argparse.ArgumentParser();p.add_argument('--experiment',required=True);p.add_argument('--phase',choices=['pilot','full'],required=True);p.add_argument('--restore',action='store_true');p.add_argument('--manifest',default='configs/native-methods.json');a=p.parse_args()
+    (restore if a.restore else offload)(a.experiment,a.phase,a.manifest)

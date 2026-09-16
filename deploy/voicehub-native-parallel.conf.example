@@ -1,0 +1,13 @@
+[program:voicehub-native-parallel]
+directory=/workspace/voicehub-arena
+command=/workspace/voicehub-arena/.venv/bin/python -u scripts/run_native_campaign.py --campaign native-new-gpu-20260916 --gpus auto --max-gpu-jobs 4 --max-cpu-jobs 2 --publish
+environment=PYTHONPATH="/workspace/voicehub-arena",PYTHONUNBUFFERED="1",HF_HOME="/workspace/voicehub-arena/.cache/huggingface"
+autostart=false
+autorestart=false
+stopsignal=TERM
+stopwaitsecs=45
+stopasgroup=true
+killasgroup=true
+stdout_logfile=/var/log/portal/voicehub-native-parallel.log
+redirect_stderr=true
+stdout_logfile_maxbytes=0

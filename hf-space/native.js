@@ -18,6 +18,7 @@ function render(){
  const descending=!['wer','cer','rtf','latency_p50_s'].includes(key);
  chartItems.sort((a,b)=>(value(a[phase].summary,key)-value(b[phase].summary,key))*(descending?-1:1));
  el('coverage-note').textContent=(phase==='pilot'?'Diagnostic results on 8 predetermined texts. These are not full benchmark results. ':'All 1,088 target texts; completed evaluations only. ')+chartItems.length+' comparable methods shown. Bars start at zero; whiskers show 95% bootstrap intervals when available. Missing and inapplicable scores are excluded.';
+ if(['rtf','latency_p50_s'].includes(key)&&chartItems.some(x=>x[phase].summary?.timing_scopes?.includes('parallel_throughput')))el('coverage-note').textContent+=' Parallel-run timings include resource contention and are not isolated GPU latency measurements.';
  el('chart').replaceChildren();
  if(!chartItems.length){const box=document.createElement('div');box.className='empty';box.textContent='No verified results for this metric and coverage yet. Progress is shown below.';el('chart').append(box);}
  const bounds=chartItems.flatMap(x=>[value(x[phase].summary,key),...(interval(x[phase].summary,key)??[])]);
@@ -43,7 +44,9 @@ function render(){
   for(const k of ['wer','cer','dnsmos_ovrl','utmos22_mos','wavlm_sim_similarity','rtf'])cell(row,k==='wavlm_sim_similarity'&&!x.uses_reference?'N/A':fmt(value(s,k),k),'num');
   const outputs=cell(row,'');if(r.published){const button=document.createElement('button');button.textContent='Listen / inspect';button.onclick=()=>loadSamples(x,phase);outputs.append(button);}else outputs.textContent='Pending';el('rows').append(row);
  }
- el('updated').textContent='Published update: '+new Date(nativeData.updated_at*1000).toLocaleString()+'. Historical VoiceHub results remain on the main arena.';
+ const controller=nativeData.controller??{};
+ const state=controller.status==='stopped_by_user'?'Stopped by user. ':controller.status==='running'?'Running · '+(controller.active_jobs?.length??1)+' active job(s). ':'';
+ el('updated').textContent=state+'Published update: '+new Date(nativeData.updated_at*1000).toLocaleString()+'. Historical VoiceHub results remain on the main arena.';
 }
 async function loadSamples(entry,phase){
  const response=await fetch(entry[phase].records_path);if(!response.ok)throw new Error('Sample records unavailable');

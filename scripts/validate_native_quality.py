@@ -11,13 +11,13 @@ from voicehub_arena.native_quality import make_scorer
 
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--device',choices=['cpu','cuda'],default='cuda');a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--device',choices=['cpu','cuda'],default='cuda');p.add_argument('--manifest',default='configs/native-methods.json');a=p.parse_args()
     forbid_voicehub();os.environ['HF_HOME']=str(Path.cwd()/'.cache/huggingface')
     if a.device=='cuda':
         lock=Path('runs/.gpu.lock').open('a');fcntl.flock(lock,fcntl.LOCK_EX)
     import torch
     torch.set_num_threads(4)
-    cfg=json.loads(Path('configs/native-methods.json').read_text())
+    cfg=json.loads(Path(a.manifest).read_text())
     cfg['quality_control_device']=a.device
     rows=[json.loads(line) for line in Path(cfg['dataset']).read_text().splitlines()]
     first=rows[0];second=next(r for r in rows[1:] if r['reference_audio_sha256']!=first['reference_audio_sha256'])

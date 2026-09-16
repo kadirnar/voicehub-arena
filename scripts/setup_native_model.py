@@ -39,6 +39,14 @@ SUPPORT_DEPENDENCIES={
 
 
 def setup(spec):
+    import fcntl
+    Path('.venvs').mkdir(exist_ok=True)
+    with (Path('.venvs')/('setup-'+spec['backend']+'.lock')).open('a') as lock:
+        fcntl.flock(lock,fcntl.LOCK_EX)
+        return _setup(spec)
+
+
+def _setup(spec):
     key=spec['backend']
     if key in ('kokoro','transformers_vits','transformers_speecht5'):
         target=Path('.venvs/native-core/bin/python')
@@ -78,6 +86,6 @@ def setup(spec):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--experiment',required=True);args=p.parse_args()
-    cfg=json.loads(Path('configs/native-methods.json').read_text())
+    p=argparse.ArgumentParser();p.add_argument('--experiment',required=True);p.add_argument('--manifest',default='configs/native-methods.json');args=p.parse_args()
+    cfg=json.loads(Path(args.manifest).read_text())
     print(setup(next(s for s in cfg['experiments'] if s['id']==args.experiment)))

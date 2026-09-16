@@ -1,6 +1,10 @@
 # VoiceHub Arena
 
-**Native method campaign (in progress, September 16):** the new
+**Native method campaign (paused by the user, September 16):** the current A100
+evaluation and recurring monitor are stopped. The repository now includes a
+VRAM-aware parallel scheduler for the next GPU; setup does not start inference.
+See [new GPU / parallel execution instructions (Turkish)](docs/NATIVE_PARALLEL_TR.md).
+The
 [native methods dashboard](https://kadirnar-voicehub-arena.static.hf.space/native.html)
 runs retained models through their author libraries, with distinct generation
 methods and official defaults. It adds DNSMOS, UTMOS22 strong and WavLM-large

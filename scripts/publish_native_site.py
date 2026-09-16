@@ -12,6 +12,7 @@ def main():
     assert api.whoami()['name']=='kadirnar'
     files={name:site/name for name in ('index.html','native.html','native.js')}
     files['reports/NATIVE_METHODS_2026-09-16.md']=root/'docs/NATIVE_METHODS_2026-09-16.md'
+    files['reports/NATIVE_PARALLEL_TR.md']=root/'docs/NATIVE_PARALLEL_TR.md'
     revision=commit(api,SPACE,'space',files,'Update native method dashboard and protocol')
     receipt=dict(revision=revision,verified_files=list(files))
     write_json(root/'runs/native-methods-20260916/site-publication.json',receipt)

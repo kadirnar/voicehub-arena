@@ -1,6 +1,6 @@
 {
   "campaign": "native-methods-20260916",
-  "updated_at": 1789566511.9176662,
+  "updated_at": 1789568216.434537,
   "scope": "All 32 retained baseline families, official Llasa 1B/3B/8B and Dia2 1B/2B; native generation methods; official defaults; single predeclared seed; no sampling/voice Cartesian sweep. API review may add supported methods or explicitly mark unavailable methods. No non-English or other Llasa variants.",
   "dataset": "Seed-TTS-Eval English",
   "expected_samples": 1088,
@@ -571,7 +571,7 @@
         "dataset_revision": "77e165a8339a61ca02333197f044cc6c2b4ec6a4"
       },
       "full": {
-        "status": "queued",
+        "status": "paused_by_user",
         "attempted": 39,
         "generated": 39,
         "expected": 1088,
@@ -1330,17 +1330,18 @@
         "dataset_revision": "b224db2f8d6cb7644b092a4777f5a49267cc7e2d"
       },
       "full": {
-        "status": "generating",
-        "attempted": 433,
-        "generated": 433,
+        "status": "paused_by_user",
+        "attempted": 1088,
+        "generated": 1088,
         "expected": 1088,
         "published": false,
         "metric_counts": {
-          "asr": 0,
+          "asr": 442,
           "dnsmos": 0,
           "utmos22": 0,
           "wavlm_sim": 0
-        }
+        },
+        "last_worker_status": "scoring_asr"
       }
     },
     {
@@ -4815,10 +4816,12 @@
     }
   ],
   "controller": {
-    "status": "running",
-    "experiment": "speecht5--speaker_embedding",
-    "phase": "full",
-    "action": "generate",
-    "updated_at": 1789566239.1758
+    "status": "stopped_by_user",
+    "experiment": null,
+    "phase": null,
+    "action": null,
+    "updated_at": 1789567229.1881025,
+    "active_jobs": null,
+    "execution_mode": null
   }
 }

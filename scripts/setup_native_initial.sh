@@ -4,7 +4,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.."
 export HF_HOME="$PWD/.cache/huggingface"
 export PYTHONPATH="$PWD${PYTHONPATH:+:$PYTHONPATH}"
 export HF_HUB_DISABLE_PROGRESS_BARS=1
-mkdir -p .venvs .deps/native artifacts/native-metrics runs/native-methods-20260916
+mkdir -p .venvs .deps/native artifacts/native-metrics runs
 test -x .venvs/native-core/bin/python || uv venv .venvs/native-core --python .venv/bin/python --seed
 .venvs/native-core/bin/python - <<'PY'
 import site,subprocess
@@ -23,9 +23,4 @@ env -u CUDA_HOME MAX_JOBS=4 .venvs/quality-legacy/bin/python -m pip install --no
 .venvs/quality-legacy/bin/python -m pip install --no-deps 's3prl @ git+https://github.com/s3prl/s3prl.git@7ab62aaf2606d83da6c71ee74e7d16e0979edbc3'
 .venvs/quality-legacy/bin/python -c 'import torch,fairseq,pytorch_lightning;print("legacy quality runtime",torch.__version__,torch.cuda.is_available())'
 .venv/bin/python scripts/prepare_native_metrics.py
-.venvs/native-core/bin/python -m voicehub_arena.native_eval generate --experiment kokoro--preset_voice --phase pilot
-.venv/bin/python -m voicehub_arena.native_eval asr --experiment kokoro--preset_voice --phase pilot
-.venvs/native-core/bin/python -m voicehub_arena.native_eval dnsmos --experiment kokoro--preset_voice --phase pilot
-.venvs/quality-legacy/bin/python -m voicehub_arena.native_eval utmos22 --experiment kokoro--preset_voice --phase pilot
-.venv/bin/python -m voicehub_arena.native_eval summarize --experiment kokoro--preset_voice --phase pilot
-.venvs/quality-legacy/bin/python scripts/validate_native_quality.py
+printf '%s\n' 'Native environments and metric assets prepared. No benchmark was started.'

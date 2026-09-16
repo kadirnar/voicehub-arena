@@ -1,4 +1,8 @@
-# Native methods campaign — work in progress
+# Native methods campaign — paused for migration to another GPU
+
+The A100 campaign and its recurring monitor were stopped at the user's request.
+The new scheduler supports measured VRAM admission and parallel workers; it has
+not started a replacement evaluation. See [parallel execution and new GPU setup](NATIVE_PARALLEL_TR.md).
 
 The user requested all retained model families in their author libraries, every
 supported generation method, and a broader metric suite. They confirmed all
@@ -79,8 +83,11 @@ is imported, rather than the hub's unrelated model collection.
 
 Per-model native environments inherit compatible base packages through a `.pth`
 file but override incompatible libraries locally. `arena-runtime.json` records
-effective packages. TTS, Whisper and quality predictors run as separate
-processes under a single GPU lock. Supervisor retains long-running jobs across
+effective packages. TTS, Whisper and quality predictors run as separate processes.
+The controller owns the legacy GPU lock, then admits its workers using live VRAM
+and reservations (measured peak ×1.35 +1 GiB, plus at least 2 GiB/10% headroom).
+Unknown memory profiles run alone first. CPU DNSMOS uses a separate worker pool.
+Supervisor retains long-running jobs across
 SSH disconnects. Downloads are resumable; completed recordings are hash checked
 before reuse. No model is reported complete merely because its process exits.
 
@@ -135,13 +142,14 @@ From the repository root, after setting `PYTHONPATH` to the root:
 ```sh
 python scripts/prepare_native_seed.py --archive /path/to/seedtts_testset.tar
 bash scripts/setup_native_initial.sh
-.venv/bin/python scripts/run_native_campaign.py
+.venv/bin/python scripts/run_native_campaign.py --campaign native-new-gpu-20260916 --dry-run
 .venv/bin/python scripts/publish_native_progress.py
 ```
 
-The controller is installed as supervisor service `voicehub-native-campaign` on
-the current A100. Setup uses `voicehub-native-setup`. These services are separate
-from the completed historical variant campaign. Do not resume the old campaign.
+The old A100 service `voicehub-native-campaign` is stopped. A new, explicitly
+started service can use `deploy/voicehub-native-parallel.conf.example`. Add
+`--publish` to opt into artifact publication/offload after reviewing the dry run.
+Do not resume the historical campaign when changing GPUs or timing modes.
 
 Source references: [DNSMOS](https://github.com/microsoft/DNS-Challenge/tree/master/DNSMOS),
 [UTMOS22](https://github.com/sarulab-speech/UTMOS22),

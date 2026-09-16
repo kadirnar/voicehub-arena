@@ -1,4 +1,4 @@
-"""Resumable native generation and independent scoring, one GPU process at a time."""
+"""Resumable native workers; experiment locks and scheduler-owned GPU reservations."""
 import argparse
 import importlib.metadata
 import json
@@ -6,11 +6,46 @@ import os
 from pathlib import Path
 import random
 import shutil
+import sys
 import time
 import traceback
 
 from .native_protocol import (forbid_voicehub, digest, load_experiment, write_json,
                               verify_rows, applicable_metrics, metric_summary, canonical_hash)
+
+
+def memory_usage(result,action):
+    """Report allocator peaks as well as the scheduler's non-PyTorch telemetry."""
+    import torch
+    if torch.cuda.is_available():
+        usage=result.setdefault('resource_usage',{}).setdefault(action,{})
+        usage['torch_reserved_peak_mib']=max(usage.get('torch_reserved_peak_mib',0),
+                                           int(torch.cuda.max_memory_reserved()/2**20))
+
+
+def execution_context():
+    path=os.environ.get('VOICEHUB_EXECUTION_CONTEXT')
+    return json.loads(Path(path).read_text()) if path else {'mode':'isolated'}
+
+
+def lock_worker(directory,gpu):
+    import fcntl
+    lock=None
+    if gpu:
+        inherited=os.environ.get('VOICEHUB_SCHEDULER_LOCK_FD')
+        if inherited is not None:
+            expected=Path('runs/.gpu.lock').stat();actual=os.fstat(int(inherited))
+            if (expected.st_dev,expected.st_ino)!=(actual.st_dev,actual.st_ino):
+                raise ValueError('Invalid scheduler GPU lock descriptor')
+        else:
+            lock=Path('runs/.gpu.lock').open('a');fcntl.flock(lock,fcntl.LOCK_EX)
+    experiment=(directory/'worker.lock').open('a')
+    try:fcntl.flock(experiment,fcntl.LOCK_EX|fcntl.LOCK_NB)
+    except BaseException:
+        experiment.close()
+        if lock:lock.close()
+        raise
+    return experiment,lock
 
 
 def generation(spec, cfg, selected, directory, result):
@@ -22,14 +57,16 @@ def generation(spec, cfg, selected, directory, result):
     complete = {r['id'] for r in result['rows']}
     if len(complete) == len(selected):
         return
+    cuda=spec.get('settings',{}).get('inference_device')!='cpu'
     torch.set_num_threads(4)
     def seed():
         random.seed(cfg['seed']); np.random.seed(cfg['seed'])
-        torch.manual_seed(cfg['seed']); torch.cuda.manual_seed_all(cfg['seed'])
+        torch.manual_seed(cfg['seed'])
+        if cuda:torch.cuda.manual_seed_all(cfg['seed'])
     seed()
     packages = {p: importlib.metadata.version(p) for p in
                           ('torch','transformers','numpy','soundfile','huggingface-hub')}
-    provenance = dict(packages=packages, implementation_sha256={name:digest(Path(__file__).with_name(name))
+    provenance = dict(packages=packages,execution=execution_context(), implementation_sha256={name:digest(Path(__file__).with_name(name))
         for name in ('native_adapters.py','native_extra.py','native_eval.py')})
     runtime=Path(os.sys.executable).parent.parent/'arena-runtime.json'
     if runtime.exists():provenance['runtime']=json.loads(runtime.read_text())
@@ -42,6 +79,7 @@ def generation(spec, cfg, selected, directory, result):
     with torch.inference_mode():
         for _ in generate(selected[0]):
             pass
+    if cuda:memory_usage(result,'generate')
     result['status'] = 'generating'
     for item in selected:
         if item['id'] in complete:
@@ -50,7 +88,8 @@ def generation(spec, cfg, selected, directory, result):
             raise RuntimeError('2 GiB output reserve reached')
         if spec['uses_reference'] and digest(item['reference_audio']) != item['reference_audio_sha256']:
             raise ValueError('Conditioning reference digest mismatch')
-        seed(); torch.cuda.reset_peak_memory_stats(); torch.cuda.synchronize()
+        seed()
+        if cuda:torch.cuda.reset_peak_memory_stats();torch.cuda.synchronize()
         start = time.perf_counter(); chunks=[]; first=None; sr=None
         with torch.inference_mode():
             for chunk, rate in generate(item):
@@ -64,14 +103,16 @@ def generation(spec, cfg, selected, directory, result):
                 if sr is not None and rate != sr:
                     raise ValueError('Streaming sample rate changed')
                 sr = int(rate)
-                torch.cuda.synchronize()
+                if cuda:torch.cuda.synchronize()
                 if first is None:
                     first = time.perf_counter()-start
                 chunks.append(chunk)
-        torch.cuda.synchronize(); latency = time.perf_counter()-start
+        if cuda:torch.cuda.synchronize()
+        latency = time.perf_counter()-start
         row = {**item, 'generation_status':'ok' if chunks else 'no_audio',
                'seed':cfg['seed'], 'generation_provenance_id':provenance_id, 'latency_s':latency,
-               'peak_vram_mib':torch.cuda.max_memory_allocated()/2**20,
+               'peak_vram_mib':torch.cuda.max_memory_allocated()/2**20 if cuda else 0,
+               'timing_scope':execution_context()['mode'],
                'ttfa_s':first if spec['streaming'] else None,
                'chunks':len(chunks), 'scores':{}}
         if chunks:
@@ -86,6 +127,7 @@ def generation(spec, cfg, selected, directory, result):
         if not spec['uses_reference']:
             row['scores']['wavlm_sim']={'status':'not_applicable','reason':'No conditioning speaker audio in this generation method'}
         result['rows'].append(row);result['updated_at']=time.time()
+        if cuda:memory_usage(result,'generate')
         write_json(directory/'result.json',result)
         print(json.dumps({'experiment':spec['id'],'action':'generate','done':len(result['rows']),
                           'total':len(selected),'latency_s':round(latency,3)}),flush=True)
@@ -102,6 +144,7 @@ def scoring(action,spec,cfg,directory,result):
         if control.get('status')!='passed' or any(control['provenance'][k]!=manifest[k] for k in ('source_revision','files_sha256')):
             raise ValueError('Run matching WavLM identity controls before scoring TTS')
     scorer,provenance=make_scorer(action,cfg)
+    provenance={**provenance,'execution':execution_context()}
     result.setdefault('metric_provenance',{})[action]=provenance
     result['status']='scoring_'+action
     for row in pending:
@@ -130,6 +173,8 @@ def summarize_native(result,spec):
     rows=result['rows'];good=[r for r in rows if r['generation_status']=='ok']
     summary={'evaluated':len(rows),'generated':len(good),'generation_failures':len(rows)-len(good),
              'expected_samples':result['expected_samples']}
+    # Preserve old immutable summaries when historical rows have no timing label.
+    if any('timing_scope' in r for r in rows):summary['timing_scopes']=sorted({r.get('timing_scope','isolated') for r in rows})
     asr=[r for r in rows if r['scores'].get('asr',{}).get('status')=='ok']
     if asr:
         summary.update(summarize([{**r,'status':'ok' if r['generation_status']=='ok' else 'generation_failed_scored',
@@ -167,12 +212,14 @@ def main():
     p.add_argument('--manifest',default='configs/native-methods.json');p.add_argument('--experiment',required=True)
     p.add_argument('--phase',choices=['pilot','full'],default='pilot');args=p.parse_args()
     forbid_voicehub()
-    import fcntl
     Path('runs').mkdir(exist_ok=True)
-    gpu_lock=Path('runs/.gpu.lock').open('a')
-    if args.action!='summarize':fcntl.flock(gpu_lock,fcntl.LOCK_EX)
     os.environ['HF_HOME']=str(Path.cwd()/'.cache/huggingface')
     cfg,spec,selected,directory,contract_hash=load_experiment(args.manifest,args.experiment,args.phase)
+    gpu=args.action not in ('dnsmos','summarize') and not (args.action=='generate' and spec.get('settings',{}).get('inference_device')=='cpu')
+    worker_lock,gpu_lock=lock_worker(directory,gpu)
+    if args.action!='summarize':
+        import torch
+        torch.set_num_threads(4)
     path=directory/'result.json'
     result=json.loads(path.read_text()) if path.exists() else dict(schema_version=1,
         experiment=spec['id'],family=spec['family'],method=spec['method'],streaming=spec['streaming'],
@@ -182,13 +229,20 @@ def main():
     verify_rows(result['rows'],selected,directory)
     if result.get('error'):
         result.setdefault('previous_errors',[]).append(result.pop('error'))
+    result.pop('error_kind',None)
     try:
         if args.action=='generate':generation(spec,cfg,selected,directory,result)
-        elif args.action=='summarize':summarize_native(result,spec)
+        elif args.action=='summarize':
+            summarize_native(result,spec)
+            if result['status']!='completed':sys.exit(2)
         else:scoring(args.action,spec,cfg,directory,result)
     except Exception as exc:
-        result.update(status='needs_attention',error=type(exc).__name__+': '+str(exc));traceback.print_exc();raise
+        message=type(exc).__name__+': '+str(exc)
+        if 'cuda' in message.lower() and any(x in message.lower() for x in ('out of memory','outofmemory','memory allocation','memoryallocation')):
+            result['error_kind']='cuda_oom'
+        result.update(status='needs_attention',error=message);traceback.print_exc();raise
     finally:
+        if gpu:memory_usage(result,args.action)
         result['updated_at']=time.time();write_json(path,result)
 
 

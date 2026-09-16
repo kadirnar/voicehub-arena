@@ -7,6 +7,16 @@ from pathlib import Path
 
 
 def snapshot(spec):
+    # Serialize staging admission so two concurrent model loads cannot both
+    # reserve the same free disk space before downloading large checkpoints.
+    import fcntl
+    Path('.cache').mkdir(exist_ok=True)
+    with Path('.cache/native-download.lock').open('a') as lock:
+        fcntl.flock(lock,fcntl.LOCK_EX)
+        return _snapshot(spec)
+
+
+def _snapshot(spec):
     import fnmatch
     import hashlib
     import os
