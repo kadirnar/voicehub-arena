@@ -85,7 +85,7 @@ def render(source, output):
                     low = r[ci_key][0] * factor
                     ax.errorbar(i, value, yerr=[[value-low], [hi-value]], fmt='none', ecolor='#383d48',
                                 elinewidth=.9, alpha=.6, capsize=3.5, capthick=.9, zorder=4)
-                marker = ' †' if invalid(r) else ' *' if r.get('quality_review') else ''
+                marker = ' †' if invalid(r) else ' ‡' if r.get('generation_failures') else ' *' if r.get('quality_review') else ''
                 ax.annotate(f'{value:.{digits}f}{unit if unit == "%" else ""}{marker}',
                             (i, hi), xytext=(0, 8), textcoords='offset points', ha='center', va='bottom',
                             fontsize=14 if scope == 'best6' else 10, weight='bold', color='#252935', zorder=5)
@@ -104,6 +104,8 @@ def render(source, output):
                 note += '  † Archived, invalidated score; excluded from ranking.'
             if any(r.get('quality_review') and not invalid(r) for r in rows):
                 note += '  * Quality under review.'
+            if any(r.get('generation_failures') for r in rows):
+                note += '  ‡ No-audio failures included in WER/CER; speed and memory use real outputs.'
             fig.text(.045 if scope == 'best6' else .02, .055, note, fontsize=8.5, color='#858997')
             stem = f'{metric}-{scope}'
             for extension in ('png', 'svg'):

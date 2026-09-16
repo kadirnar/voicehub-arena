@@ -37,11 +37,11 @@ for ax, metric, color in zip(axes,('wer','cer'),('#2563eb','#0f766e')):
     ax.set_xlabel('Lower is better · logarithmic axis')
     for i,v in enumerate(values):
         ax.text(1.025,i,f'{v:.2f}%',transform=ax.get_yaxis_transform(),va='center',fontsize=9)
-axes[0].set_yticks(y,[r['name']+(' *' if r['quality_review'] else '') for r in ordered])
+axes[0].set_yticks(y,[r['name']+(' ‡' if r['summary'].get('generation_failures') else ' *' if r['quality_review'] else '') for r in ordered])
 axes[0].invert_yaxis()
 fig.suptitle('VoiceHub Arena · full Seed-TTS-Eval English',x=.03,ha='left',fontsize=19,fontweight='bold',y=.986)
 fig.text(.03,.949,f'{len(records)} models × 1,088 texts  |  Whisper-large-v3  |  Corrected CosyVoice 3 full split',fontsize=11,color='#475569')
-fig.text(.03,.018,'* High transcript error rates remain under review. Fixed provider voice/reference protocol; no speaker-SIM score.',fontsize=9,color='#475569')
+fig.text(.03,.018,'* Quality under review. ‡ No-audio failures included in corpus scores. Fixed voice/reference protocol; no speaker-SIM score.',fontsize=9,color='#475569')
 fig.subplots_adjust(left=.17,right=.92,top=.915,bottom=.07,wspace=.30)
 save(fig,'wer-cer-full')
 

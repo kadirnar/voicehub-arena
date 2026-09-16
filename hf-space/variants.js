@@ -7,7 +7,7 @@ function chart(){
  const rows=progress.models.filter(m=>m.full.published).map(m=>({...m.full.metrics,model:m.id,name:m.name}));
  el('variant-full-chart').innerHTML=rows.length?VoiceHubCharts.compactChart(VoiceHubCharts.selectRows(rows,el('variant-metric').value,'all'),el('variant-metric').value,{},el('variant-full-chart').clientWidth>850?2:1):'<p class="empty">Full runs are in progress. Scores will appear after all 1,088 targets are evaluated and verified.</p>';
 }
-function phaseStatus(p){return p.published?`Verified · ${p.scored}/${p.expected}${p.generation_failures?` · ${p.generation_failures} no audio`:''}`:`${escapeHTML(p.status.replaceAll('_',' '))} · ${p.scored}/${p.expected} scored${p.generated>p.scored?` · ${p.generated} generated`:''}${p.error?`<span class="ci">${escapeHTML(p.error)}</span>`:''}`;}
+function phaseStatus(p){return p.published?`Verified · ${p.scored}/${p.expected}${p.generation_failures?` · ${p.generation_failures} no audio`:''}`:`${escapeHTML(p.generated===p.expected&&p.scored<p.expected?'ASR evaluation':p.status.replaceAll('_',' '))} · ${p.scored}/${p.expected} scored${p.generated>p.scored?` · ${p.generated} generated`:''}${p.error?`<span class="ci">${escapeHTML(p.error)}</span>`:''}`;}
 async function refresh(){
  try{
   const response=await fetch('data/variant-progress.json',{cache:'no-store'});if(!response.ok)throw Error('Progress snapshot is not available yet.');progress=await response.json();

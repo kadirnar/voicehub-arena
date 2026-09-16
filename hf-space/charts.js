@@ -47,8 +47,8 @@
   }
   rows.forEach((r,i)=>{
    const x=left+slot*(i+.5),v=r[key]*m.factor,ci=m.ci&&Array.isArray(r[m.ci])?r[m.ci].map(n=>n*m.factor):null;
-   const marker=invalid(r)?' †':r.quality_review?' *':'',color=invalid(r)?'#918b82':colors[r.model],high=ci?ci[1]:v;
-   const explanation=invalid(r)?'Archived result invalidated by an implementation bug':r.quality_review?'Quality under review':'';
+   const marker=invalid(r)?' †':r.generation_failures?' ‡':r.quality_review?' *':'',color=invalid(r)?'#918b82':colors[r.model],high=ci?ci[1]:v;
+   const explanation=invalid(r)?'Archived result invalidated by an implementation bug':r.generation_failures?`${r.generation_failures} no-audio failures included in corpus scores`:r.quality_review?'Quality under review':'';
    svg+=`<g class="bar-model" data-chart-model="${esc(r.model)}" tabindex="0" role="link" aria-label="Listen to ${esc(r.name)}: ${fmt(v)}${explanation?'; '+explanation:''}"><title>${esc(r.name)}: ${fmt(v)}${ci?`; 95% CI ${fmt(ci[0])} to ${fmt(ci[1])}`:''}${explanation?'; '+explanation:''}</title><rect x="${x-barWidth/2}" y="${y(v)}" width="${barWidth}" height="${Math.max(0,bottom-y(v))}" rx="9" fill="${invalid(r)?'url(#invalid-hatch)':color}"/>`;
    if(ci)svg+=`<path d="M${x} ${y(ci[0])}V${y(ci[1])}M${x-6} ${y(ci[0])}H${x+6}M${x-6} ${y(ci[1])}H${x+6}" fill="none" stroke="#353942" stroke-opacity=".5" stroke-width="1.5"/>`;
    svg+=`<text class="bar-value" x="${x}" y="${y(high)-12}" text-anchor="middle" font-size="19" font-weight="700" fill="#252935">${fmt(v)}${marker}</text><circle cx="${x}" cy="${bottom+4}" r="23" fill="${color}" stroke="#fdfcf8" stroke-width="3"/><text x="${x}" y="${bottom+10}" text-anchor="middle" font-size="15" font-weight="600" fill="white">${initials(r)}</text>`;
@@ -73,8 +73,8 @@
   }
   rows.forEach((r,i)=>{
    const col=Math.floor(i/count),ox=col*panel,y=top+(i%count)*rowHeight,v=r[key]*m.factor,ci=m.ci&&Array.isArray(r[m.ci])?r[m.ci].map(n=>n*m.factor):null;
-   const color=invalid(r)?'#918b82':colors[r.model]||palette[i%palette.length],marker=invalid(r)?' †':r.quality_review?' *':'';
-   const label=r.name.length>28?r.name.slice(0,26)+'…':r.name,detail=`${r.name}: ${fmt(v)}${ci?`; 95% CI ${fmt(ci[0])}–${fmt(ci[1])}`:''}${marker?' · quality review':''}`;
+   const color=invalid(r)?'#918b82':colors[r.model]||palette[i%palette.length],marker=invalid(r)?' †':r.generation_failures?' ‡':r.quality_review?' *':'';
+   const label=r.name.length>28?r.name.slice(0,26)+'…':r.name,detail=`${r.name}: ${fmt(v)}${ci?`; 95% CI ${fmt(ci[0])}–${fmt(ci[1])}`:''}${r.generation_failures?`; ${r.generation_failures} no-audio failures included in corpus scores`:marker?' · quality review':''}`;
    svg+=`<g class="bar-model compact-model" data-chart-model="${esc(r.model)}" tabindex="0" role="link" aria-label="${esc(detail)}; listen to samples"><title>${esc(detail)}</title><rect x="${ox+6}" y="${y-18}" width="608" height="25" rx="4" fill="${i%2?'#f4f2ed':'transparent'}"/><text x="${ox+14}" y="${y}" font-size="10.5" fill="#9297a1">${i+1}</text><text x="${ox+42}" y="${y}" font-size="11.5" font-weight="500" fill="#353a46">${esc(label)}${marker}</text><rect x="${ox+left}" y="${y-11}" width="${v/extent.max*plot}" height="10" rx="3" fill="${color}"/>`;
    if(ci){const x1=ox+left+ci[0]/extent.max*plot,x2=ox+left+ci[1]/extent.max*plot;svg+=`<path d="M${x1} ${y-6}H${x2}M${x1} ${y-10}V${y-2}M${x2} ${y-10}V${y-2}" stroke="#333945" stroke-width="1" fill="none"/>`;}
    svg+=`<text x="${ox+valueX}" y="${y}" text-anchor="end" font-size="12" font-weight="650" fill="#252935">${fmt(v)}</text></g>`;
@@ -95,7 +95,7 @@
    $('chart-summary').textContent=`${rows.length} of ${all.length} models · ${m.higher?'Higher':'Lower'} is better${m.ci?' · 95% confidence intervals':''}`;
    $('bar-chart').classList.toggle('compact', $('chart-layout').value==='compact');
    $('bar-chart').innerHTML=rows.length?($('chart-layout').value==='compact'?compactChart(rows,key,colors,$('bar-chart').clientWidth>850?2:1):svgChart(rows,key,colors)):'<p class="empty">Select at least one model below to draw a comparison.</p>';
-   $('chart-notes').textContent=(m.ci?'Whiskers: 95% prompt bootstrap intervals. ':'No confidence intervals were measured for this metric. ')+($('chart-layout').value==='compact'?'Columns use the same scale. ':'Scroll horizontally to see every bar. ')+(rows.some(invalid)?'† Archived, invalidated score; excluded from ranking. ':'')+(rows.some(r=>r.quality_review&&!invalid(r))?'* Quality under review. ':'')+`Click a model to listen. The full ${all.length}-model table is below.`;
+   $('chart-notes').textContent=(m.ci?'Whiskers: 95% prompt bootstrap intervals. ':'No confidence intervals were measured for this metric. ')+($('chart-layout').value==='compact'?'Columns use the same scale. ':'Scroll horizontally to see every bar. ')+(rows.some(invalid)?'† Archived, invalidated score; excluded from ranking. ':'')+(rows.some(r=>r.quality_review&&!invalid(r))?'* Quality under review. ':'')+(rows.some(r=>r.generation_failures)?'‡ No-audio failures are included in corpus scores. ':'')+`Click a model to listen. The full ${all.length}-model table is below.`;
    $('chart-values-body').innerHTML=rows.map(r=>`<tr><th scope="row">${esc(r.name)}${invalid(r)?' †':r.quality_review?' *':''}</th><td>${(r[key]*m.factor).toFixed(m.digits)} ${m.unit}</td><td>${m.ci&&r[m.ci]?r[m.ci].map(v=>(v*m.factor).toFixed(m.digits)).join('–')+' '+m.unit:'Not measured'}</td></tr>`).join('');
    if(downloadURL)URL.revokeObjectURL(downloadURL);
    const drawn=$('bar-chart').querySelector('svg');if(drawn){downloadURL=URL.createObjectURL(new Blob([drawn.outerHTML],{type:'image/svg+xml'}));$('chart-download').href=downloadURL;$('chart-download').download=`voicehub-${key}-${rows.length}-models.svg`;$('chart-download').hidden=false;}else $('chart-download').hidden=true;

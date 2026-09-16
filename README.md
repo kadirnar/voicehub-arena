@@ -199,26 +199,18 @@ The official Llasa-1B, Llasa-3B, Llasa-8B and Dia 1.6B reference experiments eac
 
 Only the official Llasa 1B/3B/8B base checkpoints remain selected. The live comparison contains 32 selected baseline configurations plus these four verified reference experiments. [Protocol and independent verification](docs/DIA_LLASA_VARIANTS_2026-09-15.md) · [Live results, chart and audio](https://kadirnar-voicehub-arena.static.hf.space/variants.html).
 
-## Comparison bar charts
+## Comparison charts and current exports
 
-The Space shows a colored bar chart above the full table, with numerical labels,
-zero-baseline axes and the measured WER/CER confidence intervals. Choose among
-nine metrics and compare six, twelve, all 33 or a custom model selection. Click a
-bar to open that model's audio samples. Invalidated archived scores are hatched;
-quality-review flags remain visible. No intervals are invented for other metrics.
+The Space combines the selected 32-model baseline with every verified full reference experiment. The compact chart, complete table, audio selectors and comparison JSON/CSV use the same selected results. No-audio failures stay in WER/CER and carry a ‡ marker; pilots and incomplete experiments stay on the progress page.
 
-The Plots tab includes PNG/SVG bar charts for WER, CER, RTF and GPU allocation,
-in both best-six and complete 33-model scopes. Rebuild these assets after every
-leaderboard update, using the optional `plots` dependency:
+The Plots tab contains PNG/SVG exports for all completed configurations, including the new official Llasa and Dia/Dia2 results as they finish. Current files live in `hf-space/reports/current/`; earlier baseline and correction plots remain archived. After syncing the latest verified comparison and sample files, refresh all exports from the repository root:
 
 ```bash
-python scripts/render_bar_charts.py
+python scripts/refresh_arena_exports.py
 node --test tests/test_charts.cjs
 ```
 
-`hf-space/reports/bars/manifest.json` records the input JSON hash, model IDs,
-exact values, units and intervals for every export. The interactive chart reads
-`data/leaderboard.json` directly, just like the table.
+`reports/current/manifest.json` records the exact comparison hash, included configurations, evaluated targets, real recordings and no-audio failures. The Space displays the export timestamp and its live publication timestamp, with a Refresh results button.
 
 ## Additional high-WER audit
 

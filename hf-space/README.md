@@ -88,3 +88,7 @@ All four rows use **1,088 English targets**, fixed reference audio and pinned Wh
 | Dia 1.6B · reference | 4.9653% | 4.3162% | 1,088 | 0 |
 
 Llasa-8B's 57 failures emitted only EOS before synthesis. They remain in corpus WER/CER as empty-output deletion penalties, with no fabricated WAVs. Targets, real audio hashes and corpus edit counts were independently verified. [Full table, chart and recordings](https://kadirnar-voicehub-arena.static.hf.space/variants.html).
+
+## Current arena exports
+
+The main table, compact comparison chart and downloadable current plots include the selected baseline plus every published full reference experiment. The Plots tab uses `reports/current/`, with a manifest linking its values to the exact comparison JSON. The page shows publication/export timestamps and a Refresh results button. No-audio failures remain in WER/CER and are marked with ‡. Historical baseline plots remain archived.

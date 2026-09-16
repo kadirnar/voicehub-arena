@@ -86,3 +86,29 @@ test('user scope removes multilingual from all active comparisons, including sta
  const active=JSON.parse(fs.readFileSync(path.join(__dirname,'../hf-space/reports/selected/leaderboard.json')));
  assert.deepEqual(merged.table.map(r=>r.model),active.table.map(r=>r.model));
 });
+
+test('current exports and live comparison include exactly the same verified configurations and failures',()=>{
+ const read=name=>fs.readFileSync(path.join(__dirname,'../hf-space/',name));
+ const currentRaw=read('data/current-comparison.json'),current=JSON.parse(currentRaw);
+ const progress=JSON.parse(read('data/variant-progress.json')),selection=JSON.parse(read('data/variant-selection.json'));
+ const live=charts.mergeExperiments(data,{...progress,...selection});
+ const snapshot=JSON.parse(read('reports/current/manifest.json'));
+ const exported=JSON.parse(read('reports/current/bars/manifest.json'));
+ const hash=crypto.createHash('sha256').update(currentRaw).digest('hex');
+ assert.equal(snapshot.source_sha256,hash);assert.equal(exported.source_sha256,hash);
+ assert.deepEqual(live.table.map(r=>r.model),current.table.map(r=>r.model));
+ assert.deepEqual(snapshot.model_ids,current.table.map(r=>r.model));
+ assert.equal(snapshot.real_recordings,live.scored_audio);
+ assert.equal(snapshot.no_audio_failures,live.table.reduce((sum,r)=>sum+(r.generation_failures||0),0));
+ for(const chart of exported.charts){
+  const key=chart.metric,factor=chart.unit==='%'?100:chart.unit==='GiB'?1/1024:1;
+  assert.equal(chart.rows.length,chart.scope==='all'?current.table.length:6);
+  for(const row of chart.rows){const source=live.table.find(r=>r.model===row.model);assert.equal(row.value,source[key]*factor);}
+ }
+ const failed=live.table.filter(r=>r.generation_failures);
+ for(const row of failed){
+  const svg=charts.compactChart([row],'wer',{});
+  assert.ok(svg.includes(`${row.generation_failures} no-audio failures included in corpus scores`));
+  assert.ok(svg.includes('‡'));assert.ok(svg.includes((row.wer*100).toFixed(2)+'%'));
+ }
+});

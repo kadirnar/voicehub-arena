@@ -55,7 +55,7 @@ function showTab(tab){
 async function loadModel(model){
  if(!state.modelRows.has(model)){
   const modelPath=state.data.table.find(r=>r.model===model)?.records_path||`data/models/${encodeURIComponent(model)}.json`;
-  const promise=fetch(modelPath).then(async res=>{
+  const promise=fetch(modelPath,{cache:'no-store'}).then(async res=>{
    if(!res.ok)throw new Error(`Could not load ${model} samples (${res.status}).`);
    const data=await res.json();if(data.rows.length!==1088)throw new Error(`Incomplete sample file for ${model}.`);return data.rows;
   }).catch(e=>{state.modelRows.delete(model);throw e;});
@@ -151,8 +151,14 @@ async function init(){
   const selectionResponse=await fetch('data/variant-selection.json',{cache:'no-store'});if(!selectionResponse.ok)throw Error('Active model selection is unavailable.');const selection=await selectionResponse.json();
   const data=VoiceHubCharts.mergeExperiments(base,{...variantProgress,...selection,models:variantProgress?.models||[]});state.data=data;
   $('coverage-models').textContent=data.models.toLocaleString('en-US');$('coverage-audio').textContent=data.scored_audio.toLocaleString('en-US');$('leaderboard-total').textContent=data.models;
-  $('coverage-note').textContent=`${data.models} configurations, ${data.scored_audio.toLocaleString('en-US')} verified recordings. Original and reference-conditioned experiments are labeled separately.`;
-  const csvFields=['model','name','protocol','checkpoint','revision',...core.map(c=>c[0]),...extra.map(c=>c[0])];
+  const failures=data.table.reduce((sum,r)=>sum+(r.generation_failures||0),0);
+  const active=selection.active_model_ids.map(id=>(variantProgress?.models||[]).find(m=>m.id===id)||{id,name:id,full:{published:false,generated:0,scored:0,status:'unavailable'}});
+  const completed=active.filter(m=>m.full.published&&m.full.status==='completed'&&m.full.scored===1088);
+  const pending=active.filter(m=>!completed.includes(m));
+  $('arena-update').textContent=variantProgress?`Last published update: ${new Date(variantProgress.updated_at*1000).toLocaleString()} · ${completed.length}/${selection.active_model_ids.length} reference experiments complete.`:'Reference progress is unavailable; showing the verified selected baseline.';
+  $('variant-overview').textContent=`${completed.length}/${selection.active_model_ids.length} full reference experiments verified and included below. `+(pending.length?pending.map(m=>`${m.name}: ${m.full.generated}/1088 generated, ${m.full.scored}/1088 evaluated`).join(' · ')+'. ':'All selected experiments are complete. ')+(failures?`${failures} no-audio failures remain included in the corpus scores. `:'')+'Pilot controls and full recordings are available on the experiments page.';
+  $('coverage-note').textContent=`${data.models} configurations, ${data.scored_audio.toLocaleString('en-US')} verified recordings, ${failures} explicit no-audio failures. Original and reference experiments are labeled separately.`;
+  const csvFields=['model','name','protocol','checkpoint','revision','generated','generation_failures',...core.map(c=>c[0]),...extra.map(c=>c[0])];
   const cell=x=>'"'+String(x??'').replaceAll('"','""')+'"';
   const csv=[csvFields.map(cell).join(','),...data.table.map(r=>csvFields.map(k=>cell(r[k])).join(','))].join('\n');
   $('comparison-csv').href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
@@ -160,9 +166,14 @@ async function init(){
   $('model-a').innerHTML=choices;$('model-a').value=data.table[0].model;
   $('model-b').innerHTML='<option value="">No comparison</option>'+choices;
   $('dataset-link').href=`https://huggingface.co/datasets/${data.dataset_id}`;
-  $('all-results').href=`https://huggingface.co/datasets/${data.dataset_id}/tree/${data.dataset_revision}`;
+  $('all-results').href=`https://huggingface.co/datasets/${data.dataset_id}/tree/main`;
   VoiceHubCharts.mount(data,model=>{$('model-a').value=model;state.page=1;showTab('samples');document.querySelector('.tabs').scrollIntoView({behavior:'smooth',block:'start'});});
   renderTable();if(state.tab==='samples')renderSamples();
+  try{
+   const response=await fetch('reports/current/manifest.json',{cache:'no-store'});if(!response.ok)throw Error('Export snapshot unavailable');const snapshot=await response.json();
+   $('plot-snapshot').textContent=`Export snapshot: ${snapshot.configurations} configurations · ${snapshot.real_recordings.toLocaleString('en-US')} recordings · ${snapshot.no_audio_failures} no-audio failures · ${new Date(snapshot.generated_at).toLocaleString()}.`+(snapshot.configurations!==data.models?' Newer results are available in the live comparison above.':'');
+  }catch(e){$('plot-snapshot').textContent='Export snapshot details are temporarily unavailable. The live table and chart remain available.';}
  }catch(e){$('load-error').textContent=e.message;$('load-error').hidden=false;$('model-count').textContent='Results unavailable';}
 }
+$('refresh-results').addEventListener('click',()=>window.location.reload());
 init();
