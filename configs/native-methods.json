@@ -291,10 +291,18 @@
         "readme": "README.md",
         "url": "https://github.com/resemble-ai/chatterbox"
       },
-      "verified_api": false,
-      "implementation_status": "api_review_pending",
+      "verified_api": true,
+      "implementation_status": "native_api_audited",
       "uses_reference": false,
-      "settings": {}
+      "settings": {},
+      "allow_patterns": [
+        "ve.safetensors",
+        "t3_cfg.safetensors",
+        "s3gen.safetensors",
+        "tokenizer.json",
+        "conds.pt"
+      ],
+      "api_notes": "Native ChatterboxTTS.from_local and generate defaults; built-in conditioning or actual paired reference. Author S3 tokenizer receives weights from s3gen checkpoint, without another remote download. Runtime Torch 2.8 instead of author 2.6 requirement is recorded as a compatibility deviation; pilot must pass."
     },
     {
       "id": "chatterbox--voice_clone",
@@ -310,10 +318,18 @@
         "readme": "README.md",
         "url": "https://github.com/resemble-ai/chatterbox"
       },
-      "verified_api": false,
-      "implementation_status": "api_review_pending",
+      "verified_api": true,
+      "implementation_status": "native_api_audited",
       "uses_reference": true,
-      "settings": {}
+      "settings": {},
+      "allow_patterns": [
+        "ve.safetensors",
+        "t3_cfg.safetensors",
+        "s3gen.safetensors",
+        "tokenizer.json",
+        "conds.pt"
+      ],
+      "api_notes": "Native ChatterboxTTS.from_local and generate defaults; built-in conditioning or actual paired reference. Author S3 tokenizer receives weights from s3gen checkpoint, without another remote download. Runtime Torch 2.8 instead of author 2.6 requirement is recorded as a compatibility deviation; pilot must pass."
     },
     {
       "id": "conversationtts--auto_voice",
@@ -828,10 +844,35 @@
         "readme": "README.md",
         "url": "https://github.com/neuphonic/neutts"
       },
-      "verified_api": false,
-      "implementation_status": "native_codec_loader_review_pending",
+      "verified_api": true,
+      "implementation_status": "native_api_audited",
       "uses_reference": true,
-      "settings": {}
+      "settings": {},
+      "allow_patterns": [
+        "*.json",
+        "*.safetensors",
+        "*.txt",
+        "*.model"
+      ],
+      "codec": {
+        "repo": "neuphonic/neucodec",
+        "revision": "a940021324df13a07f44185f0a17c6dac3698179",
+        "allow_patterns": [
+          "config.json",
+          "pytorch_model.bin",
+          "meta.yaml"
+        ]
+      },
+      "semantic_encoder": {
+        "repo": "facebook/w2v-bert-2.0",
+        "revision": "da985ba0987f70aaeb84a80f2851cfac8c697a7b",
+        "allow_patterns": [
+          "config.json",
+          "model.safetensors",
+          "preprocessor_config.json"
+        ]
+      },
+      "api_notes": "Author NeuTTS Torch runtime and NeuCodec 0.0.6 BIN loader; pinned W2V-BERT semantic encoder. Air explicitly uses en-us phonemizer; 2E uses official Emily/neutral defaults. GGUF streaming remains separately pending."
     },
     {
       "id": "neutts--preset_emotion",
@@ -847,10 +888,35 @@
         "readme": "README.md",
         "url": "https://github.com/neuphonic/neutts"
       },
-      "verified_api": false,
-      "implementation_status": "api_review_pending",
+      "verified_api": true,
+      "implementation_status": "native_api_audited",
       "uses_reference": false,
-      "settings": {}
+      "settings": {},
+      "allow_patterns": [
+        "*.json",
+        "*.safetensors",
+        "*.txt",
+        "*.model"
+      ],
+      "codec": {
+        "repo": "neuphonic/neucodec",
+        "revision": "a940021324df13a07f44185f0a17c6dac3698179",
+        "allow_patterns": [
+          "config.json",
+          "pytorch_model.bin",
+          "meta.yaml"
+        ]
+      },
+      "semantic_encoder": {
+        "repo": "facebook/w2v-bert-2.0",
+        "revision": "da985ba0987f70aaeb84a80f2851cfac8c697a7b",
+        "allow_patterns": [
+          "config.json",
+          "model.safetensors",
+          "preprocessor_config.json"
+        ]
+      },
+      "api_notes": "Author NeuTTS Torch runtime and NeuCodec 0.0.6 BIN loader; pinned W2V-BERT semantic encoder. Air explicitly uses en-us phonemizer; 2E uses official Emily/neutral defaults. GGUF streaming remains separately pending."
     },
     {
       "id": "neutts-air--voice_clone_stream",
@@ -1514,10 +1580,32 @@
         "readme": "README.md",
         "url": "https://github.com/Zyphra/Zonos"
       },
-      "verified_api": false,
-      "implementation_status": "api_review_pending",
+      "verified_api": true,
+      "implementation_status": "native_api_audited",
       "uses_reference": false,
-      "settings": {}
+      "settings": {},
+      "allow_patterns": [
+        "config.json",
+        "model.safetensors"
+      ],
+      "codec": {
+        "repo": "descript/dac_44khz",
+        "revision": "c1bc521685adf9cfe247bc39a5ca58917eda1ac4",
+        "allow_patterns": [
+          "config.json",
+          "model.safetensors",
+          "preprocessor_config.json"
+        ]
+      },
+      "speaker_encoder": {
+        "repo": "Zyphra/Zonos-v0.1-speaker-embedding",
+        "revision": "9fe3dbdc3c703a8cf7141b2d0f550f6d55f67260",
+        "allow_patterns": [
+          "ResNet293_SimAM_ASP_base.pt",
+          "ResNet293_SimAM_ASP_base_LDA-128.pt"
+        ]
+      },
+      "api_notes": "Native Zonos transformer, author sampling and conditioning defaults; pinned DAC and speaker encoder. Audio-prefix variants remove only encoded prefix frames from decoded speech."
     },
     {
       "id": "zonos--voice_clone",
@@ -1533,10 +1621,32 @@
         "readme": "README.md",
         "url": "https://github.com/Zyphra/Zonos"
       },
-      "verified_api": false,
-      "implementation_status": "api_review_pending",
+      "verified_api": true,
+      "implementation_status": "native_api_audited",
       "uses_reference": true,
-      "settings": {}
+      "settings": {},
+      "allow_patterns": [
+        "config.json",
+        "model.safetensors"
+      ],
+      "codec": {
+        "repo": "descript/dac_44khz",
+        "revision": "c1bc521685adf9cfe247bc39a5ca58917eda1ac4",
+        "allow_patterns": [
+          "config.json",
+          "model.safetensors",
+          "preprocessor_config.json"
+        ]
+      },
+      "speaker_encoder": {
+        "repo": "Zyphra/Zonos-v0.1-speaker-embedding",
+        "revision": "9fe3dbdc3c703a8cf7141b2d0f550f6d55f67260",
+        "allow_patterns": [
+          "ResNet293_SimAM_ASP_base.pt",
+          "ResNet293_SimAM_ASP_base_LDA-128.pt"
+        ]
+      },
+      "api_notes": "Native Zonos transformer, author sampling and conditioning defaults; pinned DAC and speaker encoder. Audio-prefix variants remove only encoded prefix frames from decoded speech."
     },
     {
       "id": "zonos2--auto_voice",
@@ -2037,6 +2147,88 @@
       "settings": {},
       "availability": "not_supported_upstream",
       "method_note": "The pinned official Dia2 API returns a completed GenerationResult; real streaming support is listed as upcoming in the author README. No fabricated chunking/TTFA."
+    },
+    {
+      "id": "zonos--audio_prefix",
+      "family": "zonos",
+      "backend": "zonos",
+      "method": "audio_prefix",
+      "streaming": false,
+      "repo": "Zyphra/Zonos-v0.1-transformer",
+      "revision": "9d8331fc49cb5ba8aad2bb56cafd809c66598f4e",
+      "source": {
+        "repo": "Zyphra/Zonos",
+        "revision": "bc40d98e1e1ab54fc65c483be127a90e3c7c0645",
+        "readme": "README.md",
+        "url": "https://github.com/Zyphra/Zonos"
+      },
+      "verified_api": true,
+      "implementation_status": "native_api_audited",
+      "uses_reference": true,
+      "settings": {},
+      "allow_patterns": [
+        "config.json",
+        "model.safetensors"
+      ],
+      "codec": {
+        "repo": "descript/dac_44khz",
+        "revision": "c1bc521685adf9cfe247bc39a5ca58917eda1ac4",
+        "allow_patterns": [
+          "config.json",
+          "model.safetensors",
+          "preprocessor_config.json"
+        ]
+      },
+      "speaker_encoder": {
+        "repo": "Zyphra/Zonos-v0.1-speaker-embedding",
+        "revision": "9fe3dbdc3c703a8cf7141b2d0f550f6d55f67260",
+        "allow_patterns": [
+          "ResNet293_SimAM_ASP_base.pt",
+          "ResNet293_SimAM_ASP_base_LDA-128.pt"
+        ]
+      },
+      "api_notes": "Native Zonos transformer, author sampling and conditioning defaults; pinned DAC and speaker encoder. Audio-prefix variants remove only encoded prefix frames from decoded speech."
+    },
+    {
+      "id": "zonos--voice_clone_with_prefix",
+      "family": "zonos",
+      "backend": "zonos",
+      "method": "voice_clone_with_prefix",
+      "streaming": false,
+      "repo": "Zyphra/Zonos-v0.1-transformer",
+      "revision": "9d8331fc49cb5ba8aad2bb56cafd809c66598f4e",
+      "source": {
+        "repo": "Zyphra/Zonos",
+        "revision": "bc40d98e1e1ab54fc65c483be127a90e3c7c0645",
+        "readme": "README.md",
+        "url": "https://github.com/Zyphra/Zonos"
+      },
+      "verified_api": true,
+      "implementation_status": "native_api_audited",
+      "uses_reference": true,
+      "settings": {},
+      "allow_patterns": [
+        "config.json",
+        "model.safetensors"
+      ],
+      "codec": {
+        "repo": "descript/dac_44khz",
+        "revision": "c1bc521685adf9cfe247bc39a5ca58917eda1ac4",
+        "allow_patterns": [
+          "config.json",
+          "model.safetensors",
+          "preprocessor_config.json"
+        ]
+      },
+      "speaker_encoder": {
+        "repo": "Zyphra/Zonos-v0.1-speaker-embedding",
+        "revision": "9fe3dbdc3c703a8cf7141b2d0f550f6d55f67260",
+        "allow_patterns": [
+          "ResNet293_SimAM_ASP_base.pt",
+          "ResNet293_SimAM_ASP_base_LDA-128.pt"
+        ]
+      },
+      "api_notes": "Native Zonos transformer, author sampling and conditioning defaults; pinned DAC and speaker encoder. Audio-prefix variants remove only encoded prefix frames from decoded speech."
     }
   ]
 }

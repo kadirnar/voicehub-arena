@@ -1,6 +1,17 @@
 """Additional publisher API adapters; imported only in each model's environment."""
 from pathlib import Path
 import sys
+from unittest.mock import patch
+
+
+def pinned_pretrained(model_class, repo, directory):
+    """Redirect only the author's declared auxiliary checkpoint to its frozen files."""
+    original=model_class.from_pretrained
+    def load(requested,*args,**kwargs):
+        if requested!=repo:
+            raise ValueError('Unexpected auxiliary checkpoint: '+str(requested))
+        return original(str(directory),*args,**kwargs)
+    return patch.object(model_class,'from_pretrained',side_effect=load)
 
 
 def load_extra(spec,path):
@@ -92,21 +103,61 @@ def load_extra(spec,path):
                 yield model.inference(row['text'],'en',latent,speaker)['wav'],24000
     elif backend=='zonos':
         import torchaudio
+        from transformers.models.dac import DacModel
         from zonos.model import Zonos
         from zonos.conditioning import make_cond_dict
-        model=Zonos.from_local(str(Path(path)/'config.json'),str(Path(path)/'model.safetensors'),device='cuda')
+        import zonos.speaker_cloning as speaker_module
+        codec_path=snapshot(spec['codec'])
+        with pinned_pretrained(DacModel,spec['codec']['repo'],codec_path):
+            model=Zonos.from_local(str(Path(path)/'config.json'),str(Path(path)/'model.safetensors'),device='cuda')
+        use_speaker=method in ('voice_clone','voice_clone_with_prefix')
+        use_prefix=method in ('audio_prefix','voice_clone_with_prefix')
+        if use_speaker:
+            speaker_path=Path(snapshot(spec['speaker_encoder']))
+            def speaker_file(repo_id,filename,**kwargs):
+                if repo_id!=spec['speaker_encoder']['repo'] or filename not in spec['speaker_encoder']['allow_patterns']:
+                    raise ValueError('Unexpected Zonos speaker checkpoint')
+                return str(speaker_path/filename)
+            with patch.object(speaker_module,'hf_hub_download',side_effect=speaker_file):
+                model.spk_clone_model=speaker_module.SpeakerEmbeddingLDA(device='cuda')
         def generate(row):
-            speaker=None
+            speaker=None;prefix=None
             if spec['uses_reference']:
                 wav,sr=torchaudio.load(row['reference_audio'])
-                speaker=model.make_speaker_embedding(wav,sr)
+                if use_speaker:speaker=model.make_speaker_embedding(wav,sr)
+                if use_prefix:
+                    wav=wav.mean(0,keepdim=True).to(model.device)
+                    prefix=model.autoencoder.encode(model.autoencoder.preprocess(wav,sr).unsqueeze(0))
             cond=model.prepare_conditioning(make_cond_dict(text=row['text'],speaker=speaker,language='en-us'))
-            codes=model.generate(cond)
-            yield model.autoencoder.decode(codes)[0].squeeze(0),model.autoencoder.sampling_rate
+            codes=model.generate(cond,audio_prefix_codes=prefix)
+            wave=model.autoencoder.decode(codes)[0].squeeze()
+            # The native decoder includes the audio prefix; DAC has a 512-sample hop.
+            # Exclude exactly the encoded (right-padded) prefix, not its raw duration.
+            if prefix is not None:wave=wave[prefix.shape[-1]*512:]
+            yield wave,model.autoencoder.sampling_rate
     elif backend=='neutts':
         from neutts import NeuTTS,NeuTTS2E
+        from neucodec import NeuCodec
+        import neucodec.model as codec_module
+        from transformers import Wav2Vec2BertModel,AutoFeatureExtractor
         cls=NeuTTS2E if method=='preset_emotion' else NeuTTS
-        model=cls(backbone_repo=path,backbone_device='cuda',codec_repo=snapshot(spec['codec']),codec_device='cuda',seed=42)
+        codec_path=Path(snapshot(spec['codec']));semantic_path=snapshot(spec['semantic_encoder'])
+        # NeuCodec 0.0.6 validates the repo name and uses its author's BIN loader.
+        # Keep that loader intact, pin its revision and redirect its two file reads.
+        original=NeuCodec.from_pretrained
+        def load_codec(repo,*args,**kwargs):
+            if repo!=spec['codec']['repo']:raise ValueError('Unexpected NeuCodec checkpoint')
+            return original(repo,*args,revision=spec['codec']['revision'],**kwargs)
+        def codec_file(repo_id,filename,**kwargs):
+            if repo_id!=spec['codec']['repo'] or filename not in spec['codec']['allow_patterns']:
+                raise ValueError('Unexpected NeuCodec checkpoint file')
+            return str(codec_path/filename)
+        language={} if method=='preset_emotion' else {'language':'en-us'}
+        with patch.object(NeuCodec,'from_pretrained',side_effect=load_codec), \
+             patch.object(codec_module,'hf_hub_download',side_effect=codec_file), \
+             pinned_pretrained(Wav2Vec2BertModel,spec['semantic_encoder']['repo'],semantic_path), \
+             pinned_pretrained(AutoFeatureExtractor,spec['semantic_encoder']['repo'],semantic_path):
+            model=cls(backbone_repo=path,backbone_device='cuda',codec_repo=spec['codec']['repo'],codec_device='cuda',seed=42,**language)
         def generate(row):
             if method=='preset_emotion':
                 kwargs={'speaker':'emily','emotion':'neutral'}

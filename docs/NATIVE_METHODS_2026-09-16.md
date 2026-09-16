@@ -85,7 +85,7 @@ SSH disconnects. Downloads are resumable; completed recordings are hash checked
 before reuse. No model is reported complete merely because its process exits.
 
 Generation defaults and runtime versions are different provenance fields. Some
-publisher packages pin older Torch versions; the native Dia and XCodec2 adapters
+publisher packages pin older Torch versions; the native Dia, Chatterbox and XCodec2 adapters
 currently use the host's Torch 2.8 runtime. This compatibility deviation is recorded
 and must pass the native pilot before any full result is accepted. New generation
 rows include an implementation/package provenance ID so later adapter additions
@@ -96,8 +96,22 @@ CPU path is used and its settings identify the device. The pinned Dia2 source ha
 no public streaming-output API (listed as upcoming); those candidates are marked
 unsupported, without inventing streaming chunks or TTFA. Its native reference
 alignment uses Whisper-large-v3 internally and excludes the prefix from output.
-NeuTTS-2E has fixed speakers; arbitrary reference cloning belongs to NeuTTS-Air
-and has a separate checkpoint entry under review.
+NeuTTS-2E has fixed speakers (official Emily/neutral defaults); arbitrary reference
+cloning belongs to NeuTTS-Air. Both Torch adapters use the author's NeuCodec 0.0.6
+BIN loader, with immutable codec and W2V-BERT semantic-encoder revisions. The
+author's codec rejects local repo paths, so narrow load hooks redirect its file
+reads to the frozen snapshot while preserving the inference code. NeuTTS GGUF
+streaming requires a separate runtime audit and remains pending.
+
+Zonos has separate auto-voice, speaker-embedding cloning, audio-prefix, and
+speaker-plus-prefix experiments. These use the author transformer backbone,
+conditioning defaults and sampling defaults. Native audio-prefix decoding includes
+the reference: exactly its encoded frame count times the DAC 512-sample hop is
+removed before scoring. DAC and the optional speaker encoder are pinned separately.
+Chatterbox uses its native five-file English checkpoint and native built-in or
+paired-reference conditioning. Source audit enables a pilot; it does not establish
+that inference and all metrics have passed. Runtime import checks and measured
+pilot results are recorded separately.
 
 Each experiment freezes its own contract before its first run. Publication
 independently checks exact target coverage, WAV hashes, archive offsets and

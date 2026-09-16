@@ -66,3 +66,21 @@ def test_only_selected_llasa_checkpoints():
     cfg=json.loads(Path('configs/native-methods.json').read_text())
     assert {s['repo'] for s in cfg['experiments'] if s['family'].startswith('llasa')}=={
         'HKUSTAudio/Llasa-1B','HKUSTAudio/Llasa-3B','HKUSTAudio/Llasa-8B'}
+
+
+def test_auxiliary_loader_rejects_unpinned_repo_and_restores_after_failure(tmp_path):
+    from voicehub_arena.native_extra import pinned_pretrained
+    calls=[]
+    class Publisher:
+        @classmethod
+        def from_pretrained(cls,path,**kwargs):
+            calls.append((path,kwargs))
+            return path
+    with pytest.raises(RuntimeError,match='init failed'):
+        with pinned_pretrained(Publisher,'author/codec',tmp_path):
+            assert Publisher.from_pretrained('author/codec',device='cpu')==str(tmp_path)
+            with pytest.raises(ValueError,match='Unexpected auxiliary'):
+                Publisher.from_pretrained('unreviewed/other-codec')
+            raise RuntimeError('init failed')
+    assert Publisher.from_pretrained('normal')=='normal'
+    assert calls==[(str(tmp_path),{'device':'cpu'}),('normal',{})]

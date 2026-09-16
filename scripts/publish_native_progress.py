@@ -91,10 +91,12 @@ def publish_artifact(api,identifier,phase):
 def publish_progress(api):
     cfg=json.loads(Path('configs/native-methods.json').read_text());run=Path('runs')/cfg['campaign']
     controller=run/'campaign-status.json'
-    events=json.loads(controller.read_text()).get('events',[]) if controller.exists() else []
+    state=json.loads(controller.read_text()) if controller.exists() else {}
+    events=state.get('events',[])
     progress=dict(campaign=cfg['campaign'],updated_at=time.time(),scope=cfg['scope'],
         dataset='Seed-TTS-Eval English',expected_samples=cfg['expected_samples'],asr=cfg['asr'],
-        metrics=cfg['metrics'],pilot_indices=cfg['pilot_indices'],experiments=[])
+        metrics=cfg['metrics'],pilot_indices=cfg['pilot_indices'],experiments=[],
+        controller={k:state.get(k) for k in ('status','experiment','phase','action','updated_at')})
     for spec in cfg['experiments']:
         entry={k:spec[k] for k in ('id','family','method','streaming','repo','revision','source','uses_reference','implementation_status')}
         entry['availability']=spec.get('availability','supported' if spec.get('verified_api') else 'under_review')
@@ -110,6 +112,10 @@ def publish_progress(api):
                 expected=1088 if phase=='full' else 8,published=published,
                 metric_counts={m:sum(x['scores'].get(m,{}).get('status')=='ok' for x in r.get('rows',[]))
                                for m in ('asr','dnsmos','utmos22','wavlm_sim')})
+            active=state.get('status')=='running' and state.get('experiment')==spec['id'] and state.get('phase')==phase
+            worker_status=r.get('status','')
+            if not active and (worker_status in ('loading','generating') or worker_status.startswith('scoring_')):
+                entry[phase].update(status='queued',last_worker_status=worker_status)
             if published:entry[phase].update(summary=r['summary'],records_path=saved['records_path'],dataset_revision=saved['dataset_revision'])
             if r.get('error'):entry[phase]['error']=r['error']
             if not r:

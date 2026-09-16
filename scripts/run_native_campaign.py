@@ -36,7 +36,8 @@ def main():
     from scripts.setup_native_model import setup
     active=[s for s in cfg['experiments'] if s.get('verified_api')]
     # Fast independent engines establish end-to-end correctness first.
-    active.sort(key=lambda s:0 if s['family']=='vits' else 1 if s['family']=='kokoro' else 2)
+    active.sort(key=lambda s:0 if s['family']=='vits' else 1 if s['family']=='kokoro'
+                else 3 if s.get('settings',{}).get('inference_device')=='cpu' else 2)
     save(inventory_candidates=len(cfg['experiments']),review_pending=[s['id'] for s in cfg['experiments'] if not s.get('verified_api')])
     groups={}
     for spec in active:groups.setdefault((spec['repo'],spec['revision']),[]).append(spec)
