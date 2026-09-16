@@ -15,4 +15,6 @@ artifacts/
 *.key
 token
 stored_tokens
+datasets/native_seedtts_en/prompt-wavs/
+.venvs/
 backups/

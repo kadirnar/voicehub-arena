@@ -1,0 +1,4046 @@
+{
+  "campaign": "native-methods-20260916",
+  "updated_at": 1789563466.0850813,
+  "scope": "All 32 retained baseline families, official Llasa 1B/3B/8B and Dia2 1B/2B; native generation methods; official defaults; single predeclared seed; no sampling/voice Cartesian sweep. API review may add supported methods or explicitly mark unavailable methods. No non-English or other Llasa variants.",
+  "dataset": "Seed-TTS-Eval English",
+  "expected_samples": 1088,
+  "asr": {
+    "checkpoint": "Systran/faster-whisper-large-v3",
+    "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
+    "device": "cuda",
+    "compute_type": "float16",
+    "beam_size": 5,
+    "temperature": 0,
+    "vad_filter": false,
+    "condition_on_previous_text": false
+  },
+  "metrics": [
+    "wer",
+    "cer",
+    "mer",
+    "wil",
+    "wip",
+    "exact_match",
+    "dnsmos_sig",
+    "dnsmos_bak",
+    "dnsmos_ovrl",
+    "dnsmos_p808",
+    "utmos22_strong",
+    "wavlm_large_sim",
+    "rtf",
+    "latency_p50",
+    "latency_p95",
+    "ttfa",
+    "peak_vram",
+    "silence_ratio",
+    "clipping_ratio",
+    "rms_dbfs"
+  ],
+  "pilot_indices": [
+    0,
+    155,
+    310,
+    465,
+    621,
+    776,
+    931,
+    1087
+  ],
+  "experiments": [
+    {
+      "id": "kokoro--preset_voice",
+      "family": "kokoro",
+      "method": "preset_voice",
+      "streaming": false,
+      "repo": "hexgrad/Kokoro-82M",
+      "revision": "cbc78411372edb46f7e42030b241834a55fe0cb6",
+      "source": {
+        "repo": "hexgrad/kokoro",
+        "revision": "dfb907a02bba8152ca444717ca5d78747ccb4bec",
+        "readme": "README.md",
+        "url": "https://github.com/hexgrad/kokoro"
+      },
+      "uses_reference": false,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "completed",
+        "attempted": 8,
+        "generated": 8,
+        "expected": 8,
+        "published": true,
+        "metric_counts": {
+          "asr": 8,
+          "dnsmos": 8,
+          "utmos22": 8,
+          "wavlm_sim": 0
+        },
+        "summary": {
+          "evaluated": 8,
+          "generated": 8,
+          "generation_failures": 0,
+          "expected_samples": 8,
+          "attempted": 8,
+          "scored": 8,
+          "generation_failure_rate": 0.0,
+          "latency_p50_s": 0.08372832089662552,
+          "latency_p95_s": 0.09196856375783681,
+          "rtf": 0.018835664974699774,
+          "peak_vram_mib": 437.20458984375,
+          "audio_seconds": 34.75,
+          "clipping_ratio": 0.0,
+          "silence_ratio": 0.35714497202343876,
+          "rms_dbfs": -26.356581008471956,
+          "normalization_id": "whisper_english",
+          "wer": 0.06593406593406594,
+          "cer": 0.02012072434607646,
+          "mer": 0.06521739130434782,
+          "wil": 0.10687115082719478,
+          "wip": 0.8931288491728052,
+          "word_hits": 86,
+          "word_substitutions": 4,
+          "word_deletions": 1,
+          "word_insertions": 1,
+          "reference_words": 91,
+          "char_hits": 491,
+          "char_substitutions": 1,
+          "char_deletions": 5,
+          "char_insertions": 4,
+          "reference_chars": 497,
+          "exact_match_rate": 0.75,
+          "raw": {
+            "wer": 0.12222222222222222,
+            "cer": 0.029182879377431907,
+            "mer": 0.12222222222222222,
+            "wil": 0.21199494949494957,
+            "wip": 0.7880050505050504,
+            "word_hits": 79,
+            "word_substitutions": 9,
+            "word_deletions": 2,
+            "word_insertions": 0,
+            "reference_words": 90,
+            "char_hits": 504,
+            "char_substitutions": 2,
+            "char_deletions": 8,
+            "char_insertions": 5,
+            "reference_chars": 514,
+            "exact_match_rate": 0.5
+          },
+          "orthographic": {
+            "wer": 0.044444444444444446,
+            "cer": 0.012072434607645875,
+            "mer": 0.044444444444444446,
+            "wil": 0.08691358024691354,
+            "wip": 0.9130864197530865,
+            "word_hits": 86,
+            "word_substitutions": 4,
+            "word_deletions": 0,
+            "word_insertions": 0,
+            "reference_words": 90,
+            "char_hits": 494,
+            "char_substitutions": 0,
+            "char_deletions": 3,
+            "char_insertions": 3,
+            "reference_chars": 497,
+            "exact_match_rate": 0.75
+          },
+          "wer_ci95": [
+            0.0,
+            0.1522157190635451
+          ],
+          "cer_ci95": [
+            0.0,
+            0.04671327627388534
+          ],
+          "unique_prompts_scored": 8,
+          "by_category": {
+            "read_speech": {
+              "wer": 0.06593406593406594,
+              "cer": 0.02012072434607646,
+              "mer": 0.06521739130434782,
+              "wil": 0.10687115082719478,
+              "wip": 0.8931288491728052,
+              "word_hits": 86,
+              "word_substitutions": 4,
+              "word_deletions": 1,
+              "word_insertions": 1,
+              "reference_words": 91,
+              "char_hits": 491,
+              "char_substitutions": 1,
+              "char_deletions": 5,
+              "char_insertions": 4,
+              "reference_chars": 497,
+              "exact_match_rate": 0.75
+            }
+          },
+          "utterance_mean_wer": 0.0625,
+          "utterance_mean_cer": 0.019655257936507936,
+          "asr_scored": 8,
+          "dnsmos_sig": {
+            "value": 3.6303705026246345,
+            "n": 8,
+            "ci95": [
+              3.5770285943426656,
+              3.6825623735589774
+            ]
+          },
+          "dnsmos_bak": {
+            "value": 4.176896223554053,
+            "n": 8,
+            "ci95": [
+              4.139165515582078,
+              4.209718816340598
+            ]
+          },
+          "dnsmos_ovrl": {
+            "value": 3.4082792201646743,
+            "n": 8,
+            "ci95": [
+              3.3403890104652882,
+              3.4753013812276476
+            ]
+          },
+          "dnsmos_p808": {
+            "value": 4.1863991022109985,
+            "n": 8,
+            "ci95": [
+              4.132123988866806,
+              4.2425852060318
+            ]
+          },
+          "utmos22_mos": {
+            "value": 4.504822134971619,
+            "n": 8,
+            "ci95": [
+              4.487884260714054,
+              4.520794950425625
+            ]
+          },
+          "wavlm_sim_similarity": {
+            "value": null,
+            "n": 0,
+            "ci95": null
+          }
+        },
+        "records_path": "data/native/pilot/kokoro--preset_voice.json",
+        "dataset_revision": "e4b3ffa0353f8106d7e7078eed618ca0d0734a8d"
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "supertonic--preset_voice",
+      "family": "supertonic",
+      "method": "preset_voice",
+      "streaming": false,
+      "repo": "supertone-oss-archive/supertonic-3",
+      "revision": "aafc6e32416a594460b32413efc49d7fe4ce6d46",
+      "source": {
+        "repo": "supertone-inc/supertonic",
+        "revision": "1e9799e964ea4c0dad7cde993b65c3c813a7b373",
+        "readme": "README.md",
+        "url": "https://github.com/supertone-inc/supertonic"
+      },
+      "uses_reference": false,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "vits--default",
+      "family": "vits",
+      "method": "default",
+      "streaming": false,
+      "repo": "facebook/mms-tts-eng",
+      "revision": "c71de0fe7204c83f1c10820a7d696d0b450048ba",
+      "source": {
+        "package": "transformers",
+        "version": "4.57.6"
+      },
+      "uses_reference": false,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "completed",
+        "attempted": 8,
+        "generated": 8,
+        "expected": 8,
+        "published": true,
+        "metric_counts": {
+          "asr": 8,
+          "dnsmos": 8,
+          "utmos22": 8,
+          "wavlm_sim": 0
+        },
+        "summary": {
+          "evaluated": 8,
+          "generated": 8,
+          "generation_failures": 0,
+          "expected_samples": 8,
+          "attempted": 8,
+          "scored": 8,
+          "generation_failure_rate": 0.0,
+          "latency_p50_s": 0.07819966413080692,
+          "latency_p95_s": 0.21245662048459046,
+          "rtf": 0.021798756963936045,
+          "peak_vram_mib": 216.96240234375,
+          "audio_seconds": 37.104,
+          "clipping_ratio": 0.0,
+          "silence_ratio": 0.2166782337946474,
+          "rms_dbfs": -18.394684081196267,
+          "normalization_id": "whisper_english",
+          "wer": 0.04395604395604396,
+          "cer": 0.01609657947686117,
+          "mer": 0.043478260869565216,
+          "wil": 0.07501194457716198,
+          "wip": 0.924988055422838,
+          "word_hits": 88,
+          "word_substitutions": 3,
+          "word_deletions": 0,
+          "word_insertions": 1,
+          "reference_words": 91,
+          "char_hits": 492,
+          "char_substitutions": 2,
+          "char_deletions": 3,
+          "char_insertions": 3,
+          "reference_chars": 497,
+          "exact_match_rate": 0.75,
+          "raw": {
+            "wer": 0.17777777777777778,
+            "cer": 0.058365758754863814,
+            "mer": 0.17582417582417584,
+            "wil": 0.30555555555555547,
+            "wip": 0.6944444444444445,
+            "word_hits": 75,
+            "word_substitutions": 14,
+            "word_deletions": 1,
+            "word_insertions": 1,
+            "reference_words": 90,
+            "char_hits": 487,
+            "char_substitutions": 13,
+            "char_deletions": 14,
+            "char_insertions": 3,
+            "reference_chars": 514,
+            "exact_match_rate": 0.375
+          },
+          "orthographic": {
+            "wer": 0.05555555555555555,
+            "cer": 0.02414486921529175,
+            "mer": 0.054945054945054944,
+            "wil": 0.09694749694749694,
+            "wip": 0.9030525030525031,
+            "word_hits": 86,
+            "word_substitutions": 4,
+            "word_deletions": 0,
+            "word_insertions": 1,
+            "reference_words": 90,
+            "char_hits": 487,
+            "char_substitutions": 4,
+            "char_deletions": 6,
+            "char_insertions": 2,
+            "reference_chars": 497,
+            "exact_match_rate": 0.75
+          },
+          "wer_ci95": [
+            0.0,
+            0.10975944786920397
+          ],
+          "cer_ci95": [
+            0.0,
+            0.04054535696592723
+          ],
+          "unique_prompts_scored": 8,
+          "by_category": {
+            "read_speech": {
+              "wer": 0.04395604395604396,
+              "cer": 0.01609657947686117,
+              "mer": 0.043478260869565216,
+              "wil": 0.07501194457716198,
+              "wip": 0.924988055422838,
+              "word_hits": 88,
+              "word_substitutions": 3,
+              "word_deletions": 0,
+              "word_insertions": 1,
+              "reference_words": 91,
+              "char_hits": 492,
+              "char_substitutions": 2,
+              "char_deletions": 3,
+              "char_insertions": 3,
+              "reference_chars": 497,
+              "exact_match_rate": 0.75
+            }
+          },
+          "utterance_mean_wer": 0.041666666666666664,
+          "utterance_mean_cer": 0.015811011904761904,
+          "asr_scored": 8,
+          "dnsmos_sig": {
+            "value": 3.6320561725448264,
+            "n": 8,
+            "ci95": [
+              3.591079627691744,
+              3.6714704027533935
+            ]
+          },
+          "dnsmos_bak": {
+            "value": 4.135271323866035,
+            "n": 8,
+            "ci95": [
+              4.08321633655436,
+              4.175520443851709
+            ]
+          },
+          "dnsmos_ovrl": {
+            "value": 3.38710418157243,
+            "n": 8,
+            "ci95": [
+              3.32928497220498,
+              3.442242112374104
+            ]
+          },
+          "dnsmos_p808": {
+            "value": 4.000026881694794,
+            "n": 8,
+            "ci95": [
+              3.880539158731699,
+              4.1128717616200445
+            ]
+          },
+          "utmos22_mos": {
+            "value": 4.148141384124756,
+            "n": 8,
+            "ci95": [
+              4.023165158927441,
+              4.2431541457772255
+            ]
+          },
+          "wavlm_sim_similarity": {
+            "value": null,
+            "n": 0,
+            "ci95": null
+          }
+        },
+        "records_path": "data/native/pilot/vits--default.json",
+        "dataset_revision": "f9aa8ddee737ef4ab21a709f21c59966f40a3515"
+      },
+      "full": {
+        "status": "scoring_dnsmos",
+        "attempted": 1088,
+        "generated": 1088,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 1088,
+          "dnsmos": 495,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "vui--default",
+      "family": "vui",
+      "method": "default",
+      "streaming": false,
+      "repo": "fluxions/vui",
+      "revision": "8dc2bd9993a8118b6e2b71f3d9d92d1deb80e5f7",
+      "source": {
+        "repo": "fluxions-ai/vui",
+        "revision": "4dfd4ffd91da407b80d5ce7eb35d0ede287b3294",
+        "readme": "README.md",
+        "url": "https://github.com/fluxions-ai/vui"
+      },
+      "uses_reference": false,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "inflecttts--default",
+      "family": "inflecttts",
+      "method": "default",
+      "streaming": false,
+      "repo": "owensong/Inflect-Micro-v2",
+      "revision": "132edf8700da8e0d3fa81cdc0fd8844926fc6582",
+      "source": {
+        "repo": "owenawsong/Inflect",
+        "revision": "6dad5382e473a90be8446e42405874937d4f8959",
+        "readme": "README.md",
+        "url": "https://github.com/owenawsong/Inflect"
+      },
+      "uses_reference": false,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "styletts2--voice_clone",
+      "family": "styletts2",
+      "method": "voice_clone",
+      "streaming": false,
+      "repo": "yl4579/StyleTTS2-LibriTTS",
+      "revision": null,
+      "source": {
+        "repo": "yl4579/StyleTTS2",
+        "revision": "5cedc71c333f8d8b8551ca59378bdcc7af4c9529",
+        "readme": "README.md",
+        "url": "https://github.com/yl4579/StyleTTS2"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "styletts2--long_form_clone",
+      "family": "styletts2",
+      "method": "long_form_clone",
+      "streaming": false,
+      "repo": "yl4579/StyleTTS2-LibriTTS",
+      "revision": null,
+      "source": {
+        "repo": "yl4579/StyleTTS2",
+        "revision": "5cedc71c333f8d8b8551ca59378bdcc7af4c9529",
+        "readme": "README.md",
+        "url": "https://github.com/yl4579/StyleTTS2"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "melotts--preset_voice",
+      "family": "melotts",
+      "method": "preset_voice",
+      "streaming": false,
+      "repo": "myshell-ai/MeloTTS-English",
+      "revision": "bb4fb7346d566d277ba8c8c7dbfdf6786139b8ef",
+      "source": {
+        "repo": "myshell-ai/MeloTTS",
+        "revision": "209145371cff8fc3bd60d7be902ea69cbdb7965a",
+        "readme": "README.md",
+        "url": "https://github.com/myshell-ai/MeloTTS"
+      },
+      "uses_reference": false,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "speecht5--speaker_embedding",
+      "family": "speecht5",
+      "method": "speaker_embedding",
+      "streaming": false,
+      "repo": "microsoft/speecht5_tts",
+      "revision": "30fcde30f19b87502b8435427b5f5068e401d5f6",
+      "source": {
+        "package": "transformers",
+        "version": "4.57.6"
+      },
+      "uses_reference": false,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "partial",
+        "attempted": 8,
+        "generated": 8,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 8,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "bark--auto_voice",
+      "family": "bark",
+      "method": "auto_voice",
+      "streaming": false,
+      "repo": "suno/bark-small",
+      "revision": "1dbd7a128513b8ae4a4e2130fed57b7ac9da5bcd",
+      "source": {
+        "repo": "suno-ai/bark",
+        "revision": "f4f32d4cd480dfec1c245d258174bc9bde3c2148",
+        "readme": "README.md",
+        "url": "https://github.com/suno-ai/bark"
+      },
+      "uses_reference": false,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "bark--voice_prompt",
+      "family": "bark",
+      "method": "voice_prompt",
+      "streaming": false,
+      "repo": "suno/bark-small",
+      "revision": "1dbd7a128513b8ae4a4e2130fed57b7ac9da5bcd",
+      "source": {
+        "repo": "suno-ai/bark",
+        "revision": "f4f32d4cd480dfec1c245d258174bc9bde3c2148",
+        "readme": "README.md",
+        "url": "https://github.com/suno-ai/bark"
+      },
+      "uses_reference": false,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "chatterbox--auto_voice",
+      "family": "chatterbox",
+      "method": "auto_voice",
+      "streaming": false,
+      "repo": "ResembleAI/chatterbox",
+      "revision": "5bb1f6ee58e50c3b8d408bc82a6d3740c2db6e18",
+      "source": {
+        "repo": "resemble-ai/chatterbox",
+        "revision": "5de7a54aa4e5e2baadb0182dde554908b48b85c2",
+        "readme": "README.md",
+        "url": "https://github.com/resemble-ai/chatterbox"
+      },
+      "uses_reference": false,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "chatterbox--voice_clone",
+      "family": "chatterbox",
+      "method": "voice_clone",
+      "streaming": false,
+      "repo": "ResembleAI/chatterbox",
+      "revision": "5bb1f6ee58e50c3b8d408bc82a6d3740c2db6e18",
+      "source": {
+        "repo": "resemble-ai/chatterbox",
+        "revision": "5de7a54aa4e5e2baadb0182dde554908b48b85c2",
+        "readme": "README.md",
+        "url": "https://github.com/resemble-ai/chatterbox"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "conversationtts--auto_voice",
+      "family": "conversationtts",
+      "method": "auto_voice",
+      "streaming": false,
+      "repo": "AudioFoundation/SpeechFoundation",
+      "revision": "b0f6f30e123da06dd15672ddbfc7781b323ea599",
+      "source": {
+        "repo": "Audio-Foundation-Models/ConversationTTS",
+        "revision": "b3851f70c2dc0d35ba609734b08915637fe2a733",
+        "readme": "readme.md",
+        "url": "https://github.com/Audio-Foundation-Models/ConversationTTS"
+      },
+      "uses_reference": false,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "conversationtts--voice_clone",
+      "family": "conversationtts",
+      "method": "voice_clone",
+      "streaming": false,
+      "repo": "AudioFoundation/SpeechFoundation",
+      "revision": "b0f6f30e123da06dd15672ddbfc7781b323ea599",
+      "source": {
+        "repo": "Audio-Foundation-Models/ConversationTTS",
+        "revision": "b3851f70c2dc0d35ba609734b08915637fe2a733",
+        "readme": "readme.md",
+        "url": "https://github.com/Audio-Foundation-Models/ConversationTTS"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "cosyvoice--zero_shot",
+      "family": "cosyvoice",
+      "method": "zero_shot",
+      "streaming": false,
+      "repo": "FunAudioLLM/Fun-CosyVoice3-0.5B-2512",
+      "revision": "29e01c4e8d000f4bcd70751be16fa94bf3d85a18",
+      "source": {
+        "repo": "FunAudioLLM/CosyVoice",
+        "revision": "074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc",
+        "readme": "README.md",
+        "url": "https://github.com/FunAudioLLM/CosyVoice"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "cosyvoice--cross_lingual",
+      "family": "cosyvoice",
+      "method": "cross_lingual",
+      "streaming": false,
+      "repo": "FunAudioLLM/Fun-CosyVoice3-0.5B-2512",
+      "revision": "29e01c4e8d000f4bcd70751be16fa94bf3d85a18",
+      "source": {
+        "repo": "FunAudioLLM/CosyVoice",
+        "revision": "074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc",
+        "readme": "README.md",
+        "url": "https://github.com/FunAudioLLM/CosyVoice"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "cosyvoice--instruct",
+      "family": "cosyvoice",
+      "method": "instruct",
+      "streaming": false,
+      "repo": "FunAudioLLM/Fun-CosyVoice3-0.5B-2512",
+      "revision": "29e01c4e8d000f4bcd70751be16fa94bf3d85a18",
+      "source": {
+        "repo": "FunAudioLLM/CosyVoice",
+        "revision": "074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc",
+        "readme": "README.md",
+        "url": "https://github.com/FunAudioLLM/CosyVoice"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "cosyvoice--zero_shot_stream",
+      "family": "cosyvoice",
+      "method": "zero_shot",
+      "streaming": true,
+      "repo": "FunAudioLLM/Fun-CosyVoice3-0.5B-2512",
+      "revision": "29e01c4e8d000f4bcd70751be16fa94bf3d85a18",
+      "source": {
+        "repo": "FunAudioLLM/CosyVoice",
+        "revision": "074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc",
+        "readme": "README.md",
+        "url": "https://github.com/FunAudioLLM/CosyVoice"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "cosyvoice--cross_lingual_stream",
+      "family": "cosyvoice",
+      "method": "cross_lingual",
+      "streaming": true,
+      "repo": "FunAudioLLM/Fun-CosyVoice3-0.5B-2512",
+      "revision": "29e01c4e8d000f4bcd70751be16fa94bf3d85a18",
+      "source": {
+        "repo": "FunAudioLLM/CosyVoice",
+        "revision": "074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc",
+        "readme": "README.md",
+        "url": "https://github.com/FunAudioLLM/CosyVoice"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "cosyvoice--instruct_stream",
+      "family": "cosyvoice",
+      "method": "instruct",
+      "streaming": true,
+      "repo": "FunAudioLLM/Fun-CosyVoice3-0.5B-2512",
+      "revision": "29e01c4e8d000f4bcd70751be16fa94bf3d85a18",
+      "source": {
+        "repo": "FunAudioLLM/CosyVoice",
+        "revision": "074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc",
+        "readme": "README.md",
+        "url": "https://github.com/FunAudioLLM/CosyVoice"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "cosyvoice--text_stream",
+      "family": "cosyvoice",
+      "method": "text",
+      "streaming": true,
+      "repo": "FunAudioLLM/Fun-CosyVoice3-0.5B-2512",
+      "revision": "29e01c4e8d000f4bcd70751be16fa94bf3d85a18",
+      "source": {
+        "repo": "FunAudioLLM/CosyVoice",
+        "revision": "074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc",
+        "readme": "README.md",
+        "url": "https://github.com/FunAudioLLM/CosyVoice"
+      },
+      "uses_reference": false,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "csm--auto_voice",
+      "family": "csm",
+      "method": "auto_voice",
+      "streaming": false,
+      "repo": "sesame/csm-1b",
+      "revision": "c92a71e1c419772e25be7dc14d952c2521a740ab",
+      "source": {
+        "repo": "SesameAILabs/csm",
+        "revision": "daed31e6d42cf71873999075de204fa37d2acec3",
+        "readme": "README.md",
+        "url": "https://github.com/SesameAILabs/csm"
+      },
+      "uses_reference": false,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "csm--context_clone",
+      "family": "csm",
+      "method": "context_clone",
+      "streaming": false,
+      "repo": "sesame/csm-1b",
+      "revision": "c92a71e1c419772e25be7dc14d952c2521a740ab",
+      "source": {
+        "repo": "SesameAILabs/csm",
+        "revision": "daed31e6d42cf71873999075de204fa37d2acec3",
+        "readme": "README.md",
+        "url": "https://github.com/SesameAILabs/csm"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "dia--auto_voice",
+      "family": "dia",
+      "method": "auto_voice",
+      "streaming": false,
+      "repo": "nari-labs/Dia-1.6B-0626",
+      "revision": "ef2795fcc29c5abe6ffc91fd33808588b49bbc66",
+      "source": {
+        "repo": "nari-labs/dia",
+        "revision": "876125e461a03b157ec905b0fe8b57a0f8b9e7a0",
+        "readme": "README.md",
+        "url": "https://github.com/nari-labs/dia"
+      },
+      "uses_reference": false,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "dia--voice_clone",
+      "family": "dia",
+      "method": "voice_clone",
+      "streaming": false,
+      "repo": "nari-labs/Dia-1.6B-0626",
+      "revision": "ef2795fcc29c5abe6ffc91fd33808588b49bbc66",
+      "source": {
+        "repo": "nari-labs/dia",
+        "revision": "876125e461a03b157ec905b0fe8b57a0f8b9e7a0",
+        "readme": "README.md",
+        "url": "https://github.com/nari-labs/dia"
+      },
+      "uses_reference": true,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "echo--voice_clone",
+      "family": "echo",
+      "method": "voice_clone",
+      "streaming": false,
+      "repo": "jordand/echo-tts-base",
+      "revision": "06731f67000241d55cff6b0a961f22f5f151f24f",
+      "source": {
+        "repo": "jordandare/echo-tts",
+        "revision": "2ed95fce62d33bf7b56f835fd9ec0f0b6fb9155e",
+        "readme": "README.md",
+        "url": "https://github.com/jordandare/echo-tts"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "f5tts--voice_clone",
+      "family": "f5tts",
+      "method": "voice_clone",
+      "streaming": false,
+      "repo": "SWivid/F5-TTS",
+      "revision": "84e5a410d9cead4de2f847e7c9369a6440bdfaca",
+      "source": {
+        "repo": "SWivid/F5-TTS",
+        "revision": "9c614e9657089213efc6a7421b30630be138a3f5",
+        "readme": "README.md",
+        "url": "https://github.com/SWivid/F5-TTS"
+      },
+      "uses_reference": true,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "fishtts--auto_voice",
+      "family": "fishtts",
+      "method": "auto_voice",
+      "streaming": false,
+      "repo": "fishaudio/s2-pro",
+      "revision": "1de9996b6be38b745688de084d87a5633f714e4e",
+      "source": {
+        "repo": "fishaudio/fish-speech",
+        "revision": "befe4001745417f8c42131739d862b8a6fdbd15a",
+        "readme": "README.md",
+        "url": "https://github.com/fishaudio/fish-speech"
+      },
+      "uses_reference": false,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "fishtts--voice_clone",
+      "family": "fishtts",
+      "method": "voice_clone",
+      "streaming": false,
+      "repo": "fishaudio/s2-pro",
+      "revision": "1de9996b6be38b745688de084d87a5633f714e4e",
+      "source": {
+        "repo": "fishaudio/fish-speech",
+        "revision": "befe4001745417f8c42131739d862b8a6fdbd15a",
+        "readme": "README.md",
+        "url": "https://github.com/fishaudio/fish-speech"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "fishtts--voice_clone_stream",
+      "family": "fishtts",
+      "method": "voice_clone",
+      "streaming": true,
+      "repo": "fishaudio/s2-pro",
+      "revision": "1de9996b6be38b745688de084d87a5633f714e4e",
+      "source": {
+        "repo": "fishaudio/fish-speech",
+        "revision": "befe4001745417f8c42131739d862b8a6fdbd15a",
+        "readme": "README.md",
+        "url": "https://github.com/fishaudio/fish-speech"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "gptsovits--voice_clone",
+      "family": "gptsovits",
+      "method": "voice_clone",
+      "streaming": false,
+      "repo": "lj1995/GPT-SoVITS",
+      "revision": "336b2ec4e8d4ac74740798dd40af44e74659ecaf",
+      "source": {
+        "repo": "RVC-Boss/GPT-SoVITS",
+        "revision": "48b1a0169a28582a8984402f82cf438d3bfa6aca",
+        "readme": "README.md",
+        "url": "https://github.com/RVC-Boss/GPT-SoVITS"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "gptsovits--voice_clone_stream",
+      "family": "gptsovits",
+      "method": "voice_clone",
+      "streaming": true,
+      "repo": "lj1995/GPT-SoVITS",
+      "revision": "336b2ec4e8d4ac74740798dd40af44e74659ecaf",
+      "source": {
+        "repo": "RVC-Boss/GPT-SoVITS",
+        "revision": "48b1a0169a28582a8984402f82cf438d3bfa6aca",
+        "readme": "README.md",
+        "url": "https://github.com/RVC-Boss/GPT-SoVITS"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "higgstts--auto_voice",
+      "family": "higgstts",
+      "method": "auto_voice",
+      "streaming": false,
+      "repo": "bosonai/higgs-tts-2-3b-base",
+      "revision": "d80c511612b3040ff2877ce3d408747df1739f11",
+      "source": {
+        "repo": "boson-ai/higgs-audio",
+        "revision": "05a145bb490501b534563bf51bf2f7aa2326b271",
+        "readme": "README.md",
+        "url": "https://github.com/boson-ai/higgs-audio"
+      },
+      "uses_reference": false,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "higgstts--voice_clone",
+      "family": "higgstts",
+      "method": "voice_clone",
+      "streaming": false,
+      "repo": "bosonai/higgs-tts-2-3b-base",
+      "revision": "d80c511612b3040ff2877ce3d408747df1739f11",
+      "source": {
+        "repo": "boson-ai/higgs-audio",
+        "revision": "05a145bb490501b534563bf51bf2f7aa2326b271",
+        "readme": "README.md",
+        "url": "https://github.com/boson-ai/higgs-audio"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "mosstts--auto_voice",
+      "family": "mosstts",
+      "method": "auto_voice",
+      "streaming": false,
+      "repo": "OpenMOSS-Team/MOSS-TTS-v1.5",
+      "revision": "cdd3b911b1585e3f2dbc7775ef10f9926f58850a",
+      "source": {
+        "repo": "OpenMOSS/MOSS-TTS",
+        "revision": "934d6826b084c46a0d033402174d5f8ac4ed2519",
+        "readme": "README.md",
+        "url": "https://github.com/OpenMOSS/MOSS-TTS"
+      },
+      "uses_reference": false,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "mosstts--voice_clone",
+      "family": "mosstts",
+      "method": "voice_clone",
+      "streaming": false,
+      "repo": "OpenMOSS-Team/MOSS-TTS-v1.5",
+      "revision": "cdd3b911b1585e3f2dbc7775ef10f9926f58850a",
+      "source": {
+        "repo": "OpenMOSS/MOSS-TTS",
+        "revision": "934d6826b084c46a0d033402174d5f8ac4ed2519",
+        "readme": "README.md",
+        "url": "https://github.com/OpenMOSS/MOSS-TTS"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "mosstts--continuation",
+      "family": "mosstts",
+      "method": "continuation",
+      "streaming": false,
+      "repo": "OpenMOSS-Team/MOSS-TTS-v1.5",
+      "revision": "cdd3b911b1585e3f2dbc7775ef10f9926f58850a",
+      "source": {
+        "repo": "OpenMOSS/MOSS-TTS",
+        "revision": "934d6826b084c46a0d033402174d5f8ac4ed2519",
+        "readme": "README.md",
+        "url": "https://github.com/OpenMOSS/MOSS-TTS"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "neutts-air--voice_clone",
+      "family": "neutts-air",
+      "method": "voice_clone",
+      "streaming": false,
+      "repo": "neuphonic/neutts-air",
+      "revision": "3bf9403646f0ca46a3f2250355d2ce4d1f70559c",
+      "source": {
+        "repo": "neuphonic/neutts",
+        "revision": "ac69851f28fc63a487917e7c2e27f0d75c759cba",
+        "readme": "README.md",
+        "url": "https://github.com/neuphonic/neutts"
+      },
+      "uses_reference": true,
+      "implementation_status": "native_codec_loader_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "neutts--preset_emotion",
+      "family": "neutts",
+      "method": "preset_emotion",
+      "streaming": false,
+      "repo": "neuphonic/neutts-2e",
+      "revision": "412aaab11c6b727c6c0fe2552db305c234e568da",
+      "source": {
+        "repo": "neuphonic/neutts",
+        "revision": "ac69851f28fc63a487917e7c2e27f0d75c759cba",
+        "readme": "README.md",
+        "url": "https://github.com/neuphonic/neutts"
+      },
+      "uses_reference": false,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "neutts-air--voice_clone_stream",
+      "family": "neutts-air",
+      "method": "voice_clone",
+      "streaming": true,
+      "repo": "neuphonic/neutts-air",
+      "revision": "3bf9403646f0ca46a3f2250355d2ce4d1f70559c",
+      "source": {
+        "repo": "neuphonic/neutts",
+        "revision": "ac69851f28fc63a487917e7c2e27f0d75c759cba",
+        "readme": "README.md",
+        "url": "https://github.com/neuphonic/neutts"
+      },
+      "uses_reference": true,
+      "implementation_status": "gguf_runtime_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "omnivoice--auto_voice",
+      "family": "omnivoice",
+      "method": "auto_voice",
+      "streaming": false,
+      "repo": "k2-fsa/OmniVoice",
+      "revision": "c5fdb5ccb189668d56333f77ba2629f4cd7535f4",
+      "source": {
+        "repo": "k2-fsa/OmniVoice",
+        "revision": "08be0b4ccbac3e13e374e86fbfead4b4cac343e2",
+        "readme": "README.md",
+        "url": "https://github.com/k2-fsa/OmniVoice"
+      },
+      "uses_reference": false,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "needs_attention",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        },
+        "error": "ModuleNotFoundError: No module named 'pydub'"
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "omnivoice--voice_clone",
+      "family": "omnivoice",
+      "method": "voice_clone",
+      "streaming": false,
+      "repo": "k2-fsa/OmniVoice",
+      "revision": "c5fdb5ccb189668d56333f77ba2629f4cd7535f4",
+      "source": {
+        "repo": "k2-fsa/OmniVoice",
+        "revision": "08be0b4ccbac3e13e374e86fbfead4b4cac343e2",
+        "readme": "README.md",
+        "url": "https://github.com/k2-fsa/OmniVoice"
+      },
+      "uses_reference": true,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "needs_attention",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        },
+        "error": "ModuleNotFoundError: No module named 'pydub'"
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "omnivoice--voice_design",
+      "family": "omnivoice",
+      "method": "voice_design",
+      "streaming": false,
+      "repo": "k2-fsa/OmniVoice",
+      "revision": "c5fdb5ccb189668d56333f77ba2629f4cd7535f4",
+      "source": {
+        "repo": "k2-fsa/OmniVoice",
+        "revision": "08be0b4ccbac3e13e374e86fbfead4b4cac343e2",
+        "readme": "README.md",
+        "url": "https://github.com/k2-fsa/OmniVoice"
+      },
+      "uses_reference": false,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "needs_attention",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        },
+        "error": "ModuleNotFoundError: No module named 'pydub'"
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "openvoice--voice_conversion",
+      "family": "openvoice",
+      "method": "voice_conversion",
+      "streaming": false,
+      "repo": "myshell-ai/OpenVoiceV2",
+      "revision": "f36e7edfe1684461a8343844af60babc2efbb727",
+      "source": {
+        "repo": "myshell-ai/OpenVoice",
+        "revision": "74a1d147b17a8c3092dd5430504bd83ef6c7eb23",
+        "readme": "README.md",
+        "url": "https://github.com/myshell-ai/OpenVoice"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "orpheustts--preset_voice_stream",
+      "family": "orpheustts",
+      "method": "preset_voice",
+      "streaming": true,
+      "repo": "canopylabs/orpheus-3b-0.1-ft",
+      "revision": "4206a56e5a68cf6cf96900a8a78acd3370c02eb6",
+      "source": {
+        "repo": "canopyai/Orpheus-TTS",
+        "revision": "e64661fe6d02c414fc77c53578c9d64082614861",
+        "readme": "README.md",
+        "url": "https://github.com/canopyai/Orpheus-TTS"
+      },
+      "uses_reference": false,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "outetts--preset_voice",
+      "family": "outetts",
+      "method": "preset_voice",
+      "streaming": false,
+      "repo": "OuteAI/Llama-OuteTTS-1.0-1B",
+      "revision": "f445d0d301c7fc9e47fd545eb9f9d2912afe7a77",
+      "source": {
+        "repo": "edwko/OuteTTS",
+        "revision": "f5eac6e70d792844c6a6959d900a47af2c061a5b",
+        "readme": "README.md",
+        "url": "https://github.com/edwko/OuteTTS"
+      },
+      "uses_reference": false,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "outetts--voice_clone",
+      "family": "outetts",
+      "method": "voice_clone",
+      "streaming": false,
+      "repo": "OuteAI/Llama-OuteTTS-1.0-1B",
+      "revision": "f445d0d301c7fc9e47fd545eb9f9d2912afe7a77",
+      "source": {
+        "repo": "edwko/OuteTTS",
+        "revision": "f5eac6e70d792844c6a6959d900a47af2c061a5b",
+        "readme": "README.md",
+        "url": "https://github.com/edwko/OuteTTS"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "parlertts--voice_design",
+      "family": "parlertts",
+      "method": "voice_design",
+      "streaming": false,
+      "repo": "parler-tts/parler-tts-mini-v1",
+      "revision": "0392b9451a601e528fd863bbb0598431fee810d9",
+      "source": {
+        "repo": "huggingface/parler-tts",
+        "revision": "d108732cd57788ec86bc857d99a6cabd66663d68",
+        "readme": "README.md",
+        "url": "https://github.com/huggingface/parler-tts"
+      },
+      "uses_reference": false,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "needs_attention",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        },
+        "error": "ImportError: tokenizers>=0.20,<0.21 is required for a normal functioning of this module, but found tokenizers==0.22.2.\nTry: `pip install transformers -U` or `pip install -e '.[dev]'` if you're working with git main"
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "qwen3tts--custom_voice",
+      "family": "qwen3tts",
+      "method": "custom_voice",
+      "streaming": false,
+      "repo": "Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice",
+      "revision": "0c0e3051f131929182e2c023b9537f8b1c68adfe",
+      "source": {
+        "repo": "QwenLM/Qwen3-TTS",
+        "revision": "022e286b98fbec7e1e916cb940cdf532cd9f488e",
+        "readme": "README.md",
+        "url": "https://github.com/QwenLM/Qwen3-TTS"
+      },
+      "uses_reference": false,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "needs_attention",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        },
+        "error": "RuntimeError: 2 GiB output reserve reached"
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "qwen3tts--voice_design",
+      "family": "qwen3tts",
+      "method": "voice_design",
+      "streaming": false,
+      "repo": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+      "revision": "5ecdb67327fd37bb2e042aab12ff7391903235d3",
+      "source": {
+        "repo": "QwenLM/Qwen3-TTS",
+        "revision": "022e286b98fbec7e1e916cb940cdf532cd9f488e",
+        "readme": "README.md",
+        "url": "https://github.com/QwenLM/Qwen3-TTS"
+      },
+      "uses_reference": false,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "qwen3tts--voice_clone",
+      "family": "qwen3tts",
+      "method": "voice_clone",
+      "streaming": false,
+      "repo": "Qwen/Qwen3-TTS-12Hz-1.7B-Base",
+      "revision": "fd4b254389122332181a7c3db7f27e918eec64e3",
+      "source": {
+        "repo": "QwenLM/Qwen3-TTS",
+        "revision": "022e286b98fbec7e1e916cb940cdf532cd9f488e",
+        "readme": "README.md",
+        "url": "https://github.com/QwenLM/Qwen3-TTS"
+      },
+      "uses_reference": true,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "qwen3tts--x_vector_only",
+      "family": "qwen3tts",
+      "method": "x_vector_only",
+      "streaming": false,
+      "repo": "Qwen/Qwen3-TTS-12Hz-1.7B-Base",
+      "revision": "fd4b254389122332181a7c3db7f27e918eec64e3",
+      "source": {
+        "repo": "QwenLM/Qwen3-TTS",
+        "revision": "022e286b98fbec7e1e916cb940cdf532cd9f488e",
+        "readme": "README.md",
+        "url": "https://github.com/QwenLM/Qwen3-TTS"
+      },
+      "uses_reference": true,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "qwen3tts--design_then_clone",
+      "family": "qwen3tts",
+      "method": "design_then_clone",
+      "streaming": false,
+      "repo": "Qwen/Qwen3-TTS-12Hz-1.7B-Base",
+      "revision": "fd4b254389122332181a7c3db7f27e918eec64e3",
+      "source": {
+        "repo": "QwenLM/Qwen3-TTS",
+        "revision": "022e286b98fbec7e1e916cb940cdf532cd9f488e",
+        "readme": "README.md",
+        "url": "https://github.com/QwenLM/Qwen3-TTS"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "vibevoice--preset_voice_stream",
+      "family": "vibevoice",
+      "method": "preset_voice",
+      "streaming": true,
+      "repo": "microsoft/VibeVoice-Realtime-0.5B",
+      "revision": "6bce5f06044837fe6d2c5d7a71a84f0416bd57e4",
+      "source": {
+        "repo": "microsoft/VibeVoice",
+        "revision": "1541f590c7099820f10ea012f48d2399282df69f",
+        "readme": "README.md",
+        "url": "https://github.com/microsoft/VibeVoice"
+      },
+      "uses_reference": false,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "voxcpm--auto_voice",
+      "family": "voxcpm",
+      "method": "auto_voice",
+      "streaming": false,
+      "repo": "openbmb/VoxCPM2",
+      "revision": "bffb3df5a29440629464e5e839f4d214c8714c3d",
+      "source": {
+        "repo": "OpenBMB/VoxCPM",
+        "revision": "f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69",
+        "readme": "README.md",
+        "url": "https://github.com/OpenBMB/VoxCPM"
+      },
+      "uses_reference": false,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "voxcpm--voice_design",
+      "family": "voxcpm",
+      "method": "voice_design",
+      "streaming": false,
+      "repo": "openbmb/VoxCPM2",
+      "revision": "bffb3df5a29440629464e5e839f4d214c8714c3d",
+      "source": {
+        "repo": "OpenBMB/VoxCPM",
+        "revision": "f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69",
+        "readme": "README.md",
+        "url": "https://github.com/OpenBMB/VoxCPM"
+      },
+      "uses_reference": false,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "voxcpm--voice_clone",
+      "family": "voxcpm",
+      "method": "voice_clone",
+      "streaming": false,
+      "repo": "openbmb/VoxCPM2",
+      "revision": "bffb3df5a29440629464e5e839f4d214c8714c3d",
+      "source": {
+        "repo": "OpenBMB/VoxCPM",
+        "revision": "f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69",
+        "readme": "README.md",
+        "url": "https://github.com/OpenBMB/VoxCPM"
+      },
+      "uses_reference": true,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "voxcpm--continuation",
+      "family": "voxcpm",
+      "method": "continuation",
+      "streaming": false,
+      "repo": "openbmb/VoxCPM2",
+      "revision": "bffb3df5a29440629464e5e839f4d214c8714c3d",
+      "source": {
+        "repo": "OpenBMB/VoxCPM",
+        "revision": "f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69",
+        "readme": "README.md",
+        "url": "https://github.com/OpenBMB/VoxCPM"
+      },
+      "uses_reference": true,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "voxcpm--ultimate_clone",
+      "family": "voxcpm",
+      "method": "ultimate_clone",
+      "streaming": false,
+      "repo": "openbmb/VoxCPM2",
+      "revision": "bffb3df5a29440629464e5e839f4d214c8714c3d",
+      "source": {
+        "repo": "OpenBMB/VoxCPM",
+        "revision": "f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69",
+        "readme": "README.md",
+        "url": "https://github.com/OpenBMB/VoxCPM"
+      },
+      "uses_reference": true,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "voxcpm--auto_voice_stream",
+      "family": "voxcpm",
+      "method": "auto_voice",
+      "streaming": true,
+      "repo": "openbmb/VoxCPM2",
+      "revision": "bffb3df5a29440629464e5e839f4d214c8714c3d",
+      "source": {
+        "repo": "OpenBMB/VoxCPM",
+        "revision": "f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69",
+        "readme": "README.md",
+        "url": "https://github.com/OpenBMB/VoxCPM"
+      },
+      "uses_reference": false,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "voxcpm--voice_clone_stream",
+      "family": "voxcpm",
+      "method": "voice_clone",
+      "streaming": true,
+      "repo": "openbmb/VoxCPM2",
+      "revision": "bffb3df5a29440629464e5e839f4d214c8714c3d",
+      "source": {
+        "repo": "OpenBMB/VoxCPM",
+        "revision": "f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69",
+        "readme": "README.md",
+        "url": "https://github.com/OpenBMB/VoxCPM"
+      },
+      "uses_reference": true,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "voxcpm--continuation_stream",
+      "family": "voxcpm",
+      "method": "continuation",
+      "streaming": true,
+      "repo": "openbmb/VoxCPM2",
+      "revision": "bffb3df5a29440629464e5e839f4d214c8714c3d",
+      "source": {
+        "repo": "OpenBMB/VoxCPM",
+        "revision": "f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69",
+        "readme": "README.md",
+        "url": "https://github.com/OpenBMB/VoxCPM"
+      },
+      "uses_reference": true,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "voxcpm--ultimate_clone_stream",
+      "family": "voxcpm",
+      "method": "ultimate_clone",
+      "streaming": true,
+      "repo": "openbmb/VoxCPM2",
+      "revision": "bffb3df5a29440629464e5e839f4d214c8714c3d",
+      "source": {
+        "repo": "OpenBMB/VoxCPM",
+        "revision": "f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69",
+        "readme": "README.md",
+        "url": "https://github.com/OpenBMB/VoxCPM"
+      },
+      "uses_reference": true,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "xtts--voice_clone",
+      "family": "xtts",
+      "method": "voice_clone",
+      "streaming": false,
+      "repo": "coqui/XTTS-v2",
+      "revision": "6c2b0d75eae4b7047358e3b6bd9325f857d43f77",
+      "source": {
+        "repo": "coqui-ai/TTS",
+        "revision": "dbf1a08a0d4e47fdad6172e433eeb34bc6b13b4e",
+        "readme": "README.md",
+        "url": "https://github.com/coqui-ai/TTS"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "xtts--voice_clone_stream",
+      "family": "xtts",
+      "method": "voice_clone",
+      "streaming": true,
+      "repo": "coqui/XTTS-v2",
+      "revision": "6c2b0d75eae4b7047358e3b6bd9325f857d43f77",
+      "source": {
+        "repo": "coqui-ai/TTS",
+        "revision": "dbf1a08a0d4e47fdad6172e433eeb34bc6b13b4e",
+        "readme": "README.md",
+        "url": "https://github.com/coqui-ai/TTS"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "zonos--auto_voice",
+      "family": "zonos",
+      "method": "auto_voice",
+      "streaming": false,
+      "repo": "Zyphra/Zonos-v0.1-transformer",
+      "revision": "9d8331fc49cb5ba8aad2bb56cafd809c66598f4e",
+      "source": {
+        "repo": "Zyphra/Zonos",
+        "revision": "bc40d98e1e1ab54fc65c483be127a90e3c7c0645",
+        "readme": "README.md",
+        "url": "https://github.com/Zyphra/Zonos"
+      },
+      "uses_reference": false,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "zonos--voice_clone",
+      "family": "zonos",
+      "method": "voice_clone",
+      "streaming": false,
+      "repo": "Zyphra/Zonos-v0.1-transformer",
+      "revision": "9d8331fc49cb5ba8aad2bb56cafd809c66598f4e",
+      "source": {
+        "repo": "Zyphra/Zonos",
+        "revision": "bc40d98e1e1ab54fc65c483be127a90e3c7c0645",
+        "readme": "README.md",
+        "url": "https://github.com/Zyphra/Zonos"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "zonos2--auto_voice",
+      "family": "zonos2",
+      "method": "auto_voice",
+      "streaming": false,
+      "repo": "Zyphra/ZONOS2",
+      "revision": "65f1e80f94b599d474bb6af9094a803dc52f60bd",
+      "source": {
+        "repo": "Zyphra/ZONOS2",
+        "revision": "194c0a3ab67b90383a67646289f28d4ecb1c1f64",
+        "readme": "README.md",
+        "url": "https://github.com/Zyphra/ZONOS2"
+      },
+      "uses_reference": false,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "zonos2--voice_clone",
+      "family": "zonos2",
+      "method": "voice_clone",
+      "streaming": false,
+      "repo": "Zyphra/ZONOS2",
+      "revision": "65f1e80f94b599d474bb6af9094a803dc52f60bd",
+      "source": {
+        "repo": "Zyphra/ZONOS2",
+        "revision": "194c0a3ab67b90383a67646289f28d4ecb1c1f64",
+        "readme": "README.md",
+        "url": "https://github.com/Zyphra/ZONOS2"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "zonos2--voice_clone_fast",
+      "family": "zonos2",
+      "method": "voice_clone_fast",
+      "streaming": false,
+      "repo": "Zyphra/ZONOS2",
+      "revision": "65f1e80f94b599d474bb6af9094a803dc52f60bd",
+      "source": {
+        "repo": "Zyphra/ZONOS2",
+        "revision": "194c0a3ab67b90383a67646289f28d4ecb1c1f64",
+        "readme": "README.md",
+        "url": "https://github.com/Zyphra/ZONOS2"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "zonos2--voice_clone_stream",
+      "family": "zonos2",
+      "method": "voice_clone",
+      "streaming": true,
+      "repo": "Zyphra/ZONOS2",
+      "revision": "65f1e80f94b599d474bb6af9094a803dc52f60bd",
+      "source": {
+        "repo": "Zyphra/ZONOS2",
+        "revision": "194c0a3ab67b90383a67646289f28d4ecb1c1f64",
+        "readme": "README.md",
+        "url": "https://github.com/Zyphra/ZONOS2"
+      },
+      "uses_reference": true,
+      "implementation_status": "api_review_pending",
+      "availability": "under_review",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "llasa-1b--auto_voice",
+      "family": "llasa-1b",
+      "method": "auto_voice",
+      "streaming": false,
+      "repo": "HKUSTAudio/Llasa-1B",
+      "revision": "cef8ce6a6eea3b593c5b28868d2391ec15eb9058",
+      "source": {
+        "repo": "zhenye234/LLaSA_inference",
+        "revision": "23696564c10539177793dd2eee5e81e667eb566c",
+        "readme": "README.md",
+        "url": "https://github.com/zhenye234/LLaSA_inference"
+      },
+      "uses_reference": false,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "llasa-1b--voice_clone",
+      "family": "llasa-1b",
+      "method": "voice_clone",
+      "streaming": false,
+      "repo": "HKUSTAudio/Llasa-1B",
+      "revision": "cef8ce6a6eea3b593c5b28868d2391ec15eb9058",
+      "source": {
+        "repo": "zhenye234/LLaSA_inference",
+        "revision": "23696564c10539177793dd2eee5e81e667eb566c",
+        "readme": "README.md",
+        "url": "https://github.com/zhenye234/LLaSA_inference"
+      },
+      "uses_reference": true,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "llasa-3b--auto_voice",
+      "family": "llasa-3b",
+      "method": "auto_voice",
+      "streaming": false,
+      "repo": "HKUSTAudio/Llasa-3B",
+      "revision": "740b08c956fdde4a5a33f2caffbf004ff76e2748",
+      "source": {
+        "repo": "zhenye234/LLaSA_inference",
+        "revision": "23696564c10539177793dd2eee5e81e667eb566c",
+        "readme": "README.md",
+        "url": "https://github.com/zhenye234/LLaSA_inference"
+      },
+      "uses_reference": false,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "llasa-3b--voice_clone",
+      "family": "llasa-3b",
+      "method": "voice_clone",
+      "streaming": false,
+      "repo": "HKUSTAudio/Llasa-3B",
+      "revision": "740b08c956fdde4a5a33f2caffbf004ff76e2748",
+      "source": {
+        "repo": "zhenye234/LLaSA_inference",
+        "revision": "23696564c10539177793dd2eee5e81e667eb566c",
+        "readme": "README.md",
+        "url": "https://github.com/zhenye234/LLaSA_inference"
+      },
+      "uses_reference": true,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "llasa-8b--auto_voice",
+      "family": "llasa-8b",
+      "method": "auto_voice",
+      "streaming": false,
+      "repo": "HKUSTAudio/Llasa-8B",
+      "revision": "2a8339e387348a5cad5160b978a6f364fa06ad74",
+      "source": {
+        "repo": "zhenye234/LLaSA_inference",
+        "revision": "23696564c10539177793dd2eee5e81e667eb566c",
+        "readme": "README.md",
+        "url": "https://github.com/zhenye234/LLaSA_inference"
+      },
+      "uses_reference": false,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "llasa-8b--voice_clone",
+      "family": "llasa-8b",
+      "method": "voice_clone",
+      "streaming": false,
+      "repo": "HKUSTAudio/Llasa-8B",
+      "revision": "2a8339e387348a5cad5160b978a6f364fa06ad74",
+      "source": {
+        "repo": "zhenye234/LLaSA_inference",
+        "revision": "23696564c10539177793dd2eee5e81e667eb566c",
+        "readme": "README.md",
+        "url": "https://github.com/zhenye234/LLaSA_inference"
+      },
+      "uses_reference": true,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "dia2-1b--auto_voice",
+      "family": "dia2-1b",
+      "method": "auto_voice",
+      "streaming": false,
+      "repo": "nari-labs/Dia2-1B",
+      "revision": "00042629c61c3268a6473552c911966ec7a5a450",
+      "source": {
+        "repo": "nari-labs/dia2",
+        "revision": "8687268f4ed3ed20704638fd353b51491de3b476",
+        "readme": "README.md",
+        "url": "https://github.com/nari-labs/dia2"
+      },
+      "uses_reference": false,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "dia2-1b--voice_clone",
+      "family": "dia2-1b",
+      "method": "voice_clone",
+      "streaming": false,
+      "repo": "nari-labs/Dia2-1B",
+      "revision": "00042629c61c3268a6473552c911966ec7a5a450",
+      "source": {
+        "repo": "nari-labs/dia2",
+        "revision": "8687268f4ed3ed20704638fd353b51491de3b476",
+        "readme": "README.md",
+        "url": "https://github.com/nari-labs/dia2"
+      },
+      "uses_reference": true,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "dia2-1b--voice_clone_stream",
+      "family": "dia2-1b",
+      "method": "voice_clone",
+      "streaming": true,
+      "repo": "nari-labs/Dia2-1B",
+      "revision": "00042629c61c3268a6473552c911966ec7a5a450",
+      "source": {
+        "repo": "nari-labs/dia2",
+        "revision": "8687268f4ed3ed20704638fd353b51491de3b476",
+        "readme": "README.md",
+        "url": "https://github.com/nari-labs/dia2"
+      },
+      "uses_reference": true,
+      "implementation_status": "not_supported_upstream",
+      "availability": "not_supported_upstream",
+      "method_note": "The pinned official Dia2 API returns a completed GenerationResult; real streaming support is listed as upcoming in the author README. No fabricated chunking/TTFA.",
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "dia2-2b--auto_voice",
+      "family": "dia2-2b",
+      "method": "auto_voice",
+      "streaming": false,
+      "repo": "nari-labs/Dia2-2B",
+      "revision": "7abae125471a73b0fc6b9d413cb15f4ae1e771d8",
+      "source": {
+        "repo": "nari-labs/dia2",
+        "revision": "8687268f4ed3ed20704638fd353b51491de3b476",
+        "readme": "README.md",
+        "url": "https://github.com/nari-labs/dia2"
+      },
+      "uses_reference": false,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "dia2-2b--voice_clone",
+      "family": "dia2-2b",
+      "method": "voice_clone",
+      "streaming": false,
+      "repo": "nari-labs/Dia2-2B",
+      "revision": "7abae125471a73b0fc6b9d413cb15f4ae1e771d8",
+      "source": {
+        "repo": "nari-labs/dia2",
+        "revision": "8687268f4ed3ed20704638fd353b51491de3b476",
+        "readme": "README.md",
+        "url": "https://github.com/nari-labs/dia2"
+      },
+      "uses_reference": true,
+      "implementation_status": "smoke_test_pending",
+      "availability": "supported",
+      "method_note": null,
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    },
+    {
+      "id": "dia2-2b--voice_clone_stream",
+      "family": "dia2-2b",
+      "method": "voice_clone",
+      "streaming": true,
+      "repo": "nari-labs/Dia2-2B",
+      "revision": "7abae125471a73b0fc6b9d413cb15f4ae1e771d8",
+      "source": {
+        "repo": "nari-labs/dia2",
+        "revision": "8687268f4ed3ed20704638fd353b51491de3b476",
+        "readme": "README.md",
+        "url": "https://github.com/nari-labs/dia2"
+      },
+      "uses_reference": true,
+      "implementation_status": "not_supported_upstream",
+      "availability": "not_supported_upstream",
+      "method_note": "The pinned official Dia2 API returns a completed GenerationResult; real streaming support is listed as upcoming in the author README. No fabricated chunking/TTFA.",
+      "pilot": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 8,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      },
+      "full": {
+        "status": "pending",
+        "attempted": 0,
+        "generated": 0,
+        "expected": 1088,
+        "published": false,
+        "metric_counts": {
+          "asr": 0,
+          "dnsmos": 0,
+          "utmos22": 0,
+          "wavlm_sim": 0
+        }
+      }
+    }
+  ]
+}

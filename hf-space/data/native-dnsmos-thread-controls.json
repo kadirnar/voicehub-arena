@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "samples": 8,
+  "max_absolute_difference": 1.0025513033085076e-06,
+  "total_scoring_s": 64.76045938208699,
+  "provenance": {
+    "source": "https://github.com/microsoft/DNS-Challenge",
+    "revision": "591184a9fcb2cbdec02520fed81a32bbbf9d73ff",
+    "path": "/workspace/voicehub-arena/artifacts/native-metrics/dnsmos",
+    "personalized": false,
+    "files_sha256": {
+      "dnsmos_local.py": "1ab566afe006daab32ac7073296a5d0ef99f8b82f91c7266f3ccf26113d7a28b",
+      "sig_bak_ovr.onnx": "269fbebdb513aa23cddfbb593542ecc540284a91849ac50516870e1ac78f6edd",
+      "model_v8.onnx": "9246480c58567bc6affd4200938e77eef49468c8bc7ed3776d109c07456f6e91",
+      "__pycache__/dnsmos_local.cpython-312.pyc": "1eeb8a95174d039fb766e6396ff064121391455e4e7a9801b84c643c77a35fdf"
+    },
+    "onnxruntime_threads": {
+      "intra_op": 4,
+      "inter_op": 1
+    }
+  }
+}

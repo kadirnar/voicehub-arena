@@ -1,5 +1,15 @@
 # VoiceHub Arena
 
+**Native method campaign (in progress, September 16):** the new
+[native methods dashboard](https://kadirnar-voicehub-arena.static.hf.space/native.html)
+runs retained models through their author libraries, with distinct generation
+methods and official defaults. It adds DNSMOS, UTMOS22 strong and WavLM-large
+speaker similarity to Whisper-large-v3 WER/CER. See
+[the protocol and commands](docs/NATIVE_METHODS_2026-09-16.md) and
+[the audited/pending inventory](configs/native-methods.json).
+Unverified methods are not runnable; diagnostic pilots are separate from full
+1,088-text results. The following sections describe the historical campaign.
+
 A portable English TTS benchmark for all **33 English-capable VoiceHub model families**.
 The default dataset is **Seed-TTS-Eval English**: 1,088 texts per model and **35,904
 completed outputs** in the published A100 campaign. Recognition uses pinned **Whisper large-v3**; results include WER,

@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "samples": 1088,
+  "dataset": "datasets/native_seedtts_en/full.jsonl",
+  "sha256": "727f1b6821e59e135f88c0667bb71cceaa4537b2908e38dfbe931b4cb09a6d8f",
+  "source_dataset_sha256": "8a9386efb1768a90ffba66f8931e3887b53e9c9d1bf246eb46a8cce32bc7b1c1",
+  "source": {
+    "source_url": "https://github.com/BytedanceSpeech/seed-tts-eval",
+    "publisher_code_revision": "752f4297f090c46bb1a55a1f7439e5944ddefe8d",
+    "split": "en/meta.lst",
+    "download_url": "https://drive.google.com/file/d/1GlSjVfSHkW3-leKKBlfrjuuTGqQ_xaLP/view",
+    "archive_sha256": "65b49df7a5f4714042f9849fa216326f0d77dfe37496878b9b2240a0d2a2f4f9",
+    "metadata_sha256": "7cd29f701743e6c7033edbca764ddc0b979de8c4f4907eff5e5454682114661f",
+    "scope": "Published English target texts; fixed provider voice/reference. Not a reproduction of the zero-shot speaker identity protocol."
+  },
+  "prompt_files": 666,
+  "protocol": "Published en/meta.lst targets and paired human prompt audio; English only; no reference audio is appended to scored synthesis. Whisper-large-v3 is an arena ASR choice, not an exact publisher score reproduction."
+}
